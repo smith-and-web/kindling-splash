@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kindling - Spark Your Draft</title>
+  <meta name="description" content="Kindling bridges the gap between your detailed story outlines and prose drafting. A desktop writing app for novelists, screenwriters, and planners who want their outlines visible while they write.">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Kindling - Spark Your Draft">
+  <meta property="og:description" content="A desktop writing app that bridges the gap between story outlines and prose drafting.">
+  <meta property="og:type" content="website">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=Lora:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+
+  <style>
+    :root {
+      /* Primary Colors */
+      --ember-orange: #E85A1B;
+      --spark-gold: #F6A623;
+      --flame-red: #C23A0C;
+      --flame-orange: #E25227;
+      --highlight-orange: #F0912D;
+
+      /* Background Colors */
+      --deep-charcoal: #0F0F0F;
+      --surface: #1A1817;
+      --surface-light: #2A2725;
+
+      /* Book/Earth Tones */
+      --book-dark: #501D0F;
+      --book-light: #89492B;
+      --book-mid: #5C2E1A;
+
+      /* Text Colors */
+      --text-primary: #F5F2EF;
+      --text-secondary: #9A9490;
+
+      /* Utility */
+      --success: #2D9C6B;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--deep-charcoal);
+      color: var(--text-primary);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* Hero Section */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 40px 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Subtle gradient background */
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 150%;
+      height: 100%;
+      background: radial-gradient(ellipse at center top, rgba(232, 90, 27, 0.08) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 720px;
+    }
+
+    .logo {
+      width: 120px;
+      height: 120px;
+      margin-bottom: 32px;
+    }
+
+    .hero h1 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(40px, 8vw, 64px);
+      font-weight: 600;
+      margin-bottom: 16px;
+      letter-spacing: -0.02em;
+    }
+
+    .tagline {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(24px, 4vw, 36px);
+      font-weight: 500;
+      color: var(--ember-orange);
+      margin-bottom: 24px;
+    }
+
+    .hero-description {
+      font-size: 18px;
+      color: var(--text-secondary);
+      max-width: 560px;
+      margin: 0 auto 40px;
+      line-height: 1.7;
+    }
+
+    /* Signup Form */
+    .signup-container {
+      background: var(--surface);
+      border-radius: 16px;
+      padding: 32px;
+      max-width: 480px;
+      margin: 0 auto;
+      border: 1px solid var(--surface-light);
+    }
+
+    .signup-container h2 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 20px;
+      font-weight: 500;
+      margin-bottom: 8px;
+    }
+
+    .signup-container p {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-bottom: 20px;
+    }
+
+    .signup-form {
+      display: flex;
+      gap: 12px;
+    }
+
+    .signup-form input[type="email"] {
+      flex: 1;
+      padding: 14px 16px;
+      font-size: 16px;
+      font-family: 'Inter', sans-serif;
+      border: 1px solid var(--surface-light);
+      border-radius: 8px;
+      background: var(--deep-charcoal);
+      color: var(--text-primary);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .signup-form input[type="email"]:focus {
+      border-color: var(--ember-orange);
+    }
+
+    .signup-form input[type="email"]::placeholder {
+      color: var(--text-secondary);
+    }
+
+    .signup-form button {
+      padding: 14px 24px;
+      font-size: 16px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 500;
+      background: var(--ember-orange);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.2s, transform 0.1s;
+      white-space: nowrap;
+    }
+
+    .signup-form button:hover {
+      background: var(--flame-orange);
+    }
+
+    .signup-form button:active {
+      transform: scale(0.98);
+    }
+
+    @media (max-width: 520px) {
+      .signup-form {
+        flex-direction: column;
+      }
+
+      .signup-form button {
+        width: 100%;
+      }
+    }
+
+    /* Features Section */
+    .features {
+      padding: 80px 24px;
+      background: var(--surface);
+    }
+
+    .features-container {
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    .features h2 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(28px, 5vw, 36px);
+      font-weight: 600;
+      text-align: center;
+      margin-bottom: 12px;
+    }
+
+    .features-intro {
+      text-align: center;
+      color: var(--text-secondary);
+      font-size: 18px;
+      max-width: 600px;
+      margin: 0 auto 48px;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+    }
+
+    .feature-card {
+      background: var(--deep-charcoal);
+      border-radius: 12px;
+      padding: 28px;
+      border: 1px solid var(--surface-light);
+    }
+
+    .feature-icon {
+      width: 48px;
+      height: 48px;
+      background: linear-gradient(135deg, var(--ember-orange) 0%, var(--highlight-orange) 100%);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 16px;
+    }
+
+    .feature-icon svg {
+      width: 24px;
+      height: 24px;
+      color: white;
+    }
+
+    .feature-card h3 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 18px;
+      font-weight: 500;
+      margin-bottom: 8px;
+    }
+
+    .feature-card p {
+      font-size: 15px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    /* Target Audience */
+    .audience {
+      padding: 80px 24px;
+      text-align: center;
+    }
+
+    .audience-container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .audience h2 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(28px, 5vw, 36px);
+      font-weight: 600;
+      margin-bottom: 32px;
+    }
+
+    .audience-tags {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 40px;
+    }
+
+    .audience-tag {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 16px;
+      font-weight: 500;
+      padding: 12px 24px;
+      background: var(--surface);
+      border: 1px solid var(--surface-light);
+      border-radius: 100px;
+      color: var(--text-primary);
+    }
+
+    .audience-description {
+      font-size: 18px;
+      color: var(--text-secondary);
+      max-width: 600px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+
+    /* Prose sample */
+    .prose-sample {
+      margin-top: 48px;
+      background: var(--surface);
+      border-radius: 12px;
+      padding: 32px;
+      border-left: 3px solid var(--book-light);
+    }
+
+    .prose-sample p {
+      font-family: 'Lora', Georgia, serif;
+      font-size: 18px;
+      line-height: 1.8;
+      color: var(--text-primary);
+      font-style: italic;
+    }
+
+    .prose-sample cite {
+      display: block;
+      margin-top: 16px;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-style: normal;
+      color: var(--text-secondary);
+    }
+
+    /* CTA Section */
+    .cta {
+      padding: 80px 24px;
+      background: linear-gradient(180deg, var(--surface) 0%, var(--deep-charcoal) 100%);
+      text-align: center;
+    }
+
+    .cta-container {
+      max-width: 560px;
+      margin: 0 auto;
+    }
+
+    .cta h2 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(28px, 5vw, 36px);
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+
+    .cta p {
+      font-size: 18px;
+      color: var(--text-secondary);
+      margin-bottom: 32px;
+    }
+
+    .cta .signup-container {
+      background: var(--surface-light);
+    }
+
+    /* Footer */
+    footer {
+      padding: 40px 24px;
+      text-align: center;
+      border-top: 1px solid var(--surface-light);
+    }
+
+    footer p {
+      font-size: 14px;
+      color: var(--text-secondary);
+    }
+
+    footer a {
+      color: var(--ember-orange);
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <svg class="logo" viewBox="0 0 1024 1024" aria-label="Kindling logo">
+        <defs>
+          <linearGradient id="bookGrad" x1="509" y1="739" x2="512" y2="609" gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#501D0F"/>
+            <stop offset="1" stop-color="#89492B"/>
+          </linearGradient>
+        </defs>
+        <path fill="#E25227" d="M495.154 288.138C498.378 289.608 505.914 297.445 508.313 300.3C526.269 321.669 539.502 342.79 542.378 370.879C549.115 436.662 490.007 467.903 476.848 526.209C472.415 545.849 474.731 568.443 482.366 587.122C483.763 590.541 490.702 602.324 490.569 604.62L489.492 604.081C466.698 587.526 440.031 561.25 430.639 534.248C403.556 456.377 485.481 402.143 496.346 330.247C498.679 314.804 498.133 303.222 495.154 288.138Z"/>
+        <path fill="url(#bookGrad)" d="M679.512 611.655C679.948 623.671 679.803 636.504 679.711 648.539C679.819 650.345 679.874 650.354 679.431 652.203C678.578 653.105 645.852 669.482 641.946 671.541L551.504 719.091C543.78 723.161 536.109 727.33 528.491 731.597C523.974 734.127 516.055 738.826 511.383 740.578C504.39 737.13 495.509 731.912 488.494 728.114L438.452 701.202C418.928 690.993 399.491 680.618 380.143 670.078C368.598 663.83 355.674 656.975 344.543 650.136C344.526 637.556 344.602 624.446 344.219 611.898C359.414 619.412 379.065 631.083 394.357 639.52L470.64 681.021C479.247 685.796 487.81 690.649 496.33 695.578C500.794 698.136 506.902 701.896 511.48 703.945C532.487 690.677 560.415 676.473 582.602 664.63C615.066 647.267 647.37 629.608 679.512 611.655Z"/>
+        <path fill="#F0912D" d="M567.225 404.156C568.003 404.556 568.509 404.868 568.965 405.666C588.192 439.301 602.938 484.462 595.366 523.183C587.91 561.316 558.078 585.951 527.823 605.935L518.591 611.429C510.152 597.693 506.392 586.985 503.912 571.209C497.26 528.911 522.684 499.522 542.221 465.408C552.466 447.518 562.786 424.502 567.225 404.156Z"/>
+        <path fill="#F0912D" d="M359.24 550.125C365.269 552.715 379.71 564.412 385.223 568.751C425.497 600.45 464.809 634.729 496.049 675.611C499.494 680.119 508.175 690.937 510.126 695.939C503.857 692.741 497.548 689.208 491.532 685.547C448.751 659.511 402.641 638.037 359.663 612.561C359.387 591.884 359.872 570.732 359.24 550.125Z"/>
+        <path fill="#F0912D" d="M664.174 549.059L664.428 593.205C664.417 599.159 664.625 607.179 664.213 612.947C655.817 616.909 647.229 621.897 639.067 626.408L603.341 646.032C582.669 657.264 562.058 668.608 541.509 680.063C534.744 683.835 526.75 687.959 520.246 691.793C518.071 693.047 515.906 694.089 513.66 695.2L519.513 687.005C556.887 634.717 612.459 587.041 664.174 549.059Z"/>
+      </svg>
+
+      <h1>kindling</h1>
+      <p class="tagline">Spark your draft</p>
+      <p class="hero-description">
+        Your outline shouldn't disappear when you start writing. Kindling is a desktop writing app that keeps your scene beats, character notes, and story structure visible while you draft.
+      </p>
+
+      <div class="signup-container">
+        <h2>Join the Waitlist</h2>
+        <p>Be the first to know when Kindling launches.</p>
+        <form
+          class="signup-form"
+          action="https://buttondown.com/api/emails/embed-subscribe/kindling"
+          method="post"
+          target="_blank"
+        >
+          <input type="email" name="email" placeholder="your@email.com" required>
+          <button type="submit">Notify Me</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features">
+    <div class="features-container">
+      <h2>Where outlines become novels</h2>
+      <p class="features-intro">
+        Stop switching between apps. Kindling brings your planning and drafting into one focused space.
+      </p>
+
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+          </div>
+          <h3>Outline-Aware Drafting</h3>
+          <p>Your scene beats and chapter notes stay visible in a side panel while you write. No more flipping between documents.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+            </svg>
+          </div>
+          <h3>Character at a Glance</h3>
+          <p>Quick-reference cards for your characters. Names, traits, arcs, and relationships exactly when you need them.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z" />
+            </svg>
+          </div>
+          <h3>Flexible Structure</h3>
+          <p>Work the way you think. Drag scenes, nest chapters, and reorganize your story without losing your prose.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+            </svg>
+          </div>
+          <h3>Desktop-First</h3>
+          <p>A native app that works offline, respects your privacy, and keeps your manuscripts on your own machine.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+              <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+            </svg>
+          </div>
+          <h3>Distraction-Free Mode</h3>
+          <p>When you're in the zone, fade everything away. Just you, your words, and the beat you're writing toward.</p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+            </svg>
+          </div>
+          <h3>Standard Exports</h3>
+          <p>Export to Markdown, .docx, or plain text. Your work stays portable and future-proof.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Audience Section -->
+  <section class="audience">
+    <div class="audience-container">
+      <h2>Built for writers who plan</h2>
+
+      <div class="audience-tags">
+        <span class="audience-tag">Novelists</span>
+        <span class="audience-tag">Screenwriters</span>
+        <span class="audience-tag">Plotters</span>
+        <span class="audience-tag">Outliners</span>
+        <span class="audience-tag">Series Authors</span>
+      </div>
+
+      <p class="audience-description">
+        If you've ever felt the frustration of building a detailed outline only to lose sight of it when drafting, Kindling is for you. It's the bridge between planning and prose that other writing apps leave out.
+      </p>
+
+      <div class="prose-sample">
+        <p>"The trees closed in around her like silent sentinels. Each step took her further from everything she'd known, deeper into the darkness of the Oldwood."</p>
+        <cite>Your next chapter, waiting to be written.</cite>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="cta">
+    <div class="cta-container">
+      <h2>Ready to spark your draft?</h2>
+      <p>Join the waitlist and be among the first writers to try Kindling.</p>
+
+      <div class="signup-container">
+        <form
+          class="signup-form"
+          action="https://buttondown.com/api/emails/embed-subscribe/kindling"
+          method="post"
+          target="_blank"
+        >
+          <input type="email" name="email" placeholder="your@email.com" required>
+          <button type="submit">Join Waitlist</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>Kindling &copy; 2025. Built with care for writers.</p>
+  </footer>
+
+</body>
+</html>
