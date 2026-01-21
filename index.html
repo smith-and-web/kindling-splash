@@ -3,7 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kindling - Spark Your Draft</title>
+  <title>Kindling – Free Fiction Writing Software for Plotters & Outliners</title>
+
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://kindlingwriter.com/">
 
   <!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-VJQ72G87FE"></script>
@@ -13,12 +16,24 @@
     gtag('js', new Date());
     gtag('config', 'G-VJQ72G87FE');
   </script>
-  <meta name="description" content="Kindling bridges the gap between your detailed story outlines and prose drafting. A desktop writing app for novelists, screenwriters, and planners who want their outlines visible while they write.">
+  <meta name="description" content="Free open-source desktop app bridging outline planning and prose drafting. Import from Plottr, yWriter, Obsidian Longform. Export to DOCX/Markdown. For novelists, screenwriters, and plotters.">
 
   <!-- Open Graph -->
-  <meta property="og:title" content="Kindling - Spark Your Draft">
-  <meta property="og:description" content="A desktop writing app that bridges the gap between story outlines and prose drafting.">
+  <meta property="og:title" content="Kindling – Free Fiction Writing Software for Plotters">
+  <meta property="og:description" content="Bridge the gap between your outline and first draft. Open-source desktop app for novelists and screenwriters. Free forever.">
   <meta property="og:type" content="website">
+  <meta property="og:url" content="https://kindlingwriter.com/">
+  <meta property="og:image" content="https://kindlingwriter.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:site_name" content="Kindling">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@KindlingWriter">
+  <meta name="twitter:title" content="Kindling – Free Fiction Writing Software for Plotters">
+  <meta name="twitter:description" content="Bridge the gap between your outline and first draft. Open-source desktop app for novelists and screenwriters. Free forever.">
+  <meta name="twitter:image" content="https://kindlingwriter.com/og-image.png">
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -125,6 +140,20 @@
       font-weight: 500;
       color: var(--ember-orange);
       margin-bottom: 16px;
+    }
+
+    .open-source-badge {
+      display: inline-block;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--success);
+      background: rgba(45, 156, 107, 0.15);
+      border: 1px solid rgba(45, 156, 107, 0.3);
+      padding: 6px 16px;
+      border-radius: 100px;
+      margin-bottom: 20px;
+      letter-spacing: 0.02em;
     }
 
     .hero-description {
@@ -440,13 +469,37 @@
       text-decoration: underline;
     }
   </style>
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Kindling",
+    "description": "Free open-source fiction writing software that bridges outlining and drafting for novelists and screenwriters",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Windows 10+, macOS 10.14+, Linux",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "author": {
+      "@type": "Organization",
+      "name": "Kindling",
+      "url": "https://kindlingwriter.com"
+    },
+    "softwareVersion": "Pre-release",
+    "license": "https://opensource.org/licenses/MIT"
+  }
+  </script>
 </head>
 <body>
 
   <!-- Hero Section -->
   <section class="hero">
     <div class="hero-content">
-      <svg class="logo" viewBox="0 0 1024 760" aria-label="Kindling logo">
+      <svg class="logo" viewBox="0 0 1024 760" width="180" height="134" aria-label="Kindling logo">
         <defs>
           <linearGradient id="bookGrad" x1="509" y1="739" x2="512" y2="609" gradientUnits="userSpaceOnUse">
             <stop offset="0" stop-color="#501D0F"/>
@@ -461,9 +514,10 @@
       </svg>
 
       <h1>kindling</h1>
-      <p class="tagline">Spark your draft</p>
+      <p class="tagline">Fiction Writing Software for Plotters</p>
+      <p class="open-source-badge">Free & Open Source</p>
       <p class="hero-description">
-        Your outline shouldn't disappear when you start writing. Kindling is a desktop writing app that keeps your scene beats, character notes, and story structure visible while you draft.
+        Your outline shouldn't disappear when you start writing. Kindling is a desktop writing app that keeps your scene beats, character notes, and story structure visible while you draft. Available for Windows, macOS, and Linux.
       </p>
 
       <div class="signup-container">
