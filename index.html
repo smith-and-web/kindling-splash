@@ -4,6 +4,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Kindling - Spark Your Draft</title>
+
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VJQ72G87FE"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-VJQ72G87FE');
+  </script>
   <meta name="description" content="Kindling bridges the gap between your detailed story outlines and prose drafting. A desktop writing app for novelists, screenwriters, and planners who want their outlines visible while they write.">
 
   <!-- Open Graph -->
@@ -560,6 +569,18 @@
   <footer>
     <p>Kindling &copy; 2025. Built with care for writers.</p>
   </footer>
+
+  <!-- Form submission tracking -->
+  <script>
+    document.querySelectorAll('.signup-form').forEach(function(form) {
+      form.addEventListener('submit', function() {
+        gtag('event', 'waitlist_signup', {
+          event_category: 'engagement',
+          event_label: 'waitlist_form'
+        });
+      });
+    });
+  </script>
 
 </body>
 </html>
