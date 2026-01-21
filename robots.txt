@@ -1,0 +1,7 @@
+# Robots.txt for kindlingwriter.com
+
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://kindlingwriter.com/sitemap.xml

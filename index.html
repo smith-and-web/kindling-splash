@@ -680,8 +680,9 @@
     <p>Kindling &copy; 2025. Built with care for writers.</p>
   </footer>
 
-  <!-- Form submission tracking -->
+  <!-- Enhanced Analytics -->
   <script>
+    // Form submission tracking
     document.querySelectorAll('.signup-form').forEach(function(form) {
       form.addEventListener('submit', function() {
         gtag('event', 'waitlist_signup', {
@@ -690,6 +691,47 @@
         });
       });
     });
+
+    // Outbound link tracking
+    document.querySelectorAll('a[href^="http"]').forEach(function(link) {
+      if (!link.href.includes('kindlingwriter.com')) {
+        link.addEventListener('click', function() {
+          gtag('event', 'click', {
+            event_category: 'outbound',
+            event_label: link.href,
+            transport_type: 'beacon'
+          });
+        });
+      }
+    });
+
+    // Scroll depth tracking (25%, 50%, 75%, 100%)
+    (function() {
+      var depths = [25, 50, 75, 100];
+      var triggered = {};
+
+      function getScrollPercent() {
+        var h = document.documentElement;
+        var b = document.body;
+        var st = 'scrollTop';
+        var sh = 'scrollHeight';
+        return Math.round((h[st] || b[st]) / ((h[sh] || b[sh]) - h.clientHeight) * 100);
+      }
+
+      window.addEventListener('scroll', function() {
+        var percent = getScrollPercent();
+        depths.forEach(function(depth) {
+          if (percent >= depth && !triggered[depth]) {
+            triggered[depth] = true;
+            gtag('event', 'scroll_depth', {
+              event_category: 'engagement',
+              event_label: depth + '%',
+              value: depth
+            });
+          }
+        });
+      }, { passive: true });
+    })();
   </script>
 
 </body>
