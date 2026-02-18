@@ -218,14 +218,26 @@
    color: var(--text-secondary);
  }
  
- .download-note a {
-   color: var(--ember-orange);
-   text-decoration: none;
+.download-note a,
+.download-note a:visited {
+  color: var(--ember-orange);
+  text-decoration: none;
  }
- 
- .download-note a:hover {
-   text-decoration: underline;
- }
+
+.download-note a:hover {
+  text-decoration: underline;
+}
+
+/* CTA section links - prevent purple visited state */
+.cta-section a,
+.cta-section a:visited {
+  color: var(--ember-orange);
+  text-decoration: none;
+}
+
+.cta-section a:hover {
+  text-decoration: underline;
+}
  
  /* Signup Forms */
  .signup-container {
@@ -358,14 +370,15 @@
    color: var(--text-secondary);
  }
  
- footer a {
-   color: var(--ember-orange);
-   text-decoration: none;
- }
+footer a,
+footer a:visited {
+  color: var(--ember-orange);
+  text-decoration: none;
+}
 
- footer a:hover {
-   text-decoration: underline;
- }
+footer a:hover {
+  text-decoration: underline;
+}
 
 /* ===== Shared styles for inner pages ===== */
 
