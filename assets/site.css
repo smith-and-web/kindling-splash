@@ -229,14 +229,19 @@
 }
 
 /* CTA section links - prevent purple visited state */
-.cta-section a,
-.cta-section a:visited {
+.cta-section a:not(.download-btn),
+.cta-section a:not(.download-btn):visited {
   color: var(--ember-orange);
   text-decoration: none;
 }
 
-.cta-section a:hover {
+.cta-section a:not(.download-btn):hover {
   text-decoration: underline;
+}
+
+.cta-section a.download-btn,
+.cta-section a.download-btn:visited {
+  color: white;
 }
  
  /* Signup Forms */
@@ -386,7 +391,7 @@ footer a:hover {
 .page-hero {
    padding: 140px 24px 60px;
    text-align: center;
-   max-width: 720px;
+   max-width: 960px;
    margin: 0 auto;
  }
 
@@ -466,6 +471,50 @@ footer a:hover {
    margin: 24px 0;
  }
 
+/* Flow diagram (Import → Kindling → Export) - vertical layout */
+.flow-diagram {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   gap: 16px;
+   margin: 32px 0;
+ }
+
+.flow-node {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   background: var(--surface);
+   border: 1px solid var(--surface-light);
+   border-radius: 12px;
+   padding: 20px 28px;
+   min-width: 200px;
+ }
+
+.flow-node-center {
+   border-color: var(--ember-orange);
+   background: rgba(232, 90, 27, 0.08);
+ }
+
+.flow-label {
+   font-family: 'Space Grotesk', sans-serif;
+   font-weight: 600;
+   font-size: 16px;
+   color: var(--text-primary);
+   margin-bottom: 4px;
+ }
+
+.flow-formats {
+   font-size: 14px;
+   color: var(--text-secondary);
+ }
+
+.flow-arrow {
+   font-size: 24px;
+   color: var(--ember-orange);
+   line-height: 1;
+ }
+
 /* Comparison table */
 .comparison-table-wrap {
    overflow-x: auto;
@@ -508,16 +557,19 @@ footer a:hover {
 /* Download cards (large, for /download page) */
 .download-cards {
    display: grid;
-   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-   gap: 16px;
+   grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+   gap: 12px;
    margin: 32px 0;
  }
 
 .download-card-large {
+   display: inline-flex;
+   flex-direction: column;
+   align-items: center;
    background: var(--surface);
    border: 1px solid var(--surface-light);
    border-radius: 12px;
-   padding: 24px;
+   padding: 16px 24px;
    text-align: center;
    text-decoration: none;
    color: inherit;
