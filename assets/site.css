@@ -616,6 +616,128 @@ footer a:hover {
    color: var(--text-secondary);
  }
 
+/* Download page: legal links and about section */
+.download-legal-links {
+   font-size: 14px;
+   color: var(--text-secondary);
+   text-align: center;
+   margin: 20px 0 0;
+   line-height: 1.6;
+ }
+
+.download-legal-links a,
+.download-legal-links a:visited {
+   color: var(--ember-orange);
+   text-decoration: none;
+ }
+
+.download-legal-links a:hover {
+   text-decoration: underline;
+ }
+
+.about-download-card {
+   background: var(--surface);
+   border: 1px solid var(--surface-light);
+   border-radius: 12px;
+   padding: 24px 28px;
+   margin: 32px 0;
+ }
+
+.about-download-table {
+   width: 100%;
+   border-collapse: collapse;
+   font-size: 15px;
+ }
+
+.about-download-table td {
+   padding: 10px 0;
+   border-bottom: 1px solid var(--surface-light);
+   color: var(--text-secondary);
+ }
+
+.about-download-table td:first-child {
+   font-weight: 500;
+   color: var(--text-primary);
+   width: 140px;
+ }
+
+.about-download-table tr:last-child td {
+   border-bottom: none;
+ }
+
+.about-download-statements {
+   margin-top: 20px;
+   padding-top: 20px;
+   border-top: 1px solid var(--surface-light);
+   font-size: 14px;
+   color: var(--text-secondary);
+   line-height: 1.7;
+ }
+
+.about-download-statements ul {
+   list-style: none;
+   padding: 0;
+   margin: 0;
+ }
+
+.about-download-statements li {
+   margin-bottom: 10px;
+   padding-left: 20px;
+   position: relative;
+ }
+
+.about-download-statements li::before {
+   content: "•";
+   position: absolute;
+   left: 0;
+   color: var(--ember-orange);
+ }
+
+.uninstall-platform {
+   margin-bottom: 28px;
+ }
+
+.uninstall-platform:last-child {
+   margin-bottom: 0;
+ }
+
+.uninstall-platform h4 {
+   font-family: 'Space Grotesk', sans-serif;
+   font-size: 16px;
+   font-weight: 600;
+   margin-bottom: 12px;
+   color: var(--text-primary);
+ }
+
+.uninstall-platform p,
+.uninstall-platform ul {
+   font-size: 15px;
+   color: var(--text-secondary);
+   line-height: 1.7;
+   margin-bottom: 12px;
+ }
+
+.uninstall-platform ul {
+   padding-left: 24px;
+ }
+
+.uninstall-platform ol {
+   padding-left: 24px;
+   margin: 0 0 12px;
+ }
+
+.uninstall-platform ol li {
+   margin-bottom: 8px;
+ }
+
+.uninstall-platform code {
+   font-family: 'Monaco', 'Menlo', 'Consolas', monospace;
+   font-size: 13px;
+   background: var(--surface);
+   padding: 2px 6px;
+   border-radius: 4px;
+ }
+
 /* Multi-column footer (spec layout) */
 .footer-grid {
    display: grid;

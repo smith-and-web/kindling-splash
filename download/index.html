@@ -96,7 +96,31 @@
       </a>
     </div>
 
-    <p class="download-note" style="margin-top: 16px;">All downloads from <a href="https://github.com/smith-and-web/kindling/releases">GitHub Releases</a></p>
+    <p class="download-legal-links">By downloading Kindling, you agree to our <a href="/terms/">Terms of Service</a> and <a href="/privacy/">Privacy Policy</a>. Kindling is released under the <a href="https://opensource.org/licenses/MIT" target="_blank" rel="noopener">MIT License</a>.</p>
+    <p class="download-note" style="margin-top: 12px;">All downloads from <a href="https://github.com/smith-and-web/kindling/releases">GitHub Releases</a></p>
+  </section>
+
+  <section class="content-section">
+    <h3>About this download</h3>
+    <div class="about-download-card">
+      <table class="about-download-table">
+        <tr><td>Software</td><td>Kindling v1.0.0-beta</td></tr>
+        <tr><td>Type</td><td>Desktop application</td></tr>
+        <tr><td>Size</td><td>~10 MB</td></tr>
+        <tr><td>License</td><td>MIT License (free and open source)</td></tr>
+        <tr><td>Platforms</td><td>macOS 12+, Windows 10+, Linux</td></tr>
+        <tr><td>Source code</td><td><a href="https://github.com/smith-and-web/kindling" target="_blank" rel="noopener">View on GitHub</a></td></tr>
+      </table>
+      <div class="about-download-statements">
+        <ul>
+          <li>Kindling installs as a single desktop application. No background services, browser extensions, toolbars, or startup items are installed.</li>
+          <li>Kindling does not modify system settings, registry entries, or browser configuration.</li>
+          <li>Kindling does not collect, transmit, or store personal data. All files stay on your computer.</li>
+          <li>Kindling does not bundle any additional software.</li>
+          <li>Kindling can be completely removed at any time. See <a href="#uninstall">uninstall instructions</a> below.</li>
+        </ul>
+      </div>
+    </div>
   </section>
 
   <section class="content-section alt">
@@ -111,6 +135,40 @@
   </section>
 
   <section class="content-section">
+    <h3 id="uninstall">How to uninstall Kindling</h3>
+    <p>Kindling can be completely removed from your computer at any time. Your project files are not deleted when you uninstall Kindling — they remain wherever you saved them.</p>
+
+    <div class="uninstall-platform">
+      <h4>macOS</h4>
+      <ol>
+        <li>Open Finder and go to the Applications folder.</li>
+        <li>Drag <strong>Kindling</strong> to the Trash (or right-click → Move to Trash).</li>
+        <li>Empty the Trash.</li>
+      </ol>
+      <p>Kindling does not install any background services, launch agents, or system extensions. To remove application data (preferences, not project files), delete <code>~/Library/Application Support/com.kindlingwriter.app/</code> if present.</p>
+    </div>
+
+    <div class="uninstall-platform">
+      <h4>Windows</h4>
+      <ol>
+        <li>Open <strong>Settings</strong> → <strong>Apps</strong> → <strong>Installed apps</strong> (or <strong>Apps &amp; features</strong> on Windows 10).</li>
+        <li>Search for <strong>Kindling</strong>.</li>
+        <li>Click <strong>Uninstall</strong> and follow the prompts.</li>
+      </ol>
+      <p>Alternatively, use Control Panel: <strong>Programs and Features</strong> → select Kindling → <strong>Uninstall</strong>. Kindling does not install background services or startup items. To remove application data: delete <code>%APPDATA%\com.kindlingwriter.app\</code> if present.</p>
+    </div>
+
+    <div class="uninstall-platform">
+      <h4>Linux (AppImage)</h4>
+      <ol>
+        <li>Delete the Kindling AppImage file (wherever you saved it).</li>
+        <li>If you created a desktop entry, remove <code>~/.local/share/applications/kindling.desktop</code>.</li>
+      </ol>
+      <p>To remove application data: delete <code>~/.config/com.kindlingwriter.app/</code> or <code>~/.local/share/com.kindlingwriter.app/</code> if present.</p>
+    </div>
+  </section>
+
+  <section class="content-section alt">
     <h3>System requirements</h3>
     <ul class="sysreq-list">
       <li>macOS 12 (Monterey) or later</li>
@@ -168,6 +226,7 @@
         <ul>
           <li><a href="https://opensource.org/licenses/MIT">MIT License</a></li>
           <li><a href="/privacy/">Privacy Policy</a></li>
+          <li><a href="/terms/">Terms of Service</a></li>
         </ul>
       </div>
     </div>
