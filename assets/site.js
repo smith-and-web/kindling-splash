@@ -1,4 +1,7 @@
  (function() {
+   // Google Ads conversion ID - set when Ads account is configured
+   // window.GOOGLE_ADS_CONVERSION_ID = 'AW-XXXXXXXX/XXXXXXXX';
+
    function getDownloadContext() {
      if (!document.body) {
        return '';
@@ -24,12 +27,12 @@
    function detectPlatform() {
      var ua = navigator.userAgent.toLowerCase();
      var platform = (navigator.platform || '').toLowerCase();
- 
+
      if (platform.includes('mac') || ua.includes('mac')) {
-       if (ua.includes('arm') || (window.navigator.userAgentData && window.navigator.userAgentData.platform === 'macOS')) {
+       if (ua.includes('arm') || ua.includes('aarch64') || (navigator.userAgentData && navigator.userAgentData.platform === 'macOS')) {
          return 'mac-arm';
        }
-       return 'mac-arm';
+       return 'mac-intel';
      }
  
      if (platform.includes('win') || ua.includes('win')) {
@@ -48,20 +51,27 @@
      if (!detectedPlatform) {
        return;
      }
- 
+
      document.querySelectorAll('.download-buttons').forEach(function(container) {
        var buttons = container.querySelectorAll('.download-btn');
- 
        buttons.forEach(function(btn) {
          var btnPlatform = btn.getAttribute('data-platform');
-        if (!btnPlatform) {
-          return;
-        }
-
-        btn.classList.add('secondary');
- 
+         if (!btnPlatform) return;
+         btn.classList.add('secondary');
          if (btnPlatform === detectedPlatform) {
            btn.classList.remove('secondary');
+         }
+       });
+     });
+
+     document.querySelectorAll('.download-cards').forEach(function(container) {
+       var cards = container.querySelectorAll('.download-card-large');
+       cards.forEach(function(card) {
+         var platform = card.getAttribute('data-platform');
+         if (!platform) return;
+         card.classList.remove('highlight');
+         if (platform === detectedPlatform) {
+           card.classList.add('highlight');
          }
        });
      });
@@ -73,10 +83,14 @@
          if (typeof gtag !== 'function') {
            return;
          }
- 
+
          gtag('event', 'email_signup', {
            event_category: 'engagement',
            event_label: 'newsletter_form'
+         });
+         gtag('event', 'email_signup_confirmed', {
+           event_category: 'conversion',
+           event_label: 'newsletter'
          });
        });
      });
