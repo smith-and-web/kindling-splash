@@ -16,15 +16,17 @@
   <meta name="description" content="Your Kindling download has started. Here's how to get up and running quickly.">
   <meta name="robots" content="noindex">
 
-  <!-- Fonts -->
+  <!-- Fonts (async to avoid render-blocking) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap"></noscript>
 
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
 
   <!-- Shared Styles -->
+  <link rel="preload" href="assets/site.css" as="style">
   <link rel="stylesheet" href="assets/site.css">
 
   <style>

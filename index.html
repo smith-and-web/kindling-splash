@@ -35,15 +35,17 @@
   <meta name="twitter:description" content="Bridge the gap between your outline and first draft. Open-source desktop app for novelists and screenwriters. Free forever.">
   <meta name="twitter:image" content="https://kindlingwriter.com/og-image.png">
 
-  <!-- Fonts -->
+  <!-- Fonts (async to avoid render-blocking) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=Lora:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=Lora:wght@400;500&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=Lora:wght@400;500&display=swap"></noscript>
 
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
 
-  <!-- Shared Styles -->
+  <!-- Shared Styles (preload for faster discovery) -->
+  <link rel="preload" href="assets/site.css" as="style">
   <link rel="stylesheet" href="assets/site.css">
 
   <style>
@@ -589,7 +591,7 @@
 
   <!-- Demo / Email Signup Section -->
   <div style="padding: 48px 24px 0; text-align: center;">
-    <img src="assets/demo-1.gif" alt="Kindling scaffolded writing view with scene beats" style="max-width: 100%; height: auto; border-radius: 12px;">
+    <img src="assets/demo-1.gif" alt="Kindling scaffolded writing view with scene beats" width="1000" height="844" loading="lazy" decoding="async" style="max-width: 100%; height: auto; border-radius: 12px;">
   </div>
   <section class="signup-section">
     <div class="signup-section-container">

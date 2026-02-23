@@ -31,11 +31,14 @@
   <meta name="twitter:description" content="Scene scaffolding, context-aware references, and seamless import/export. See how Kindling bridges your outline and your draft.">
   <meta name="twitter:image" content="https://kindlingwriter.com/og-image.png">
 
+  <!-- Fonts (async to avoid render-blocking) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=Lora:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=Lora:wght@400;500&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=Lora:wght@400;500&display=swap"></noscript>
 
   <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+  <link rel="preload" href="../assets/site.css" as="style">
   <link rel="stylesheet" href="../assets/site.css">
 </head>
 <body>
@@ -72,20 +75,20 @@
     <h1>Everything you need to go from outline to draft</h1>
     <p class="page-hero-subtext">Kindling turns your existing outline into a scaffolded writing space — scene beats as expandable prompts, character details at your fingertips, and export back to the tools you already use.</p>
     <a href="/download/" class="download-btn">Download Kindling — Free</a>
-    <img src="../assets/demo-1.gif" alt="Scaffolded writing view with scene beats expanded" style="margin-top: 32px; max-width: 100%; height: auto; border-radius: 12px;">
+    <img src="../assets/demo-1.gif" alt="Scaffolded writing view with scene beats expanded" width="1000" height="844" loading="lazy" decoding="async" style="margin-top: 32px; max-width: 100%; height: auto; border-radius: 12px;">
   </section>
 
   <section class="content-section">
     <h2>Your outline, inside your writing space</h2>
     <p>Scene beats from Plottr, yWriter, or Markdown outlines appear as expandable prompt sections in the drafting view. Writers click to reveal a beat, then compose prose directly into that section. No more blank pages — your preparation is right there with you.</p>
-    <img src="../assets/scene-panel.png" alt="Collapsed beats with one expanded showing prose being written into it" style="max-width: 100%; height: auto; border-radius: 12px; margin: 24px 0;">
+    <img src="../assets/scene-panel.png" alt="Collapsed beats with one expanded showing prose being written into it" width="1478" height="1536" loading="lazy" decoding="async" style="max-width: 100%; height: auto; border-radius: 12px; margin: 24px 0;">
     <div class="callout">No more switching between your outline doc and a blank page.</div>
   </section>
 
   <section class="content-section alt">
     <h2>The right details, right when you need them</h2>
     <p>Characters and locations tagged in your scene automatically surface in a side panel. Physical descriptions, relationships, key notes — all visible while you write, without searching through separate documents. Pin frequently-used references. Unpin when you're done.</p>
-    <img src="../assets/references-panel.png" alt="Reference panel showing a character card alongside the writing area" style="max-width: 100%; height: auto; border-radius: 12px; margin: 24px 0;">
+    <img src="../assets/references-panel.png" alt="Reference panel showing a character card alongside the writing area" width="2726" height="2038" loading="lazy" decoding="async" style="max-width: 100%; height: auto; border-radius: 12px; margin: 24px 0;">
     <div class="callout">Your character had green eyes in chapter 3. Kindling makes sure they still do in chapter 30.</div>
   </section>
 
