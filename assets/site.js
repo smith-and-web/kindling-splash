@@ -96,7 +96,35 @@
      });
    }
  
-   function trackOutboundLinks() {
+   function initMobileNav() {
+   var toggle = document.querySelector('.navbar-toggle');
+   var navbar = document.querySelector('.navbar');
+   if (!toggle || !navbar) return;
+
+   toggle.addEventListener('click', function() {
+     var isOpen = navbar.classList.toggle('navbar-open');
+     toggle.setAttribute('aria-expanded', isOpen);
+     document.body.style.overflow = isOpen ? 'hidden' : '';
+   });
+
+   function closeMenu() {
+     navbar.classList.remove('navbar-open');
+     toggle.setAttribute('aria-expanded', 'false');
+     document.body.style.overflow = '';
+   }
+
+   navbar.querySelectorAll('.navbar-link, .navbar-cta').forEach(function(link) {
+     link.addEventListener('click', closeMenu);
+   });
+
+   document.addEventListener('click', function(e) {
+     if (navbar.classList.contains('navbar-open') && !navbar.contains(e.target)) {
+       closeMenu();
+     }
+   });
+ }
+
+ function trackOutboundLinks() {
      document.querySelectorAll('a[href^="http"]').forEach(function(link) {
        if (link.href.includes('kindlingwriter.com')) {
          return;
@@ -116,9 +144,10 @@
      });
    }
  
-   document.addEventListener('DOMContentLoaded', function() {
-     highlightDownloadButtons();
-     trackSignupForms();
-     trackOutboundLinks();
-   });
+ document.addEventListener('DOMContentLoaded', function() {
+   initMobileNav();
+   highlightDownloadButtons();
+   trackSignupForms();
+   trackOutboundLinks();
+ });
  })();

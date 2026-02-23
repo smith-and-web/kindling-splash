@@ -69,6 +69,7 @@
    align-items: center;
    justify-content: space-between;
    height: 64px;
+   width: 100%;
  }
  
  .navbar-logo {
@@ -77,6 +78,7 @@
    gap: 10px;
    text-decoration: none;
    color: var(--text-primary);
+   flex-shrink: 0;
  }
  
  .navbar-logo svg {
@@ -134,19 +136,105 @@
    background: var(--flame-orange);
  }
  
- @media (max-width: 640px) {
-   .navbar-link {
-     padding: 8px 10px;
-     font-size: 14px;
+ /* Mobile nav toggle (hidden on desktop) */
+ .navbar-toggle {
+   display: none;
+   align-items: center;
+   justify-content: center;
+   width: 44px;
+   height: 44px;
+   padding: 0;
+   background: none;
+   border: none;
+   border-radius: 6px;
+   color: var(--text-primary);
+   cursor: pointer;
+   transition: background-color 0.2s;
+   flex-shrink: 0;
+ }
+ .navbar-toggle:hover {
+   background: var(--surface);
+ }
+ .navbar-toggle-icon {
+   display: block;
+   width: 22px;
+   height: 2px;
+   background: currentColor;
+   position: relative;
+   transition: background 0.2s;
+ }
+ .navbar-toggle-icon::before,
+ .navbar-toggle-icon::after {
+   content: '';
+   position: absolute;
+   left: 0;
+   width: 22px;
+   height: 2px;
+   background: currentColor;
+   transition: transform 0.2s;
+ }
+ .navbar-toggle-icon::before {
+   top: -7px;
+ }
+ .navbar-toggle-icon::after {
+   top: 7px;
+ }
+ .navbar-open .navbar-toggle-icon {
+   background: transparent;
+ }
+ .navbar-open .navbar-toggle-icon::before {
+   transform: translateY(7px) rotate(45deg);
+ }
+ .navbar-open .navbar-toggle-icon::after {
+   transform: translateY(-7px) rotate(-45deg);
+ }
+
+ @media (max-width: 768px) {
+   .navbar-container {
+     flex-wrap: wrap;
    }
- 
+
+   .navbar-toggle {
+     display: flex !important;
+     order: 2;
+   }
+
+   .navbar-links {
+     display: none !important;
+     position: absolute;
+     top: 64px;
+     left: 0;
+     right: 0;
+     flex-direction: column;
+     gap: 0;
+     padding: 16px;
+     background: var(--surface);
+     border-bottom: 1px solid var(--surface-light);
+     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+     z-index: 1001;
+   }
+
+   .navbar-open .navbar-links {
+     display: flex !important;
+   }
+
+   .navbar-link {
+     padding: 12px 16px;
+     font-size: 16px;
+     border-radius: 8px;
+   }
+
    .navbar-link.hide-mobile {
      display: none;
    }
- 
+
    .navbar-cta {
-     padding: 8px 12px;
-     font-size: 13px;
+     margin: 8px 0 0;
+     margin-left: 0;
+     padding: 12px 16px;
+     font-size: 16px;
+     display: flex;
+     justify-content: center;
    }
  }
  
