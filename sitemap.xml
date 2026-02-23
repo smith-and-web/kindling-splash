@@ -7,39 +7,57 @@
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://kindlingwriter.com/features</loc>
+    <loc>https://kindlingwriter.com/features/</loc>
     <lastmod>2025-02-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://kindlingwriter.com/download</loc>
+    <loc>https://kindlingwriter.com/download/</loc>
     <lastmod>2025-02-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://kindlingwriter.com/compare</loc>
+    <loc>https://kindlingwriter.com/compare/</loc>
     <lastmod>2025-02-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://kindlingwriter.com/open-source</loc>
+    <loc>https://kindlingwriter.com/open-source/</loc>
     <lastmod>2025-02-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://kindlingwriter.com/privacy</loc>
+    <loc>https://kindlingwriter.com/privacy/</loc>
     <lastmod>2026-02-18</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://kindlingwriter.com/terms</loc>
+    <loc>https://kindlingwriter.com/terms/</loc>
     <lastmod>2026-02-17</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://kindlingwriter.com/blog/</loc>
+    <lastmod>2025-02-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://kindlingwriter.com/blog/introducing-kindling-open-beta.html</loc>
+    <lastmod>2025-02-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://kindlingwriter.com/blog/why-plotters-need-better-writing-software.html</loc>
+    <lastmod>2025-02-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
   </url>
 </urlset>
