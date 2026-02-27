@@ -44,9 +44,15 @@
   </url>
   <url>
     <loc>https://kindlingwriter.com/blog/</loc>
-    <lastmod>2025-02-17</lastmod>
+    <lastmod>2026-02-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://kindlingwriter.com/blog/best-scrivener-alternatives-for-plotters.html</loc>
+    <lastmod>2026-02-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://kindlingwriter.com/blog/introducing-kindling-open-beta.html</loc>
