@@ -134,24 +134,6 @@
       font-size: 16px;
     }
 
-    .signup-container h2 {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 20px;
-      font-weight: 500;
-      margin-bottom: 8px;
-    }
-
-    .signup-container p {
-      font-size: 14px;
-      color: var(--text-secondary);
-      margin-bottom: 16px;
-    }
-
-    .signup-container {
-      max-width: 480px;
-      margin: 0 auto;
-    }
-
     .hero .social-links {
       margin-top: 16px;
     }
@@ -196,93 +178,6 @@
       letter-spacing: 0.05em;
       text-transform: uppercase;
       vertical-align: middle;
-    }
-
-    /* Signup Section */
-    .signup-section {
-      background: #8B4A2B;
-      padding: 60px 24px;
-      text-align: center;
-    }
-
-    .signup-section-container {
-      max-width: 480px;
-      margin: 0 auto;
-    }
-
-    .signup-section h2 {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 24px;
-      font-weight: 600;
-      margin-bottom: 8px;
-      color: white;
-    }
-
-    .signup-section > .signup-section-container > p {
-      font-size: 15px;
-      color: rgba(255, 255, 255, 0.85);
-      margin-bottom: 20px;
-    }
-
-    .signup-section .signup-form {
-      display: flex;
-      gap: 12px;
-      max-width: 420px;
-      margin: 0 auto;
-    }
-
-    .signup-section .signup-form input[type="email"] {
-      flex: 1;
-      padding: 14px 16px;
-      font-size: 16px;
-      font-family: 'Inter', sans-serif;
-      border: 2px solid rgba(255, 255, 255, 0.3);
-      border-radius: 8px;
-      background: rgba(255, 255, 255, 0.15);
-      color: white;
-      outline: none;
-      transition: border-color 0.2s, background-color 0.2s;
-    }
-
-    .signup-section .signup-form input[type="email"]::placeholder {
-      color: rgba(255, 255, 255, 0.6);
-    }
-
-    .signup-section .signup-form input[type="email"]:focus {
-      border-color: white;
-      background: rgba(255, 255, 255, 0.25);
-    }
-
-    .signup-section .signup-form button {
-      padding: 14px 24px;
-      font-size: 16px;
-      font-family: 'Space Grotesk', sans-serif;
-      font-weight: 500;
-      background: var(--deep-charcoal);
-      color: white;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background-color 0.2s, transform 0.1s;
-      white-space: nowrap;
-    }
-
-    .signup-section .signup-form button:hover {
-      background: var(--surface);
-    }
-
-    .signup-section .signup-form button:active {
-      transform: scale(0.98);
-    }
-
-    @media (max-width: 520px) {
-      .signup-section .signup-form {
-        flex-direction: column;
-      }
-
-      .signup-section .signup-form button {
-        width: 100%;
-      }
     }
 
     /* Features Section */
@@ -451,10 +346,6 @@
       margin-bottom: 32px;
     }
 
-    .cta .signup-container {
-      background: var(--surface-light);
-    }
-
   </style>
 
   <!-- Structured Data -->
@@ -592,27 +483,12 @@
     </div>
   </section>
 
-  <!-- Demo / Email Signup Section -->
+  <!-- Demo Section -->
   <div style="padding: 48px 24px 0; text-align: center;">
     <video autoplay loop muted playsinline preload="none" width="804" height="556" style="max-width: 100%; height: auto; border-radius: 12px;" aria-label="Kindling scaffolded writing view with scene beats">
       <source src="assets/demo-2.mp4" type="video/mp4">
     </video>
   </div>
-  <section class="signup-section">
-    <div class="signup-section-container">
-      <h2>Get Updates</h2>
-      <p>Tips, tutorials, and release announcements.</p>
-      <form
-        class="signup-form"
-        action="https://app.kit.com/forms/8996985/subscriptions"
-        method="post"
-        target="_blank"
-      >
-        <input type="email" name="email_address" placeholder="your@email.com" required>
-        <button type="submit">Subscribe</button>
-      </form>
-    </div>
-  </section>
 
   <!-- Features Section -->
   <section id="features" class="features">
@@ -718,27 +594,13 @@
       <h2>Ready to spark your draft?</h2>
       <p>Download Kindling and start writing with your outline visible.</p>
 
-      <div class="download-buttons single" style="margin-bottom: 24px;">
+      <div class="download-buttons single">
         <a href="/download/" class="download-btn">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="width:20px;height:20px;">
             <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
           </svg>
           Download for Free
         </a>
-      </div>
-
-      <div class="signup-container">
-        <h2 style="font-size: 18px;">Get Updates</h2>
-        <p>New features, writing tips, and tutorials.</p>
-        <form
-          class="signup-form"
-          action="https://app.kit.com/forms/8996985/subscriptions"
-          method="post"
-          target="_blank"
-        >
-          <input type="email" name="email_address" placeholder="your@email.com" required>
-          <button type="submit">Subscribe</button>
-        </form>
       </div>
     </div>
   </section>

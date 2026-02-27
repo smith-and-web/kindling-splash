@@ -1,6 +1,4 @@
  (function() {
-   // Google Ads conversion ID - set when Ads account is configured
-   // window.GOOGLE_ADS_CONVERSION_ID = 'AW-XXXXXXXX/XXXXXXXX';
 
    function getDownloadContext() {
      if (!document.body) {
@@ -87,10 +85,6 @@
          gtag('event', 'email_signup', {
            event_category: 'engagement',
            event_label: 'newsletter_form'
-         });
-         gtag('event', 'email_signup_confirmed', {
-           event_category: 'conversion',
-           event_label: 'newsletter'
          });
        });
      });
