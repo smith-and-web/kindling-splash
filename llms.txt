@@ -9,6 +9,7 @@
 - [Download](https://kindlingwriter.com/download/): Free download for Windows 10+, macOS 12+, and Linux — no account required
 - [Compare](https://kindlingwriter.com/compare/): How Kindling compares to Scrivener, Plottr, Dabble, and Novelcrafter with feature matrix
 - [Open Source](https://kindlingwriter.com/open-source/): MIT license, GitHub repository, technology stack (Rust, Tauri, Svelte 5, SQLite)
+- [FAQ](https://kindlingwriter.com/faq/): Answers about pricing (free), platforms, Scrivener comparison, Plottr import, file formats, AI policy, privacy, and tech stack
 
 ## Blog
 
