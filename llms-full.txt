@@ -1,0 +1,224 @@
+# Kindling — Full Site Content
+
+> Kindling is a free, open-source desktop writing application that bridges the gap between outlining and drafting. Built for novelists, screenwriters, and fiction writers who plan before they write. Import outlines from Plottr, yWriter, or Obsidian Longform; draft with your scene beats visible as expandable prompts; export to DOCX or Markdown. Built with Rust and Tauri for Windows, macOS, and Linux. MIT licensed. All data stays local on your machine.
+
+---
+
+## Homepage
+
+URL: https://kindlingwriter.com/
+
+### Kindling — Free Writing Software for Plotters & Outliners
+
+Kindling is free, open-source writing software that bridges outlining and drafting for novelists and screenwriters.
+
+Your outline becomes your writing space. Import from Plottr, yWriter, or Obsidian Longform. Each scene's beats appear as expandable prompts — click to reveal what you planned, then write your prose right there. No more blank pages.
+
+**Key value proposition:** Unlike Scrivener (which gives you a blank page for each scene) or Plottr (which has no prose editor), Kindling turns your outline into a scaffolded writing environment where your preparation is visible while you draft.
+
+**Pricing:** Free. Open source. MIT licensed. No account required. No subscription. No feature gates.
+
+**Platforms:** Windows 10+, macOS 12+, Linux (AppImage)
+
+**Technology:** Built with Rust and Tauri (~10MB app, sub-second launch), Svelte 5 UI, SQLite for local data storage.
+
+---
+
+## Features
+
+URL: https://kindlingwriter.com/features/
+
+### Everything you need to go from outline to draft
+
+Kindling turns your existing outline into a scaffolded writing space — scene beats as expandable prompts, character details at your fingertips, and export back to the tools you already use.
+
+#### Your outline, inside your writing space
+Scene beats from Plottr, yWriter, or Markdown outlines appear as expandable prompt sections in the drafting view. Writers click to reveal a beat, then compose prose directly into that section. No more blank pages — your preparation is right there with you.
+
+#### The right details, right when you need them
+Characters and locations tagged in your scene automatically surface in a side panel. Physical descriptions, relationships, key notes — all visible while you write, without searching through separate documents. Pin frequently-used references. Unpin when you're done.
+
+#### Works with your existing tools
+Import from Plottr (.pltr), yWriter (.yw7), Obsidian Longform, or Markdown outlines. Write your scenes in Kindling's scaffolded view. Export finished work to DOCX, Markdown, or Obsidian Longform. Kindling fits into your workflow — it doesn't replace it.
+
+#### Your words stay on your computer
+Kindling is a desktop app. Your projects live on your hard drive as SQLite files — no cloud accounts, no subscriptions, no data collection. Works offline. Always fast. Always yours.
+
+#### Write without distractions
+A clean, focused writing interface that keeps you in the flow. Your outline structure sits quietly in the sidebar until you need it. Beats expand only when you're ready to write into them. No cluttered toolbars, no notification badges, no feature overload — just your words and the context you need.
+
+#### Built for speed, not for bloat
+Kindling is built with Rust and Tauri — the same technology behind some of the fastest desktop apps on the market. It launches in under a second, uses a fraction of the memory of Electron-based writing tools, and keeps your projects stored as lightweight SQLite files.
+
+#### Pick up right where you left off
+Kindling remembers your cursor position, scroll state, and which scene you were working on. See a summary of the previous scene to get back into the flow. Your writing context is preserved between sessions.
+
+---
+
+## Compare
+
+URL: https://kindlingwriter.com/compare/
+
+### How Kindling compares
+
+Kindling isn't trying to replace your favorite writing tools. It fills the gap between your outline and your draft — the part no other tool addresses.
+
+Scrivener is where your manuscript lives. Plottr is where your story takes shape. Kindling is where your scenes are born.
+
+#### Kindling + Scrivener
+Scrivener excels at manuscript management, compilation, and long-term project organization. When you open a new scene in Scrivener, you still get a blank page. Kindling pre-populates your drafting space with your synopsis beats and character context. Import your outline structure, draft scenes in Kindling, export back to your manuscript.
+
+If you love Scrivener but dread the blank page at the start of every scene, Kindling bridges that gap.
+
+Scrivener: $49 one-time. Kindling: Free.
+
+#### Kindling + Plottr
+Plottr is outstanding for visual timeline planning and beat organization. Plottr's output is an outline — it doesn't have a prose drafting space. Kindling imports your Plottr file directly and turns those beats into writing prompts. Your character and location cards surface automatically while you write.
+
+If you've built a beautiful Plottr outline but still open a blank document to draft, Kindling is the next step.
+
+#### Kindling vs AI writing tools
+Kindling provides structure and context, not generated text. Your writing is 100% yours — Kindling never suggests, autocompletes, or generates prose. No subscription fees, no API costs, no data sent to servers. Built for writers who want to write, not outsource their creativity.
+
+#### Feature comparison
+
+| Feature | Kindling | Scrivener | Plottr | Dabble | Novelcrafter |
+|---|---|---|---|---|---|
+| Outline scaffolding in drafting view | Yes | No | No | No | No |
+| Context-aware character/location refs | Yes | Partial | No | No | Yes (AI) |
+| Import from Plottr | Yes | No | N/A | No | No |
+| Import from yWriter | Yes | No | No | No | No |
+| Manuscript management | No | Yes | No | Yes | Yes |
+| Visual timeline/outlining | No | Partial | Yes | No | No |
+| Export to DOCX | Yes | Yes | No | Yes | Yes |
+| Offline / local-first | Yes | Yes | Yes | No | No |
+| No subscription | Yes (Free) | Yes ($49) | Yes ($99-149) | No | No |
+| Open source | Yes | No | No | No | No |
+| AI features | No (by design) | No | No | No | Yes |
+
+Kindling is designed to complement these tools, not replace them. Many writers use Kindling alongside Scrivener or Plottr.
+
+---
+
+## Open Source
+
+URL: https://kindlingwriter.com/open-source/
+
+### Free and open source. By design.
+
+Kindling is MIT licensed. The source code is public. Your data stays on your machine. This isn't a freemium pitch — it's a philosophy.
+
+#### Why we chose open source
+Writers invest months and years in their manuscripts. The tools they depend on shouldn't disappear behind a failed subscription model, a sunset announcement, or a pivot to AI. Kindling is MIT licensed — meaning anyone can inspect, modify, and redistribute the code. If the project ever stopped being maintained, the community could carry it forward. Your work is never locked in.
+
+#### Built with tools that last
+- Tauri 2.x — lightweight desktop framework (your app is ~10MB, not 200MB)
+- Rust — fast, safe, reliable backend
+- Svelte 5 — modern, responsive interface
+- SQLite — your projects are single portable database files
+
+Your project files are standard SQLite databases. Even without Kindling, your data is always accessible.
+
+#### No accounts. No tracking. No cloud.
+Kindling doesn't require an account. It doesn't phone home. It doesn't collect analytics. It doesn't upload your manuscripts. Your projects live as files on your hard drive — just like a Word document. Back them up however you want. Move them between computers with a USB drive. They're yours.
+
+#### Help shape Kindling
+Kindling is built by a solo developer who is also a fiction writer. Contributions are welcome — whether that's code, bug reports, feature requests, or just telling other writers about the project.
+
+- GitHub Repository: https://github.com/smith-and-web/kindling
+- GitHub Issues: https://github.com/smith-and-web/kindling/issues
+- GitHub Discussions: https://github.com/smith-and-web/kindling/discussions
+- Discord Server: https://discord.gg/g7bkj4kY8w
+
+---
+
+## Download
+
+URL: https://kindlingwriter.com/download/
+
+### Download Kindling
+
+Free. Open source. No account required. Version: v1.0.0-beta.
+
+Available for:
+- macOS (M1-M4): .dmg
+- macOS (Intel): .dmg
+- Windows 10+: .msi
+- Linux (x86_64): .AppImage
+
+Software details:
+- Size: ~10 MB
+- License: MIT License (free and open source)
+- Source code: https://github.com/smith-and-web/kindling
+- All downloads from GitHub Releases
+
+System requirements:
+- macOS 12 (Monterey) or later
+- Windows 10 or later
+- Linux (x86_64, AppImage)
+- ~50MB disk space
+- No internet connection required after download
+
+---
+
+## Blog
+
+### Best Scrivener Alternatives for Plotters and Outliners (2026)
+
+URL: https://kindlingwriter.com/blog/best-scrivener-alternatives-for-plotters.html
+Published: February 27, 2026
+
+Scrivener is the gold standard for manuscript management. But if you're a plotter who builds a detailed outline before drafting, you might find yourself wanting something different. When you open a new scene in Scrivener, you get a blank page. If you've spent weeks building a detailed outline and then have to draft from a blank screen while flipping back to your notes, you know the friction.
+
+What plotters need from writing software: outline visibility while drafting, flexible structure, import and export support, and local files you own.
+
+Tools compared: Kindling (free, open source), Plottr (from $39/year), Manuskript (free, open source), yWriter (free), Dabble Writer (from $9/month), Novelcrafter (from $4/month), The Novel Factory (from $7.50/month).
+
+### Why Plotters Need Better Writing Software
+
+URL: https://kindlingwriter.com/blog/why-plotters-need-better-writing-software.html
+Published: January 29, 2026
+
+Most writing software is built for pantsers — discovery writers who find their story as they go. Plotters build detailed outlines, structure their narratives in advance, and know where they're headed before typing "Chapter One." The problem is that the planning phase and the drafting phase usually happen in completely different applications, creating constant context-switching friction.
+
+Kindling was built around a simple premise: your outline and your prose should live together. When you write in Kindling, your scene outline is always visible — not in a separate window, right there in your writing environment.
+
+### Introducing Kindling: Open Beta is Here
+
+URL: https://kindlingwriter.com/blog/introducing-kindling-open-beta.html
+Published: January 29, 2026
+
+Kindling v1.0.0-beta is now available for download. A free and open-source writing application built specifically for plotters and outliners. Kindling is designed around one core idea: your outline and your prose should live together, informing each other as you write.
+
+The beta includes: full import from Plottr, yWriter, and Obsidian Longform; distraction-free writing editor with outline always accessible; scene and chapter management; word count tracking; export to DOCX and Markdown; native apps for macOS, Windows, and Linux.
+
+---
+
+## Frequently Asked Questions
+
+**Is Kindling free?**
+Yes. Kindling is completely free and open-source under the MIT license. No premium tiers, no subscriptions, no feature gates.
+
+**What platforms does Kindling run on?**
+Windows 10+, macOS 12+ (both Apple Silicon and Intel), and Linux (x86_64 AppImage).
+
+**How is Kindling different from Scrivener?**
+Scrivener excels at manuscript management and compilation. Kindling focuses on the outline-to-draft phase — your scene beats appear as expandable prompts in the writing view, so you never face a blank page. Many writers use both: Kindling for drafting, Scrivener for revision and compilation.
+
+**Can Kindling import from Plottr?**
+Yes. Kindling imports Plottr (.pltr) files directly, along with yWriter (.yw7), Obsidian Longform, and Markdown outlines.
+
+**Does Kindling use AI to write?**
+No. Kindling provides structure and context, not generated text. Your writing is 100% yours. No AI suggestions, no autocomplete, no data sent to servers.
+
+**Is Kindling offline / local-first?**
+Yes. Kindling is a desktop app that works completely offline. Your projects are stored as SQLite files on your hard drive. No cloud accounts, no internet required.
+
+**What file formats does Kindling export to?**
+DOCX, Markdown, and Obsidian Longform format.
+
+**Is Kindling open source?**
+Yes. MIT licensed. Full source code available at https://github.com/smith-and-web/kindling
+
+**What is Kindling built with?**
+Rust and Tauri 2.x for the backend, Svelte 5 for the user interface, and SQLite for local data storage. The app is approximately 10MB and launches in under a second.
