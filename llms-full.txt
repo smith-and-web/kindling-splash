@@ -196,6 +196,8 @@ The beta includes: full import from Plottr, yWriter, and Obsidian Longform; dist
 
 ## Frequently Asked Questions
 
+URL: https://kindlingwriter.com/faq/
+
 **Is Kindling free?**
 Yes. Kindling is completely free and open-source under the MIT license. No premium tiers, no subscriptions, no feature gates.
 
@@ -216,6 +218,9 @@ Yes. Kindling is a desktop app that works completely offline. Your projects are 
 
 **What file formats does Kindling export to?**
 DOCX, Markdown, and Obsidian Longform format.
+
+**Does Kindling send my writing to the cloud?**
+No. Kindling doesn't require an account, doesn't phone home, doesn't collect analytics, and doesn't upload your manuscripts. Your projects are stored as SQLite files on your hard drive — just like a Word document. Back them up however you want.
 
 **Is Kindling open source?**
 Yes. MIT licensed. Full source code available at https://github.com/smith-and-web/kindling
