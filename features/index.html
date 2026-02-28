@@ -70,6 +70,48 @@
   }
   </script>
 
+  <!-- FAQ Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What file formats does Kindling support?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Kindling imports from Plottr (.pltr), yWriter (.yw7), Obsidian Longform, and Markdown outlines. It exports to DOCX, Markdown, and Obsidian Longform format. This lets you bring in your existing outline and export finished work to the tools you already use."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is Kindling open source?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Kindling is fully open source under the MIT license. The complete source code is available on GitHub at https://github.com/smith-and-web/kindling. Anyone can inspect, modify, and redistribute the code."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does Kindling send data to the cloud?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. Kindling is a local-first desktop application. Your projects are stored as SQLite files on your hard drive. Kindling does not require an account, does not phone home, does not collect analytics, and does not upload your manuscripts. Your data never leaves your machine."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is Kindling built with?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Kindling is built with Rust and Tauri 2.x for the backend, providing fast performance and a small ~10MB application size. The user interface is built with Svelte 5. Project data is stored in SQLite databases. It launches in under a second and uses a fraction of the memory of Electron-based writing tools."
+        }
+      }
+    ]
+  }
+  </script>
+
   <!-- Fonts (async to avoid render-blocking) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

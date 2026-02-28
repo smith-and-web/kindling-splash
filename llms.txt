@@ -1,0 +1,27 @@
+# Kindling
+
+> Kindling is a free, open-source desktop writing application that bridges the gap between outlining and drafting. Built for novelists, screenwriters, and fiction writers who plan before they write. Import outlines from Plottr, yWriter, or Obsidian Longform; draft with your scene beats visible as expandable prompts; export to DOCX or Markdown. Built with Rust and Tauri for Windows, macOS, and Linux. MIT licensed. All data stays local on your machine.
+
+## Key Pages
+
+- [Home](https://kindlingwriter.com/): Overview of Kindling and its unique approach to novel writing
+- [Features](https://kindlingwriter.com/features/): Expandable scene beats, character references, import/export, local-first architecture, distraction-free writing
+- [Download](https://kindlingwriter.com/download/): Free download for Windows 10+, macOS 12+, and Linux — no account required
+- [Compare](https://kindlingwriter.com/compare/): How Kindling compares to Scrivener, Plottr, Dabble, and Novelcrafter with feature matrix
+- [Open Source](https://kindlingwriter.com/open-source/): MIT license, GitHub repository, technology stack (Rust, Tauri, Svelte 5, SQLite)
+
+## Blog
+
+- [Best Scrivener Alternatives for Plotters and Outliners (2026)](https://kindlingwriter.com/blog/best-scrivener-alternatives-for-plotters.html): Comparison of writing tools for outline-first writers including Kindling, Plottr, Manuskript, yWriter, Dabble, Novelcrafter, and The Novel Factory
+- [Why Plotters Need Better Writing Software](https://kindlingwriter.com/blog/why-plotters-need-better-writing-software.html): The workflow problem for outline-first writers and how Kindling solves it
+- [Introducing Kindling: Open Beta is Here](https://kindlingwriter.com/blog/introducing-kindling-open-beta.html): Launch announcement for Kindling v1.0.0-beta
+
+## Source Code
+
+- [GitHub Repository](https://github.com/smith-and-web/kindling): Full source code, issues, discussions, and releases
+
+## Community
+
+- [Discord Server](https://discord.gg/g7bkj4kY8w): Community discussion and support
+- [Twitter/X](https://twitter.com/KindlingWriter): Product updates
+- [Bluesky](https://bsky.app/profile/kindlingwriter.com): Product updates

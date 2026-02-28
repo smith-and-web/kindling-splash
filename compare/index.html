@@ -40,6 +40,64 @@
   <link rel="icon" type="image/svg+xml" href="../favicon.svg">
   <link rel="preload" href="../assets/site.css" as="style">
   <link rel="stylesheet" href="../assets/site.css">
+
+  <!-- FAQ Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Is Kindling free?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Kindling is completely free and open-source under the MIT license. There are no premium tiers, no subscriptions, and no feature gates. It is free forever."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What platforms does Kindling run on?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Kindling is available for Windows 10 and later, macOS 12 (Monterey) and later (both Apple Silicon and Intel Macs), and Linux (x86_64 AppImage). It is a native desktop application built with Rust and Tauri."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How is Kindling different from Scrivener?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Scrivener excels at manuscript management, compilation, and long-term project organization. When you open a new scene in Scrivener, you get a blank page. Kindling pre-populates your drafting space with your synopsis beats and character context, so you never face a blank page. Many writers use Kindling alongside Scrivener — drafting scenes in Kindling, then exporting to Scrivener for revision and compilation. Scrivener costs $49 one-time; Kindling is free."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can Kindling import from Plottr?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Kindling imports Plottr (.pltr) files directly and turns your beats into expandable writing prompts. It also imports from yWriter (.yw7), Obsidian Longform, and Markdown outlines. Your character and location cards surface automatically while you write."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does Kindling use AI to write?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. Kindling provides structure and context, not generated text. Your writing is 100% yours — Kindling never suggests, autocompletes, or generates prose. There are no subscription fees, no API costs, and no data sent to external servers. It is built for writers who want to write, not outsource their creativity."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is Kindling offline and local-first?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Kindling is a desktop application that works completely offline. Your projects are stored as SQLite files on your hard drive — no cloud accounts, no internet connection required, and no data collection. Your words stay on your computer."
+        }
+      }
+    ]
+  }
+  </script>
 </head>
 <body>
 
