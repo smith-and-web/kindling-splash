@@ -32,7 +32,7 @@
   </url>
   <url>
     <loc>https://kindlingwriter.com/privacy/</loc>
-    <lastmod>2026-02-18</lastmod>
+    <lastmod>2026-02-28</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -71,6 +71,12 @@
     <lastmod>2026-02-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://kindlingwriter.com/feedback/</loc>
+    <lastmod>2026-02-28</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
   </url>
   <url>
     <loc>https://kindlingwriter.com/llms.txt</loc>
