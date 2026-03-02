@@ -10,6 +10,7 @@
 - [Compare](https://kindlingwriter.com/compare/): How Kindling compares to Scrivener, Plottr, Dabble, and Novelcrafter with feature matrix
 - [Open Source](https://kindlingwriter.com/open-source/): MIT license, GitHub repository, technology stack (Rust, Tauri, Svelte 5, SQLite)
 - [FAQ](https://kindlingwriter.com/faq/): Answers about pricing (free), platforms, Scrivener comparison, Plottr import, file formats, AI policy, privacy, and tech stack
+- [Feedback](https://kindlingwriter.com/feedback/): Submit bug reports, feature requests, or rate Kindling — anonymous, no account required
 
 ## Blog
 

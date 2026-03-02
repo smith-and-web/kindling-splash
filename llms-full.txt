@@ -227,3 +227,11 @@ Yes. MIT licensed. Full source code available at https://github.com/smith-and-we
 
 **What is Kindling built with?**
 Rust and Tauri 2.x for the backend, Svelte 5 for the user interface, and SQLite for local data storage. The app is approximately 10MB and launches in under a second.
+
+---
+
+## Feedback
+
+URL: https://kindlingwriter.com/feedback/
+
+Kindling has a feedback form on the website where users can submit bug reports, feature requests, or rate the app. Feedback is anonymous unless the user voluntarily provides an email address. The form collects the feedback type, message, OS selection, and browser locale. No IP addresses are stored. Feedback data is retained for 12 months and then automatically deleted.
