@@ -139,8 +139,7 @@
    }
  
  // ===== Feedback Bubble & Popup =====
- // TODO: Replace with your Lambda Function URL after deploying the backend
- var FEEDBACK_API_URL = 'LAMBDA_FUNCTION_URL_PLACEHOLDER';
+ var FEEDBACK_API_URL = 'https://2gcszmyn325n5yaey2poh72qbe0tkmre.lambda-url.ca-central-1.on.aws/';
 
  function initFeedbackBubble() {
    // Don't show on the /feedback/ page itself
