@@ -141,9 +141,8 @@ URL: https://kindlingwriter.com/download/
 Free. Open source. No account required. Version: v1.0.0-beta.
 
 Available for:
-- macOS (M1-M4): .dmg
-- macOS (Intel): .dmg
-- Windows 10+: .msi
+- macOS: Universal .dmg (Apple Silicon and Intel — signed and notarized by Apple)
+- Windows 10+: .exe installer
 - Linux (x86_64): .AppImage
 
 Software details:
@@ -202,7 +201,7 @@ URL: https://kindlingwriter.com/faq/
 Yes. Kindling is completely free and open-source under the MIT license. No premium tiers, no subscriptions, no feature gates.
 
 **What platforms does Kindling run on?**
-Windows 10+, macOS 12+ (both Apple Silicon and Intel), and Linux (x86_64 AppImage).
+Windows 10+, macOS 12+ (universal binary — Apple Silicon and Intel, signed and notarized by Apple), and Linux (x86_64 AppImage).
 
 **How is Kindling different from Scrivener?**
 Scrivener excels at manuscript management and compilation. Kindling focuses on the outline-to-draft phase — your scene beats appear as expandable prompts in the writing view, so you never face a blank page. Many writers use both: Kindling for drafting, Scrivener for revision and compilation.

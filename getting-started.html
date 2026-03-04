@@ -333,16 +333,6 @@
           <h3>Install Kindling</h3>
           <p>Open the downloaded file and follow the installation prompts.</p>
 
-          <div class="platform-tip" id="mac-tip" style="display: none;">
-            <div class="platform-tip-header">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-              macOS Security Note
-            </div>
-            <p>If you see "developer cannot be verified," go to <strong>System Settings → Privacy & Security</strong> and click <strong>Open Anyway</strong>. <a href="https://github.com/smith-and-web/kindling/wiki/Installation#macos-installation" style="color: var(--ember-orange);">Full guide →</a></p>
-          </div>
-
           <div class="platform-tip" id="windows-tip" style="display: none;">
             <div class="platform-tip-header">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -478,9 +468,7 @@
       var platform = navigator.platform.toLowerCase();
       var userAgent = navigator.userAgent.toLowerCase();
 
-      if (platform.includes('mac') || userAgent.includes('mac')) {
-        document.getElementById('mac-tip').style.display = 'block';
-      } else if (platform.includes('win') || userAgent.includes('win')) {
+      if (platform.includes('win') || userAgent.includes('win')) {
         document.getElementById('windows-tip').style.display = 'block';
       }
     })();

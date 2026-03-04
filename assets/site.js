@@ -27,10 +27,7 @@
      var platform = (navigator.platform || '').toLowerCase();
 
      if (platform.includes('mac') || ua.includes('mac')) {
-       if (ua.includes('arm') || ua.includes('aarch64') || (navigator.userAgentData && navigator.userAgentData.platform === 'macOS')) {
-         return 'mac-arm';
-       }
-       return 'mac-intel';
+       return 'mac';
      }
  
      if (platform.includes('win') || ua.includes('win')) {

@@ -14,11 +14,11 @@
     gtag('js', new Date());
     gtag('config', 'G-VJQ72G87FE');
   </script>
-  <meta name="description" content="Kindling's code signing policy. Free code signing provided by SignPath.io, certificate by SignPath Foundation.">
+  <meta name="description" content="Kindling's code signing policy. macOS builds are signed with Apple Developer ID and notarized. Windows signing provided by SignPath.io.">
   <meta name="robots" content="index, follow">
 
   <meta property="og:title" content="Code Signing Policy — Kindling">
-  <meta property="og:description" content="Kindling's code signing policy. Free code signing provided by SignPath.io, certificate by SignPath Foundation.">
+  <meta property="og:description" content="Kindling's code signing policy. macOS builds are signed with Apple Developer ID and notarized. Windows signing provided by SignPath.io.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://kindlingwriter.com/code-signing-policy/">
 
@@ -75,22 +75,27 @@
 
   <section class="page-hero">
     <h1>Code Signing Policy</h1>
-    <p class="page-hero-subtext">How Kindling's Windows installer is signed to verify authenticity and integrity.</p>
+    <p class="page-hero-subtext">How Kindling's installers are signed to verify authenticity and integrity.</p>
   </section>
 
   <article class="content-section policy-content">
-    <h2>Signing provider</h2>
-    <p>Free code signing provided by <a href="https://about.signpath.io" target="_blank" rel="noopener">SignPath.io</a>, certificate by <a href="https://signpath.org" target="_blank" rel="noopener">SignPath Foundation</a>.</p>
+    <h2>macOS</h2>
+    <p>Kindling's macOS installer is <strong>signed with an Apple Developer ID</strong> and <strong>notarized by Apple</strong>. This means macOS Gatekeeper will allow the app to open without any security workarounds. The universal DMG works on both Apple Silicon and Intel Macs.</p>
   </article>
 
   <section class="content-section alt policy-content">
+    <h2>Windows</h2>
+    <p>Windows code signing is provided by <a href="https://about.signpath.io" target="_blank" rel="noopener">SignPath.io</a>, with a certificate from <a href="https://signpath.org" target="_blank" rel="noopener">SignPath Foundation</a>. While this process is being finalized, Windows SmartScreen may show a warning for unrecognized apps. Click "More info" → "Run anyway" to proceed.</p>
+  </section>
+
+  <section class="content-section policy-content">
     <h2>Team roles</h2>
     <ul>
       <li><strong>Committer, reviewer, and approver:</strong> <a href="https://github.com/smith-and-web" target="_blank" rel="noopener">Josh Smith</a></li>
     </ul>
   </section>
 
-  <section class="content-section policy-content">
+  <section class="content-section alt policy-content">
     <h2>Build process</h2>
     <p>All signed artifacts are built using <a href="https://github.com/smith-and-web/kindling/blob/main/.github/workflows/release.yml" target="_blank" rel="noopener">GitHub Actions</a> on GitHub-hosted runners. The build process is fully automated and reproducible. No locally built artifacts are signed.</p>
     <p>Source code: <a href="https://github.com/smith-and-web/kindling" target="_blank" rel="noopener">github.com/smith-and-web/kindling</a></p>
