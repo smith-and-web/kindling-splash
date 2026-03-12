@@ -182,6 +182,13 @@ Most writing software is built for pantsers — discovery writers who find their
 
 Kindling was built around a simple premise: your outline and your prose should live together. When you write in Kindling, your scene outline is always visible — not in a separate window, right there in your writing environment.
 
+### How to Turn Your Novel Outline Into a First Draft
+
+URL: https://kindlingwriter.com/blog/how-to-turn-your-novel-outline-into-a-first-draft.html
+Published: March 11, 2026
+
+A step-by-step guide for plotters on turning a finished outline into a first draft. Covers the common challenges outline-first writers face when transitioning from planning to prose, including blank page paralysis, losing track of story beats, and maintaining momentum. Introduces beat-by-beat drafting techniques using expandable scene prompts, and explains how tools like Kindling keep your outline visible while you draft.
+
 ### Introducing Kindling: Open Beta is Here
 
 URL: https://kindlingwriter.com/blog/introducing-kindling-open-beta.html

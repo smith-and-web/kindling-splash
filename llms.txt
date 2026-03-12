@@ -16,6 +16,7 @@
 
 - [Best Scrivener Alternatives for Plotters and Outliners (2026)](https://kindlingwriter.com/blog/best-scrivener-alternatives-for-plotters.html): Comparison of writing tools for outline-first writers including Kindling, Plottr, Manuskript, yWriter, Dabble, Novelcrafter, and The Novel Factory
 - [Why Plotters Need Better Writing Software](https://kindlingwriter.com/blog/why-plotters-need-better-writing-software.html): The workflow problem for outline-first writers and how Kindling solves it
+- [How to Turn Your Novel Outline Into a First Draft](https://kindlingwriter.com/blog/how-to-turn-your-novel-outline-into-a-first-draft.html): Step-by-step guide for plotters on turning a finished outline into a first draft with beat-by-beat drafting techniques
 - [Introducing Kindling: Open Beta is Here](https://kindlingwriter.com/blog/introducing-kindling-open-beta.html): Launch announcement for Kindling v1.0.0-beta
 
 ## Source Code
