@@ -1,6 +1,6 @@
 # Kindling — Full Site Content
 
-> Kindling is a free, open-source desktop writing application that bridges the gap between outlining and drafting. Built for novelists, screenwriters, and fiction writers who plan before they write. Import outlines from Plottr, yWriter, or Obsidian Longform; draft with your scene beats visible as expandable prompts; export to DOCX or Markdown. Built with Rust and Tauri for Windows, macOS, and Linux. MIT licensed. All data stays local on your machine.
+> Kindling is a free, open-source desktop writing application that bridges the gap between outlining and drafting. Built for plotters and plantsers — novelists, screenwriters, and fiction writers who want structure without rigidity. Import outlines from Plottr, yWriter, or Obsidian Longform, or start from scratch with Rolling Outline Mode. Draft with scene beats as expandable prompts, character references at your fingertips, and a command palette for fast access to everything. Export to DOCX or Markdown. Built with Rust and Tauri for Windows, macOS, and Linux. MIT licensed. All data stays local on your machine.
 
 ---
 
@@ -8,7 +8,7 @@
 
 URL: https://kindlingwriter.com/
 
-### Kindling — Free Writing Software for Plotters & Outliners
+### Kindling — Free Writing Software for Plotters & Plantsers
 
 Kindling is free, open-source writing software that bridges outlining and drafting for novelists and screenwriters.
 
@@ -30,28 +30,46 @@ URL: https://kindlingwriter.com/features/
 
 ### Everything you need to go from outline to draft
 
-Kindling turns your existing outline into a scaffolded writing space — scene beats as expandable prompts, character details at your fingertips, and export back to the tools you already use.
+Whether you outline every beat or discover your story as you write, Kindling gives you a scaffolded writing space — scene beats as expandable prompts, character details at your fingertips, and the flexibility to add structure at your own pace.
 
 #### Your outline, inside your writing space
 Scene beats from Plottr, yWriter, or Markdown outlines appear as expandable prompt sections in the drafting view. Writers click to reveal a beat, then compose prose directly into that section. No more blank pages — your preparation is right there with you.
 
+#### Write your way — Rolling Outline Mode
+Not every scene needs the same level of planning. Rolling Outline Mode gives each chapter and scene one of three planning states: Fixed (full beat scaffolding), Flexible (title and synopsis only), or Undefined (a placeholder you'll flesh out later). Promote scenes progressively as your story takes shape. This makes Kindling work for plantsers and discovery writers, not just strict plotters.
+
 #### The right details, right when you need them
 Characters and locations tagged in your scene automatically surface in a side panel. Physical descriptions, relationships, key notes — all visible while you write, without searching through separate documents. Pin frequently-used references. Unpin when you're done.
+
+#### Full control over your beats
+Beats are the building blocks of your scenes. Delete them, reorder them with drag-and-drop, split a long prose block into individual beats, or merge adjacent beats into one. A beat density indicator shows you at a glance how detailed each scene is.
+
+#### Capture ideas with discovery notes
+Press Cmd+D to jot a discovery note mid-scene — a subplot idea, a character insight, a plot thread to weave in later. Notes live alongside your prose and can be promoted to full beats when you're ready.
+
+#### Start from scratch
+You don't need an existing outline to use Kindling. Create a blank project and build your outline directly in the app. New scenes default to Undefined, so you can define structure as you go — or jump straight to Fixed if you already know your beats.
 
 #### Works with your existing tools
 Import from Plottr (.pltr), yWriter (.yw7), Obsidian Longform, or Markdown outlines. Write your scenes in Kindling's scaffolded view. Export finished work to DOCX, Markdown, or Obsidian Longform. Kindling fits into your workflow — it doesn't replace it.
 
-#### Your words stay on your computer
-Kindling is a desktop app. Your projects live on your hard drive as SQLite files — no cloud accounts, no subscriptions, no data collection. Works offline. Always fast. Always yours.
+#### Command palette
+Press Cmd+K to open the command palette. Fuzzy search across every action in Kindling — import, export, settings, navigation, and more. Fast access to everything without leaving the keyboard.
 
 #### Write without distractions
 A clean, focused writing interface that keeps you in the flow. Your outline structure sits quietly in the sidebar until you need it. Beats expand only when you're ready to write into them. No cluttered toolbars, no notification badges, no feature overload — just your words and the context you need.
+
+#### Your words stay on your computer
+Kindling is a desktop app. Your projects live on your hard drive as SQLite files — no cloud accounts, no subscriptions, no data collection. Works offline. Always fast. Always yours.
 
 #### Built for speed, not for bloat
 Kindling is built with Rust and Tauri — the same technology behind some of the fastest desktop apps on the market. It launches in under a second, uses a fraction of the memory of Electron-based writing tools, and keeps your projects stored as lightweight SQLite files.
 
 #### Pick up right where you left off
 Kindling remembers your cursor position, scroll state, and which scene you were working on. See a summary of the previous scene to get back into the flow. Your writing context is preserved between sessions.
+
+#### Automatic updates
+Kindling checks for updates on launch and downloads new versions silently in the background. When a new version is ready, you'll see a non-blocking banner — click to restart and you're on the latest version.
 
 ---
 
@@ -138,7 +156,7 @@ URL: https://kindlingwriter.com/download/
 
 ### Download Kindling
 
-Free. Open source. No account required. Version: v1.0.0-beta.
+Free. Open source. No account required. Version: v1.1.0.
 
 Available for:
 - macOS: Universal .dmg (Apple Silicon and Intel — signed and notarized by Apple)
@@ -161,6 +179,13 @@ System requirements:
 ---
 
 ## Blog
+
+### Kindling v1.1: Plantser Support, Rolling Outlines & Auto-Updates
+
+URL: https://kindlingwriter.com/blog/kindling-v1-1-plantser-support.html
+Published: March 16, 2026
+
+Kindling v1.1 is a major update that expands support beyond strict plotters to plantsers and discovery writers. New features include Rolling Outline Mode (progressive structure with Fixed, Flexible, and Undefined planning states), blank project creation, beat management (split, merge, reorder, delete), inline discovery notes, a command palette (Cmd+K), and automatic updates. The release reflects a broadened vision: structure at your own pace, not just pre-planned outlines.
 
 ### Best Scrivener Alternatives for Plotters and Outliners (2026)
 

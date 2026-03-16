@@ -1,11 +1,11 @@
 # Kindling
 
-> Kindling is a free, open-source desktop writing application that bridges the gap between outlining and drafting. Built for novelists, screenwriters, and fiction writers who plan before they write. Import outlines from Plottr, yWriter, or Obsidian Longform; draft with your scene beats visible as expandable prompts; export to DOCX or Markdown. Built with Rust and Tauri for Windows, macOS, and Linux. MIT licensed. All data stays local on your machine.
+> Kindling is a free, open-source desktop writing application that bridges the gap between outlining and drafting. Built for plotters and plantsers — novelists, screenwriters, and fiction writers who want structure without rigidity. Import outlines from Plottr, yWriter, or Obsidian Longform, or start from scratch with Rolling Outline Mode. Draft with scene beats as expandable prompts, character references at your fingertips, and a command palette for fast access to everything. Export to DOCX or Markdown. Built with Rust and Tauri for Windows, macOS, and Linux. MIT licensed. All data stays local on your machine.
 
 ## Key Pages
 
 - [Home](https://kindlingwriter.com/): Overview of Kindling and its unique approach to novel writing
-- [Features](https://kindlingwriter.com/features/): Expandable scene beats, character references, import/export, local-first architecture, distraction-free writing
+- [Features](https://kindlingwriter.com/features/): Rolling Outline Mode, expandable scene beats, beat management, discovery notes, character references, command palette, import/export, auto-updates, local-first architecture, distraction-free writing
 - [Download](https://kindlingwriter.com/download/): Free download for Windows 10+, macOS 12+ (universal, signed and notarized), and Linux — no account required
 - [Compare](https://kindlingwriter.com/compare/): How Kindling compares to Scrivener, Plottr, Dabble, and Novelcrafter with feature matrix
 - [Open Source](https://kindlingwriter.com/open-source/): MIT license, GitHub repository, technology stack (Rust, Tauri, Svelte 5, SQLite)
@@ -14,6 +14,7 @@
 
 ## Blog
 
+- [Kindling v1.1: Plantser Support, Rolling Outlines & Auto-Updates](https://kindlingwriter.com/blog/kindling-v1-1-plantser-support.html): Release announcement for v1.1 — Rolling Outline Mode, blank projects, beat management, discovery notes, command palette, and automatic updates
 - [Best Scrivener Alternatives for Plotters and Outliners (2026)](https://kindlingwriter.com/blog/best-scrivener-alternatives-for-plotters.html): Comparison of writing tools for outline-first writers including Kindling, Plottr, Manuskript, yWriter, Dabble, Novelcrafter, and The Novel Factory
 - [Why Plotters Need Better Writing Software](https://kindlingwriter.com/blog/why-plotters-need-better-writing-software.html): The workflow problem for outline-first writers and how Kindling solves it
 - [How to Turn Your Novel Outline Into a First Draft](https://kindlingwriter.com/blog/how-to-turn-your-novel-outline-into-a-first-draft.html): Step-by-step guide for plotters on turning a finished outline into a first draft with beat-by-beat drafting techniques
