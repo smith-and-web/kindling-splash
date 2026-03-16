@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Introducing Kindling: Open-Source Writing App for Plotters</title>
+  <title>Kindling v1.1: Plantser Support, Rolling Outlines & Auto-Updates</title>
 
   <!-- Canonical URL -->
-  <link rel="canonical" href="https://kindlingwriter.com/blog/introducing-kindling-open-beta.html">
+  <link rel="canonical" href="https://kindlingwriter.com/blog/kindling-v1-1-plantser-support.html">
 
   <!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-VJQ72G87FE"></script>
@@ -17,26 +17,26 @@
     gtag('config', 'G-VJQ72G87FE');
   </script>
 
-  <meta name="description" content="Kindling is a free, open-source desktop app that turns your outline into a first draft. Import from Plottr or yWriter, draft with beats visible. Now in beta.">
-  <meta name="keywords" content="Kindling, writing software, open beta, plotters, outliners, novelists, screenwriters, Plottr alternative, yWriter alternative, free writing app">
+  <meta name="description" content="Kindling v1.1 adds Rolling Outline Mode for plantsers, blank projects, beat management, command palette, guided onboarding, and automatic updates.">
+  <meta name="keywords" content="Kindling v1.1, plantser writing software, rolling outline, writing app update, free writing software, plotter pantser hybrid, command palette, auto-updater">
 
   <!-- Open Graph -->
-  <meta property="og:title" content="Introducing Kindling: Free Open-Source Writing App for Plotters">
-  <meta property="og:description" content="Kindling turns your novel outline into a first draft. Import from Plottr or yWriter, draft with your beats visible, and export to DOCX. Free and open source.">
+  <meta property="og:title" content="Kindling v1.1: Plantser Support, Rolling Outlines & Auto-Updates">
+  <meta property="og:description" content="Kindling v1.1 adds Rolling Outline Mode for plantsers, blank projects, beat management, a command palette, guided onboarding, and automatic updates.">
   <meta property="og:type" content="article">
-  <meta property="og:url" content="https://kindlingwriter.com/blog/introducing-kindling-open-beta.html">
+  <meta property="og:url" content="https://kindlingwriter.com/blog/kindling-v1-1-plantser-support.html">
   <meta property="og:image" content="https://kindlingwriter.com/og-image.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:site_name" content="Kindling">
-  <meta property="article:published_time" content="2026-01-29">
+  <meta property="article:published_time" content="2026-03-16">
   <meta property="article:author" content="Kindling">
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:site" content="@KindlingWriter">
-  <meta name="twitter:title" content="Introducing Kindling: Free Open-Source Writing App for Plotters">
-  <meta name="twitter:description" content="Kindling turns your novel outline into a first draft. Import from Plottr or yWriter, draft with your beats visible, and export to DOCX. Free and open source.">
+  <meta name="twitter:title" content="Kindling v1.1: Plantser Support, Rolling Outlines & Auto-Updates">
+  <meta name="twitter:description" content="Kindling v1.1 adds Rolling Outline Mode for plantsers, blank projects, beat management, a command palette, guided onboarding, and automatic updates.">
   <meta name="twitter:image" content="https://kindlingwriter.com/og-image.png">
 
   <!-- JSON-LD Structured Data -->
@@ -44,11 +44,11 @@
   {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
-    "headline": "Introducing Kindling: Free Open-Source Writing App for Plotters",
-    "description": "Kindling is a free, open-source desktop app that turns your novel outline into a first draft. Import from Plottr or yWriter, draft with your beats visible, and export to DOCX. Now in open beta.",
+    "headline": "Kindling v1.1: Plantser Support, Rolling Outlines & Auto-Updates",
+    "description": "Kindling v1.1 adds Rolling Outline Mode for plantsers, blank projects, beat management, command palette, guided onboarding, and automatic updates.",
     "image": "https://kindlingwriter.com/og-image.png",
-    "datePublished": "2026-01-29",
-    "dateModified": "2026-03-11",
+    "datePublished": "2026-03-16",
+    "dateModified": "2026-03-16",
     "author": {
       "@type": "Organization",
       "name": "Kindling",
@@ -64,7 +64,7 @@
     },
     "mainEntityOfPage": {
       "@type": "WebPage",
-      "@id": "https://kindlingwriter.com/blog/introducing-kindling-open-beta.html"
+      "@id": "https://kindlingwriter.com/blog/kindling-v1-1-plantser-support.html"
     }
   }
   </script>
@@ -297,62 +297,88 @@
 
     <header class="article-header">
       <div class="article-meta">
-        <span class="article-tag">Announcement</span>
-        <span>January 29, 2026</span>
+        <span class="article-tag">Release</span>
+        <span>March 16, 2026</span>
       </div>
-      <h1>Introducing Kindling: Open Beta is Here</h1>
-      <p class="article-intro">After months of development, we're thrilled to announce that Kindling v1.0.0-beta is now available for download. Here's our vision for bridging the gap between outlining and drafting.</p>
+      <h1>Kindling v1.1: Plantser Support, Rolling Outlines & Auto-Updates</h1>
+      <p class="article-intro">Kindling started as a tool for plotters. With v1.1, it's now a home for every kind of writer who plans — whether you outline obsessively, discover your story as you go, or land somewhere in between.</p>
     </header>
 
     <div class="article-content">
-      <p>If you're a plotter—someone who outlines, structures, and plans before writing—you've probably felt the frustration of switching between tools. Your outline lives in one app, your character notes in another, and when it's finally time to write? You're copying and pasting, losing context, and fighting your software instead of focusing on your story.</p>
+      <p>When we launched Kindling in beta, it was built around a simple idea: your outline should be visible while you write. That resonated with plotters — writers who plan every beat before drafting. But we kept hearing from writers who don't fit neatly into the plotter box. They plan <em>some</em> things. They discover others along the way. They're plantsers.</p>
 
-      <p>Today, we're launching the open beta of <strong>Kindling</strong>, a free and open-source writing application built specifically for plotters and outliners.</p>
+      <p>Kindling v1.1 is our answer: a release that makes the app flexible enough for writers at every point on the plotter-to-pantser spectrum, while keeping the structured scaffolding that plotters depend on.</p>
 
-      <h2>What Makes Kindling Different</h2>
+      <h2>Rolling Outline Mode</h2>
 
-      <p>Kindling isn't trying to be another general-purpose writing app. Instead, it's designed around one core idea: <strong>your outline and your prose should live together</strong>, informing each other as you write.</p>
-
-      <p>With Kindling, you can:</p>
+      <p>The headline feature in v1.1 is <strong>Rolling Outline Mode</strong> — a system that lets you control how much structure each chapter and scene has. Every scene now has one of three planning states:</p>
 
       <ul>
-        <li><strong>Import your existing outlines</strong> from tools like Plottr, yWriter, and Obsidian Longform—no need to start from scratch</li>
-        <li><strong>Write with your structure visible</strong>, so you always know where you are in your story</li>
-        <li><strong>Track scenes, chapters, and plot threads</strong> in a unified interface</li>
-        <li><strong>Export to DOCX or Markdown</strong> when you're ready to share or edit elsewhere</li>
+        <li><strong>Fixed</strong> — full beat scaffolding, references, and discovery notes. This is the existing Kindling experience that plotters know and love.</li>
+        <li><strong>Flexible</strong> — title and synopsis only. Beats are hidden until you're ready for them. Perfect for scenes you have a general idea about but haven't detailed yet.</li>
+        <li><strong>Undefined</strong> — a placeholder. You know the scene exists, but you haven't planned it yet.</li>
       </ul>
 
-      <h2>Free and Open Source Forever</h2>
+      <p>The key insight is that scenes can be <strong>promoted progressively</strong>: Undefined to Flexible to Fixed, as your story takes shape. The sidebar adapts automatically — Undefined chapters show a placeholder, Flexible chapters show simplified title-only scene lists, and Fixed chapters show the full outline with filters and drag-and-drop.</p>
 
-      <p>We believe writing tools should be accessible to everyone. Kindling is completely free, with no premium tiers, no subscriptions, and no feature gates. The source code is available on GitHub, and we welcome contributions from the community.</p>
+      <p>This means you can start a project with a vague sense of your story's arc and add structure incrementally. No more needing every beat planned before you open your drafting space.</p>
 
-      <p>This also means your work is truly yours. Kindling saves files locally—no cloud lock-in, no account required, no risk of a company shutting down and taking your manuscript with it.</p>
+      <h2>Blank Projects</h2>
 
-      <h2>What's in the Beta</h2>
+      <p>Until now, Kindling required you to import an outline from Plottr, yWriter, or Markdown. That made sense for the beta, but it was a barrier for writers who wanted to build their outline directly in Kindling.</p>
 
-      <p>The v1.0.0-beta release includes:</p>
+      <p>v1.1 adds <strong>File > New Project</strong> (<code>Cmd+N</code>). Start with an empty chapter and build your outline from scratch. New scenes default to Undefined, so you can define structure as you go — or jump straight to Fixed if you already know your beats.</p>
+
+      <h2>Beat Management</h2>
+
+      <p>Beats are the building blocks of your scenes in Kindling. v1.1 gives you much more control over them:</p>
 
       <ul>
-        <li>Full import support for Plottr, yWriter, and Obsidian Longform projects</li>
-        <li>A distraction-free writing editor with your outline always accessible</li>
-        <li>Scene and chapter management with drag-and-drop reordering</li>
-        <li>Word count tracking and session goals</li>
-        <li>Export to DOCX and Markdown formats</li>
-        <li>Native apps for macOS, Windows, and Linux</li>
+        <li><strong>Delete beats</strong> via context menu or keyboard</li>
+        <li><strong>Reorder beats</strong> with drag-and-drop</li>
+        <li><strong>Split prose into beats</strong> — break a long prose block into individual beats</li>
+        <li><strong>Merge beats</strong> — combine adjacent beats into one</li>
+        <li><strong>Beat density indicator</strong> — a visual gauge showing how detailed each scene is</li>
       </ul>
 
-      <h2>What's Next</h2>
+      <h2>Inline Discovery Notes</h2>
 
-      <p>This is just the beginning. Based on community feedback, we're planning to add character and location databases, timeline visualization, revision tracking, and more. We're building Kindling in the open, and your input will directly shape the roadmap.</p>
+      <p>Inspiration doesn't always arrive on schedule. Discovery notes (<code>Cmd+D</code>) let you capture ideas mid-writing without leaving your scene. They live alongside your prose and can be promoted to full beats when you're ready. Notes persist across sessions with snapshot support.</p>
 
-      <p>Join our <a href="https://discord.gg/g7bkj4kY8w">Discord community</a> to share feedback, report bugs, and connect with other writers. Or dive into the <a href="https://github.com/smith-and-web/kindling">GitHub repository</a> if you'd like to contribute.</p>
+      <p>This is especially useful for plantsers: you're writing a Fixed scene and suddenly realize a character needs a subplot three chapters from now. Jot a discovery note, keep writing, and deal with it later.</p>
 
-      <p>We can't wait to see what you create.</p>
+      <h2>Command Palette</h2>
+
+      <p>Press <code>Cmd+K</code> to open the command palette. Fuzzy search across all available actions — import, export, settings, navigation, and more. Arrow keys to navigate, Enter to execute. If you've used VS Code or Raycast, you'll feel right at home.</p>
+
+      <h2>Guided Onboarding</h2>
+
+      <p>First-time users now see a step-by-step guided tour covering the sidebar, scene panel, references panel, and sync. We've also added a sample project to explore immediately, plus a Quick Start guide accessible from the Help menu (<code>Cmd+Shift+H</code>).</p>
+
+      <h2>Sidebar UX Overhaul</h2>
+
+      <p>The sidebar got a serious cleanup. Export, Snapshots, and Archive are now tucked behind a "more" menu. Scene filters are consolidated into a compact toggle. Scene rows are cleaner with redundant icons removed. Context menus now include a flyout for planning status selection, and Flexible/Undefined chapters support inline synopsis editing.</p>
+
+      <h2>Auto-Updater</h2>
+
+      <p>This is the last version you'll need to download manually. Kindling now checks for updates automatically on launch. When a new version is available, it downloads silently in the background and shows a non-blocking banner: <em>"Kindling vX.Y.Z is ready — Restart to update."</em></p>
+
+      <h2>Start Screen Redesign</h2>
+
+      <p>The start screen now uses a two-column golden ratio layout (38.2% / 61.8%), giving more room to recent projects. The default window size is now 1600x1000 with a minimum of 1360x800.</p>
+
+      <h2>Upgrading</h2>
+
+      <p>If you have v1.0.x installed, just <a href="/download/">download v1.1.0</a> and install it over your existing installation. Your projects are stored separately and will be preserved. Going forward, Kindling will handle updates for you automatically.</p>
+
+      <p>For the full list of changes, see the <a href="https://github.com/smith-and-web/kindling/releases/tag/v1.1.0">release notes on GitHub</a>.</p>
+
+      <p>As always, we'd love to hear from you. Join us on <a href="https://discord.gg/g7bkj4kY8w">Discord</a>, open an issue on <a href="https://github.com/smith-and-web/kindling">GitHub</a>, or just start writing. That's what Kindling is for.</p>
 
       <div class="cta-box">
-        <h3>Ready to try Kindling?</h3>
-        <p>Download the beta for macOS, Windows, or Linux—completely free.</p>
-        <a href="/#download" class="cta-button">
+        <h3>Download Kindling v1.1</h3>
+        <p>Available for macOS, Windows, and Linux. Free and open source.</p>
+        <a href="/download/" class="cta-button">
           Download Now
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/>
