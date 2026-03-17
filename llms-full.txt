@@ -156,7 +156,7 @@ URL: https://kindlingwriter.com/download/
 
 ### Download Kindling
 
-Free. Open source. No account required. Version: v1.1.0.
+Free. Open source. No account required. Version: v1.1.2.
 
 Available for:
 - macOS: Universal .dmg (Apple Silicon and Intel — signed and notarized by Apple)
