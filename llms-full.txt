@@ -180,6 +180,13 @@ System requirements:
 
 ## Blog
 
+### The Best Story Outlining Software for Fiction Writers in 2026
+
+URL: https://kindlingwriter.com/blog/best-story-outlining-software-2026.html
+Published: March 30, 2026
+
+A comparison of six outlining tools for fiction writers: Scrivener ($59.99 one-time, all-in-one manuscript management), Plottr ($60–129/year, visual timeline planning), Novelcrafter ($4–20/month, AI-integrated worldbuilding), Dabble ($9–29/month, cross-device sync), Story Architect (free open-core, multi-format support), and Kindling (free open source, outline-aware drafting). Each tool is evaluated on pricing, strengths, and honest limitations, with guidance on choosing based on workflow preferences.
+
 ### Kindling v1.1: Plantser Support, Rolling Outlines & Auto-Updates
 
 URL: https://kindlingwriter.com/blog/kindling-v1-1-plantser-support.html
