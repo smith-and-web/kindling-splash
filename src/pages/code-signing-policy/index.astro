@@ -1,0 +1,50 @@
+---
+import MarketingLayout from '../../layouts/MarketingLayout.astro';
+---
+
+<MarketingLayout
+  title="Code Signing Policy — Kindling"
+  description="Kindling's code signing policy. macOS builds are signed with Apple Developer ID and notarized. Windows signing provided by SignPath.io."
+>
+  <section class="page-hero">
+    <h1>Code Signing Policy</h1>
+    <p class="page-hero-subtext">How Kindling's installers are signed to verify authenticity and integrity.</p>
+  </section>
+
+  <article class="content-section policy-content">
+    <h2>macOS</h2>
+    <p>Kindling's macOS installer is <strong>signed with an Apple Developer ID</strong> and <strong>notarized by Apple</strong>. This means macOS Gatekeeper will allow the app to open without any security workarounds. The universal DMG works on both Apple Silicon and Intel Macs.</p>
+  </article>
+
+  <section class="content-section alt policy-content">
+    <h2>Windows</h2>
+    <p>Windows code signing is provided by <a href="https://about.signpath.io" target="_blank" rel="noopener">SignPath.io</a>, with a certificate from <a href="https://signpath.org" target="_blank" rel="noopener">SignPath Foundation</a>. While this process is being finalized, Windows SmartScreen may show a warning for unrecognized apps. Click "More info" → "Run anyway" to proceed.</p>
+  </section>
+
+  <section class="content-section policy-content">
+    <h2>Team roles</h2>
+    <ul>
+      <li><strong>Committer, reviewer, and approver:</strong> <a href="https://github.com/smith-and-web" target="_blank" rel="noopener">Josh Smith</a></li>
+    </ul>
+  </section>
+
+  <section class="content-section alt policy-content">
+    <h2>Build process</h2>
+    <p>All signed artifacts are built using <a href="https://github.com/smith-and-web/kindling/blob/main/.github/workflows/release.yml" target="_blank" rel="noopener">GitHub Actions</a> on GitHub-hosted runners. The build process is fully automated and reproducible. No locally built artifacts are signed.</p>
+    <p>Source code: <a href="https://github.com/smith-and-web/kindling" target="_blank" rel="noopener">github.com/smith-and-web/kindling</a></p>
+  </section>
+
+  <section class="content-section alt policy-content">
+    <h2>Privacy</h2>
+    <p>This program does not transfer any information to other networked systems unless specifically requested by the user or the person installing or operating it.</p>
+    <p>Kindling does not collect, transmit, or store personal data. All project files remain on the user's computer. See our <a href="/privacy/">privacy policy</a> for details.</p>
+  </section>
+</MarketingLayout>
+
+<style>
+  .policy-content strong { color: var(--text-primary); }
+  .policy-content ul { margin: 16px 0; padding-left: 24px; }
+  .policy-content li { margin-bottom: 8px; line-height: 1.6; }
+  .policy-content a { color: var(--ember-orange); text-decoration: underline; }
+  .policy-content a:hover { color: var(--text-primary); }
+</style>

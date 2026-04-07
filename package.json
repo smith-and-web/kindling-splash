@@ -1,0 +1,34 @@
+{
+  "name": "kindling-splash",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/smith-and-web/kindling-splash.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/smith-and-web/kindling-splash/issues"
+  },
+  "homepage": "https://github.com/smith-and-web/kindling-splash#readme",
+  "dependencies": {
+    "@astrojs/sitemap": "^3.7.2",
+    "@astrojs/starlight": "^0.38.2",
+    "@astrojs/svelte": "^8.0.4",
+    "@fontsource/inter": "^5.2.8",
+    "@fontsource/lora": "^5.2.8",
+    "@fontsource/space-grotesk": "^5.2.10",
+    "astro": "^6.1.2",
+    "sharp": "^0.34.5",
+    "svelte": "^5.55.1"
+  }
+}

@@ -1,0 +1,255 @@
+---
+import Logo from './Logo.astro';
+
+const currentPath = Astro.url.pathname;
+
+const links = [
+  { href: '/features/', label: 'Features' },
+  { href: '/download/', label: 'Download' },
+  { href: '/compare/', label: 'Compare' },
+  { href: '/open-source/', label: 'Open Source' },
+  { href: '/blog/', label: 'Blog' },
+  { href: '/docs/getting-started/', label: 'Docs' },
+];
+
+function isActive(href: string): boolean {
+  if (href === '/') return currentPath === '/';
+  return currentPath.startsWith(href);
+}
+---
+
+<nav class="navbar">
+  <div class="navbar-container">
+    <a href="/" class="navbar-logo">
+      <Logo size="nav" />
+      <span>kindling</span>
+    </a>
+    <button class="navbar-toggle" type="button" aria-label="Toggle menu" aria-expanded="false">
+      <span class="navbar-toggle-icon"></span>
+    </button>
+    <div class="navbar-links">
+      {links.map(link => (
+        <a
+          href={link.href}
+          class:list={['navbar-link', { active: isActive(link.href) }]}
+        >
+          {link.label}
+        </a>
+      ))}
+      <a href="/download/" class="navbar-cta">Download</a>
+    </div>
+  </div>
+</nav>
+
+<style>
+  .navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background: rgba(15, 15, 15, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--surface-light);
+    padding: 0 24px;
+  }
+
+  .navbar-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+    width: 100%;
+  }
+
+  .navbar-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: var(--text-primary);
+    flex-shrink: 0;
+  }
+
+  .navbar-logo span {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+  }
+
+  .navbar-links {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .navbar-link {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    text-decoration: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    transition: color 0.2s, background-color 0.2s;
+  }
+
+  .navbar-link:hover {
+    color: var(--text-primary);
+    background: var(--surface);
+  }
+
+  .navbar-link.active {
+    color: var(--text-primary);
+    box-shadow: inset 0 -2px 0 0 var(--ember-orange);
+  }
+
+  .navbar-cta {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    color: white;
+    background: var(--ember-orange);
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    margin-left: 8px;
+    transition: background-color 0.2s;
+  }
+
+  .navbar-cta:hover {
+    background: var(--flame-orange);
+  }
+
+  /* Mobile nav toggle */
+  .navbar-toggle {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    background: none;
+    border: none;
+    border-radius: 6px;
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: background-color 0.2s;
+    flex-shrink: 0;
+  }
+
+  .navbar-toggle:hover {
+    background: var(--surface);
+  }
+
+  .navbar-toggle-icon {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: currentColor;
+    position: relative;
+    transition: background 0.2s;
+  }
+
+  .navbar-toggle-icon::before,
+  .navbar-toggle-icon::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    width: 22px;
+    height: 2px;
+    background: currentColor;
+    transition: transform 0.2s;
+  }
+
+  .navbar-toggle-icon::before { top: -7px; }
+  .navbar-toggle-icon::after { top: 7px; }
+
+  :global(.navbar-open) .navbar-toggle-icon {
+    background: transparent;
+  }
+
+  :global(.navbar-open) .navbar-toggle-icon::before {
+    transform: translateY(7px) rotate(45deg);
+  }
+
+  :global(.navbar-open) .navbar-toggle-icon::after {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+
+  @media (max-width: 768px) {
+    .navbar-container {
+      flex-wrap: wrap;
+    }
+
+    .navbar-toggle {
+      display: flex !important;
+      order: 2;
+    }
+
+    .navbar-links {
+      display: none !important;
+      position: absolute;
+      top: 64px;
+      left: 0;
+      right: 0;
+      flex-direction: column;
+      gap: 0;
+      padding: 16px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--surface-light);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      z-index: 1001;
+    }
+
+    :global(.navbar-open) .navbar-links {
+      display: flex !important;
+    }
+
+    .navbar-link {
+      padding: 12px 16px;
+      font-size: 16px;
+      border-radius: 8px;
+    }
+
+    .navbar-cta {
+      margin: 8px 0 0;
+      margin-left: 0;
+      padding: 12px 16px;
+      font-size: 16px;
+      display: flex;
+      justify-content: center;
+    }
+  }
+</style>
+
+<script>
+  const toggle = document.querySelector('.navbar-toggle');
+  const navbar = document.querySelector('.navbar');
+  if (toggle && navbar) {
+    toggle.addEventListener('click', () => {
+      const isOpen = navbar.classList.toggle('navbar-open');
+      toggle.setAttribute('aria-expanded', String(isOpen));
+      document.body.style.overflow = isOpen ? 'hidden' : '';
+    });
+
+    function closeMenu() {
+      navbar.classList.remove('navbar-open');
+      toggle!.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    }
+
+    navbar.querySelectorAll('.navbar-link, .navbar-cta').forEach(link => {
+      link.addEventListener('click', closeMenu);
+    });
+
+    document.addEventListener('click', (e) => {
+      if (navbar.classList.contains('navbar-open') && !navbar.contains(e.target as Node)) {
+        closeMenu();
+      }
+    });
+  }
+</script>

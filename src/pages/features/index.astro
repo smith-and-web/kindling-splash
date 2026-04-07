@@ -1,0 +1,200 @@
+---
+import MarketingLayout from '../../layouts/MarketingLayout.astro';
+import { APP_VERSION } from '../../data/downloads';
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Kindling Writer",
+  "description": "Free, open-source fiction writing software that keeps your outline visible while you draft. Built for plotters, pantsers, and every kind of fiction writer.",
+  "url": "https://kindlingwriter.com/",
+  "applicationCategory": "DesktopApplication",
+  "operatingSystem": "Windows, macOS, Linux",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "softwareVersion": APP_VERSION,
+  "license": "https://opensource.org/licenses/MIT",
+  "downloadUrl": "https://kindlingwriter.com/download/",
+  "screenshot": "https://kindlingwriter.com/og-image.png",
+  "author": {
+    "@type": "Organization",
+    "name": "Kindling",
+    "url": "https://kindlingwriter.com"
+  },
+  "featureList": [
+    "Rolling Outline Mode — progressive structure for plotters and plantsers",
+    "Blank projects — start from scratch without importing",
+    "Import outlines from Plottr, yWriter, Obsidian Longform, and Markdown",
+    "Expandable scene beats as writing prompts",
+    "Beat management — split, merge, reorder, and delete beats",
+    "Inline discovery notes to capture ideas mid-writing",
+    "Context-aware character and location references",
+    "Command palette for quick access to all actions",
+    "Export to DOCX, Markdown, and Obsidian Longform",
+    "Local-first — all data stays on your computer",
+    "Distraction-free writing interface",
+    "Automatic updates — never download manually again",
+    "Built with Rust and Tauri for fast performance",
+    "Session persistence — pick up where you left off",
+    "Free and open source under MIT license"
+  ]
+};
+
+const faqStructuredData = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What file formats does Kindling support?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Kindling imports from Plottr (.pltr), yWriter (.yw7), Obsidian Longform, and Markdown outlines. It exports to DOCX, Markdown, and Obsidian Longform format. This lets you bring in your existing outline and export finished work to the tools you already use."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is Kindling open source?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Kindling is fully open source under the MIT license. The complete source code is available on GitHub at https://github.com/smith-and-web/kindling. Anyone can inspect, modify, and redistribute the code."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does Kindling send data to the cloud?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. Kindling is a local-first desktop application. Your projects are stored as SQLite files on your hard drive. Kindling does not require an account, does not phone home, does not collect analytics, and does not upload your manuscripts. Your data never leaves your machine."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is Kindling built with?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Kindling is built with Rust and Tauri 2.x for the backend, providing fast performance and a small ~10MB application size. The user interface is built with Svelte 5. Project data is stored in SQLite databases. It launches in under a second and uses a fraction of the memory of Electron-based writing tools."
+      }
+    }
+  ]
+};
+---
+
+<MarketingLayout
+  title="Kindling Writer Features — Free Fiction Writing Software for Plotters & Pantsers"
+  description="Writing software for plotters and pantsers. Rolling outlines, expandable scene beats, character references, command palette, auto-updates. Free & open source."
+  structuredData={structuredData}
+>
+  <script type="application/ld+json" set:html={JSON.stringify(faqStructuredData)} />
+
+  <section class="page-hero">
+    <h1>Everything you need to go from outline to draft</h1>
+    <p class="page-hero-subtext">Whether you outline every beat or discover your story as you write, Kindling gives you a scaffolded writing space — scene beats as expandable prompts, character details at your fingertips, and the flexibility to add structure at your own pace.</p>
+    <a href="/download/" class="download-btn">Download Kindling — Free</a>
+    <video autoplay loop muted playsinline preload="metadata" poster="/hero-poster.jpg" width="804" height="556" style="margin-top: 32px; max-width: 100%; height: auto; border-radius: 12px;" aria-label="Scaffolded writing view with scene beats expanded">
+      <source src="/demo-2.mp4" type="video/mp4">
+    </video>
+  </section>
+
+  <section class="content-section">
+    <h2>Your outline, inside your writing space</h2>
+    <p>Scene beats from Plottr, yWriter, or Markdown outlines appear as expandable prompt sections in the drafting view. Writers click to reveal a beat, then compose prose directly into that section. No more blank pages — your preparation is right there with you.</p>
+    <img src="/scene-panel.png" alt="Collapsed beats with one expanded showing prose being written into it" width="1478" height="1536" loading="lazy" decoding="async" style="max-width: 100%; height: auto; border-radius: 12px; margin: 24px 0;">
+    <div class="callout">No more switching between your outline doc and a blank page.</div>
+  </section>
+
+  <section class="content-section alt">
+    <h2>Write your way — Rolling Outline Mode</h2>
+    <p>Not every scene needs the same level of planning. Rolling Outline Mode gives each chapter and scene one of three planning states: <strong>Fixed</strong> (full beat scaffolding), <strong>Flexible</strong> (title and synopsis only), or <strong>Undefined</strong> (a placeholder you'll flesh out later). Promote scenes progressively as your story takes shape — the sidebar adapts automatically.</p>
+    <p>This makes Kindling work for plantsers and discovery writers, not just strict plotters. Start with a vague story arc and add structure incrementally, or outline every beat upfront — your choice.</p>
+    <div class="callout">Undefined → Flexible → Fixed. Add structure at your own pace.</div>
+  </section>
+
+  <section class="content-section">
+    <h2>The right details, right when you need them</h2>
+    <p>Characters and locations tagged in your scene automatically surface in a side panel. Physical descriptions, relationships, key notes — all visible while you write, without searching through separate documents. Pin frequently-used references. Unpin when you're done.</p>
+    <img src="/references-panel.png" alt="Reference panel showing a character card alongside the writing area" width="2726" height="2038" loading="lazy" decoding="async" style="max-width: 100%; height: auto; border-radius: 12px; margin: 24px 0;">
+    <div class="callout">Your character had green eyes in chapter 3. Kindling makes sure they still do in chapter 30.</div>
+  </section>
+
+  <section class="content-section alt">
+    <h2>Full control over your beats</h2>
+    <p>Beats are the building blocks of your scenes. Delete them, reorder them with drag-and-drop, split a long prose block into individual beats, or merge adjacent beats into one. A beat density indicator shows you at a glance how detailed each scene is.</p>
+  </section>
+
+  <section class="content-section">
+    <h2>Capture ideas with discovery notes</h2>
+    <p>Inspiration doesn't wait for your outline. Press <strong>Cmd+D</strong> to jot a discovery note mid-scene — a subplot idea, a character insight, a plot thread to weave in later. Notes live alongside your prose and can be promoted to full beats when you're ready. They persist across sessions with snapshot support.</p>
+  </section>
+
+  <section class="content-section alt">
+    <h2>Start from scratch</h2>
+    <p>You don't need an existing outline to use Kindling. Create a blank project with <strong>File → New Project</strong> and build your outline directly in the app. New scenes default to Undefined, so you can define structure as you go — or jump straight to Fixed if you already know your beats.</p>
+  </section>
+
+  <section class="content-section">
+    <h2>Works with your existing tools</h2>
+    <p>Import from Plottr (.pltr), yWriter (.yw7), Obsidian Longform, or Markdown outlines. Write your scenes in Kindling's scaffolded view. Export finished work to DOCX, Markdown, or Obsidian Longform. Kindling fits into your workflow — it doesn't replace it.</p>
+    <div class="flow-diagram">
+      <div class="flow-node">
+        <span class="flow-label">Import</span>
+        <span class="flow-formats">Plottr · yWriter · Obsidian Longform · Markdown</span>
+      </div>
+      <span class="flow-arrow" aria-hidden="true">↓</span>
+      <div class="flow-node flow-node-center">
+        <span class="flow-label">Kindling</span>
+        <span class="flow-formats">Write & edit</span>
+      </div>
+      <span class="flow-arrow" aria-hidden="true">↓</span>
+      <div class="flow-node">
+        <span class="flow-label">Export</span>
+        <span class="flow-formats">DOCX · Markdown · Obsidian Longform</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="content-section alt">
+    <h2>Command palette</h2>
+    <p>Press <strong>Cmd+K</strong> to open the command palette. Fuzzy search across every action in Kindling — import, export, settings, navigation, and more. Arrow keys to navigate, Enter to execute. Fast access to everything without leaving the keyboard.</p>
+  </section>
+
+  <section class="content-section">
+    <h2>Write without distractions</h2>
+    <p>A clean, focused writing interface that keeps you in the flow. Your outline structure sits quietly in the sidebar until you need it. Beats expand only when you're ready to write into them. No cluttered toolbars, no notification badges, no feature overload — just your words and the context you need.</p>
+    <img src="/beat-with-prose.png" alt="Distraction-free writing view with an expanded beat and prose editor" width="1478" height="1536" loading="lazy" decoding="async" style="max-width: 100%; height: auto; border-radius: 12px; margin: 24px 0;">
+    <div class="callout">The best writing app is the one that gets out of your way.</div>
+  </section>
+
+  <section class="content-section alt">
+    <h2>Your words stay on your computer</h2>
+    <p>Kindling is a desktop app. Your projects live on your hard drive as SQLite files — no cloud accounts, no subscriptions, no data collection. Works offline. Always fast. Always yours. <a href="/open-source/" style="color: var(--ember-orange);">Learn more about our open-source commitment.</a></p>
+    <div class="callout">No account required. No internet required. No strings attached.</div>
+  </section>
+
+  <section class="content-section">
+    <h2>Built for speed, not for bloat</h2>
+    <p>Kindling is built with Rust and Tauri — the same technology behind some of the fastest desktop apps on the market. It launches in under a second, uses a fraction of the memory of Electron-based writing tools, and keeps your projects stored as lightweight SQLite files. No sluggish startup, no spinning wheels, no waiting around to get to work.</p>
+    <div class="callout">A novel-length project. A sub-second launch. That's the Rust difference.</div>
+  </section>
+
+  <section class="content-section alt">
+    <h2>Pick up right where you left off</h2>
+    <p>Kindling remembers your cursor position, scroll state, and which scene you were working on. See a summary of the previous scene to get back into the flow. Your writing context is preserved between sessions.</p>
+  </section>
+
+  <section class="content-section">
+    <h2>Automatic updates</h2>
+    <p>Kindling checks for updates on launch and downloads new versions silently in the background. When a new version is ready, you'll see a non-blocking banner — click to restart and you're on the latest version. No more manually checking GitHub for releases.</p>
+  </section>
+
+  <section class="cta-section">
+    <h2>Ready to spark your draft?</h2>
+    <p>Free, open source, MIT licensed. <a href="/compare/" style="color: var(--ember-orange);">See how Kindling compares</a> to Scrivener, Plottr, and other writing tools.</p>
+    <div class="download-buttons single">
+      <a href="/download/" class="download-btn">Download Kindling — Free</a>
+    </div>
+  </section>
+</MarketingLayout>

@@ -1,0 +1,166 @@
+---
+import MarketingLayout from '../../layouts/MarketingLayout.astro';
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Is Kindling free?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Kindling is completely free and open-source under the MIT license. There are no premium tiers, no subscriptions, and no feature gates. It is free forever."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What platforms does Kindling run on?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Kindling is available for Windows 10 and later, macOS 12 (Monterey) and later (universal binary — works on both Apple Silicon and Intel Macs), and Linux (x86_64 AppImage). It is a native desktop application built with Rust and Tauri. The macOS build is signed with an Apple Developer ID and notarized by Apple."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How is Kindling different from Scrivener?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Scrivener excels at manuscript management, compilation, and long-term project organization. When you open a new scene in Scrivener, you get a blank page. Kindling pre-populates your drafting space with your synopsis beats and character context, so you never face a blank page. Many writers use Kindling alongside Scrivener — drafting scenes in Kindling, then exporting to Scrivener for revision and compilation. Scrivener costs $49 one-time; Kindling is free."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can Kindling import from Plottr?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Kindling imports Plottr (.pltr) files directly and turns your beats into expandable writing prompts. It also imports from yWriter (.yw7), Obsidian Longform, and Markdown outlines. Your character and location cards surface automatically while you write."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What file formats does Kindling support?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Kindling imports from Plottr (.pltr), yWriter (.yw7), Obsidian Longform, and Markdown outlines. It exports to DOCX, Markdown, and Obsidian Longform format. This lets you bring in your existing outline and export finished work to the tools you already use."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does Kindling use AI to write?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. Kindling provides structure and context, not generated text. Your writing is 100% yours — Kindling never suggests, autocompletes, or generates prose. There are no subscription fees, no API costs, and no data sent to external servers. It is built for writers who want to write, not outsource their creativity."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is Kindling offline and local-first?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Kindling is a desktop application that works completely offline. Your projects are stored as SQLite files on your hard drive — no cloud accounts, no internet connection required, and no data collection. Your words stay on your computer."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does Kindling send my writing to the cloud?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. Kindling is a local-first desktop application. It does not require an account, does not phone home, does not collect analytics, and does not upload your manuscripts. Your projects are stored as SQLite files on your hard drive — just like a Word document. Back them up however you want."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is Kindling open source?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Kindling is fully open source under the MIT license. The complete source code is available on GitHub at https://github.com/smith-and-web/kindling. Anyone can inspect, modify, and redistribute the code. If the project ever stopped being maintained, the community could carry it forward."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is Kindling built with?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Kindling is built with Rust and Tauri 2.x for the backend, providing fast performance and a small ~10MB application size. The user interface is built with Svelte 5. Project data is stored in SQLite databases. It launches in under a second and uses a fraction of the memory of Electron-based writing tools."
+      }
+    }
+  ]
+};
+---
+
+<MarketingLayout
+  title="FAQ — Kindling Writer | Free Fiction Writing Software for Plotters & Pantsers"
+  description="Answers to common questions about Kindling — free, open-source writing software for plotters and pantsers. Pricing, platforms, imports, privacy, and more."
+  structuredData={structuredData}
+>
+  <section class="page-hero">
+    <h1>Frequently Asked Questions</h1>
+    <p class="page-hero-subtext">Everything you need to know about Kindling — the free, open-source writing app built for plotters and outliners.</p>
+  </section>
+
+  <section class="content-section">
+    <h2>Is Kindling free?</h2>
+    <p>Yes. Kindling is completely free and open-source under the <a href="https://opensource.org/licenses/MIT">MIT license</a>. There are no premium tiers, no subscriptions, and no feature gates. It is free forever.</p>
+  </section>
+
+  <section class="content-section alt">
+    <h2>What platforms does Kindling run on?</h2>
+    <p>Kindling is available for <strong>Windows 10+</strong>, <strong>macOS 12+</strong> (universal binary — Apple Silicon and Intel), and <strong>Linux</strong> (x86_64 AppImage). It's a native desktop application built with Rust and Tauri — about 10MB total. The macOS build is signed and notarized by Apple.</p>
+    <p><a href="/download/">Download Kindling for your platform &rarr;</a></p>
+  </section>
+
+  <section class="content-section">
+    <h2>How is Kindling different from Scrivener?</h2>
+    <p>Scrivener excels at manuscript management, compilation, and long-term project organization. When you open a new scene in Scrivener, you get a blank page. Kindling pre-populates your drafting space with your synopsis beats and character context, so you never face a blank page.</p>
+    <p>Many writers use Kindling alongside Scrivener — drafting scenes in Kindling, then exporting to Scrivener for revision and compilation. Scrivener costs $49 one-time; Kindling is free.</p>
+    <p><a href="/compare/">See the full comparison &rarr;</a></p>
+  </section>
+
+  <section class="content-section alt">
+    <h2>Can Kindling import from Plottr?</h2>
+    <p>Yes. Kindling imports <strong>Plottr (.pltr)</strong> files directly and turns your beats into expandable writing prompts. It also imports from <strong>yWriter (.yw7)</strong>, <strong>Obsidian Longform</strong>, and <strong>Markdown outlines</strong>. Your character and location cards surface automatically while you write.</p>
+  </section>
+
+  <section class="content-section">
+    <h2>What file formats does Kindling support?</h2>
+    <p><strong>Import:</strong> Plottr (.pltr), yWriter (.yw7), Obsidian Longform, and Markdown outlines.</p>
+    <p><strong>Export:</strong> DOCX, Markdown, and Obsidian Longform format.</p>
+    <p>This lets you bring in your existing outline and export finished work to the tools you already use.</p>
+  </section>
+
+  <section class="content-section alt">
+    <h2>Does Kindling use AI to write?</h2>
+    <p>No. Kindling provides structure and context, not generated text. Your writing is 100% yours — Kindling never suggests, autocompletes, or generates prose. There are no subscription fees, no API costs, and no data sent to external servers.</p>
+    <p><strong>Kindling is built for writers who want to write, not outsource their creativity.</strong></p>
+  </section>
+
+  <section class="content-section">
+    <h2>Is Kindling offline and local-first?</h2>
+    <p>Yes. Kindling is a desktop application that works completely offline. Your projects are stored as SQLite files on your hard drive — no cloud accounts, no internet connection required, and no data collection. Your words stay on your computer.</p>
+  </section>
+
+  <section class="content-section alt">
+    <h2>Does Kindling send my writing to the cloud?</h2>
+    <p>No. Kindling doesn't require an account, doesn't phone home, doesn't collect analytics, and doesn't upload your manuscripts. Your projects are stored as SQLite files on your hard drive — just like a Word document. Back them up however you want. Move them between computers with a USB drive. They're yours.</p>
+  </section>
+
+  <section class="content-section">
+    <h2>Is Kindling open source?</h2>
+    <p>Yes. Kindling is fully open source under the <a href="https://opensource.org/licenses/MIT">MIT license</a>. The complete source code is available on <a href="https://github.com/smith-and-web/kindling" target="_blank" rel="noopener">GitHub</a>. Anyone can inspect, modify, and redistribute the code. If the project ever stopped being maintained, the community could carry it forward.</p>
+    <p><a href="/open-source/">Learn more about our open-source philosophy &rarr;</a></p>
+  </section>
+
+  <section class="content-section alt">
+    <h2>What is Kindling built with?</h2>
+    <p><strong>Rust</strong> and <strong>Tauri 2.x</strong> for the backend, providing fast performance and a small ~10MB application size. The user interface is built with <strong>Svelte 5</strong>. Project data is stored in <strong>SQLite</strong> databases. It launches in under a second and uses a fraction of the memory of Electron-based writing tools.</p>
+  </section>
+
+  <section class="cta-section">
+    <h2>Ready to try it?</h2>
+    <p>Free, open source, no account required.</p>
+    <div class="download-buttons single">
+      <a href="/download/" class="download-btn">Download Kindling — Free</a>
+    </div>
+  </section>
+</MarketingLayout>

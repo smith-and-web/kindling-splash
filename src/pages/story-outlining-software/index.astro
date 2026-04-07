@@ -1,0 +1,277 @@
+---
+import MarketingLayout from '../../layouts/MarketingLayout.astro';
+import SmartDownloadButton from '../../components/SmartDownloadButton.svelte';
+import { APP_VERSION } from '../../data/downloads';
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Kindling Writer",
+  "description": "Free, open-source story outlining software that keeps your outline visible while you draft. Built for fiction writers who plan.",
+  "url": "https://kindlingwriter.com/",
+  "applicationCategory": "DesktopApplication",
+  "operatingSystem": "Windows, macOS, Linux",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "softwareVersion": APP_VERSION,
+  "license": "https://opensource.org/licenses/MIT",
+  "downloadUrl": "https://kindlingwriter.com/download/",
+  "author": {
+    "@type": "Organization",
+    "name": "Kindling",
+    "url": "https://kindlingwriter.com"
+  }
+};
+
+const faqStructuredData = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is story outlining software?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Story outlining software helps fiction writers plan the structure of a novel, screenplay, or series before (or while) they write. It typically lets you organize chapters, scenes, and beats, track characters and locations, and see the shape of your story at a glance."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I use Kindling for pantsing or discovery writing?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Kindling's Rolling Outline mode lets each scene have its own level of structure — from fully planned beats (Fixed) to a bare placeholder (Undefined). You can start with almost no outline and add structure as you discover your story."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is Kindling free?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Kindling is completely free and open source under the MIT license. No account, subscription, or payment required. Desktop app for macOS, Windows, and Linux."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I import my outline from another tool?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Kindling imports outlines from Plottr (.pltr), Scrivener 3 (.scriv), yWriter (.yw7), Obsidian Longform, and Markdown files. Your characters, locations, scene beats, and structure are preserved."
+      }
+    }
+  ]
+};
+---
+
+<MarketingLayout
+  title="Story Outlining Software for Fiction Writers — Kindling Writer (Free)"
+  description="Most outlining tools stop at the plan. Kindling keeps your story outline visible while you write, turning scene beats into drafting prompts. Free, open-source, works offline."
+  structuredData={structuredData}
+>
+  <script type="application/ld+json" set:html={JSON.stringify(faqStructuredData)} />
+
+  <!-- ===== Hero ===== -->
+  <section class="page-hero">
+    <h1>Story outlining software that doesn't stop at the outline</h1>
+    <p class="page-hero-subtext">Most outlining tools help you plan a story. Then they hand you a blank page and wish you luck. Kindling keeps your outline visible while you write — so every scene starts with structure, not silence.</p>
+    <SmartDownloadButton client:load location="story-outlining-hero" />
+  </section>
+
+  <!-- ===== The Problem ===== -->
+  <section class="content-section">
+    <h2>The outline-to-draft gap</h2>
+    <p>You've spent weeks building a beat sheet. You know your characters, your turning points, your act structure. The outline is finished. Time to write.</p>
+    <p>You open your writing app. Blank page. Blinking cursor. Your outline is in another window, another tab, another app entirely. You start flipping back and forth — outline, manuscript, outline, manuscript — and the flow you're trying to build keeps breaking.</p>
+    <p>This is the gap most story outlining software ignores. Planning tools are great at helping you <em>plan</em>. But when it's time to <em>write</em>, you're on your own.</p>
+    <p><strong>Kindling closes that gap.</strong> It puts your scene beats directly in your drafting space, so your outline becomes writing prompts instead of a reference document you never look at again.</p>
+  </section>
+
+  <!-- ===== What Makes Kindling Different ===== -->
+  <section class="content-section alt">
+    <h2>What makes Kindling different from other outlining tools</h2>
+
+    <h3>Your outline lives inside your drafting view</h3>
+    <p>When you open a scene in Kindling, your beats are already there — collapsible cards you can expand and write into. You're never staring at a blank page wondering what comes next. Click a beat, write the prose, collapse it, move on. Your outline isn't a separate document — it's the scaffolding for your first draft.</p>
+
+    <h3>Rolling Outline: structure at your own pace</h3>
+    <p>Not every scene needs the same level of planning. Kindling's Rolling Outline system gives each scene one of three states:</p>
+    <ul>
+      <li><strong>Fixed</strong> — Full beat scaffolding, references, and discovery notes. For scenes you've fully planned.</li>
+      <li><strong>Flexible</strong> — Title and synopsis only. Beats are hidden until you're ready to expand.</li>
+      <li><strong>Undefined</strong> — A placeholder. You know this scene exists, but you haven't figured it out yet.</li>
+    </ul>
+    <p>Promote scenes progressively as your story takes shape. This is how plantsers actually work — you don't plan everything upfront, and your tools shouldn't force you to.</p>
+
+    <h3>Characters and locations surface automatically</h3>
+    <p>The References panel shows characters, locations, and items linked to each scene. When you open a scene, the context you need is right there — no tab switching, no searching through a research folder. Smart detection can even scan your prose and suggest references you've mentioned but haven't linked yet.</p>
+
+    <h3>Import from the tools you already use</h3>
+    <p>You don't have to start from scratch. Kindling imports outlines from:</p>
+    <ul>
+      <li><strong>Plottr</strong> (.pltr) — Timelines, beats, characters, and locations</li>
+      <li><strong>Scrivener 3</strong> (.scriv) — Binder hierarchy, synopses, and prose</li>
+      <li><strong>yWriter</strong> (.yw7) — Chapters, scenes, goal/conflict/outcome beats, and references</li>
+      <li><strong>Obsidian Longform</strong> — Scene files, frontmatter metadata, and wikilinked references</li>
+      <li><strong>Markdown</strong> (.md) — Simple heading-based outlines (H1 = chapter, H2 = scene)</li>
+    </ul>
+    <p>Your structure, characters, and notes come with you. No retyping, no copy-paste.</p>
+  </section>
+
+  <!-- ===== Comparison Table ===== -->
+  <section class="content-section">
+    <h2>Outlining features compared</h2>
+    <p>How does Kindling's outlining stack up against dedicated planning tools?</p>
+    <div class="comparison-table-wrap">
+      <table class="comparison-table">
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th>Kindling</th>
+            <th>Plottr</th>
+            <th>Scrivener</th>
+            <th>Dabble</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Outline visible while drafting</td>
+            <td class="check">&#10003;</td>
+            <td class="cross">&#10007; (no drafting)</td>
+            <td>Partial (inspector)</td>
+            <td class="cross">&#10007;</td>
+          </tr>
+          <tr>
+            <td>Scene beats as writing prompts</td>
+            <td class="check">&#10003;</td>
+            <td class="cross">&#10007;</td>
+            <td class="cross">&#10007;</td>
+            <td class="cross">&#10007;</td>
+          </tr>
+          <tr>
+            <td>Progressive structure (Rolling Outline)</td>
+            <td class="check">&#10003;</td>
+            <td class="cross">&#10007;</td>
+            <td class="cross">&#10007;</td>
+            <td class="cross">&#10007;</td>
+          </tr>
+          <tr>
+            <td>Character/location refs in drafting view</td>
+            <td class="check">&#10003;</td>
+            <td class="cross">&#10007;</td>
+            <td>Partial</td>
+            <td class="cross">&#10007;</td>
+          </tr>
+          <tr>
+            <td>Beat management (split, merge, reorder)</td>
+            <td class="check">&#10003;</td>
+            <td class="check">&#10003;</td>
+            <td class="cross">&#10007;</td>
+            <td class="cross">&#10007;</td>
+          </tr>
+          <tr>
+            <td>Visual timeline</td>
+            <td class="cross">&#10007;</td>
+            <td class="check">&#10003;</td>
+            <td class="cross">&#10007;</td>
+            <td class="cross">&#10007;</td>
+          </tr>
+          <tr>
+            <td>Beat sheet templates</td>
+            <td class="check">&#10003;</td>
+            <td class="check">&#10003;</td>
+            <td class="cross">&#10007;</td>
+            <td class="cross">&#10007;</td>
+          </tr>
+          <tr>
+            <td>Import from other tools</td>
+            <td class="check">&#10003; (5 formats)</td>
+            <td class="cross">&#10007;</td>
+            <td class="cross">&#10007;</td>
+            <td class="cross">&#10007;</td>
+          </tr>
+          <tr>
+            <td>Export to DOCX / EPUB / Scrivener</td>
+            <td class="check">&#10003;</td>
+            <td>DOCX only</td>
+            <td class="check">&#10003;</td>
+            <td>DOCX only</td>
+          </tr>
+          <tr>
+            <td>Free / open source</td>
+            <td class="check">&#10003;</td>
+            <td class="cross">$99–149</td>
+            <td class="cross">$49</td>
+            <td class="cross">~$10/mo</td>
+          </tr>
+          <tr>
+            <td>Works offline</td>
+            <td class="check">&#10003;</td>
+            <td class="check">&#10003;</td>
+            <td class="check">&#10003;</td>
+            <td class="cross">&#10007;</td>
+          </tr>
+          <tr>
+            <td>AI-free</td>
+            <td class="check">&#10003;</td>
+            <td class="check">&#10003;</td>
+            <td class="check">&#10003;</td>
+            <td class="check">&#10003;</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ===== Who This Is For ===== -->
+  <section class="content-section alt">
+    <h2>Who is Kindling for?</h2>
+    <ul style="list-style: none; padding: 0;">
+      <li style="margin-bottom: 12px;"><strong>Plotters</strong> who build detailed outlines but stall when it's time to write prose. Kindling turns your beat sheet into a drafting environment where structure is always visible.</li>
+      <li style="margin-bottom: 12px;"><strong>Plantsers</strong> who want <em>some</em> structure but not a rigid outline. Rolling Outline mode lets you start with vague placeholders and define scenes as you go.</li>
+      <li style="margin-bottom: 12px;"><strong>NaNoWriMo participants</strong> who need to move fast from plan to draft. Import your existing outline, and your beats become instant writing prompts.</li>
+      <li style="margin-bottom: 12px;"><strong>Series authors</strong> tracking characters, locations, and plot threads across multiple books. References and custom fields keep your series bible next to your drafting space.</li>
+      <li style="margin-bottom: 12px;"><strong>Screenwriters</strong> outlining feature films or pilots. Kindling's screenplay project type adds sluglines, page count estimation, and treatment generation.</li>
+    </ul>
+  </section>
+
+  <!-- ===== Supported Formats ===== -->
+  <section class="content-section">
+    <h2>Works with your existing outline</h2>
+    <p>Already have an outline somewhere? Kindling imports from five formats, preserving your structure, characters, and notes:</p>
+    <ul>
+      <li><strong>Plottr</strong> — Scene cards, character arcs, timelines, and custom attributes</li>
+      <li><strong>Scrivener 3</strong> — Binder hierarchy, synopses, and draft content</li>
+      <li><strong>yWriter</strong> — Full project structure including goal/conflict/outcome beats</li>
+      <li><strong>Obsidian Longform</strong> — Scene files with frontmatter metadata and wikilinks</li>
+      <li><strong>Markdown</strong> — Any heading-based outline (H1 chapters, H2 scenes, list-item beats)</li>
+    </ul>
+    <p>When you're done drafting, export to DOCX (Standard Manuscript Format), Scrivener, Markdown, Obsidian Longform, or EPUB. See the full <a href="/docs/importing-projects/">import</a> and <a href="/docs/exporting-projects/">export</a> documentation.</p>
+  </section>
+
+  <!-- ===== FAQ ===== -->
+  <section class="content-section alt">
+    <h2>Frequently asked questions</h2>
+
+    <h3>What is story outlining software?</h3>
+    <p>Story outlining software helps fiction writers plan the structure of a novel, screenplay, or series before (or while) they write. It typically lets you organize chapters, scenes, and beats, track characters and locations, and see the shape of your story at a glance.</p>
+
+    <h3>Can I use Kindling if I'm a pantser?</h3>
+    <p>Yes. Kindling's Rolling Outline mode lets you start with almost no structure. Create blank chapters, mark scenes as "Undefined," and fill in detail as you discover your story. You can also create a completely blank project with File &rarr; New Project and build your outline as you go.</p>
+
+    <h3>Does Kindling replace Plottr or Scrivener?</h3>
+    <p>Not necessarily. Many writers use Kindling alongside their existing tools. Plan in Plottr, draft in Kindling, revise in Scrivener. Kindling imports from both and exports to Scrivener, so they work well together. See our <a href="/compare/">detailed comparison</a>.</p>
+
+    <h3>Is Kindling really free?</h3>
+    <p>Yes. Kindling is MIT-licensed open source software. No accounts, no subscriptions, no feature gates, no data collection. It's free forever. <a href="/open-source/">Learn more about the open source model.</a></p>
+  </section>
+
+  <!-- ===== Bottom CTA ===== -->
+  <section class="cta-section">
+    <h2>Your outline deserves better than a blank page</h2>
+    <p>Free, open source, works offline. macOS, Windows, and Linux.</p>
+    <SmartDownloadButton client:visible location="story-outlining-cta" />
+  </section>
+</MarketingLayout>

@@ -1,0 +1,755 @@
+/* ===== CSS Custom Properties ===== */
+:root {
+  /* Primary Colors */
+  --ember-orange: #E85A1B;
+  --spark-gold: #F6A623;
+  --flame-red: #C23A0C;
+  --flame-orange: #E25227;
+  --highlight-orange: #F0912D;
+
+  /* Background Colors */
+  --deep-charcoal: #0F0F0F;
+  --surface: #1A1817;
+  --surface-light: #2A2725;
+
+  /* Book/Earth Tones */
+  --book-dark: #501D0F;
+  --book-light: #89492B;
+  --book-mid: #5C2E1A;
+
+  /* Text Colors */
+  --text-primary: #F5F2EF;
+  --text-secondary: #9A9490;
+
+  /* Utility */
+  --success: #2D9C6B;
+  --warning: #E6A532;
+}
+
+/* ===== Font Faces ===== */
+@font-face {
+  font-family: 'Space Grotesk';
+  src: url('/fonts/SpaceGrotesk-Regular-latin.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Space Grotesk';
+  src: url('/fonts/SpaceGrotesk-Medium-latin.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Space Grotesk';
+  src: url('/fonts/SpaceGrotesk-SemiBold-latin.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Space Grotesk';
+  src: url('/fonts/SpaceGrotesk-Bold-latin.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Inter';
+  src: url('/fonts/Inter-Regular-latin.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Inter';
+  src: url('/fonts/Inter-Medium-latin.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Inter';
+  src: url('/fonts/Inter-SemiBold-latin.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Lora';
+  src: url('/fonts/Lora-Regular-latin.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Lora';
+  src: url('/fonts/Lora-Medium-latin.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ===== Reset ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: var(--deep-charcoal);
+  color: var(--text-primary);
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* ===== Layout Helpers ===== */
+.page-padding {
+  padding: 120px 24px 80px;
+}
+
+/* ===== Shared Link Styles ===== */
+a {
+  color: var(--ember-orange);
+}
+
+/* ===== Page Hero (inner pages) ===== */
+.page-hero {
+  padding: 140px 24px 60px;
+  text-align: center;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.page-hero h1 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(32px, 6vw, 48px);
+  font-weight: 600;
+  margin-bottom: 16px;
+  letter-spacing: -0.02em;
+}
+
+.page-hero .page-hero-subtext {
+  font-size: 18px;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  margin-bottom: 32px;
+}
+
+/* ===== Content Sections ===== */
+.content-section {
+  padding: 80px 24px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.content-section.alt {
+  background: var(--surface);
+}
+
+.content-section h2 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(24px, 4vw, 32px);
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.content-section h3 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 20px;
+  font-weight: 500;
+  margin-bottom: 12px;
+}
+
+.content-section p {
+  font-size: 17px;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  margin-bottom: 16px;
+}
+
+.content-section p:last-child {
+  margin-bottom: 0;
+}
+
+.content-section a,
+.content-section a:visited {
+  color: var(--ember-orange);
+  text-decoration: none;
+}
+
+.content-section a:hover {
+  text-decoration: underline;
+}
+
+/* Ensure download buttons keep their own colors inside content sections */
+.content-section a.download-btn,
+.content-section a.download-btn:visited {
+  color: white;
+  text-decoration: none;
+}
+
+.content-section a.download-btn.secondary,
+.content-section a.download-btn.secondary:visited {
+  color: var(--text-primary);
+  text-decoration: none;
+}
+
+.content-section a.download-btn:hover,
+.content-section a.download-btn.secondary:hover {
+  text-decoration: none;
+}
+
+/* ===== Callout ===== */
+.callout {
+  background: var(--surface);
+  border-left: 4px solid var(--ember-orange);
+  border-radius: 0 8px 8px 0;
+  padding: 20px 24px;
+  margin: 24px 0;
+  font-family: 'Lora', Georgia, serif;
+  font-size: 17px;
+  font-style: italic;
+  color: var(--text-primary);
+}
+
+/* ===== CTA Section ===== */
+.cta-section {
+  padding: 80px 24px;
+  background: var(--surface);
+  text-align: center;
+}
+
+.cta-section h2 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(24px, 4vw, 32px);
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.cta-section p {
+  font-size: 16px;
+  color: var(--text-secondary);
+  margin-bottom: 24px;
+}
+
+.cta-section a:not(.download-btn),
+.cta-section a:not(.download-btn):visited {
+  color: var(--ember-orange);
+  text-decoration: none;
+}
+
+.cta-section a:not(.download-btn):hover {
+  text-decoration: underline;
+}
+
+.cta-section a.download-btn,
+.cta-section a.download-btn:visited {
+  color: white;
+}
+
+/* ===== Download Buttons ===== */
+.download-buttons {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.download-buttons.single {
+  grid-template-columns: 1fr;
+  justify-items: center;
+}
+
+@media (max-width: 520px) {
+  .download-buttons {
+    grid-template-columns: 1fr;
+  }
+}
+
+.download-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 20px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  background: var(--ember-orange);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s;
+  white-space: nowrap;
+}
+
+.download-btn:hover {
+  background: var(--flame-orange);
+}
+
+.download-btn:active {
+  transform: scale(0.98);
+}
+
+.download-btn svg {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+.download-btn.secondary {
+  background: var(--surface);
+  border: 1px solid var(--surface-light);
+  color: var(--text-primary);
+}
+
+.download-btn.secondary:hover {
+  border-color: var(--ember-orange);
+  background: var(--surface-light);
+}
+
+/* ===== Signup Forms ===== */
+.signup-container {
+  background: var(--surface);
+  border-radius: 16px;
+  padding: 24px 28px;
+  border: 1px solid var(--surface-light);
+}
+
+.signup-form {
+  display: flex;
+  gap: 12px;
+}
+
+.signup-form input[type="email"] {
+  flex: 1;
+  padding: 14px 16px;
+  font-size: 16px;
+  font-family: 'Inter', sans-serif;
+  border: 1px solid var(--surface-light);
+  border-radius: 8px;
+  background: var(--deep-charcoal);
+  color: var(--text-primary);
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.signup-form input[type="email"]:focus {
+  border-color: var(--ember-orange);
+}
+
+.signup-form input[type="email"]::placeholder {
+  color: var(--text-secondary);
+}
+
+.signup-form button {
+  padding: 14px 24px;
+  font-size: 16px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 500;
+  background: var(--ember-orange);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s;
+  white-space: nowrap;
+}
+
+.signup-form button:hover {
+  background: var(--flame-orange);
+}
+
+.signup-form button:active {
+  transform: scale(0.98);
+}
+
+@media (max-width: 520px) {
+  .signup-form {
+    flex-direction: column;
+  }
+
+  .signup-form button {
+    width: 100%;
+  }
+}
+
+/* ===== Social Links ===== */
+.social-links {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+}
+
+.social-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  background: var(--surface);
+  border: 1px solid var(--surface-light);
+  border-radius: 10px;
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: border-color 0.2s, color 0.2s, transform 0.1s;
+}
+
+.social-link:hover {
+  border-color: var(--ember-orange);
+  color: var(--text-primary);
+  transform: translateY(-2px);
+}
+
+.social-link svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* ===== Download Note ===== */
+.download-note {
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.download-note a,
+.download-note a:visited {
+  color: var(--ember-orange);
+  text-decoration: none;
+}
+
+.download-note a:hover {
+  text-decoration: underline;
+}
+
+/* ===== Comparison Table ===== */
+.comparison-table-wrap {
+  overflow-x: auto;
+  margin: 24px 0;
+  -webkit-overflow-scrolling: touch;
+}
+
+.comparison-table {
+  width: 100%;
+  min-width: 700px;
+  border-collapse: collapse;
+  font-size: 15px;
+}
+
+.comparison-table th,
+.comparison-table td {
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 1px solid var(--surface-light);
+}
+
+.comparison-table th {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 500;
+  color: var(--text-primary);
+  background: var(--surface);
+}
+
+.comparison-table td {
+  color: var(--text-secondary);
+}
+
+.comparison-table td:first-child {
+  color: var(--text-primary);
+}
+
+.comparison-table .check { color: var(--success); }
+.comparison-table .cross { color: var(--text-secondary); opacity: 0.6; }
+
+/* ===== Download Cards (large, for /download page) ===== */
+.download-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px;
+  margin: 32px 0;
+}
+
+.download-card-large {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  background: var(--surface);
+  border: 1px solid var(--surface-light);
+  border-radius: 12px;
+  padding: 16px 24px;
+  text-align: center;
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.2s, background-color 0.2s;
+}
+
+.download-card-large:hover {
+  border-color: var(--ember-orange);
+  background: var(--surface-light);
+}
+
+.download-card-large.highlight {
+  border-color: var(--ember-orange);
+  background: rgba(232, 90, 27, 0.08);
+}
+
+.download-card-large svg {
+  width: 32px;
+  height: 32px;
+  margin-bottom: 12px;
+  color: var(--ember-orange);
+}
+
+.download-card-large .label {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.download-card-large .subtext {
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+/* ===== About Download ===== */
+.about-download-card {
+  background: var(--surface);
+  border: 1px solid var(--surface-light);
+  border-radius: 12px;
+  padding: 24px 28px;
+  margin: 32px 0;
+}
+
+.about-download-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 15px;
+}
+
+.about-download-table td {
+  padding: 10px 0;
+  border-bottom: 1px solid var(--surface-light);
+  color: var(--text-secondary);
+}
+
+.about-download-table td:first-child {
+  font-weight: 500;
+  color: var(--text-primary);
+  width: 140px;
+}
+
+.about-download-table tr:last-child td {
+  border-bottom: none;
+}
+
+.about-download-statements {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid var(--surface-light);
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+.about-download-statements ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.about-download-statements li {
+  margin-bottom: 10px;
+  padding-left: 20px;
+  position: relative;
+}
+
+.about-download-statements li::before {
+  content: "\2022";
+  position: absolute;
+  left: 0;
+  color: var(--ember-orange);
+}
+
+/* ===== Uninstall ===== */
+.uninstall-platform {
+  margin-bottom: 28px;
+}
+
+.uninstall-platform:last-child {
+  margin-bottom: 0;
+}
+
+.uninstall-platform h4 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: var(--text-primary);
+}
+
+.uninstall-platform p,
+.uninstall-platform ul {
+  font-size: 15px;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  margin-bottom: 12px;
+}
+
+.uninstall-platform ul {
+  padding-left: 24px;
+}
+
+.uninstall-platform ol {
+  padding-left: 24px;
+  margin: 0 0 12px;
+}
+
+.uninstall-platform ol li {
+  margin-bottom: 8px;
+}
+
+.uninstall-platform code {
+  font-family: 'Monaco', 'Menlo', 'Consolas', monospace;
+  font-size: 13px;
+  background: var(--surface);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+/* ===== Flow Diagram ===== */
+.flow-diagram {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  margin: 32px 0;
+}
+
+.flow-node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: var(--surface);
+  border: 1px solid var(--surface-light);
+  border-radius: 12px;
+  padding: 20px 28px;
+  min-width: 200px;
+}
+
+.flow-node-center {
+  border-color: var(--ember-orange);
+  background: rgba(232, 90, 27, 0.08);
+}
+
+.flow-label {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+
+.flow-formats {
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.flow-arrow {
+  font-size: 24px;
+  color: var(--ember-orange);
+  line-height: 1;
+}
+
+/* ===== Steps List ===== */
+.steps-list {
+  list-style: none;
+}
+
+.steps-list li {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 20px;
+  font-size: 16px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.steps-list .step-num {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  background: var(--ember-orange);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+/* ===== System Requirements ===== */
+.sysreq-list {
+  list-style: none;
+}
+
+.sysreq-list li {
+  padding: 8px 0;
+  padding-left: 24px;
+  position: relative;
+  font-size: 15px;
+  color: var(--text-secondary);
+}
+
+.sysreq-list li::before {
+  content: "\2022";
+  position: absolute;
+  left: 0;
+  color: var(--ember-orange);
+}
+
+/* ===== Download Legal Links ===== */
+.download-legal-links {
+  font-size: 14px;
+  color: var(--text-secondary);
+  text-align: center;
+  margin: 20px 0 0;
+  line-height: 1.6;
+}
+
+.download-legal-links a,
+.download-legal-links a:visited {
+  color: var(--ember-orange);
+  text-decoration: none;
+}
+
+.download-legal-links a:hover {
+  text-decoration: underline;
+}
+
+/* ===== Visual Placeholder ===== */
+.visual-placeholder {
+  background: var(--surface);
+  border: 1px dashed var(--surface-light);
+  border-radius: 12px;
+  padding: 60px 24px;
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 14px;
+  margin: 24px 0;
+}

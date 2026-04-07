@@ -1,0 +1,103 @@
+---
+import MarketingLayout from '../../layouts/MarketingLayout.astro';
+---
+
+<MarketingLayout
+  title="Privacy Policy — Kindling"
+  description="Kindling's privacy policy. Your manuscripts never leave your machine. No account, no analytics, no AI. Your words, your data, forever."
+>
+  <section class="page-hero">
+    <h1>Privacy Policy</h1>
+    <p class="page-hero-subtext">Kindling is built on a simple principle: your writing belongs to you. This policy reflects that, and we think you'll find it refreshingly short.</p>
+    <p class="privacy-updated">Last updated: February 28, 2026</p>
+  </section>
+
+  <article class="content-section privacy-content">
+    <h2>Kindling Desktop Application</h2>
+    <p>The Kindling desktop application:</p>
+    <ul>
+      <li>Does not collect any personal information</li>
+      <li>Does not transmit data to any servers</li>
+      <li>Does not include analytics, telemetry, or usage tracking</li>
+      <li>Does not require an account or registration</li>
+      <li>Does not access the internet for any purpose</li>
+      <li>Stores all project data locally on your computer as SQLite database files</li>
+      <li>Does not share data with any third parties</li>
+    </ul>
+    <p>Your project files, writing, and personal data never leave your computer. Kindling operates entirely offline and has no capability to access, read, or transmit your data. There is no cloud sync, no server-side storage, and no remote database. The app makes zero network requests during normal use. Kindling does not use AI to analyze or interact with your writing in any way.</p>
+  </article>
+
+  <section class="content-section alt privacy-content">
+    <h2>The Website (kindlingwriter.com)</h2>
+    <p>The website is a static site. Here's what we collect:</p>
+    <p><strong>Email newsletter.</strong> If you voluntarily subscribe to our mailing list, we store your email address through our newsletter provider for the sole purpose of sending you updates about Kindling. You can unsubscribe at any time from any email.</p>
+    <p><strong>Basic hosting analytics.</strong> Our hosting provider may collect standard server logs (IP address, browser type, pages visited). We don't use these for tracking or profiling. We don't run Google Analytics or any third-party tracking scripts.</p>
+    <p><strong>No cookies for tracking.</strong> The website does not use advertising cookies, tracking pixels, or fingerprinting.</p>
+  </section>
+
+  <section class="content-section privacy-content">
+    <h2>Third-Party Services</h2>
+    <p>Kindling the desktop app does not integrate with any third-party services. It does not send data to analytics platforms, crash reporting services, or advertising networks.</p>
+    <p>The files you import (from Plottr, yWriter, Obsidian Longform, or Markdown) and the files you export (DOCX, Markdown) are processed entirely on your local machine.</p>
+  </section>
+
+  <section class="content-section alt privacy-content">
+    <h2>Open Source</h2>
+    <p>Kindling is open source under the MIT license. The source code is available on <a href="https://github.com/smith-and-web/kindling" target="_blank" rel="noopener">GitHub</a>, so you can verify every claim on this page yourself. There is nothing hidden.</p>
+  </section>
+
+  <section class="content-section privacy-content">
+    <h2>Data You Control</h2>
+    <p>Since all your data lives on your computer, you have complete control:</p>
+    <ul>
+      <li><strong>Access:</strong> Open your project files anytime, with or without Kindling.</li>
+      <li><strong>Export:</strong> Export your work to DOCX or Markdown at any point.</li>
+      <li><strong>Delete:</strong> Delete your project files and they're gone. There's no cloud copy, no backup we hold, nothing to request deletion of.</li>
+      <li><strong>Portability:</strong> Your data is stored in standard formats. You are never locked in.</li>
+    </ul>
+  </section>
+
+  <section class="content-section alt privacy-content">
+    <h2>Children's Privacy</h2>
+    <p>Kindling does not collect personal information from anyone, including children. Since no account or personal data is required to use the app, there is nothing to collect.</p>
+  </section>
+
+  <section class="content-section privacy-content">
+    <h2>Feedback Collection</h2>
+    <p>When you submit feedback through our website or desktop application, we collect:</p>
+    <ul>
+      <li>The type of feedback (bug report, feature request, or rating)</li>
+      <li>Your message content</li>
+      <li>Your operating system and app version (to help diagnose issues)</li>
+      <li>Your browser language/locale</li>
+      <li>Your email address (only if you voluntarily provide it)</li>
+    </ul>
+    <p>We do <strong>not</strong> collect:</p>
+    <ul>
+      <li>Your IP address (used only transiently for rate limiting, never stored)</li>
+      <li>Your name or identity</li>
+      <li>Any content from your writing projects</li>
+      <li>Usage analytics or tracking data</li>
+    </ul>
+    <p>Feedback data is stored for 12 months and then automatically deleted. All feedback is anonymous unless you choose to provide your email address.</p>
+  </section>
+
+  <section class="content-section alt privacy-content">
+    <h2>Future Changes</h2>
+    <p>If Kindling ever introduces features that involve network connectivity (such as optional cloud sync), this policy will be updated before those features ship, and any such features will be strictly opt-in. The core principle won't change: your writing stays yours.</p>
+  </section>
+
+  <section class="content-section alt privacy-content">
+    <h2>Contact</h2>
+    <p>Questions about this policy? Reach out through <a href="https://github.com/smith-and-web/kindling/issues" target="_blank" rel="noopener">GitHub Issues</a> or find us on <a href="https://discord.gg/g7bkj4kY8w" target="_blank" rel="noopener">Discord</a>.</p>
+    <div class="callout">Your words, your data, forever.</div>
+  </section>
+</MarketingLayout>
+
+<style>
+  .privacy-updated { font-size: 14px; color: var(--text-secondary); margin-bottom: 32px; }
+  .privacy-content strong { color: var(--text-primary); }
+  .privacy-content ul { margin: 16px 0; padding-left: 24px; }
+  .privacy-content li { margin-bottom: 8px; line-height: 1.6; }
+  .privacy-content hr { border: none; border-top: 1px solid var(--surface-light); margin: 40px 0; }
+</style>

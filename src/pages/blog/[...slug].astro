@@ -1,0 +1,282 @@
+---
+import MarketingLayout from '../../layouts/MarketingLayout.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+const publishedDate = new Date(post.data.publishedDate);
+const formattedDate = publishedDate.toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": post.data.title,
+  "description": post.data.description,
+  "datePublished": post.data.publishedDate,
+  "dateModified": post.data.modifiedDate || post.data.publishedDate,
+  "author": {
+    "@type": "Organization",
+    "name": post.data.author,
+    "url": "https://kindlingwriter.com"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Kindling",
+    "url": "https://kindlingwriter.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://kindlingwriter.com/favicon.svg"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": `https://kindlingwriter.com/blog/${post.id}/`
+  },
+  "url": `https://kindlingwriter.com/blog/${post.id}/`,
+  ...(post.data.ogImage ? { "image": `https://kindlingwriter.com${post.data.ogImage}` } : {}),
+  ...(post.data.tags ? { "keywords": post.data.tags.join(', ') } : {}),
+};
+---
+
+<MarketingLayout
+  title={`${post.data.title} - Kindling Blog`}
+  description={post.data.description}
+  ogType="article"
+  ogImage={post.data.ogImage}
+  structuredData={structuredData}
+>
+  <Fragment slot="head">
+    <meta property="article:published_time" content={post.data.publishedDate} />
+    {post.data.modifiedDate && (
+      <meta property="article:modified_time" content={post.data.modifiedDate} />
+    )}
+    {post.data.tags && post.data.tags.map((tag) => (
+      <meta property="article:tag" content={tag} />
+    ))}
+  </Fragment>
+
+  <article class="blog-post">
+    <div class="post-header">
+      <a href="/blog/" class="back-link">&larr; Back to Blog</a>
+      <div class="post-meta">
+        {post.data.tags && post.data.tags.length > 0 && (
+          <div class="post-tags">
+            {post.data.tags.map((tag) => (
+              <span class="post-tag">{tag}</span>
+            ))}
+          </div>
+        )}
+        <time datetime={post.data.publishedDate}>{formattedDate}</time>
+      </div>
+      <h1>{post.data.title}</h1>
+    </div>
+
+    <div class="article-content">
+      <Content />
+    </div>
+
+    <footer class="post-footer">
+      <a href="/blog/" class="back-link">&larr; Back to Blog</a>
+    </footer>
+  </article>
+</MarketingLayout>
+
+<style>
+  .blog-post {
+    max-width: 740px;
+    margin: 0 auto;
+    padding: 120px 24px 80px;
+  }
+
+  .post-header {
+    margin-bottom: 48px;
+  }
+
+  .back-link {
+    display: inline-block;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ember-orange);
+    text-decoration: none;
+    margin-bottom: 24px;
+    transition: opacity 0.2s;
+  }
+
+  .back-link:hover {
+    opacity: 0.8;
+    text-decoration: underline;
+  }
+
+  .post-meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .post-tags {
+    display: flex;
+    gap: 8px;
+  }
+
+  .post-tag {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--ember-orange);
+    background: rgba(232, 90, 27, 0.12);
+    border: 1px solid rgba(232, 90, 27, 0.25);
+    padding: 3px 10px;
+    border-radius: 100px;
+  }
+
+  .post-meta time {
+    font-size: 14px;
+    color: var(--text-secondary);
+  }
+
+  .post-header h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(28px, 5vw, 40px);
+    font-weight: 600;
+    line-height: 1.25;
+    letter-spacing: -0.02em;
+  }
+
+  /* Article body content */
+  .article-content {
+    font-family: 'Lora', Georgia, serif;
+    font-size: 18px;
+    line-height: 1.8;
+    color: var(--text-primary);
+  }
+
+  .article-content :global(h2) {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 26px;
+    font-weight: 600;
+    margin-top: 48px;
+    margin-bottom: 16px;
+    letter-spacing: -0.01em;
+  }
+
+  .article-content :global(h3) {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 21px;
+    font-weight: 600;
+    margin-top: 36px;
+    margin-bottom: 12px;
+  }
+
+  .article-content :global(p) {
+    margin-bottom: 24px;
+  }
+
+  .article-content :global(ul),
+  .article-content :global(ol) {
+    margin-bottom: 24px;
+    padding-left: 28px;
+  }
+
+  .article-content :global(li) {
+    margin-bottom: 8px;
+  }
+
+  .article-content :global(a) {
+    color: var(--ember-orange);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .article-content :global(a:hover) {
+    opacity: 0.85;
+  }
+
+  .article-content :global(blockquote) {
+    border-left: 4px solid var(--ember-orange);
+    padding: 16px 24px;
+    margin: 32px 0;
+    background: var(--surface);
+    border-radius: 0 8px 8px 0;
+    font-style: italic;
+    color: var(--text-secondary);
+  }
+
+  .article-content :global(code) {
+    font-family: 'Monaco', 'Menlo', 'Consolas', monospace;
+    font-size: 0.85em;
+    background: var(--surface);
+    padding: 2px 6px;
+    border-radius: 4px;
+  }
+
+  .article-content :global(pre) {
+    background: var(--surface);
+    border: 1px solid var(--surface-light);
+    border-radius: 8px;
+    padding: 20px;
+    overflow-x: auto;
+    margin: 24px 0;
+  }
+
+  .article-content :global(pre code) {
+    background: none;
+    padding: 0;
+    font-size: 14px;
+  }
+
+  .article-content :global(img) {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin: 24px 0;
+  }
+
+  .article-content :global(hr) {
+    border: none;
+    border-top: 1px solid var(--surface-light);
+    margin: 40px 0;
+  }
+
+  .article-content :global(strong) {
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  /* Post footer */
+  .post-footer {
+    margin-top: 64px;
+    padding-top: 32px;
+    border-top: 1px solid var(--surface-light);
+  }
+
+  @media (max-width: 600px) {
+    .blog-post {
+      padding: 100px 20px 60px;
+    }
+
+    .article-content {
+      font-size: 17px;
+    }
+
+    .article-content :global(h2) {
+      font-size: 22px;
+    }
+  }
+</style>
