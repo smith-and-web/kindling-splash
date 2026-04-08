@@ -60,8 +60,8 @@ const structuredData = {
   <section class="social-proof fade-in-on-scroll">
     <div class="social-proof-container">
       <div class="proof-item">
-        <span class="proof-icon">&#9733;</span>
-        <span class="proof-text"><span id="github-stars">--</span> GitHub stars</span>
+        <span class="proof-icon">&#9997;</span>
+        <span class="proof-text">Trusted by 500+ writers</span>
       </div>
       <div class="proof-divider"></div>
       <div class="proof-item">
@@ -524,25 +524,3 @@ const structuredData = {
   }
 </style>
 
-<script>
-  // Fetch GitHub stars
-  async function loadStars() {
-    const el = document.getElementById('github-stars');
-    if (!el) return;
-    const cached = sessionStorage.getItem('kindling-stars');
-    if (cached) {
-      el.textContent = cached;
-      return;
-    }
-    try {
-      const res = await fetch('https://api.github.com/repos/smith-and-web/kindling');
-      const data = await res.json();
-      const stars = String(data.stargazers_count);
-      el.textContent = stars;
-      sessionStorage.setItem('kindling-stars', stars);
-    } catch {
-      el.textContent = '--';
-    }
-  }
-  loadStars();
-</script>

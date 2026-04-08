@@ -26,7 +26,7 @@ const structuredData = {
       "name": "How is Kindling different from Scrivener?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Scrivener excels at manuscript management, compilation, and long-term project organization. When you open a new scene in Scrivener, you get a blank page. Kindling pre-populates your drafting space with your synopsis beats and character context, so you never face a blank page. Many writers use Kindling alongside Scrivener — drafting scenes in Kindling, then exporting to Scrivener for revision and compilation. Scrivener costs $49 one-time; Kindling is free."
+        "text": "Scrivener excels at manuscript management, compilation, and long-term project organization. When you open a new scene in Scrivener, you get a blank page. Kindling pre-populates your drafting space with your synopsis beats and character context, so you never face a blank page. Kindling now supports bidirectional Scrivener import and export — import your .scriv binder, draft scenes with your beats visible, and export back to a new or existing Scrivener project. Plan in Plottr, draft in Kindling, revise in Scrivener. Scrivener costs $49 one-time; Kindling is free."
       }
     },
     {
@@ -34,7 +34,15 @@ const structuredData = {
       "name": "Can Kindling import from Plottr?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Yes. Kindling imports Plottr (.pltr) files directly and turns your beats into expandable writing prompts. It also imports from yWriter (.yw7), Obsidian Longform, and Markdown outlines. Your character and location cards surface automatically while you write."
+        "text": "Yes. Kindling imports Plottr (.pltr) files directly and turns your beats into expandable writing prompts. It also imports from Scrivener 3 (.scriv), yWriter (.yw7), Obsidian Longform, and Markdown outlines. Your character and location cards surface automatically while you write."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can Kindling import from Scrivener?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Kindling imports Scrivener 3 (.scriv) projects directly — binder hierarchy becomes chapters and scenes, RTF content is converted preserving formatting, and synopses and document metadata are extracted. You can also export back to Scrivener — either creating a new .scriv bundle or updating an existing one with a match preview dialog that shows exactly how your Kindling scenes map to Scrivener documents."
       }
     },
     {
@@ -42,7 +50,15 @@ const structuredData = {
       "name": "What file formats does Kindling support?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Kindling imports from Plottr (.pltr), yWriter (.yw7), Obsidian Longform, and Markdown outlines. It exports to DOCX, Markdown, and Obsidian Longform format. This lets you bring in your existing outline and export finished work to the tools you already use."
+        "text": "Import: Scrivener 3 (.scriv), Plottr (.pltr), yWriter (.yw7), Obsidian Longform, and Markdown outlines. Export: Scrivener 3 (.scriv), DOCX, EPUB, Markdown, and Obsidian Longform format. Kindling supports a full round-trip Scrivener workflow — import your binder, draft in Kindling, and export back to a new or existing Scrivener project with a match preview dialog."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does Kindling support screenwriting?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. v1.2 introduced a Screenplay project type with slugline input (INT./EXT. with time-of-day parsing), a page count estimator based on industry-standard 250 words per page, and treatment generation (export 1-page or 5-page treatments as DOCX). Screenplay projects include Save the Cat, Hero's Journey, and Three-Act Structure beat sheet templates. Beats, references, and export all work the same as novel projects."
       }
     },
     {
@@ -113,20 +129,32 @@ const structuredData = {
   <section class="content-section">
     <h2>How is Kindling different from Scrivener?</h2>
     <p>Scrivener excels at manuscript management, compilation, and long-term project organization. When you open a new scene in Scrivener, you get a blank page. Kindling pre-populates your drafting space with your synopsis beats and character context, so you never face a blank page.</p>
-    <p>Many writers use Kindling alongside Scrivener — drafting scenes in Kindling, then exporting to Scrivener for revision and compilation. Scrivener costs $49 one-time; Kindling is free.</p>
+    <p>Kindling now supports bidirectional Scrivener import and export — import your .scriv binder, draft scenes with your beats visible, and export back to a new or existing Scrivener project. Plan in Plottr, draft in Kindling, revise in Scrivener. Scrivener costs $49 one-time; Kindling is free.</p>
     <p><a href="/compare/">See the full comparison &rarr;</a></p>
   </section>
 
   <section class="content-section alt">
     <h2>Can Kindling import from Plottr?</h2>
-    <p>Yes. Kindling imports <strong>Plottr (.pltr)</strong> files directly and turns your beats into expandable writing prompts. It also imports from <strong>yWriter (.yw7)</strong>, <strong>Obsidian Longform</strong>, and <strong>Markdown outlines</strong>. Your character and location cards surface automatically while you write.</p>
+    <p>Yes. Kindling imports <strong>Plottr (.pltr)</strong> files directly and turns your beats into expandable writing prompts. It also imports from <strong>Scrivener 3 (.scriv)</strong>, <strong>yWriter (.yw7)</strong>, <strong>Obsidian Longform</strong>, and <strong>Markdown outlines</strong>. Your character and location cards surface automatically while you write.</p>
   </section>
 
   <section class="content-section">
+    <h2>Can Kindling import from Scrivener?</h2>
+    <p>Yes. Kindling imports <strong>Scrivener 3 (.scriv)</strong> projects directly — binder hierarchy becomes chapters and scenes, RTF content is converted preserving formatting, and synopses and document metadata are extracted.</p>
+    <p>You can also <strong>export back to Scrivener</strong> — either creating a new .scriv bundle or updating an existing one with a match preview dialog that shows exactly how your Kindling scenes map to Scrivener documents.</p>
+  </section>
+
+  <section class="content-section alt">
     <h2>What file formats does Kindling support?</h2>
-    <p><strong>Import:</strong> Plottr (.pltr), yWriter (.yw7), Obsidian Longform, and Markdown outlines.</p>
-    <p><strong>Export:</strong> DOCX, Markdown, and Obsidian Longform format.</p>
-    <p>This lets you bring in your existing outline and export finished work to the tools you already use.</p>
+    <p><strong>Import:</strong> Scrivener 3 (.scriv), Plottr (.pltr), yWriter (.yw7), Obsidian Longform, and Markdown outlines.</p>
+    <p><strong>Export:</strong> Scrivener 3 (.scriv), DOCX, EPUB, Markdown, and Obsidian Longform format.</p>
+    <p>Kindling supports a full round-trip Scrivener workflow — import your binder, draft in Kindling, and export back to a new or existing Scrivener project with a match preview dialog.</p>
+  </section>
+
+  <section class="content-section">
+    <h2>Does Kindling support screenwriting?</h2>
+    <p>Yes. v1.2 introduced a <strong>Screenplay</strong> project type with slugline input (INT./EXT. with time-of-day parsing), a page count estimator based on industry-standard 250 words per page, and treatment generation (export 1-page or 5-page treatments as DOCX).</p>
+    <p>Screenplay projects include <strong>Save the Cat</strong>, <strong>Hero's Journey</strong>, and <strong>Three-Act Structure</strong> beat sheet templates. Beats, references, and export all work the same as novel projects.</p>
   </section>
 
   <section class="content-section alt">

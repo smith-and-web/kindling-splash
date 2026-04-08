@@ -170,6 +170,42 @@ const faqStructuredData = {
     </div>
   </section>
 
+  <!-- ===== v1.2 Features — Bento Grid ===== -->
+  <section class="features-section">
+    <div class="features-section-header">
+      <h2>New in v1.2</h2>
+    </div>
+    <div class="bento-grid">
+      <div class="bento-tile fade-in-on-scroll">
+        <div class="bento-label">Write Your Way</div>
+        <h3>Full-Page Prose Editing</h3>
+        <p class="bento-problem">Beat-by-beat is great for structure. But sometimes you just want to write.</p>
+        <p class="bento-solution">Toggle between beat view and a full-page prose editor per scene. Your beats stay available for reference — you get an uninterrupted writing surface without leaving your structure behind.</p>
+      </div>
+
+      <div class="bento-tile fade-in-on-scroll">
+        <div class="bento-label">Smart Context</div>
+        <h3>Reference Auto-Detection</h3>
+        <p class="bento-problem">You mentioned a character three paragraphs ago but forgot to link them.</p>
+        <p class="bento-solution">A non-AI engine scans your prose for character, location, and item names. Suggestions surface in the References panel — link with one click, or dismiss. No cloud, no magic, just pattern matching.</p>
+      </div>
+
+      <div class="bento-tile fade-in-on-scroll">
+        <div class="bento-label">Flexible Data</div>
+        <h3>Custom Fields & Tags</h3>
+        <p class="bento-problem">Plain text notes don't cut it for complex characters and worlds.</p>
+        <p class="bento-solution">Define typed fields (text, number, date, select, multi-select) on any reference type. Organise with hierarchical tags up to three levels deep, with colours and a Tag Manager. Use saved filters to find exactly what you need.</p>
+      </div>
+
+      <div class="bento-tile fade-in-on-scroll">
+        <div class="bento-label">Screenwriters</div>
+        <h3>Screenplay Projects & Templates</h3>
+        <p class="bento-problem">Novel tools don't speak the language of screenwriting.</p>
+        <p class="bento-solution">Create Screenplay projects with slugline input (INT./EXT.), page count estimation (250 words/page), and treatment export (1-page or 5-page DOCX). Pre-built templates: Save the Cat, Hero's Journey, Three-Act, Seven-Point, Snowflake, Story Grid.</p>
+      </div>
+    </div>
+  </section>
+
   <!-- ===== Secondary Features — Compact Grid ===== -->
   <section class="features-secondary-section">
     <h2>And everything else you'd expect</h2>
@@ -305,6 +341,17 @@ const faqStructuredData = {
     padding: 56px 24px;
     max-width: 1100px;
     margin: 0 auto;
+  }
+
+  .features-section-header {
+    text-align: center;
+    margin-bottom: 32px;
+  }
+
+  .features-section-header h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(24px, 4vw, 32px);
+    font-weight: 600;
   }
 
   .features-secondary-section {
