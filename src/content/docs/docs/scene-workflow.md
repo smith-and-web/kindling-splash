@@ -135,3 +135,5 @@ Screenplay projects otherwise work identically to novel projects — beats, refe
 ## Command Palette
 
 Press `Cmd+K` / `Ctrl+K` to open the command palette from anywhere in the app. Fuzzy search across all available actions — import, export, settings, navigation, and more. Use arrow keys to navigate, Enter to execute.
+
+![Command palette showing fuzzy search results for common actions](/docs/command-palette.png)

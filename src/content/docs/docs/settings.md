@@ -30,6 +30,8 @@ Used on exported title pages (DOCX):
 
 Project settings customise metadata for a single project. Open them from the project toolbar.
 
+![Project Settings dialog showing pen name, genre, description, and word target fields](/docs/project-settings.png)
+
 | Setting | Description |
 |---------|-------------|
 | **Pen name** | Overrides the app-level author name for this project's exports |

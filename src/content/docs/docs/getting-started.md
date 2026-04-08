@@ -48,6 +48,8 @@ Whether you outline every beat before you write, discover your story as you go, 
 
 Press `Cmd+K` to open the **command palette** at any time — fuzzy search across all actions including import, export, navigation, and settings.
 
+![Command palette with fuzzy search results](/docs/command-palette.png)
+
 ## Themes
 
 Kindling supports **light**, **dark**, and **system** themes. Change your theme from **Settings → Appearance**. By default, Kindling follows your operating system's preference.
