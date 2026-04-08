@@ -1,0 +1,34 @@
+/* ============================================================
+   Kindling brand overrides for Starlight
+   ============================================================ */
+
+/* Font + accent overrides — apply to BOTH light and dark themes */
+:root {
+  --sl-font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --sl-font-mono: 'JetBrains Mono', 'Monaco', 'Menlo', monospace;
+  --sl-color-accent: #E85A1B;
+  --sl-color-text-accent: #E85A1B;
+}
+
+/* Dark theme — full Kindling brand palette */
+:root[data-theme='dark'] {
+  --sl-color-accent-low: #2a1508;
+  --sl-color-accent-high: #f5c4a8;
+  --sl-color-bg: #0F0F0F;
+  --sl-color-bg-nav: #1A1817;
+  --sl-color-bg-sidebar: #1A1817;
+  --sl-color-text: #F5F2EF;
+}
+
+/* Light theme — Starlight's default backgrounds/text, brand-adapted accent */
+:root[data-theme='light'] {
+  --sl-color-accent-low: #fde8d9;
+  --sl-color-accent-high: #7d2e0a;
+}
+
+/* Space Grotesk for all headings — page title, content, sidebar groups */
+h1, h2, h3, h4, h5, h6,
+summary,
+.group-label {
+  font-family: 'Space Grotesk', var(--sl-font);
+}

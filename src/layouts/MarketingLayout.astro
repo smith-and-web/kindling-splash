@@ -1,0 +1,84 @@
+---
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import Analytics from '../components/Analytics.astro';
+import '../styles/global.css';
+import '../styles/animations.css';
+
+interface Props {
+  title: string;
+  description: string;
+  canonicalPath?: string;
+  ogImage?: string;
+  ogType?: string;
+  structuredData?: Record<string, unknown>;
+  bodyClass?: string;
+  downloadContext?: string;
+}
+
+const {
+  title,
+  description,
+  canonicalPath,
+  ogImage = '/og-image.png',
+  ogType = 'website',
+  structuredData,
+  bodyClass,
+  downloadContext,
+} = Astro.props;
+
+const canonicalURL = canonicalPath
+  ? new URL(canonicalPath, Astro.site)
+  : new URL(Astro.url.pathname, Astro.site);
+const ogImageURL = new URL(ogImage, Astro.site);
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{title}</title>
+  <meta name="description" content={description}>
+  <link rel="canonical" href={canonicalURL}>
+
+  <!-- Open Graph -->
+  <meta property="og:title" content={title}>
+  <meta property="og:description" content={description}>
+  <meta property="og:type" content={ogType}>
+  <meta property="og:url" content={canonicalURL}>
+  <meta property="og:image" content={ogImageURL}>
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:site_name" content="Kindling">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@KindlingWriter">
+  <meta name="twitter:title" content={title}>
+  <meta name="twitter:description" content={description}>
+  <meta name="twitter:image" content={ogImageURL}>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+
+  <!-- Preload critical fonts -->
+  <link rel="preload" href="/fonts/SpaceGrotesk-SemiBold-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fonts/Inter-Regular-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+  <!-- GA4 -->
+  <Analytics />
+
+  <!-- Structured Data -->
+  {structuredData && (
+    <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+  )}
+</head>
+<body class={bodyClass} data-download-context={downloadContext}>
+  <Navbar />
+  <main>
+    <slot />
+  </main>
+  <Footer />
+</body>
+</html>

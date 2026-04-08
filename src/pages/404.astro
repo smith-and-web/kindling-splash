@@ -1,0 +1,81 @@
+---
+import MarketingLayout from '../layouts/MarketingLayout.astro';
+
+export const prerender = true;
+---
+
+<MarketingLayout
+  title="Page Not Found - Kindling"
+  description="The page you're looking for doesn't exist or has been moved."
+>
+  <main class="page-padding page-main">
+    <div class="container">
+      <div class="error-code">404</div>
+      <h1>Page not found</h1>
+      <p>The page you're looking for doesn't exist or has been moved.</p>
+      <a href="/" class="back-link">Back to Kindling</a>
+    </div>
+  </main>
+</MarketingLayout>
+
+<style>
+  /* Page-specific styles only. Base styles in /assets/site.css */
+
+  main.page-main {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .container {
+    max-width: 480px;
+  }
+
+  .error-code {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 120px;
+    font-weight: 700;
+    color: var(--surface-light);
+    line-height: 1;
+    margin-bottom: 16px;
+  }
+
+  h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 32px;
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+
+  p {
+    font-size: 18px;
+    color: var(--text-secondary);
+    margin-bottom: 32px;
+  }
+
+  .back-link {
+    display: inline-block;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    color: white;
+    background: var(--ember-orange);
+    padding: 14px 28px;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+
+  .back-link:hover {
+    opacity: 0.9;
+  }
+</style>
+
+<script>
+  if (typeof gtag === 'function') {
+    gtag('event', 'page_not_found', {
+      page_location: window.location.href,
+      page_referrer: document.referrer
+    });
+  }
+</script>

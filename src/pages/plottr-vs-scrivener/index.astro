@@ -1,0 +1,331 @@
+---
+import MarketingLayout from '../../layouts/MarketingLayout.astro';
+import SmartDownloadButton from '../../components/SmartDownloadButton.svelte';
+import { APP_VERSION } from '../../data/downloads';
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Kindling Writer",
+  "description": "Free, open-source fiction writing software that bridges Plottr's outlining and Scrivener's manuscript management. Import from both, draft with your outline visible.",
+  "url": "https://kindlingwriter.com/",
+  "applicationCategory": "DesktopApplication",
+  "operatingSystem": "Windows, macOS, Linux",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "softwareVersion": APP_VERSION,
+  "license": "https://opensource.org/licenses/MIT",
+  "downloadUrl": "https://kindlingwriter.com/download/",
+  "author": {
+    "@type": "Organization",
+    "name": "Kindling",
+    "url": "https://kindlingwriter.com"
+  }
+};
+
+const faqStructuredData = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Can I use Plottr and Scrivener together?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, many writers plan in Plottr and draft in Scrivener. The typical workflow is to export your Plottr outline, then start a new Scrivener project and use the outline as reference. The downside is that your outline doesn't live inside your drafting space — you switch between two separate apps."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does Kindling replace Plottr or Scrivener?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Not necessarily. Kindling bridges the gap between them. You can plan in Plottr, draft in Kindling (with your outline visible), and export to Scrivener for revision and compilation. Kindling imports from both Plottr and Scrivener and exports to Scrivener."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can Kindling import my Plottr file?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Kindling imports Plottr .pltr files directly, preserving your timeline beats, characters, locations, and scene cards. Your outline becomes expandable writing prompts in Kindling's drafting view."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can Kindling import and export Scrivener projects?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Kindling can import Scrivener 3 .scriv bundles (preserving binder hierarchy, synopses, and prose) and export back to Scrivener — either as a new bundle or by updating an existing one with a match preview dialog."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is Kindling free?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Kindling is completely free and open source under the MIT license. No subscriptions, no feature gates. Desktop app for macOS, Windows, and Linux."
+      }
+    }
+  ]
+};
+---
+
+<MarketingLayout
+  title="Plottr vs Scrivener (2026) — Honest Comparison + Free Alternative"
+  description="Detailed comparison of Plottr and Scrivener for fiction writers. Features, pricing, who each is best for, and how Kindling bridges the gap between outlining and drafting."
+  structuredData={structuredData}
+>
+  <script type="application/ld+json" set:html={JSON.stringify(faqStructuredData)} />
+
+  <!-- ===== Hero ===== -->
+  <section class="page-hero">
+    <h1>Plottr vs Scrivener: which is right for your novel?</h1>
+    <p class="page-hero-subtext">Plottr is the better outlining tool. Scrivener is the better manuscript manager. Many writers use both &mdash; and Kindling bridges the gap between them.</p>
+  </section>
+
+  <!-- ===== Comparison Table ===== -->
+  <section class="content-section">
+    <h2>Feature comparison at a glance</h2>
+    <div class="comparison-table-wrap">
+      <table class="comparison-table">
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th>Plottr</th>
+            <th>Scrivener</th>
+            <th>Kindling</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Visual timeline outlining</td>
+            <td class="check">&#10003;</td>
+            <td class="cross">&#10007;</td>
+            <td class="cross">&#10007;</td>
+          </tr>
+          <tr>
+            <td>Beat sheet templates</td>
+            <td class="check">&#10003;</td>
+            <td class="cross">&#10007;</td>
+            <td class="check">&#10003;</td>
+          </tr>
+          <tr>
+            <td>Character arc tracking</td>
+            <td class="check">&#10003;</td>
+            <td>Partial</td>
+            <td class="check">&#10003;</td>
+          </tr>
+          <tr>
+            <td>Prose drafting</td>
+            <td class="cross">&#10007;</td>
+            <td class="check">&#10003;</td>
+            <td class="check">&#10003;</td>
+          </tr>
+          <tr>
+            <td>Outline visible while drafting</td>
+            <td>N/A</td>
+            <td>Partial (inspector)</td>
+            <td class="check">&#10003;</td>
+          </tr>
+          <tr>
+            <td>Manuscript compilation</td>
+            <td class="cross">&#10007;</td>
+            <td class="check">&#10003;</td>
+            <td class="check">&#10003; (DOCX, EPUB, Scrivener)</td>
+          </tr>
+          <tr>
+            <td>Research folder</td>
+            <td class="cross">&#10007;</td>
+            <td class="check">&#10003;</td>
+            <td class="cross">&#10007;</td>
+          </tr>
+          <tr>
+            <td>Import from other tools</td>
+            <td class="cross">&#10007;</td>
+            <td class="cross">&#10007;</td>
+            <td class="check">&#10003; (Plottr, Scrivener, yWriter, Obsidian, Markdown)</td>
+          </tr>
+          <tr>
+            <td>Platforms</td>
+            <td>Mac, Windows</td>
+            <td>Mac, Windows, iOS</td>
+            <td>Mac, Windows, Linux</td>
+          </tr>
+          <tr>
+            <td>Pricing</td>
+            <td>$99 or $149 (lifetime)</td>
+            <td>$49 per platform</td>
+            <td>Free (MIT open source)</td>
+          </tr>
+          <tr>
+            <td>Works offline</td>
+            <td class="check">&#10003;</td>
+            <td class="check">&#10003;</td>
+            <td class="check">&#10003;</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ===== Plottr Deep Dive ===== -->
+  <section class="content-section alt">
+    <h2>Plottr: the best visual outlining tool</h2>
+    <p>Plottr ($99 one-time, or $149 with lifetime updates) is designed for fiction writers who think visually. Its drag-and-drop timeline lets you lay out scenes across multiple storylines, color-code plot threads, and see the shape of your entire novel on a single screen.</p>
+
+    <h3>What Plottr does well</h3>
+    <ul>
+      <li><strong>Visual timeline</strong> — Drag-and-drop scene cards across a multi-lane timeline. Color-code storylines and see act structure at a glance.</li>
+      <li><strong>Beat sheet templates</strong> — Save the Cat, Hero's Journey, Three-Act Structure, and others. Pre-made structures you can fill in.</li>
+      <li><strong>Character arcs</strong> — Track character development across scenes with dedicated arc timelines.</li>
+      <li><strong>Series management</strong> — Link books together and track overarching series plotlines.</li>
+    </ul>
+
+    <h3>Where Plottr stops</h3>
+    <p>Plottr is a planning tool, not a writing tool. There's no prose editor — once your outline is done, you export it and open a separate app to start writing. That transition is the pain point: your finished outline becomes a reference document in another window, and you're back to staring at a blank page.</p>
+
+    <h3>Best for</h3>
+    <p>Plotters who want a dedicated visual planning environment and don't mind using a separate app for drafting. Writers who plan in detail before writing a single word.</p>
+    <p style="font-size: 15px; color: var(--text-secondary);">Plottr: $99–149 one-time. Mac and Windows.</p>
+  </section>
+
+  <!-- ===== Scrivener Deep Dive ===== -->
+  <section class="content-section">
+    <h2>Scrivener: the gold standard for manuscript management</h2>
+    <p>Scrivener ($49 per platform, separate Mac and Windows licenses) has been the go-to writing app for serious novelists since 2007. Its binder system, compilation engine, and research folder make it the most powerful tool for managing and formatting a long manuscript.</p>
+
+    <h3>What Scrivener does well</h3>
+    <ul>
+      <li><strong>Binder organization</strong> — Break your manuscript into scenes and chapters. Move them freely. Scrivener treats your book as a collection of documents, not one long file.</li>
+      <li><strong>Compilation</strong> — Scrivener's compile feature is unmatched. Export to manuscript format, ebook, PDF, or custom layouts with fine-grained control over formatting, headers, and front matter.</li>
+      <li><strong>Research folder</strong> — Store PDFs, images, web pages, and notes alongside your manuscript. Everything lives in one project.</li>
+      <li><strong>Snapshots and versioning</strong> — Take snapshots of scenes before major edits. Roll back anytime.</li>
+    </ul>
+
+    <h3>Where Scrivener struggles</h3>
+    <p>Scrivener's learning curve is famously steep. The outlining tools (corkboard, outliner view) are secondary to the writing environment — they show you metadata <em>about</em> your scenes, but they don't put your outline <em>inside</em> your drafting space. When you open a new scene, you get a blank page with a blinking cursor. Your synopsis lives in the inspector, off to the side.</p>
+    <p>Scrivener also requires separate licenses for Mac and Windows, and the iOS version is a lighter experience. There's no Linux version.</p>
+
+    <h3>Best for</h3>
+    <p>Writers in the revision and compilation stage. Authors who need professional manuscript formatting, research organization, and long-term project management. If your manuscript is drafted and you need to produce a polished submission, Scrivener is hard to beat.</p>
+    <p style="font-size: 15px; color: var(--text-secondary);">Scrivener: $49 per platform. Mac, Windows, and iOS.</p>
+  </section>
+
+  <!-- ===== Why Both ===== -->
+  <section class="content-section alt">
+    <h2>Why many writers use both</h2>
+    <p>The most common fiction-writing workflow in 2026 looks something like this:</p>
+    <ol>
+      <li><strong>Outline in Plottr</strong> — Build your timeline, character arcs, and beat sheet</li>
+      <li><strong>Export and open Scrivener</strong> — Create a new project and start filling in scenes</li>
+      <li><strong>Draft, revise, compile in Scrivener</strong> — Finish the manuscript and export to submission format</li>
+    </ol>
+    <p>This works. But step 2 is where things get painful. You've spent weeks building a detailed outline in Plottr — and now you're looking at empty documents in Scrivener's binder. Your outline becomes a reference you check in another window, not a tool that actively helps you write.</p>
+    <p><strong>The gap between "outline done" and "first draft started" is where momentum dies.</strong></p>
+  </section>
+
+  <!-- ===== Where Kindling Fits ===== -->
+  <section class="content-section">
+    <h2>Where Kindling fits</h2>
+    <p>Kindling sits between Plottr and Scrivener. It's the bridge layer for the outline-to-draft transition — the step most writers handle with copy-paste and willpower.</p>
+    <ol>
+      <li><strong>Outline in Plottr</strong> — Build your timeline, beats, and character arcs</li>
+      <li><strong>Import into Kindling</strong> — Your Plottr file becomes an interactive outline with expandable writing prompts. Characters and locations surface in the References panel as you work each scene.</li>
+      <li><strong>Draft in Kindling</strong> — Write into your beats. Your outline is always visible. No blank pages.</li>
+      <li><strong>Export to Scrivener</strong> — When your first draft is done, export to a .scriv bundle for revision, restructuring, and compilation.</li>
+    </ol>
+    <p>You're not replacing either tool. You're adding the missing middle step. Plan in Plottr, draft in Kindling, polish in Scrivener.</p>
+    <p>And Kindling is free — so this doesn't add to your software budget.</p>
+  </section>
+
+  <!-- ===== Full Comparison ===== -->
+  <section class="content-section alt">
+    <h2>The full workflow compared</h2>
+    <div class="comparison-table-wrap">
+      <table class="comparison-table">
+        <thead>
+          <tr>
+            <th>Writing stage</th>
+            <th>Plottr only</th>
+            <th>Scrivener only</th>
+            <th>Plottr + Scrivener</th>
+            <th>Plottr + Kindling + Scrivener</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Visual outlining</td>
+            <td class="check">&#10003;</td>
+            <td>Basic</td>
+            <td class="check">&#10003; (Plottr)</td>
+            <td class="check">&#10003; (Plottr)</td>
+          </tr>
+          <tr>
+            <td>Outline-to-draft transition</td>
+            <td class="cross">Manual export</td>
+            <td class="cross">Blank page</td>
+            <td class="cross">Blank page</td>
+            <td class="check">Outline in drafting view</td>
+          </tr>
+          <tr>
+            <td>First draft writing</td>
+            <td class="cross">&#10007;</td>
+            <td class="check">&#10003;</td>
+            <td class="check">&#10003; (Scrivener)</td>
+            <td class="check">&#10003; (Kindling)</td>
+          </tr>
+          <tr>
+            <td>Revision & compilation</td>
+            <td class="cross">&#10007;</td>
+            <td class="check">&#10003;</td>
+            <td class="check">&#10003; (Scrivener)</td>
+            <td class="check">&#10003; (Scrivener)</td>
+          </tr>
+          <tr>
+            <td>Total cost</td>
+            <td>$99–149</td>
+            <td>$49–98</td>
+            <td>$148–198</td>
+            <td>$148–198 (Kindling is free)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ===== FAQ ===== -->
+  <section class="content-section">
+    <h2>Frequently asked questions</h2>
+
+    <h3>Can I use all three tools together?</h3>
+    <p>Yes. Plan in Plottr, import into Kindling for drafting, export to Scrivener for revision and compilation. Kindling imports from both Plottr (.pltr) and Scrivener (.scriv) and exports to Scrivener, so the round-trip is smooth.</p>
+
+    <h3>Does Kindling replace Scrivener?</h3>
+    <p>No. Scrivener's compilation engine, research folder, and revision tools are still the best in the industry. Kindling is for the earlier stage — going from outline to first draft. Once your draft is done, Scrivener takes over.</p>
+
+    <h3>Can Kindling import my Plottr file?</h3>
+    <p>Yes. Kindling imports Plottr .pltr files directly. Your timeline beats become expandable writing prompts, and your characters and locations appear in the References panel while you draft. <a href="/docs/importing-projects/">See the import guide.</a></p>
+
+    <h3>Can Kindling import and export Scrivener projects?</h3>
+    <p>Yes. Import Scrivener 3 .scriv bundles (binder hierarchy, synopses, and prose). Export as a new .scriv bundle or update an existing one with a match preview dialog. <a href="/docs/exporting-projects/">See the export guide.</a></p>
+
+    <h3>Is Kindling really free?</h3>
+    <p>Yes. MIT-licensed open source. No accounts, no subscriptions, no feature gates. Desktop app for macOS, Windows, and Linux. <a href="/open-source/">More about the open source model.</a></p>
+  </section>
+
+  <!-- ===== Bottom CTA ===== -->
+  <section class="cta-section">
+    <h2>Bridge the gap between your outline and your first draft</h2>
+    <p>Free, open source, works offline. Import from Plottr, export to Scrivener.</p>
+    <SmartDownloadButton client:visible location="plottr-vs-scrivener-cta" />
+  </section>
+
+  <!-- ===== See Also ===== -->
+  <section class="content-section" style="text-align: center; padding-top: 0;">
+    <p style="font-size: 15px; color: var(--text-secondary);">For a broader comparison including Dabble, Novelcrafter, and Campfire Write, see the <a href="/compare/">full comparison page</a>.</p>
+  </section>
+</MarketingLayout>

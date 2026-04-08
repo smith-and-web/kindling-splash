@@ -1,0 +1,604 @@
+---
+import MarketingLayout from '../../layouts/MarketingLayout.astro';
+---
+
+<MarketingLayout title="Send Feedback — Kindling | Free Writing Software for Plotters" description="Help make Kindling better. Report a bug, request a feature, or rate the app. Your feedback is anonymous.">
+
+  <!-- Cloudflare Turnstile (anti-spam) -->
+  <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+
+  <section class="page-hero">
+    <h1>Send Us Feedback</h1>
+    <p class="page-hero-subtext">Help us make Kindling better for writers. Report a bug, request a feature, or let us know what you think. Your feedback is anonymous unless you choose to share your email.</p>
+  </section>
+
+  <section class="content-section">
+    <div class="feedback-form-container">
+
+      <!-- Tab selector -->
+      <div class="feedback-tabs" role="tablist">
+        <button role="tab" class="tab active" data-type="bug" aria-selected="true">Bug Report</button>
+        <button role="tab" class="tab" data-type="feature" aria-selected="false">Feature Request</button>
+        <button role="tab" class="tab" data-type="rating" aria-selected="false">Rate Kindling</button>
+      </div>
+
+      <!-- Bug Report Form -->
+      <div class="feedback-form visible" id="form-bug">
+        <div class="form-group">
+          <label for="bug-summary">Summary <span class="required">*</span></label>
+          <input type="text" id="bug-summary" maxlength="120" placeholder="Briefly describe the issue">
+          <span class="char-count"><span id="bug-summary-count">0</span>/120</span>
+        </div>
+
+        <div class="form-group">
+          <label for="bug-description">What happened? <span class="required">*</span></label>
+          <textarea id="bug-description" maxlength="2000" rows="5" placeholder="Describe what you were doing and what went wrong"></textarea>
+          <span class="char-count"><span id="bug-desc-count">0</span>/2000</span>
+        </div>
+
+        <div class="form-group">
+          <label for="bug-expected">What did you expect to happen?</label>
+          <textarea id="bug-expected" maxlength="1000" rows="3" placeholder="Optional"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>How severe is this? <span class="required">*</span></label>
+          <div class="severity-options">
+            <label><input type="radio" name="severity" value="minor"> Minor annoyance</label>
+            <label><input type="radio" name="severity" value="broken"> Something's broken</label>
+            <label><input type="radio" name="severity" value="crash"> App crashed or data loss</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Feature Request Form -->
+      <div class="feedback-form" id="form-feature">
+        <div class="form-group">
+          <label for="feature-title">Feature title <span class="required">*</span></label>
+          <input type="text" id="feature-title" maxlength="120" placeholder="Name the feature">
+          <span class="char-count"><span id="feature-title-count">0</span>/120</span>
+        </div>
+
+        <div class="form-group">
+          <label for="feature-description">Describe the feature <span class="required">*</span></label>
+          <textarea id="feature-description" maxlength="2000" rows="5" placeholder="What should this feature do?"></textarea>
+          <span class="char-count"><span id="feature-desc-count">0</span>/2000</span>
+        </div>
+
+        <div class="form-group">
+          <label for="feature-usecase">What problem would this solve for your writing?</label>
+          <textarea id="feature-usecase" maxlength="1000" rows="3" placeholder="Optional"></textarea>
+        </div>
+      </div>
+
+      <!-- Rating Form -->
+      <div class="feedback-form" id="form-rating">
+        <div class="form-group">
+          <label>How would you rate Kindling?</label>
+          <div class="star-rating" id="star-rating"></div>
+        </div>
+
+        <div class="form-group">
+          <label for="rating-comment">Any additional thoughts?</label>
+          <textarea id="rating-comment" maxlength="2000" rows="4" placeholder="Optional"></textarea>
+        </div>
+      </div>
+
+      <!-- Shared fields -->
+      <div class="shared-fields">
+        <div class="form-group">
+          <label>Are you a current Kindling user?</label>
+          <div class="toggle-options">
+            <label><input type="radio" name="is-user" value="yes" checked> Yes</label>
+            <label><input type="radio" name="is-user" value="no"> No, just evaluating</label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="feedback-os">Your operating system</label>
+          <select id="feedback-os">
+            <option value="unknown">Select...</option>
+            <option value="macos">macOS</option>
+            <option value="windows">Windows</option>
+            <option value="linux">Linux</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="feedback-email">Email (optional — only if you'd like us to follow up)</label>
+          <input type="email" id="feedback-email" placeholder="your@email.com">
+        </div>
+      </div>
+
+      <!-- Honeypot field (hidden from real users) -->
+      <div style="position:absolute;left:-9999px" aria-hidden="true">
+        <input type="text" name="website" id="feedback-honeypot" tabindex="-1" autocomplete="off">
+      </div>
+
+      <!-- Turnstile widget -->
+      <div class="cf-turnstile" data-sitekey="0x4AAAAAACkqRWHDozaF1dmj" data-theme="dark"></div>
+
+      <!-- Privacy disclosure -->
+      <p class="privacy-note">
+        This form collects your OS selection to help diagnose issues.
+        No personal data is stored unless you provide your email.
+        Please don't include personal information in your feedback.
+        <a href="/privacy/">Privacy policy &rarr;</a>
+      </p>
+
+      <button type="button" id="submit-feedback" class="btn-submit">Send Feedback</button>
+
+      <div class="feedback-status" id="feedback-status"></div>
+    </div>
+  </section>
+
+  <section class="cta-section">
+    <h2>Haven't tried Kindling yet?</h2>
+    <p>Free, open source, no account required.</p>
+    <div class="download-buttons single">
+      <a href="/download/" class="download-btn">Download Kindling — Free</a>
+    </div>
+  </section>
+
+  <script is:inline>
+    const FEEDBACK_API_URL = 'https://2gcszmyn325n5yaey2poh72qbe0tkmre.lambda-url.ca-central-1.on.aws/';
+
+    let currentType = 'bug';
+    let formOpenedAt = new Date().toISOString();
+    let selectedRating = 0;
+
+    // Tab switching
+    document.querySelectorAll('.feedback-tabs .tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.feedback-tabs .tab').forEach(t => {
+          t.classList.remove('active');
+          t.setAttribute('aria-selected', 'false');
+        });
+        tab.classList.add('active');
+        tab.setAttribute('aria-selected', 'true');
+        currentType = tab.dataset.type;
+
+        document.querySelectorAll('.feedback-form').forEach(f => f.classList.remove('visible'));
+        document.getElementById(`form-${currentType}`).classList.add('visible');
+
+        // Reset status and form-opened timestamp when switching tabs
+        const statusEl = document.getElementById('feedback-status');
+        statusEl.classList.remove('visible');
+        formOpenedAt = new Date().toISOString();
+      });
+    });
+
+    // Character counters
+    function setupCounter(inputId, counterId) {
+      const input = document.getElementById(inputId);
+      const counter = document.getElementById(counterId);
+      if (input && counter) {
+        input.addEventListener('input', () => {
+          counter.textContent = input.value.length;
+        });
+      }
+    }
+
+    setupCounter('bug-summary', 'bug-summary-count');
+    setupCounter('bug-description', 'bug-desc-count');
+    setupCounter('feature-title', 'feature-title-count');
+    setupCounter('feature-description', 'feature-desc-count');
+
+    // Star rating
+    const starContainer = document.getElementById('star-rating');
+    for (let i = 1; i <= 5; i++) {
+      const star = document.createElement('button');
+      star.type = 'button';
+      star.textContent = '\u2606'; // empty star
+      star.className = 'star';
+      star.dataset.value = i;
+      star.setAttribute('aria-label', `${i} star${i > 1 ? 's' : ''}`);
+      star.addEventListener('click', () => {
+        selectedRating = i;
+        starContainer.querySelectorAll('.star').forEach((s, idx) => {
+          s.textContent = idx < i ? '\u2605' : '\u2606'; // filled vs empty star
+          s.classList.toggle('active', idx < i);
+        });
+      });
+      starContainer.appendChild(star);
+    }
+
+    // Auto-detect OS
+    (function() {
+      const osSelect = document.getElementById('feedback-os');
+      const ua = navigator.userAgent.toLowerCase();
+      if (ua.includes('mac')) osSelect.value = 'macos';
+      else if (ua.includes('win')) osSelect.value = 'windows';
+      else if (ua.includes('linux')) osSelect.value = 'linux';
+    })();
+
+    // Submit handler
+    document.getElementById('submit-feedback').addEventListener('click', async () => {
+      const statusEl = document.getElementById('feedback-status');
+      const submitBtn = document.getElementById('submit-feedback');
+
+      // Build payload based on current type
+      const payload = {
+        type: currentType,
+        source: 'website',
+        os: document.getElementById('feedback-os').value,
+        appVersion: 'website',
+        locale: navigator.language,
+        website: document.getElementById('feedback-honeypot').value, // Honeypot
+        formOpenedAt: formOpenedAt,
+      };
+
+      // Optional email
+      const email = document.getElementById('feedback-email').value.trim();
+      if (email) payload.email = email;
+
+      // Type-specific fields + validation
+      if (currentType === 'bug') {
+        payload.summary = document.getElementById('bug-summary').value.trim();
+        payload.message = document.getElementById('bug-description').value.trim();
+        payload.expected = document.getElementById('bug-expected').value.trim();
+        payload.severity = document.querySelector('input[name="severity"]:checked')?.value;
+
+        if (!payload.summary || !payload.message || !payload.severity) {
+          showStatus('Please fill in all required fields.', 'error');
+          return;
+        }
+      } else if (currentType === 'feature') {
+        payload.summary = document.getElementById('feature-title').value.trim();
+        payload.message = document.getElementById('feature-description').value.trim();
+        payload.useCase = document.getElementById('feature-usecase').value.trim();
+
+        if (!payload.summary || !payload.message) {
+          showStatus('Please fill in all required fields.', 'error');
+          return;
+        }
+      } else if (currentType === 'rating') {
+        if (selectedRating === 0) {
+          showStatus('Please select a star rating.', 'error');
+          return;
+        }
+        payload.rating = selectedRating;
+        payload.message = document.getElementById('rating-comment').value.trim();
+        payload.summary = `${selectedRating}-star rating`;
+      }
+
+      // Get Turnstile token
+      const turnstileToken = document.querySelector('[name="cf-turnstile-response"]')?.value;
+      if (turnstileToken) {
+        payload.turnstileToken = turnstileToken;
+      }
+
+      // Submit
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending...';
+
+      try {
+        const response = await fetch(FEEDBACK_API_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        if (response.ok) {
+          showStatus('Thank you! Your feedback has been received.', 'success');
+          resetForm();
+        } else if (response.status === 429) {
+          showStatus('Too many submissions. Please try again later.', 'error');
+        } else {
+          const data = await response.json().catch(() => ({}));
+          showStatus(data.error || 'Something went wrong. Please try again.', 'error');
+        }
+      } catch (err) {
+        showStatus('Network error. Please check your connection and try again.', 'error');
+      }
+
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Send Feedback';
+
+      // Reset Turnstile
+      if (window.turnstile) {
+        window.turnstile.reset();
+      }
+    });
+
+    function showStatus(message, type) {
+      const statusEl = document.getElementById('feedback-status');
+      statusEl.textContent = message;
+      statusEl.className = `feedback-status visible ${type}`;
+    }
+
+    function resetForm() {
+      // Clear all inputs
+      document.querySelectorAll('.feedback-form input[type="text"], .feedback-form textarea').forEach(el => {
+        el.value = '';
+      });
+      document.querySelectorAll('.feedback-form input[type="radio"]').forEach(el => {
+        el.checked = false;
+      });
+      // Reset star rating
+      selectedRating = 0;
+      starContainer.querySelectorAll('.star').forEach(s => {
+        s.textContent = '\u2606';
+        s.classList.remove('active');
+      });
+      // Reset character counters
+      document.querySelectorAll('.char-count span[id]').forEach(el => {
+        el.textContent = '0';
+      });
+      // Reset form opened timestamp
+      formOpenedAt = new Date().toISOString();
+    }
+  </script>
+
+</MarketingLayout>
+
+<style>
+  /* Feedback tabs */
+  .feedback-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+  }
+
+  .feedback-tabs .tab {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: 1px solid var(--surface-light);
+    background: var(--surface);
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s, background-color 0.2s;
+  }
+
+  .feedback-tabs .tab:hover {
+    border-color: var(--ember-orange);
+    color: var(--text-primary);
+  }
+
+  .feedback-tabs .tab.active {
+    border-color: var(--ember-orange);
+    background: rgba(232, 90, 27, 0.12);
+    color: var(--ember-orange);
+  }
+
+  /* Form layout */
+  .feedback-form-container {
+    max-width: 640px;
+    margin: 0 auto;
+  }
+
+  .feedback-form {
+    display: none;
+  }
+
+  .feedback-form.visible {
+    display: block;
+  }
+
+  .form-group {
+    margin-bottom: 24px;
+  }
+
+  .form-group label {
+    display: block;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+  }
+
+  .form-group .required {
+    color: var(--ember-orange);
+  }
+
+  .form-group input[type="text"],
+  .form-group input[type="email"],
+  .form-group textarea,
+  .form-group select {
+    width: 100%;
+    padding: 12px 16px;
+    font-size: 15px;
+    font-family: 'Inter', sans-serif;
+    border: 1px solid var(--surface-light);
+    border-radius: 8px;
+    background: var(--deep-charcoal);
+    color: var(--text-primary);
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .form-group input[type="text"]:focus,
+  .form-group input[type="email"]:focus,
+  .form-group textarea:focus,
+  .form-group select:focus {
+    border-color: var(--ember-orange);
+  }
+
+  .form-group input::placeholder,
+  .form-group textarea::placeholder {
+    color: var(--text-secondary);
+  }
+
+  .form-group textarea {
+    resize: vertical;
+    min-height: 80px;
+  }
+
+  .form-group select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath fill='%239A9490' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+    padding-right: 40px;
+    cursor: pointer;
+  }
+
+  .char-count {
+    display: block;
+    font-size: 12px;
+    color: var(--text-secondary);
+    text-align: right;
+    margin-top: 4px;
+  }
+
+  /* Radio / toggle options */
+  .severity-options,
+  .toggle-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .severity-options label,
+  .toggle-options label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 15px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 8px 16px;
+    border: 1px solid var(--surface-light);
+    border-radius: 8px;
+    transition: border-color 0.2s, color 0.2s;
+  }
+
+  .severity-options label:hover,
+  .toggle-options label:hover {
+    border-color: var(--ember-orange);
+    color: var(--text-primary);
+  }
+
+  .severity-options input[type="radio"],
+  .toggle-options input[type="radio"] {
+    accent-color: var(--ember-orange);
+  }
+
+  /* Star rating */
+  .star-rating {
+    display: flex;
+    gap: 8px;
+  }
+
+  .star-rating .star {
+    font-size: 32px;
+    background: none;
+    border: none;
+    color: var(--surface-light);
+    cursor: pointer;
+    padding: 4px;
+    transition: color 0.15s, transform 0.1s;
+    line-height: 1;
+  }
+
+  .star-rating .star:hover,
+  .star-rating .star.active {
+    color: var(--spark-gold);
+    transform: scale(1.1);
+  }
+
+  /* Submit button */
+  .btn-submit {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 14px 28px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    background: var(--ember-orange);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s, opacity 0.2s;
+    width: 100%;
+    margin-top: 8px;
+  }
+
+  .btn-submit:hover {
+    background: var(--flame-orange);
+  }
+
+  .btn-submit:active {
+    transform: scale(0.98);
+  }
+
+  .btn-submit:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  /* Status messages */
+  .feedback-status {
+    display: none;
+    padding: 16px 20px;
+    border-radius: 8px;
+    font-size: 15px;
+    margin-top: 16px;
+    text-align: center;
+  }
+
+  .feedback-status.visible {
+    display: block;
+  }
+
+  .feedback-status.success {
+    background: rgba(45, 156, 107, 0.12);
+    border: 1px solid rgba(45, 156, 107, 0.3);
+    color: var(--success);
+  }
+
+  .feedback-status.error {
+    background: rgba(194, 58, 12, 0.12);
+    border: 1px solid rgba(194, 58, 12, 0.3);
+    color: var(--flame-red);
+  }
+
+  /* Privacy note */
+  .privacy-note {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-top: 24px;
+    margin-bottom: 24px;
+    padding: 16px;
+    background: var(--surface);
+    border-radius: 8px;
+    border: 1px solid var(--surface-light);
+  }
+
+  .privacy-note a {
+    color: var(--ember-orange);
+    text-decoration: none;
+  }
+
+  .privacy-note a:hover {
+    text-decoration: underline;
+  }
+
+  /* Turnstile widget */
+  .cf-turnstile {
+    margin-top: 16px;
+    margin-bottom: 8px;
+  }
+
+  /* Shared fields separator */
+  .shared-fields {
+    border-top: 1px solid var(--surface-light);
+    padding-top: 24px;
+    margin-top: 32px;
+  }
+
+  @media (max-width: 520px) {
+    .severity-options {
+      flex-direction: column;
+    }
+  }
+</style>

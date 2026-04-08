@@ -1,0 +1,547 @@
+---
+import { Image } from 'astro:assets';
+import MarketingLayout from '../layouts/MarketingLayout.astro';
+import SmartDownloadButton from '../components/SmartDownloadButton.svelte';
+import { APP_VERSION, DOWNLOADS } from '../data/downloads';
+import beatWithProse from '../assets/beat-with-prose.png';
+import referencesPanel from '../assets/references-panel.png';
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Kindling Writer",
+  "description": "Free open-source fiction writing software that keeps your outline visible while you draft. Import from Plottr, Scrivener, yWriter, or Obsidian.",
+  "url": "https://kindlingwriter.com/",
+  "applicationCategory": "DesktopApplication",
+  "operatingSystem": "Windows, macOS, Linux",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "author": {
+    "@type": "Organization",
+    "name": "Kindling",
+    "url": "https://kindlingwriter.com"
+  },
+  "softwareVersion": APP_VERSION,
+  "license": "https://opensource.org/licenses/MIT",
+  "downloadUrl": "https://kindlingwriter.com/download/",
+  "screenshot": "https://kindlingwriter.com/og-image.png"
+};
+---
+
+<MarketingLayout
+  title="Kindling Writer – Free Fiction Writing Software for Plotters & Pantsers"
+  description="Kindling Writer is free, open-source fiction writing software that keeps your outline visible while you draft. Import from Plottr, Scrivener, yWriter, or Obsidian. Desktop app for macOS, Windows & Linux."
+  structuredData={structuredData}
+>
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>From outline to first draft</h1>
+      <p class="tagline">Your outline, visible while you write</p>
+      <p class="open-source-badge">v{APP_VERSION} · Free & Open Source · AI-free</p>
+
+      <!-- Smart Download CTA (hydrated client-side) -->
+      <SmartDownloadButton client:load location="hero" />
+    </div>
+
+    <!-- Product visual inside hero — CTA flows directly into screenshot -->
+    <div class="hero-visual">
+      <video autoplay loop muted playsinline preload="metadata" poster="/hero-poster.jpg" width="804" height="556" aria-label="Kindling scaffolded writing view with scene beats">
+        <source src="/demo-2.mp4" type="video/mp4">
+      </video>
+    </div>
+  </section>
+
+  <!-- Social Proof Bar -->
+  <section class="social-proof fade-in-on-scroll">
+    <div class="social-proof-container">
+      <div class="proof-item">
+        <span class="proof-icon">&#9733;</span>
+        <span class="proof-text"><span id="github-stars">--</span> GitHub stars</span>
+      </div>
+      <div class="proof-divider"></div>
+      <div class="proof-item">
+        <span class="proof-icon">&#128274;</span>
+        <span class="proof-text">MIT Licensed</span>
+      </div>
+      <div class="proof-divider"></div>
+      <div class="proof-item">
+        <span class="proof-icon">&#128640;</span>
+        <span class="proof-text">Built with Rust & Tauri</span>
+      </div>
+      <div class="proof-divider"></div>
+      <div class="proof-item">
+        <span class="proof-icon">&#128187;</span>
+        <span class="proof-text">macOS · Windows · Linux</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Problem Statement -->
+  <section class="problem-section fade-in-on-scroll">
+    <div class="problem-container">
+      <h2>You planned every beat.<br>Then you opened a blank document.</h2>
+      <p>Writing apps make you choose: outline <em>or</em> draft. Your beats live in Plottr, your manuscript in Scrivener, your notes in Obsidian. Kindling puts them all in one focused space — so your outline stays visible while you write.</p>
+    </div>
+  </section>
+
+  <!-- Feature Bento Grid -->
+  <section class="features-section">
+    <div class="features-header fade-in-on-scroll">
+      <h2>Where outlines become novels</h2>
+      <p class="features-intro">Stop switching between apps. Kindling brings your planning and drafting into one focused space.</p>
+    </div>
+
+    <div class="bento-grid">
+      <div class="bento-tile bento-tile--large fade-in-on-scroll">
+        <div class="bento-label">Core Feature</div>
+        <h3>Outline-Aware Drafting</h3>
+        <p class="bento-problem">Other apps make you flip between your outline and a blank page.</p>
+        <p class="bento-solution">Kindling puts your scene beats right inside your writing space. Click a beat, write into it.</p>
+        <Image src={beatWithProse} alt="Kindling editor showing scene beats alongside prose" width={560} loading="eager" class="bento-image" />
+      </div>
+
+      <div class="bento-tile fade-in-on-scroll">
+        <div class="bento-label">Stay in Flow</div>
+        <h3>References Panel</h3>
+        <p class="bento-problem">Was it green eyes or blue? What was the tavern called?</p>
+        <p class="bento-solution">Characters and locations tagged in your scene auto-surface in a side panel.</p>
+        <Image src={referencesPanel} alt="Kindling references panel showing character details" width={280} loading="lazy" class="bento-image" />
+      </div>
+
+      <div class="bento-tile fade-in-on-scroll">
+        <div class="bento-label">Your Pace</div>
+        <h3>Rolling Outline</h3>
+        <p class="bento-problem">Not every scene needs the same level of planning.</p>
+        <p class="bento-solution">Three planning states — Fixed, Flexible, Undefined — let you add structure at your own pace. <a href="/story-outlining-software/" style="color: var(--ember-orange);">Learn more &rarr;</a></p>
+      </div>
+
+      <div class="bento-tile fade-in-on-scroll">
+        <div class="bento-label">Your Tools</div>
+        <h3>Import & Export</h3>
+        <p class="bento-problem">Your outline lives in Plottr. Your manuscript in Word. Your notes in Obsidian.</p>
+        <p class="bento-solution">Import from Plottr, yWriter, Obsidian Longform, Scrivener, or Markdown. Export to DOCX, Markdown, Scrivener, or EPUB.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- v1.2 Spotlight -->
+  <section class="spotlight">
+    <div class="spotlight-container">
+      <div class="fade-in-on-scroll">
+        <span class="version-badge">New in v{APP_VERSION}</span>
+        <h2>The biggest update yet</h2>
+      </div>
+      <div class="spotlight-grid">
+        <div class="spotlight-feature fade-in-on-scroll">
+          <div class="spotlight-icon">🌙</div>
+          <div class="spotlight-label">Theme</div>
+          <h3>Light Theme</h3>
+          <p>Automatic light/dark switching based on your OS preference, with manual override.</p>
+        </div>
+        <div class="spotlight-feature fade-in-on-scroll">
+          <div class="spotlight-icon">📝</div>
+          <div class="spotlight-label">Writing</div>
+          <h3>Full-Page Prose Editing</h3>
+          <p>Draft in a full-page editor — not just beat-by-beat. Toggle between page view and beat view per scene.</p>
+        </div>
+        <div class="spotlight-feature fade-in-on-scroll">
+          <div class="spotlight-icon">🏷️</div>
+          <div class="spotlight-label">Organization</div>
+          <h3>Custom Fields & Tags</h3>
+          <p>Create typed fields on characters and locations. Organize with hierarchical tags and saved filters.</p>
+        </div>
+        <div class="spotlight-feature fade-in-on-scroll">
+          <div class="spotlight-icon">🎬</div>
+          <div class="spotlight-label">New Project Type</div>
+          <h3>Screenplay Support</h3>
+          <p>New screenplay project type with page count estimator, slugline input, and Save the Cat / Hero's Journey templates.</p>
+        </div>
+        <div class="spotlight-feature fade-in-on-scroll">
+          <div class="spotlight-icon">📦</div>
+          <div class="spotlight-label">Interoperability</div>
+          <h3>Scrivener Import & Export</h3>
+          <p>Bidirectional Scrivener workflow. Create new .scriv bundles or update existing ones with a match preview dialog.</p>
+        </div>
+        <div class="spotlight-feature fade-in-on-scroll">
+          <div class="spotlight-icon">🔍</div>
+          <div class="spotlight-label">Intelligence</div>
+          <h3>Smart Reference Detection</h3>
+          <p>Non-AI engine scans your prose for character, location, and item mentions. Suggestions surface automatically.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Bottom CTA -->
+  <section class="bottom-cta fade-in-on-scroll">
+    <div class="bottom-cta-container">
+      <h2>Your outline is ready. Start writing.</h2>
+      <SmartDownloadButton client:visible location="bottom" />
+    </div>
+  </section>
+</MarketingLayout>
+
+<style>
+  /* Hero */
+  .hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 72px 24px 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 150%;
+    height: 60%;
+    background: radial-gradient(ellipse at center top, rgba(232, 90, 27, 0.08) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 1;
+    max-width: 760px;
+    width: 100%;
+  }
+
+  .hero h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(36px, 7vw, 60px);
+    font-weight: 600;
+    margin-bottom: 10px;
+    letter-spacing: -0.02em;
+  }
+
+  .tagline {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(20px, 3.5vw, 30px);
+    font-weight: 500;
+    color: var(--ember-orange);
+    margin-bottom: 12px;
+  }
+
+  .open-source-badge {
+    display: inline-block;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--success);
+    background: rgba(45, 156, 107, 0.15);
+    border: 1px solid rgba(45, 156, 107, 0.3);
+    padding: 5px 14px;
+    border-radius: 100px;
+    margin-bottom: 24px;
+    letter-spacing: 0.02em;
+  }
+
+  /* Hero visual — product screenshot/video directly below CTA */
+  .hero-visual {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 960px;
+    margin-top: 40px;
+    /* Clip so the bottom edge bleeds into the next section, enticing scroll */
+    mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+  }
+
+  .hero-visual video {
+    width: 100%;
+    height: auto;
+    border-radius: 12px 12px 0 0;
+    display: block;
+  }
+
+  /* Social Proof Bar */
+  .social-proof {
+    padding: 32px 24px;
+    border-top: 1px solid var(--surface-light);
+    border-bottom: 1px solid var(--surface-light);
+  }
+
+  .social-proof-container {
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  .proof-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text-secondary);
+  }
+
+  .proof-icon {
+    font-size: 18px;
+  }
+
+  .proof-divider {
+    width: 1px;
+    height: 20px;
+    background: var(--surface-light);
+  }
+
+  @media (max-width: 600px) {
+    .proof-divider { display: none; }
+    .social-proof-container { gap: 16px; }
+  }
+
+  /* Problem Statement */
+  .problem-section {
+    padding: 56px 24px;
+    text-align: center;
+  }
+
+  .problem-container {
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  .problem-container h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(24px, 4vw, 36px);
+    font-weight: 600;
+    margin-bottom: 20px;
+    line-height: 1.3;
+  }
+
+  .problem-container p {
+    font-size: 18px;
+    color: var(--text-secondary);
+    line-height: 1.7;
+  }
+
+  /* Features Bento Grid */
+  .features-section {
+    padding: 56px 24px;
+    background: var(--surface);
+  }
+
+  .features-header {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  .features-header h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(28px, 5vw, 36px);
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+
+  .features-intro {
+    font-size: 18px;
+    color: var(--text-secondary);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .bento-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .bento-tile {
+    background: var(--deep-charcoal);
+    border: 1px solid var(--surface-light);
+    border-radius: 16px;
+    padding: 28px;
+    grid-column: span 2;
+    overflow: hidden;
+  }
+
+  .bento-tile--large {
+    grid-column: span 2;
+    grid-row: span 1;
+  }
+
+  .bento-label {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--ember-orange);
+    margin-bottom: 8px;
+  }
+
+  .bento-tile h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+
+  .bento-problem {
+    font-size: 15px;
+    color: var(--text-secondary);
+    font-style: italic;
+    margin-bottom: 6px;
+  }
+
+  .bento-solution {
+    font-size: 15px;
+    color: var(--text-primary);
+    line-height: 1.6;
+    margin-bottom: 16px;
+  }
+
+  .bento-image {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-top: 8px;
+  }
+
+  @media (max-width: 768px) {
+    .bento-grid {
+      grid-template-columns: 1fr;
+    }
+    .bento-tile,
+    .bento-tile--large {
+      grid-column: span 1;
+    }
+  }
+
+  /* v1.2 Spotlight */
+  .spotlight {
+    padding: 56px 24px;
+  }
+
+  .spotlight-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .version-badge {
+    display: inline-block;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ember-orange);
+    background: rgba(232, 90, 27, 0.12);
+    border: 1px solid rgba(232, 90, 27, 0.3);
+    padding: 6px 16px;
+    border-radius: 100px;
+    margin-bottom: 16px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .spotlight-container h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(28px, 5vw, 36px);
+    font-weight: 600;
+    margin-bottom: 40px;
+  }
+
+  .spotlight-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    text-align: left;
+  }
+
+  .spotlight-feature {
+    background: var(--surface);
+    border: 1px solid var(--surface-light);
+    border-radius: 12px;
+    padding: 24px;
+  }
+
+  .spotlight-icon {
+    font-size: 28px;
+    margin-bottom: 6px;
+    line-height: 1;
+  }
+
+  .spotlight-label {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--ember-orange);
+    margin-bottom: 6px;
+  }
+
+  .spotlight-feature h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 17px;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+
+  .spotlight-feature p {
+    font-size: 15px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  /* Bottom CTA */
+  .bottom-cta {
+    padding: 72px 24px 80px;
+    background: linear-gradient(180deg, var(--surface) 0%, var(--deep-charcoal) 100%);
+    text-align: center;
+  }
+
+  .bottom-cta-container {
+    max-width: 560px;
+    margin: 0 auto;
+  }
+
+  .bottom-cta h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(28px, 5vw, 36px);
+    font-weight: 600;
+    margin-bottom: 24px;
+  }
+</style>
+
+<script>
+  // Fetch GitHub stars
+  async function loadStars() {
+    const el = document.getElementById('github-stars');
+    if (!el) return;
+    const cached = sessionStorage.getItem('kindling-stars');
+    if (cached) {
+      el.textContent = cached;
+      return;
+    }
+    try {
+      const res = await fetch('https://api.github.com/repos/smith-and-web/kindling');
+      const data = await res.json();
+      const stars = String(data.stargazers_count);
+      el.textContent = stars;
+      sessionStorage.setItem('kindling-stars', stars);
+    } catch {
+      el.textContent = '--';
+    }
+  }
+  loadStars();
+</script>
