@@ -25,6 +25,13 @@ export function trackDownload(os: string, location: string, version = '1.2.0'): 
   });
 }
 
+/** User clicked a CTA that navigates to the download page (not a direct download). */
+export function trackDownloadCTA(location: string): void {
+  gtagSafe('event', 'download_cta_click', {
+    page_location: location,
+  });
+}
+
 /** Download actually completed (e.g. after redirect / thanks page). */
 export function trackDownloadComplete(os: string): void {
   gtagSafe('event', 'download_complete', {

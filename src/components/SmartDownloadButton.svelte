@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { trackDownload } from '../scripts/analytics';
+  import { trackDownload, trackDownloadCTA } from '../scripts/analytics';
 
   /* ---- Download config (inline for client-side Svelte) ---- */
   const APP_VERSION = '1.2.0';
@@ -124,7 +124,7 @@
 
   {:else}
     <!-- Unknown platform / pre-hydration fallback (renders during SSR and before JS detection) -->
-    <a href="/download/" class="download-btn">
+    <a href="/download/" class="download-btn" onclick={() => trackDownloadCTA(location)}>
       Download Kindling &mdash; Free
     </a>
     <p class="micro-copy">Free &amp; open source · No account required · ~10 MB</p>

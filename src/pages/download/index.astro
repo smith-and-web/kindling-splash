@@ -415,13 +415,13 @@ const platforms = Object.entries(DOWNLOADS) as [string, typeof DOWNLOADS[keyof t
     }
   })();
 
-  // Download tracking
+  // Download tracking — standardized event name across all pages
   function trackDownload(platform) {
     if (typeof gtag === 'function') {
-      gtag('event', 'download', {
-        event_category: 'engagement',
-        event_label: platform,
-        value: 1
+      gtag('event', 'download_click', {
+        os_platform: platform,
+        page_location: 'download_page',
+        app_version: '1.2.0'
       });
     }
   }
