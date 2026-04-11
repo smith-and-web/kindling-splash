@@ -82,7 +82,7 @@ const platforms = Object.entries(DOWNLOADS) as [string, typeof DOWNLOADS[keyof t
           href={platform.url}
           class="download-card-large"
           data-platform={key}
-          onclick={`trackDownload('${key}')`}
+          onclick={`event.preventDefault();trackDownload('${key}','${platform.url}')`}
         >
           <span class="recommended-badge">Recommended for your OS</span>
           {key === 'mac' && (
@@ -416,13 +416,25 @@ const platforms = Object.entries(DOWNLOADS) as [string, typeof DOWNLOADS[keyof t
   })();
 
   // Download tracking — standardized event name across all pages
-  function trackDownload(platform) {
+  function trackDownload(platform, downloadUrl) {
     if (typeof gtag === 'function') {
       gtag('event', 'download_click', {
         os_platform: platform,
-        page_location: 'download_page',
+        cta_location: 'download_page',
         app_version: '1.2.0'
       });
+    }
+    // Start the file download, then redirect to thanks page
+    if (downloadUrl) {
+      var link = document.createElement('a');
+      link.href = downloadUrl;
+      link.style.display = 'none';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      setTimeout(function() {
+        window.location.href = '/download/thanks/?os=' + platform;
+      }, 500);
     }
   }
 </script>

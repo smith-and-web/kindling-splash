@@ -20,7 +20,7 @@ function gtagSafe(...args: unknown[]): void {
 export function trackDownload(os: string, location: string, version = '1.2.0'): void {
   gtagSafe('event', 'download_click', {
     os_platform: os,
-    page_location: location,
+    cta_location: location,
     app_version: version,
   });
 }
@@ -28,7 +28,7 @@ export function trackDownload(os: string, location: string, version = '1.2.0'): 
 /** User clicked a CTA that navigates to the download page (not a direct download). */
 export function trackDownloadCTA(location: string): void {
   gtagSafe('event', 'download_cta_click', {
-    page_location: location,
+    cta_location: location,
   });
 }
 

@@ -1,5 +1,6 @@
 ---
 import MarketingLayout from '../../layouts/MarketingLayout.astro';
+import SmartDownloadButton from '../../components/SmartDownloadButton.svelte';
 import { getCollection, render } from 'astro:content';
 
 export async function getStaticPaths() {
@@ -86,6 +87,12 @@ const structuredData = {
 
     <div class="article-content">
       <Content />
+    </div>
+
+    <div class="post-cta">
+      <h3>Try Kindling — it's free</h3>
+      <p>Your outline, visible while you write. No account required.</p>
+      <SmartDownloadButton client:visible location="blog_post" />
     </div>
 
     <footer class="post-footer">
@@ -257,6 +264,29 @@ const structuredData = {
   .article-content :global(strong) {
     font-weight: 600;
     color: var(--text-primary);
+  }
+
+  /* Post CTA */
+  .post-cta {
+    margin-top: 48px;
+    padding: 32px;
+    background: var(--surface, #1a1817);
+    border: 1px solid var(--surface-light);
+    border-radius: 12px;
+    text-align: center;
+  }
+
+  .post-cta h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+
+  .post-cta p {
+    font-size: 15px;
+    color: var(--text-secondary);
+    margin-bottom: 16px;
   }
 
   /* Post footer */

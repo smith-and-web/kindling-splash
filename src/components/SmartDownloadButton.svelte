@@ -1,6 +1,12 @@
 <script lang="ts">
   import { trackDownload, trackDownloadCTA } from '../scripts/analytics';
 
+  function gtagSafe(...args: unknown[]): void {
+    if (typeof globalThis.gtag === 'function') {
+      globalThis.gtag(...args);
+    }
+  }
+
   /* ---- Download config (inline for client-side Svelte) ---- */
   const APP_VERSION = '1.2.0';
 
@@ -65,9 +71,21 @@
   let download = $derived(detectedOS ? DOWNLOADS[detectedOS] : null);
 
   /* ---- Handlers ---- */
-  function handleDownloadClick(): void {
-    if (detectedOS) {
+  function handleDownloadClick(event: MouseEvent): void {
+    if (detectedOS && download) {
+      event.preventDefault();
       trackDownload(detectedOS, location);
+      // Trigger file download programmatically
+      const link = document.createElement('a');
+      link.href = download.url;
+      link.style.display = 'none';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      // Redirect to thanks page after a brief delay
+      setTimeout(() => {
+        window.location.href = `/download/thanks/?os=${detectedOS}`;
+      }, 500);
     }
   }
 
@@ -81,6 +99,7 @@
     if (navigator.share) {
       try {
         await navigator.share(shareData);
+        gtagSafe('event', 'mobile_share', { method: 'native_share', cta_location: location });
       } catch {
         // User cancelled or share failed — ignore
       }
@@ -89,6 +108,7 @@
       try {
         await navigator.clipboard.writeText(shareData.url);
         clipboardCopied = true;
+        gtagSafe('event', 'mobile_share', { method: 'clipboard', cta_location: location });
         setTimeout(() => (clipboardCopied = false), 2000);
       } catch {
         // Clipboard also failed — ignore
