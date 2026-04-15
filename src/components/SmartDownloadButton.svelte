@@ -74,6 +74,9 @@
   function handleDownloadClick(event: MouseEvent): void {
     if (detectedOS && download) {
       event.preventDefault();
+      // Fire the CTA click event too — the direct-download path skips /download/
+      // entirely, so without this the top of the funnel would be invisible.
+      trackDownloadCTA(location);
       trackDownload(detectedOS, location);
       // Trigger file download programmatically
       const link = document.createElement('a');

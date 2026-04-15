@@ -310,12 +310,14 @@ import { APP_VERSION } from '../../data/downloads';
     }
   })();
 
-  // GA4 download_complete event — standardized schema
+  // GA4 download_initiated event — fires when the user reaches the thanks page
+  // after a click. Named "initiated" (not "complete") because we can't actually
+  // verify the binary download succeeded; this is a proxy for intent.
   (function () {
     if (typeof gtag === 'function') {
       var params = new URLSearchParams(window.location.search);
       var os = params.get('os') || 'unknown';
-      gtag('event', 'download_complete', {
+      gtag('event', 'download_initiated', {
         os_platform: os,
         app_version: '1.2.0'
       });

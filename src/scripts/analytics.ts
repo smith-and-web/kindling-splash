@@ -32,13 +32,6 @@ export function trackDownloadCTA(location: string): void {
   });
 }
 
-/** Download actually completed (e.g. after redirect / thanks page). */
-export function trackDownloadComplete(os: string): void {
-  gtagSafe('event', 'download_complete', {
-    operating_system: os,
-  });
-}
-
 /** Post-download engagement (e.g. "join discord", "star on github"). */
 export function trackPostDownloadAction(action: string): void {
   gtagSafe('event', 'post_download_action', {
