@@ -34,3 +34,36 @@
     transform: none;
   }
 }
+
+/* ===== Hero Typing Cursor ===== */
+/* Cursor is invisible by default; JS adds .typing once it starts animating. */
+.type-cursor {
+  display: inline-block;
+  width: 3px;
+  height: 0.8em;
+  background: var(--ember-orange);
+  margin-left: 4px;
+  vertical-align: -0.05em;
+  opacity: 0;
+  border-radius: 1px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .typing .type-cursor {
+    animation: cursor-blink 0.85s steps(2, jump-none) infinite;
+  }
+
+  .type-complete .type-cursor {
+    animation: cursor-blink 0.85s steps(2, jump-none) 2, cursor-fade 0.5s 1.7s ease-out forwards;
+  }
+
+  @keyframes cursor-blink {
+    0%, 49% { opacity: 1; }
+    50%, 100% { opacity: 0; }
+  }
+
+  @keyframes cursor-fade {
+    from { opacity: 1; }
+    to { opacity: 0; }
+  }
+}

@@ -36,10 +36,59 @@ const structuredData = {
   description="Kindling Writer is free fiction writing software that keeps your outline visible while you draft. Import from Plottr, Scrivener, yWriter, or Obsidian. Desktop app for macOS, Windows & Linux."
   structuredData={structuredData}
 >
+  <!-- Hero typing effect — runs before hero renders so the final text doesn't
+       flash in before the animation takes over. Fires once per session and
+       skips entirely when prefers-reduced-motion is set. -->
+  <script is:inline>
+    (function () {
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      try {
+        if (sessionStorage.getItem('heroTyped')) return;
+      } catch (_) { return; }
+
+      var style = document.createElement('style');
+      style.textContent = '.hero h1 .type-text{visibility:hidden}';
+      document.head.appendChild(style);
+
+      function run() {
+        var h1 = document.querySelector('.hero h1');
+        if (!h1) return;
+        var textSpan = h1.querySelector('.type-text');
+        if (!textSpan) return;
+
+        try { sessionStorage.setItem('heroTyped', '1'); } catch (_) {}
+        var full = textSpan.textContent;
+        textSpan.textContent = '';
+        textSpan.style.visibility = 'visible';
+        h1.classList.add('typing');
+
+        var i = 0;
+        (function type() {
+          if (i >= full.length) {
+            h1.classList.remove('typing');
+            h1.classList.add('type-complete');
+            return;
+          }
+          textSpan.textContent += full[i];
+          i++;
+          var ch = full[i - 1];
+          var delay = ch === ' ' ? 75 : 40 + Math.random() * 50;
+          setTimeout(type, delay);
+        })();
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', run);
+      } else {
+        run();
+      }
+    })();
+  </script>
+
   <!-- Hero Section -->
   <section class="hero">
     <div class="hero-content">
-      <h1>From outline to first draft</h1>
+      <h1 aria-label="From outline to first draft"><span class="type-text">From outline to first draft</span><span class="type-cursor" aria-hidden="true"></span></h1>
       <p class="tagline">Your outline, visible while you write</p>
       <p class="open-source-badge">v{APP_VERSION} · Free & Open Source · AI-free</p>
 
