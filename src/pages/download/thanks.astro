@@ -1,6 +1,12 @@
 ---
 import MarketingLayout from '../../layouts/MarketingLayout.astro';
-import { APP_VERSION } from '../../data/downloads';
+import { APP_VERSION, DOWNLOADS } from '../../data/downloads';
+
+const downloadUrls = {
+  mac: DOWNLOADS.mac.url,
+  windows: DOWNLOADS.windows.url,
+  linux: DOWNLOADS.linux.url,
+};
 ---
 
 <MarketingLayout
@@ -273,7 +279,7 @@ import { APP_VERSION } from '../../data/downloads';
   }
 </style>
 
-<script is:inline>
+<script is:inline define:vars={{ downloadUrls, APP_VERSION }}>
   // Detect OS from query parameter or user agent
   (function () {
     var params = new URLSearchParams(window.location.search);
@@ -309,6 +315,23 @@ import { APP_VERSION } from '../../data/downloads';
     }
   })();
 
+  // Trigger the actual file download from here (not from the CTA page).
+  // Doing it on the thanks page avoids a race where a follow-up navigation
+  // cancels Chrome's in-flight request before it sees Content-Disposition.
+  (function () {
+    var params = new URLSearchParams(window.location.search);
+    var osKey = params.get('os');
+    if (osKey && downloadUrls[osKey]) {
+      var link = document.createElement('a');
+      link.href = downloadUrls[osKey];
+      link.rel = 'noopener';
+      link.style.display = 'none';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  })();
+
   // GA4 download_initiated event — fires when the user reaches the thanks page
   // after a click. Named "initiated" (not "complete") because we can't actually
   // verify the binary download succeeded; this is a proxy for intent.
@@ -318,7 +341,7 @@ import { APP_VERSION } from '../../data/downloads';
       var os = params.get('os') || 'unknown';
       gtag('event', 'download_initiated', {
         os_platform: os,
-        app_version: '1.2.0'
+        app_version: APP_VERSION
       });
     }
   })();

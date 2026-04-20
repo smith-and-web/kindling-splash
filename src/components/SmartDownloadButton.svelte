@@ -11,7 +11,7 @@
   const APP_VERSION = '1.2.0';
 
   const DOWNLOADS: Record<string, { label: string; url: string; size: string }> = {
-    macos: {
+    mac: {
       label: 'macOS',
       url: `https://github.com/smith-and-web/kindling/releases/latest/download/Kindling_${APP_VERSION}_universal.dmg`,
       size: '~10 MB',
@@ -54,13 +54,13 @@
     if ('userAgentData' in navigator) {
       const uad = (navigator as any).userAgentData;
       const platform: string = (uad?.platform ?? '').toLowerCase();
-      if (platform.includes('mac')) return { os: 'macos', mobile: false };
+      if (platform.includes('mac')) return { os: 'mac', mobile: false };
       if (platform.includes('windows') || platform.includes('win')) return { os: 'windows', mobile: false };
       if (platform.includes('linux') || platform.includes('chromeos')) return { os: 'linux', mobile: false };
     }
 
     // Fallback: classic userAgent string
-    if (/Macintosh|Mac OS X/i.test(ua)) return { os: 'macos', mobile: false };
+    if (/Macintosh|Mac OS X/i.test(ua)) return { os: 'mac', mobile: false };
     if (/Windows/i.test(ua)) return { os: 'windows', mobile: false };
     if (/Linux/i.test(ua)) return { os: 'linux', mobile: false };
 
@@ -78,17 +78,10 @@
       // entirely, so without this the top of the funnel would be invisible.
       trackDownloadCTA(location);
       trackDownload(detectedOS, location);
-      // Trigger file download programmatically
-      const link = document.createElement('a');
-      link.href = download.url;
-      link.style.display = 'none';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      // Redirect to thanks page after a brief delay
-      setTimeout(() => {
-        window.location.href = `/download/thanks/?os=${detectedOS}`;
-      }, 500);
+      // Navigate to the thanks page; the thanks page triggers the actual file
+      // download once loaded. Kicking off the download here and then navigating
+      // races Chrome's download pipeline against the main-frame navigation.
+      window.location.href = `/download/thanks/?os=${detectedOS}`;
     }
   }
 

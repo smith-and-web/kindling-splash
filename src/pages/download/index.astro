@@ -415,8 +415,11 @@ const platforms = Object.entries(DOWNLOADS) as [string, typeof DOWNLOADS[keyof t
     }
   })();
 
-  // Download tracking — standardized event name across all pages
-  function trackDownload(platform, downloadUrl) {
+  // Download tracking — standardized event name across all pages.
+  // We navigate to the thanks page and trigger the actual file download
+  // from there. Doing both from here races Chrome's download pipeline
+  // against the main-frame navigation and cancels the download.
+  function trackDownload(platform, _downloadUrl) {
     if (typeof gtag === 'function') {
       gtag('event', 'download_click', {
         os_platform: platform,
@@ -424,17 +427,6 @@ const platforms = Object.entries(DOWNLOADS) as [string, typeof DOWNLOADS[keyof t
         app_version: '1.2.0'
       });
     }
-    // Start the file download, then redirect to thanks page
-    if (downloadUrl) {
-      var link = document.createElement('a');
-      link.href = downloadUrl;
-      link.style.display = 'none';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      setTimeout(function() {
-        window.location.href = '/download/thanks/?os=' + platform;
-      }, 500);
-    }
+    window.location.href = '/download/thanks/?os=' + platform;
   }
 </script>
