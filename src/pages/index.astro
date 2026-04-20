@@ -6,6 +6,37 @@ import { APP_VERSION, DOWNLOADS } from '../data/downloads';
 import beatWithProse from '../assets/beat-with-prose.png';
 import referencesPanel from '../assets/references-panel.png';
 
+// Ember particles — atmospheric sparks rising in the hero. Generated at
+// build time; values are randomized per-ember so the swarm feels organic
+// rather than clocked. Negative delays stagger the start so all N are
+// already animating mid-cycle when the page loads (no initial "fill" gap).
+// Three color variants (ember/flame/gold) simulate how real embers shift hue
+// as they cool — some particles hotter, some dimmer.
+const emberColors = [
+  'rgb(232, 90, 27)',   // ember-orange (base)
+  'rgb(232, 90, 27)',   // weighted toward base
+  'rgb(255, 138, 61)',  // flame — hotter, lighter
+  'rgb(255, 184, 77)',  // gold — coolest/brightest
+];
+
+const embers = Array.from({ length: 20 }).map(() => {
+  const size = 2 + Math.floor(Math.random() * 7); // 2–8px, keep size variance
+  // Cluster x around the middle (Gaussian-ish via averaging) so embers look
+  // like they're rising from the concentrated fire bed, not scattered edge-to-edge.
+  const x = Math.round(((Math.random() + Math.random()) / 2) * 100);
+  return {
+    x,
+    size,
+    duration: 6 + Math.floor(Math.random() * 9),  // 6–14s
+    delay: -Math.floor(Math.random() * 14),
+    sway: -70 + Math.floor(Math.random() * 140),  // −70 to +70
+    // Brightness reduced: opacity caps lower, glow scaled smaller
+    opacity: (0.22 + Math.random() * 0.45).toFixed(2), // 0.22–0.67
+    color: emberColors[Math.floor(Math.random() * emberColors.length)],
+    glow: Math.round(size * 1.3 + Math.random() * 4),
+  };
+});
+
 const structuredData = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
@@ -36,15 +67,14 @@ const structuredData = {
   description="Kindling Writer is free fiction writing software that keeps your outline visible while you draft. Import from Plottr, Scrivener, yWriter, or Obsidian. Desktop app for macOS, Windows & Linux."
   structuredData={structuredData}
 >
-  <!-- Hero typing effect — runs before hero renders so the final text doesn't
-       flash in before the animation takes over. Fires once per session and
-       skips entirely when prefers-reduced-motion is set. -->
+  <!-- Hero typing effect — runs before the hero renders so the final text
+       doesn't flash in before the animation takes over. Fires on every load
+       and skips only when prefers-reduced-motion is set. SEO-safe: the full
+       headline text stays in the DOM inside the .type-text span (the
+       typing script only mutates it client-side). -->
   <script is:inline>
     (function () {
       if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-      try {
-        if (sessionStorage.getItem('heroTyped')) return;
-      } catch (_) { return; }
 
       var style = document.createElement('style');
       style.textContent = '.hero h1 .type-text{visibility:hidden}';
@@ -56,7 +86,6 @@ const structuredData = {
         var textSpan = h1.querySelector('.type-text');
         if (!textSpan) return;
 
-        try { sessionStorage.setItem('heroTyped', '1'); } catch (_) {}
         var full = textSpan.textContent;
         textSpan.textContent = '';
         textSpan.style.visibility = 'visible';
@@ -65,14 +94,13 @@ const structuredData = {
         var i = 0;
         (function type() {
           if (i >= full.length) {
-            h1.classList.remove('typing');
             h1.classList.add('type-complete');
             return;
           }
           textSpan.textContent += full[i];
           i++;
           var ch = full[i - 1];
-          var delay = ch === ' ' ? 75 : 40 + Math.random() * 50;
+          var delay = ch === ' ' ? 55 : 25 + Math.random() * 35;
           setTimeout(type, delay);
         })();
       }
@@ -94,6 +122,19 @@ const structuredData = {
 
       <!-- Smart Download CTA (hydrated client-side) -->
       <SmartDownloadButton client:load location="hero" />
+    </div>
+
+    <!-- Ember source line: zero-height wrapper sitting between hero-content
+         and hero-visual so its embers are anchored at the top edge of the video. -->
+    <div class="ember-source" aria-hidden="true">
+      <div class="ember-container">
+        {embers.map((e) => (
+          <span
+            class="ember"
+            style={`--ember-x:${e.x}%;--ember-size:${e.size}px;--ember-duration:${e.duration}s;--ember-delay:${e.delay}s;--ember-sway:${e.sway}px;--ember-opacity:${e.opacity};--ember-color:${e.color};--ember-glow:${e.glow}px;`}
+          />
+        ))}
+      </div>
     </div>
 
     <!-- Product visual inside hero — CTA flows directly into screenshot -->
@@ -266,6 +307,73 @@ const structuredData = {
     width: 100%;
   }
 
+  /* ===== Ember source =====
+     Zero-height flex item between hero-content and hero-visual. Exists
+     purely to position .ember-container so embers rise from the top edge
+     of the demo video. */
+  .ember-source {
+    position: relative;
+    width: 100%;
+    max-width: 960px;
+    height: 0;
+    margin-top: 40px; /* mirrors the old hero-visual margin-top — seam stays put */
+    pointer-events: none;
+  }
+
+  /* ===== Ember particles =====
+     Anchored at the ember-source line (bottom: 0) and rise upward. Each .ember
+     reads its randomized values from CSS custom properties set inline, so
+     one set of keyframes drives N unique trajectories. */
+  .ember-container {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;        /* anchored at the ember-source line */
+    height: 520px;    /* vertical travel range; .hero's overflow:hidden clips anything escaping */
+    pointer-events: none;
+    z-index: 2;       /* sits above .hero-visual (z-index: 1) so rising embers stay visible */
+  }
+
+  .ember {
+    position: absolute;
+    bottom: 0;
+    left: var(--ember-x);
+    width: var(--ember-size);
+    height: var(--ember-size);
+    background: var(--ember-color, var(--ember-orange));
+    border-radius: 50%;
+    /* Glow radius scales with size — larger embers are visibly brighter.
+       Softer tint (30% not 45%) to reduce overall brightness. */
+    box-shadow: 0 0 var(--ember-glow, 8px) 0 color-mix(in srgb, var(--ember-color, var(--ember-orange)) 30%, transparent);
+    opacity: 0;
+    animation:
+      ember-rise var(--ember-duration) linear var(--ember-delay) infinite,
+      ember-flicker calc(var(--ember-duration) / 5) ease-in-out var(--ember-delay) infinite alternate;
+    will-change: transform, opacity, filter;
+  }
+
+  @keyframes ember-rise {
+    0%   { transform: translate3d(0, 0, 0) scale(1); opacity: 0; }
+    12%  { opacity: var(--ember-opacity); }
+    75%  { opacity: var(--ember-opacity); }
+    100% { transform: translate3d(var(--ember-sway), -480px, 0) scale(0.3); opacity: 0; }
+  }
+
+  /* Gentle brightness waver — dimmer range than before per design feedback. */
+  @keyframes ember-flicker {
+    from { filter: brightness(0.65); }
+    to   { filter: brightness(1.0); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ember-container { display: none; }
+  }
+
+  @media (max-width: 768px) {
+    /* Thin out the swarm on mobile so it stays atmosphere, not noise. */
+    .ember:nth-child(n+13) { display: none; }
+  }
+
   .hero h1 {
     font-family: 'Space Grotesk', sans-serif;
     font-size: clamp(36px, 7vw, 60px);
@@ -296,13 +404,14 @@ const structuredData = {
     letter-spacing: 0.02em;
   }
 
-  /* Hero visual — product screenshot/video directly below CTA */
+  /* Hero visual — product screenshot/video directly below CTA.
+     Spacing above is now owned by the .ember-source element so the seam stays aligned. */
   .hero-visual {
     position: relative;
     z-index: 1;
     width: 100%;
     max-width: 960px;
-    margin-top: 40px;
+    margin-top: 0;
     /* Clip so the bottom edge bleeds into the next section, enticing scroll */
     mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
     -webkit-mask-image: linear-gradient(to bottom, black 70%, transparent 100%);

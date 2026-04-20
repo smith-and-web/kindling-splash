@@ -4,24 +4,30 @@
 @media (prefers-reduced-motion: no-preference) {
   .fade-in-on-scroll {
     opacity: 0;
-    transform: translateY(24px);
-    animation: fadeSlideIn 0.5s ease forwards;
+    transform: translateY(100px) scale(0.92);
+    filter: blur(4px);
+    animation: fadeSlideIn 0.7s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
     animation-timeline: view();
-    animation-range: entry 10% entry 40%;
+    /* Widened range so the reveal plays over ~half the viewport of scroll,
+       not a tight sliver. Combined with the blur+scale+translate it reads
+       as a clear "settle into place" rather than a flicker. */
+    animation-range: entry 15% cover 35%;
   }
 
   .fade-in-on-scroll-delayed {
     opacity: 0;
-    transform: translateY(24px);
-    animation: fadeSlideIn 0.5s ease forwards;
+    transform: translateY(100px) scale(0.92);
+    filter: blur(4px);
+    animation: fadeSlideIn 0.7s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
     animation-timeline: view();
-    animation-range: entry 15% entry 45%;
+    animation-range: entry 25% cover 45%;
   }
 
   @keyframes fadeSlideIn {
     to {
       opacity: 1;
-      transform: translateY(0);
+      transform: translateY(0) scale(1);
+      filter: blur(0);
     }
   }
 }
@@ -36,7 +42,8 @@
 }
 
 /* ===== Hero Typing Cursor ===== */
-/* Cursor is invisible by default; JS adds .typing once it starts animating. */
+/* Always visible after hydration, blinks forever. Hidden only if the
+   no-JS/reduced-motion path leaves no .typing or .type-complete class. */
 .type-cursor {
   display: inline-block;
   width: 3px;
@@ -49,21 +56,13 @@
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .typing .type-cursor {
-    animation: cursor-blink 0.85s steps(2, jump-none) infinite;
-  }
-
+  .typing .type-cursor,
   .type-complete .type-cursor {
-    animation: cursor-blink 0.85s steps(2, jump-none) 2, cursor-fade 0.5s 1.7s ease-out forwards;
+    animation: cursor-blink 0.85s steps(2, jump-none) infinite;
   }
 
   @keyframes cursor-blink {
     0%, 49% { opacity: 1; }
     50%, 100% { opacity: 0; }
-  }
-
-  @keyframes cursor-fade {
-    from { opacity: 1; }
-    to { opacity: 0; }
   }
 }
