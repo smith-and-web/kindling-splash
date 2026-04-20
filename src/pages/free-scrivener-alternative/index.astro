@@ -1,0 +1,248 @@
+---
+import MarketingLayout from '../../layouts/MarketingLayout.astro';
+import SmartDownloadButton from '../../components/SmartDownloadButton.svelte';
+import { APP_VERSION } from '../../data/downloads';
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Kindling Writer",
+  "description": "Kindling Writer is a free, open-source Scrivener alternative for fiction writers. Outline and draft in one desktop app. Imports Scrivener projects. No subscription, no account, works offline.",
+  "url": "https://kindlingwriter.com/",
+  "applicationCategory": "DesktopApplication",
+  "operatingSystem": "Windows, macOS, Linux",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "softwareVersion": APP_VERSION,
+  "license": "https://opensource.org/licenses/MIT",
+  "downloadUrl": "https://kindlingwriter.com/download/",
+  "author": {
+    "@type": "Organization",
+    "name": "Kindling",
+    "url": "https://kindlingwriter.com"
+  }
+};
+
+const faqStructuredData = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Is Kindling really a free Scrivener alternative?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Kindling is completely free and open source under the MIT license. No premium tiers, no subscriptions, no feature gates. It is a native desktop app for macOS, Windows, and Linux — you download it once and it is yours forever."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can Kindling open my existing Scrivener projects?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Kindling imports Scrivener 3 .scriv bundles directly, preserving your binder hierarchy, synopses, and draft content. You can also export back to a new .scriv bundle or update an existing one — Kindling and Scrivener can share the same project."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does Kindling work offline?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Kindling is a desktop application that works completely offline. Your novel is stored as local files on your hard drive — no cloud accounts, no internet connection required, no data collection."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is Kindling as powerful as Scrivener?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "For outlining and drafting, Kindling has a tighter focus — your outline lives inside your drafting space, so you never face a blank page. For heavy manuscript management, research organization, and advanced compile, Scrivener is still deeper. Many writers use both: draft in Kindling, revise and compile in Scrivener."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I export back to Scrivener?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Kindling exports to Scrivener 3 .scriv bundles. You can create a new Scrivener project from your Kindling draft, or update an existing Scrivener project with a match preview that shows exactly how scenes will map back."
+      }
+    }
+  ]
+};
+---
+
+<MarketingLayout
+  title="Free Scrivener Alternative for Fiction Writers — Kindling Writer"
+  description="Kindling Writer is a free, open-source Scrivener alternative for fiction writers. Outline and draft in one desktop app. Imports Scrivener projects. No subscription, no account, works offline."
+  structuredData={structuredData}
+>
+  <script type="application/ld+json" set:html={JSON.stringify(faqStructuredData)} />
+
+  <!-- ===== Hero ===== -->
+  <section class="page-hero">
+    <h1>The free Scrivener alternative for fiction writers</h1>
+    <p class="page-hero-subtext">Scrivener is brilliant — and for most fiction writers, it's overkill. If you don't need the binder, the corkboard, the research folders, and the compile system, you're paying $49 for features you'll never touch. Kindling Writer is the free, open-source alternative built around the one thing most novelists actually need: an outline that stays visible while you draft.</p>
+    <SmartDownloadButton client:load location="free-scrivener-alternative-hero" />
+  </section>
+
+  <!-- ===== What you get for free ===== -->
+  <section class="content-section">
+    <h2>What you get for free</h2>
+    <ul>
+      <li><strong>Scene-and-beat outlining</strong> that reads like Scrivener's corkboard, but linear and editable in the drafting view.</li>
+      <li><strong>Outline pinned beside your draft</strong> — no switching between binder and editor. Your beats are right there while you write.</li>
+      <li><strong>Scrivener import.</strong> Bring in your existing <code>.scriv</code> projects — chapters, scenes, synopses, and prose all come across.</li>
+      <li><strong>Scrivener export.</strong> Send your draft back to Scrivener as a new bundle, or update an existing one with a match preview.</li>
+      <li><strong>Desktop app</strong> for macOS, Windows, and Linux. Not a web app. Not a subscription.</li>
+      <li><strong>No account required.</strong> Works offline. Your novel stays on your machine.</li>
+      <li><strong>Open source.</strong> MIT licensed. The code is on GitHub — you can read it, fork it, or run your own build.</li>
+    </ul>
+  </section>
+
+  <!-- ===== Comparison Table ===== -->
+  <section class="content-section alt">
+    <h2>Kindling vs Scrivener at a glance</h2>
+    <div class="comparison-table-wrap">
+      <table class="comparison-table">
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th>Scrivener</th>
+            <th>Kindling Writer</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Price</td>
+            <td>$49 one-time</td>
+            <td><strong>Free forever</strong></td>
+          </tr>
+          <tr>
+            <td>Platforms</td>
+            <td>Mac, Windows, iOS</td>
+            <td>Mac, Windows, Linux</td>
+          </tr>
+          <tr>
+            <td>Outlining</td>
+            <td>Corkboard + binder</td>
+            <td>Scenes + beats, pinned beside draft</td>
+          </tr>
+          <tr>
+            <td>Drafting</td>
+            <td>Rich text editor</td>
+            <td>Distraction-free editor with outline</td>
+          </tr>
+          <tr>
+            <td>Research folder</td>
+            <td class="check">&#10003;</td>
+            <td class="cross">&#10007; (use Obsidian or files)</td>
+          </tr>
+          <tr>
+            <td>Compile / export</td>
+            <td>Powerful, complex</td>
+            <td>Simple (Word, Markdown, EPUB, Scrivener)</td>
+          </tr>
+          <tr>
+            <td>Import Scrivener <code>.scriv</code></td>
+            <td>N/A</td>
+            <td class="check">&#10003;</td>
+          </tr>
+          <tr>
+            <td>Export back to Scrivener</td>
+            <td>N/A</td>
+            <td class="check">&#10003;</td>
+          </tr>
+          <tr>
+            <td>Open source</td>
+            <td class="cross">&#10007;</td>
+            <td class="check">&#10003;</td>
+          </tr>
+          <tr>
+            <td>Works offline</td>
+            <td class="check">&#10003;</td>
+            <td class="check">&#10003;</td>
+          </tr>
+          <tr>
+            <td>Subscription</td>
+            <td class="cross">&#10007;</td>
+            <td class="cross">&#10007;</td>
+          </tr>
+          <tr>
+            <td>AI-free</td>
+            <td class="check">&#10003;</td>
+            <td class="check">&#10003;</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ===== Who it's for ===== -->
+  <section class="content-section">
+    <h2>Who this is for</h2>
+    <ul style="list-style: none; padding: 0;">
+      <li style="margin-bottom: 12px;"><strong>You tried Scrivener and found it overwhelming.</strong> The binder, the inspector, the compile dialog — it's a lot of surface area for what you actually want to do: outline a novel and write it.</li>
+      <li style="margin-bottom: 12px;"><strong>You want to outline <em>and</em> draft in the same tool</strong> without paying a subscription or committing to a cloud platform.</li>
+      <li style="margin-bottom: 12px;"><strong>You want your novel saved locally</strong>, not in a cloud you don't control. Kindling projects are SQLite files on your hard drive. No sync, no lock-in.</li>
+      <li style="margin-bottom: 12px;"><strong>You're a plotter or plantser</strong> — someone who plans before drafting, or plans as they go. Kindling's Rolling Outline lets you decide how much structure each scene needs.</li>
+      <li style="margin-bottom: 12px;"><strong>You want to support open source tools.</strong> Kindling is MIT licensed. The code is public. No venture capital, no acquisition risk, no sunset.</li>
+    </ul>
+  </section>
+
+  <!-- ===== Who Scrivener is still better for ===== -->
+  <section class="content-section alt">
+    <h2>Who Scrivener is still better for</h2>
+    <p>Kindling isn't trying to be Scrivener. There are writers for whom Scrivener is the right tool, and we'd rather you know that upfront than switch and regret it:</p>
+    <ul>
+      <li><strong>Heavy research workflows.</strong> If your novel tracks reference PDFs, web pages, images, and audio clips, Scrivener's research folder is unmatched.</li>
+      <li><strong>Granular compile control.</strong> If you publish to specific platforms that need precise formatting (Kindle, IngramSpark, academic presses), Scrivener's compile engine is deeper than Kindling's export.</li>
+      <li><strong>iPad writing.</strong> Kindling is desktop-only. Scrivener's iOS app is still the best way to write a novel on an iPad.</li>
+      <li><strong>Years of Scrivener investment.</strong> If you already have a working Scrivener setup, templates, and muscle memory, there's no reason to switch. Use Kindling for the outline-to-draft step and keep Scrivener for revision.</li>
+    </ul>
+  </section>
+
+  <!-- ===== How to switch ===== -->
+  <section class="content-section">
+    <h2>How to switch from Scrivener to Kindling</h2>
+    <ol>
+      <li><strong>Download Kindling</strong> — <a href="/download/">free for Mac, Windows, or Linux</a>.</li>
+      <li><strong>Open your Scrivener project in Kindling.</strong> Choose <strong>File &rarr; Import &rarr; Scrivener</strong>, then select your <code>.scriv</code> bundle. Your chapters, scenes, and synopses import as a navigable outline.</li>
+      <li><strong>Draft with your outline visible.</strong> Each scene opens with its synopsis pinned beside the prose — no more toggling the inspector.</li>
+      <li><strong>Keep Scrivener installed.</strong> When you're ready to revise and compile, export back to a <code>.scriv</code> bundle. Kindling and Scrivener can share the same project.</li>
+    </ol>
+    <p>See the full <a href="/docs/importing-projects/">import documentation</a> and <a href="/docs/exporting-projects/">export documentation</a>.</p>
+  </section>
+
+  <!-- ===== FAQ ===== -->
+  <section class="content-section alt">
+    <h2>Frequently asked questions</h2>
+
+    <h3>Is Kindling really a free Scrivener alternative?</h3>
+    <p>Yes. Kindling is completely free and open source under the MIT license. No premium tiers, no subscriptions, no feature gates. It's a native desktop app for macOS, Windows, and Linux — you download it once and it's yours forever.</p>
+
+    <h3>Can Kindling open my existing Scrivener projects?</h3>
+    <p>Yes. Kindling imports Scrivener 3 <code>.scriv</code> bundles directly, preserving your binder hierarchy, synopses, and draft content. You can also export back to a new <code>.scriv</code> bundle or update an existing one — Kindling and Scrivener can share the same project.</p>
+
+    <h3>Does Kindling work offline?</h3>
+    <p>Yes. Kindling is a desktop application that works completely offline. Your novel is stored as local files on your hard drive — no cloud accounts, no internet connection required, no data collection.</p>
+
+    <h3>Is Kindling as powerful as Scrivener?</h3>
+    <p>For outlining and drafting, Kindling has a tighter focus — your outline lives inside your drafting space, so you never face a blank page. For heavy manuscript management, research organization, and advanced compile, Scrivener is still deeper. Many writers use both: draft in Kindling, revise and compile in Scrivener.</p>
+
+    <h3>Can I export back to Scrivener?</h3>
+    <p>Yes. Kindling exports to Scrivener 3 <code>.scriv</code> bundles. You can create a new Scrivener project from your Kindling draft, or update an existing Scrivener project with a match preview that shows exactly how scenes will map back.</p>
+
+    <h3>Where can I read more?</h3>
+    <p>See the <a href="/compare/">full comparison of fiction writing software</a>, read the blog post on <a href="/blog/best-scrivener-alternatives-for-plotters/">the best Scrivener alternatives for plotters</a>, or compare <a href="/plottr-vs-scrivener/">Plottr vs Scrivener</a>.</p>
+  </section>
+
+  <!-- ===== Bottom CTA ===== -->
+  <section class="cta-section">
+    <h2>Stop paying for features you don't use</h2>
+    <p>Free, open source, works offline. macOS, Windows, and Linux.</p>
+    <SmartDownloadButton client:visible location="free-scrivener-alternative-cta" />
+  </section>
+</MarketingLayout>
