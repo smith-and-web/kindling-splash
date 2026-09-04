@@ -305,8 +305,10 @@ const structuredData = {
   }
 
   /* ===== Features section — uses shared .section-lead / .feature-seq ===== */
+  /* padding-block only — a `padding` shorthand here would zero the horizontal
+     gutter this element inherits from .editorial. */
   .features-section {
-    padding: var(--space-4xl) 0 var(--space-3xl);
+    padding-block: var(--space-4xl) var(--space-3xl);
   }
 
   /* ===== v1.2 spotlight — uses shared .spotlight-list; page-specific chrome ===== */

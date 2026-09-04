@@ -33,6 +33,7 @@ function isActive(href: string): boolean {
         <a
           href={link.href}
           class:list={['navbar-link', { active: isActive(link.href) }]}
+          aria-current={isActive(link.href) ? 'page' : undefined}
         >
           {link.label}
         </a>
@@ -49,7 +50,7 @@ function isActive(href: string): boolean {
     left: 0;
     right: 0;
     z-index: 1000;
-    background: rgba(244, 239, 230, 0.85);
+    background: var(--color-nav-scrim);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--color-border);

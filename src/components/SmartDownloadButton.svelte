@@ -1,5 +1,6 @@
 <script lang="ts">
   import { trackDownload, trackDownloadCTA } from '../scripts/analytics';
+  import { APP_VERSION } from '../data/downloads';
 
   function gtagSafe(...args: unknown[]): void {
     if (typeof globalThis.gtag === 'function') {
@@ -7,9 +8,8 @@
     }
   }
 
-  /* ---- Download config (inline for client-side Svelte) ---- */
-  const APP_VERSION = '1.2.0';
-
+  /* ---- Download config. APP_VERSION comes from data/downloads.ts so the
+     version has a single source of truth. ---- */
   const DOWNLOADS: Record<string, { label: string; url: string; size: string }> = {
     mac: {
       label: 'macOS',

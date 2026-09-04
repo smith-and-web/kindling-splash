@@ -58,6 +58,29 @@
 
 /* ===== Site-only rules (not part of the shared component system) ===== */
 
+/* Skip link — offscreen until keyboard-focused. */
+.skip-link {
+  position: absolute;
+  left: var(--space-s);
+  top: -6rem;
+  z-index: 1100;
+  padding: var(--space-2xs) var(--space-s);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-m);
+  font-family: var(--font-ui);
+  font-size: var(--text-ui);
+  color: var(--color-text);
+  text-decoration: none;
+  transition: top var(--transition);
+}
+
+.skip-link:focus {
+  top: var(--space-s);
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
 /* Layout helper */
 .page-padding {
   padding: 120px 24px 80px;

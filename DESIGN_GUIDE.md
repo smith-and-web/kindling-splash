@@ -87,12 +87,23 @@ and **sunken** (darker) surfaces plus hairline borders — not from heavy shadow
 | Accent wash — highlight fills | `rgba(181,83,46,.08)` | `rgba(224,138,92,.12)` | `--color-accent-wash` |
 | Nav scrim — translucent navbar | `rgba(244,239,230,.85)` | `rgba(30,26,22,.85)` | `--color-nav-scrim` |
 
-### The one hard contrast rule
+### Hard contrast rules
 
 Terracotta `#B5532E` is for **fills, borders and icons — never body text on
 paper.** It lands at 4.32:1, under AA. Small accent text and links use
 `--color-accent-text` (`#9E3D1B`), which clears AA. Paper-coloured text *on* a
 terracotta fill is fine (~5.8:1), which is why buttons work.
+
+**Success green is subject to the same arithmetic.** It is used as *text* — the
+comparison-table checks — so it must clear AA on every ground it lands on,
+including the sunken band. At `#3E7C5A` it was 4.33:1 on paper and 3.93:1 on
+sunken, i.e. the exact failure the terracotta rule exists to prevent, missed
+because nobody wrote it down. It is now `#356B4D` (4.95:1 at worst).
+
+**Never set opacity on text to make it quieter.** Use `--color-text-muted`,
+which is contrast-checked. Opacity silently multiplies against the background
+and is how the download size text reached 2.98:1 and the comparison crosses
+2.20:1.
 
 ### Accent discipline
 

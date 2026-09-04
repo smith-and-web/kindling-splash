@@ -127,7 +127,8 @@ const downloadUrls = {
       <h2 style="font-size: var(--text-body-lg);">Get notified about updates</h2>
       <p style="font-size: var(--text-ui); color: var(--color-text-muted); margin-bottom: 16px;">We'll email you when new versions are released. No spam, unsubscribe anytime.</p>
       <form class="signup-form" action="https://app.kit.com/forms/8996985/subscriptions" method="post" target="_blank">
-        <input type="email" name="email_address" placeholder="your@email.com" required>
+        <label class="sr-only" for="newsletter-email">Email address</label>
+        <input type="email" id="newsletter-email" name="email_address" placeholder="your@email.com" autocomplete="email" required>
         <button type="submit">Subscribe</button>
       </form>
     </div>

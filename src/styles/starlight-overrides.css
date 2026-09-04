@@ -5,10 +5,45 @@
    is loaded in the docs theme, which doesn't import tokens.css).
    ============================================================ */
 
+/* ===== Self-hosted Press fonts =====
+   Starlight does not load global.css, so without these the docs fall back to
+   system fonts entirely — Fraunces AND Inter were both unresolved references.
+   Same files as the marketing site; no CDN. */
+@font-face {
+  font-family: 'Fraunces';
+  src: url('/fonts/Fraunces-Variable-latin.woff2') format('woff2');
+  font-weight: 300 600; font-style: normal; font-display: swap; font-optical-sizing: auto;
+}
+@font-face {
+  font-family: 'Newsreader';
+  src: url('/fonts/Newsreader-Variable-latin.woff2') format('woff2');
+  font-weight: 300 600; font-style: normal; font-display: swap; font-optical-sizing: auto;
+}
+@font-face {
+  font-family: 'Newsreader';
+  src: url('/fonts/Newsreader-Variable-Italic-latin.woff2') format('woff2');
+  font-weight: 300 600; font-style: italic; font-display: swap; font-optical-sizing: auto;
+}
+@font-face {
+  font-family: 'Inter';
+  src: url('/fonts/Inter-Regular-latin.woff2') format('woff2');
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Inter';
+  src: url('/fonts/Inter-Medium-latin.woff2') format('woff2');
+  font-weight: 500; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Inter';
+  src: url('/fonts/Inter-SemiBold-latin.woff2') format('woff2');
+  font-weight: 600; font-style: normal; font-display: swap;
+}
+
 /* Font + accent overrides — apply to BOTH light and dark themes */
 :root {
   --sl-font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  --sl-font-mono: 'JetBrains Mono', 'Monaco', 'Menlo', monospace;
+  --sl-font-mono: 'Monaco', 'Menlo', 'Consolas', monospace;
   --sl-color-accent: #B5532E;       /* terracotta */
   --sl-color-text-accent: #9E3D1B;  /* accent-text — clears AA for links */
 }
@@ -38,4 +73,24 @@ h1, h2, h3, h4, h5, h6,
 summary,
 .group-label {
   font-family: 'Fraunces', var(--sl-font);
+}
+
+/* Newsreader for reading prose — the same read/operate split as the marketing
+   site. Inter stays on navigation, search, tables and code-adjacent UI. */
+.sl-markdown-content p,
+.sl-markdown-content li,
+.sl-markdown-content blockquote {
+  font-family: 'Newsreader', Georgia, 'Times New Roman', serif;
+  font-size: 1.0625rem;
+  line-height: 1.7;
+}
+
+/* Keep UI chrome inside prose on Inter. */
+.sl-markdown-content code,
+.sl-markdown-content kbd,
+.sl-markdown-content th {
+  font-family: var(--sl-font-mono);
+}
+.sl-markdown-content th {
+  font-family: var(--sl-font);
 }
