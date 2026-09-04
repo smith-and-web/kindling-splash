@@ -229,29 +229,63 @@ function isActive(href: string): boolean {
 </style>
 
 <script>
-  const toggle = document.querySelector('.navbar-toggle');
-  const navbar = document.querySelector('.navbar');
-  if (toggle && navbar) {
-    toggle.addEventListener('click', () => {
-      const isOpen = navbar.classList.toggle('navbar-open');
-      toggle.setAttribute('aria-expanded', String(isOpen));
-      document.body.style.overflow = isOpen ? 'hidden' : '';
-    });
+  const toggle = document.querySelector<HTMLButtonElement>('.navbar-toggle');
+  const navbar = document.querySelector<HTMLElement>('.navbar');
 
-    function closeMenu() {
-      navbar.classList.remove('navbar-open');
-      toggle!.setAttribute('aria-expanded', 'false');
-      document.body.style.overflow = '';
+  if (toggle && navbar) {
+    const menu = navbar.querySelector<HTMLElement>('.navbar-links');
+    const isOpen = () => navbar.classList.contains('navbar-open');
+    const focusable = () =>
+      Array.from(menu?.querySelectorAll<HTMLElement>('a[href], button:not([disabled])') ?? []);
+
+    function openMenu() {
+      navbar!.classList.add('navbar-open');
+      toggle!.setAttribute('aria-expanded', 'true');
+      document.body.style.overflow = 'hidden';
+      focusable()[0]?.focus();
     }
 
-    navbar.querySelectorAll('.navbar-link, .navbar-cta').forEach(link => {
-      link.addEventListener('click', closeMenu);
+    function closeMenu(restoreFocus = false) {
+      navbar!.classList.remove('navbar-open');
+      toggle!.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+      if (restoreFocus) toggle!.focus();
+    }
+
+    toggle.addEventListener('click', () => (isOpen() ? closeMenu() : openMenu()));
+
+    navbar.querySelectorAll('.navbar-link, .navbar-cta').forEach((link) => {
+      link.addEventListener('click', () => closeMenu());
     });
 
-    document.addEventListener('click', (e) => {
-      if (navbar.classList.contains('navbar-open') && !navbar.contains(e.target as Node)) {
-        closeMenu();
+    document.addEventListener('keydown', (event) => {
+      if (!isOpen()) return;
+
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        closeMenu(true);
+        return;
       }
+
+      // Keep Tab inside the open menu; the rest of the page is inert behind it.
+      if (event.key !== 'Tab') return;
+      const items = [toggle!, ...focusable()];
+      if (items.length === 0) return;
+      const first = items[0];
+      const last = items[items.length - 1];
+      const active = document.activeElement;
+
+      if (event.shiftKey && active === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && active === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    });
+
+    document.addEventListener('click', (event) => {
+      if (isOpen() && !navbar.contains(event.target as Node)) closeMenu();
     });
   }
 </script>

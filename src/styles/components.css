@@ -368,13 +368,29 @@ body::before {
 .comparison-table { width:100%; min-width:700px; border-collapse:collapse; font-size:var(--text-ui); font-family:var(--font-ui); }
 .comparison-table th, .comparison-table td { padding:12px 16px; text-align:left; border-bottom:1px solid var(--color-border); }
 .comparison-table thead th { font-weight:600; color:var(--color-text); background:var(--color-surface); }
-.comparison-table th[scope="row"] { font-weight:500; color:var(--color-text); background:none; }
+.comparison-table th[scope="row"] {
+  font-weight:500; color:var(--color-text);
+  position:sticky; left:0; z-index:1; background:var(--color-bg);
+}
+.comparison-table thead th:first-child { position:sticky; left:0; z-index:2; }
+
+/* Horizontal scrolling is invisible on a phone; say so rather than relying on
+   a gradient fade, which the guide bans and a screen reader cannot announce. */
+.table-scroll-hint { display:none; }
+@media (max-width:600px) {
+  .table-scroll-hint {
+    display:block;
+    font-family:var(--font-ui); font-size:var(--text-small);
+    color:var(--color-text-muted); margin-bottom:var(--space-2xs);
+  }
+}
 .comparison-table td { color:var(--color-text-muted); }
 .comparison-table .check { color:var(--color-success); font-weight:600; }
 .comparison-table .cross { color:var(--color-text-muted); }
 
 /* ---- Download cards (large) ---- */
 .download-cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:12px; margin:32px 0; }
+@media (max-width:600px) { .download-cards { grid-template-columns:1fr; } }
 .download-card-large {
   display:inline-flex; flex-direction:column; align-items:center;
   background:var(--color-surface); border:1px solid var(--color-border); border-radius:var(--radius-xl);

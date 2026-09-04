@@ -22,7 +22,18 @@ export default defineConfig({
       editLink: {
         baseUrl: 'https://github.com/smith-and-web/kindling-splash/edit/main/',
       },
+      components: {
+        // Docs are light-only; see the component for why.
+        ThemeSelect: './src/components/docs/ThemeSelect.astro',
+      },
       sidebar: [
+        {
+          label: 'Kindling',
+          items: [
+            { label: 'Back to kindlingwriter.com', link: '/' },
+            { label: 'Download Kindling', link: '/download/' },
+          ],
+        },
         {
           label: 'Getting Started',
           items: [
@@ -54,6 +65,13 @@ export default defineConfig({
         './src/styles/starlight-overrides.css',
       ],
       head: [
+        {
+          // Pin the docs to the Press light theme. Written to localStorage as
+          // well as the attribute so it holds whichever order this runs in
+          // relative to Starlight's own theme script.
+          tag: 'script',
+          content: `try{localStorage.setItem('starlight-theme','light')}catch(e){};document.documentElement.dataset.theme='light';`,
+        },
         {
           tag: 'script',
           attrs: { async: true, src: 'https://www.googletagmanager.com/gtag/js?id=G-VJQ72G87FE' },

@@ -48,23 +48,17 @@
   --sl-color-text-accent: #9E3D1B;  /* accent-text — clears AA for links */
 }
 
-/* Dark theme — Press dark palette */
-:root[data-theme='dark'] {
-  --sl-color-accent-low: #2c1a12;
-  --sl-color-accent-high: #f0c3a8;
-  --sl-color-accent: #E08A5C;        /* flame-dark — accent on dark ground */
-  --sl-color-text-accent: #E08A5C;
-  --sl-color-bg: #1E1A16;            /* paper-dark */
-  --sl-color-bg-nav: #26211B;        /* raised-dark */
-  --sl-color-bg-sidebar: #26211B;
-  --sl-color-text: #E8E0D4;          /* ink-dark */
-}
+/* No dark theme here by design: the site and docs are one light Press
+   surface and the theme picker is removed. The dark palette still lives in
+   brand-assets/design-system/tokens.css because the desktop app uses it. */
 
 /* Light theme — paper-first, terracotta accent */
 :root[data-theme='light'] {
   --sl-color-accent-low: #ecdbcf;
   --sl-color-accent-high: #7a2e15;
   --sl-color-bg: #F4EFE6;            /* paper */
+  --sl-color-bg-nav: #F4EFE6;        /* one paper surface, separated by hairlines */
+  --sl-color-bg-sidebar: #F4EFE6;
   --sl-color-text: #231D18;          /* ink */
 }
 
