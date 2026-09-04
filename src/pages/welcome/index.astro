@@ -111,7 +111,7 @@ import MarketingLayout from '../../layouts/MarketingLayout.astro';
   .success-icon {
     width: 80px;
     height: 80px;
-    background: var(--success);
+    background: var(--color-success);
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -127,7 +127,7 @@ import MarketingLayout from '../../layouts/MarketingLayout.astro';
 
   /* Header */
   h1 {
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: var(--font-display);
     font-size: clamp(32px, 6vw, 48px);
     font-weight: 600;
     margin-bottom: 12px;
@@ -135,31 +135,33 @@ import MarketingLayout from '../../layouts/MarketingLayout.astro';
   }
 
   .subtitle {
+    font-family: var(--font-body);
     font-size: 18px;
-    color: var(--text-secondary);
+    color: var(--color-text-muted);
     margin-bottom: 40px;
     line-height: 1.7;
   }
 
   /* CTA Card */
   .cta-card {
-    background: var(--surface);
-    border: 1px solid var(--surface-light);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
     border-radius: 16px;
     padding: 32px;
     margin-bottom: 32px;
   }
 
   .cta-card h2 {
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: var(--font-display);
     font-size: 24px;
     font-weight: 600;
     margin-bottom: 8px;
   }
 
   .cta-card p {
+    font-family: var(--font-body);
     font-size: 16px;
-    color: var(--text-secondary);
+    color: var(--color-text-muted);
     margin-bottom: 24px;
   }
 
@@ -170,11 +172,11 @@ import MarketingLayout from '../../layouts/MarketingLayout.astro';
   }
 
   .expect-section h3 {
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: var(--font-display);
     font-size: 18px;
     font-weight: 500;
     margin-bottom: 16px;
-    color: var(--text-secondary);
+    color: var(--color-text-muted);
   }
 
   .expect-list {
@@ -186,7 +188,7 @@ import MarketingLayout from '../../layouts/MarketingLayout.astro';
     align-items: flex-start;
     gap: 12px;
     padding: 12px 0;
-    border-bottom: 1px solid var(--surface-light);
+    border-bottom: 1px solid var(--color-border);
   }
 
   .expect-list li:last-child {
@@ -196,14 +198,14 @@ import MarketingLayout from '../../layouts/MarketingLayout.astro';
   .expect-list svg {
     width: 20px;
     height: 20px;
-    color: var(--ember-orange);
+    color: var(--color-accent);
     flex-shrink: 0;
     margin-top: 2px;
   }
 
   .expect-list span {
     font-size: 15px;
-    color: var(--text-primary);
+    color: var(--color-text);
   }
 
   /* Social Links */
@@ -213,18 +215,18 @@ import MarketingLayout from '../../layouts/MarketingLayout.astro';
 
   .social-section p {
     font-size: 14px;
-    color: var(--text-secondary);
+    color: var(--color-text-muted);
     margin-bottom: 12px;
   }
 
   /* Footer */
   .back-link {
     font-size: 14px;
-    color: var(--text-secondary);
+    color: var(--color-text-muted);
   }
 
   .back-link a {
-    color: var(--ember-orange);
+    color: var(--color-accent-text);
     text-decoration: none;
   }
 

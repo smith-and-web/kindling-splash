@@ -114,10 +114,10 @@ const structuredData = {
 
   .back-link {
     display: inline-block;
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: var(--font-ui);
     font-size: 14px;
     font-weight: 500;
-    color: var(--ember-orange);
+    color: var(--color-accent-text);
     text-decoration: none;
     margin-bottom: 24px;
     transition: opacity 0.2s;
@@ -141,25 +141,25 @@ const structuredData = {
   }
 
   .post-tag {
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: var(--font-ui);
     font-size: 11px;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    color: var(--ember-orange);
-    background: rgba(232, 90, 27, 0.12);
-    border: 1px solid rgba(232, 90, 27, 0.25);
+    color: var(--color-accent-text);
+    background: color-mix(in srgb, var(--color-accent) 12%, transparent);
+    border: 1px solid color-mix(in srgb, var(--color-accent) 25%, transparent);
     padding: 3px 10px;
     border-radius: 100px;
   }
 
   .post-meta time {
     font-size: 14px;
-    color: var(--text-secondary);
+    color: var(--color-text-muted);
   }
 
   .post-header h1 {
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: var(--font-display);
     font-size: clamp(28px, 5vw, 40px);
     font-weight: 600;
     line-height: 1.25;
@@ -168,14 +168,14 @@ const structuredData = {
 
   /* Article body content */
   .article-content {
-    font-family: 'Lora', Georgia, serif;
+    font-family: var(--font-body);
     font-size: 18px;
     line-height: 1.8;
-    color: var(--text-primary);
+    color: var(--color-text);
   }
 
   .article-content :global(h2) {
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: var(--font-display);
     font-size: 26px;
     font-weight: 600;
     margin-top: 48px;
@@ -184,7 +184,7 @@ const structuredData = {
   }
 
   .article-content :global(h3) {
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: var(--font-display);
     font-size: 21px;
     font-weight: 600;
     margin-top: 36px;
@@ -206,7 +206,7 @@ const structuredData = {
   }
 
   .article-content :global(a) {
-    color: var(--ember-orange);
+    color: var(--color-accent-text);
     text-decoration: underline;
     text-underline-offset: 2px;
   }
@@ -216,26 +216,26 @@ const structuredData = {
   }
 
   .article-content :global(blockquote) {
-    border-left: 4px solid var(--ember-orange);
+    border-left: 4px solid var(--color-accent);
     padding: 16px 24px;
     margin: 32px 0;
-    background: var(--surface);
+    background: var(--color-surface);
     border-radius: 0 8px 8px 0;
     font-style: italic;
-    color: var(--text-secondary);
+    color: var(--color-text-muted);
   }
 
   .article-content :global(code) {
     font-family: 'Monaco', 'Menlo', 'Consolas', monospace;
     font-size: 0.85em;
-    background: var(--surface);
+    background: var(--color-surface);
     padding: 2px 6px;
     border-radius: 4px;
   }
 
   .article-content :global(pre) {
-    background: var(--surface);
-    border: 1px solid var(--surface-light);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
     border-radius: 8px;
     padding: 20px;
     overflow-x: auto;
@@ -257,27 +257,76 @@ const structuredData = {
 
   .article-content :global(hr) {
     border: none;
-    border-top: 1px solid var(--surface-light);
+    border-top: 1px solid var(--color-border);
     margin: 40px 0;
   }
 
   .article-content :global(strong) {
     font-weight: 600;
-    color: var(--text-primary);
+    color: var(--color-text);
+  }
+
+  /* Tables — scrolls horizontally on narrow screens instead of crushing cells. */
+  .article-content :global(table) {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    border-collapse: collapse;
+    font-family: var(--font-ui);
+    font-size: 15px;
+    line-height: 1.5;
+    margin: 32px 0;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+  }
+
+  .article-content :global(table thead) {
+    background: var(--color-surface);
+  }
+
+  .article-content :global(table th) {
+    font-weight: 600;
+    text-align: left;
+    color: var(--color-text);
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--color-border);
+    white-space: nowrap;
+  }
+
+  .article-content :global(table td) {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--color-border);
+    color: var(--color-text-muted);
+  }
+
+  .article-content :global(table tbody tr:last-child td) {
+    border-bottom: none;
+  }
+
+  .article-content :global(table tbody tr:hover) {
+    background: var(--color-surface-sunken);
+  }
+
+  /* First column (tool name) deserves emphasis. */
+  .article-content :global(table tbody td:first-child) {
+    font-weight: 600;
+    color: var(--color-text);
+    white-space: nowrap;
   }
 
   /* Post CTA */
   .post-cta {
     margin-top: 48px;
     padding: 32px;
-    background: var(--surface, #1a1817);
-    border: 1px solid var(--surface-light);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
     border-radius: 12px;
     text-align: center;
   }
 
   .post-cta h3 {
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: var(--font-display);
     font-size: 20px;
     font-weight: 600;
     margin-bottom: 8px;
@@ -285,15 +334,16 @@ const structuredData = {
 
   .post-cta p {
     font-size: 15px;
-    color: var(--text-secondary);
+    color: var(--color-text-muted);
     margin-bottom: 16px;
+    font-family: var(--font-body);
   }
 
   /* Post footer */
   .post-footer {
     margin-top: 64px;
     padding-top: 32px;
-    border-top: 1px solid var(--surface-light);
+    border-top: 1px solid var(--color-border);
   }
 
   @media (max-width: 600px) {

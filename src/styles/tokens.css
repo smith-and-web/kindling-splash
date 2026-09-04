@@ -1,0 +1,103 @@
+/* Kindling — Press design tokens */
+:root {
+  /* ===== Palette — raw brand colours ===== */
+  --paper:#F4EFE6; --raised:#FBF8F1; --sunken:#ECE4D6;
+  --ink:#231D18; --ink-2:#6B635B;
+  --terracotta:#B5532E; --accent-text:#9E3D1B; --ember:#E0612C;
+  --hair:rgba(35,29,24,.13);
+  --green:#3E7C5A;
+
+  --paper-dark:#1E1A16; --raised-dark:#26211B; --sunken-dark:#181410;
+  --ink-dark:#E8E0D4; --ink-2-dark:#A89C8C;
+  --flame-dark:#E08A5C; --ember-dark:#F0A878;
+  --hair-dark:rgba(232,224,212,.13);
+  --green-dark:#5FA37E;
+
+  /* ===== Semantic — components read these ===== */
+  --color-bg:var(--paper);
+  --color-surface:var(--raised);
+  --color-surface-sunken:var(--sunken);
+  --color-text:var(--ink);
+  --color-text-muted:var(--ink-2);
+  --color-accent:var(--terracotta);          /* fills, borders — NOT body text on paper */
+  --color-accent-text:var(--accent-text);    /* accent for small text / links (AA); button hover */
+  --color-flame-inner:var(--ember);          /* decorative only */
+  --color-on-accent:var(--raised);           /* text on terracotta fills */
+  --color-border:var(--hair);
+  --color-success:var(--green);
+  --color-focus:rgba(181,83,46,.40);
+  --color-accent-wash:rgba(181,83,46,.08);   /* terracotta tint — highlight card + active flow node */
+  --color-nav-scrim:rgba(244,239,230,.85);   /* translucent paper behind the blurred navbar */
+
+  /* ===== Typography ===== */
+  --font-display:'Fraunces',Georgia,'Times New Roman',serif;
+  --font-body:'Newsreader',Georgia,'Times New Roman',serif;
+  --font-ui:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  --font-mono:'Monaco','Menlo','Consolas',monospace;
+
+  --text-hero:clamp(2rem,6vw,3rem);      /* 32 -> 48 */
+  --text-h1:clamp(2rem,5.5vw,2.75rem);   /* 32 -> 44 */
+  --text-h2:clamp(1.5rem,4vw,2rem);      /* 24 -> 32 */
+  --text-h3:1.25rem;                      /* 20 */
+  --text-body-lg:1.125rem;                /* 18 */
+  --text-body:1.0625rem;                  /* 17 */
+  --text-base:1rem;                       /* 16 — form controls (iOS zoom floor), small card labels */
+  --text-ui:0.9375rem;                    /* 15 */
+  --text-small:0.875rem;                  /* 14 */
+  --text-eyebrow:0.75rem;                 /* 12 */
+
+  --leading-tight:1.15;
+  --leading:1.6;
+  --leading-relaxed:1.7;
+  --tracking-tight:-0.02em;
+  --tracking-eyebrow:0.08em;
+
+  /* ===== Spacing (4px base) ===== */
+  --space-3xs:4px; --space-2xs:8px; --space-xs:12px; --space-s:16px;
+  --space-m:24px; --space-l:32px; --space-xl:40px; --space-2xl:60px;
+  --space-3xl:80px; --space-4xl:120px; --space-5xl:140px;
+
+  /* ===== Composition =====
+     Press is asymmetric and column-based, not centred bands. These three
+     govern horizontal composition the way the spacing scale governs vertical.
+     --measure is the reading column; headings and figures break out wider. */
+  --measure:42rem;         /* ~66ch of Newsreader at 17px */
+  --page-frame:1120px;     /* outer editorial frame */
+  --page-gutter:32px;
+
+  /* ===== Paper grain =====
+     A monochrome fractal-noise tile laid behind content so paper reads as
+     stock rather than a flat fill. Tune --grain-strength (0 disables); never
+     hand-edit the encoded tile. */
+  --grain-tile: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='160'%20height='160'%3E%3Cfilter%20id='g'%3E%3CfeTurbulence%20type='fractalNoise'%20baseFrequency='0.8'%20numOctaves='2'%20stitchTiles='stitch'/%3E%3CfeColorMatrix%20type='saturate'%20values='0'/%3E%3C/filter%3E%3Crect%20width='160'%20height='160'%20filter='url(%23g)'/%3E%3C/svg%3E");
+  --grain-strength:0.14;
+
+  /* ===== Radii ===== */
+  --radius-xs:4px; --radius-s:6px; --radius-m:8px; --radius-l:10px;
+  --radius-xl:12px; --radius-2xl:16px;
+
+  /* ===== Elevation / motion ===== */
+  --shadow-sm:0 1px 2px rgba(35,29,24,.06);
+  --shadow-md:0 8px 24px rgba(35,29,24,.10);
+  --border-hair:1px solid var(--color-border);
+  --transition-fast:.1s ease;
+  --transition:.2s ease;
+  --focus-ring:0 0 0 3px var(--color-focus);
+}
+
+[data-theme="dark"] {
+  --color-bg:var(--paper-dark);
+  --color-surface:var(--raised-dark);
+  --color-surface-sunken:var(--sunken-dark);
+  --color-text:var(--ink-dark);
+  --color-text-muted:var(--ink-2-dark);
+  --color-accent:var(--flame-dark);
+  --color-accent-text:var(--flame-dark);
+  --color-flame-inner:var(--ember-dark);
+  --color-on-accent:var(--paper-dark);
+  --color-border:var(--hair-dark);
+  --color-success:var(--green-dark);
+  --color-focus:rgba(224,138,92,.40);
+  --color-accent-wash:rgba(224,138,92,.12);
+  --color-nav-scrim:rgba(30,26,22,.85);
+}

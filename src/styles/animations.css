@@ -40,29 +40,3 @@
     transform: none;
   }
 }
-
-/* ===== Hero Typing Cursor ===== */
-/* Always visible after hydration, blinks forever. Hidden only if the
-   no-JS/reduced-motion path leaves no .typing or .type-complete class. */
-.type-cursor {
-  display: inline-block;
-  width: 3px;
-  height: 0.8em;
-  background: var(--ember-orange);
-  margin-left: 4px;
-  vertical-align: -0.05em;
-  opacity: 0;
-  border-radius: 1px;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .typing .type-cursor,
-  .type-complete .type-cursor {
-    animation: cursor-blink 0.85s steps(2, jump-none) infinite;
-  }
-
-  @keyframes cursor-blink {
-    0%, 49% { opacity: 1; }
-    50%, 100% { opacity: 0; }
-  }
-}

@@ -160,14 +160,14 @@
   /* ---- Primary CTA Button ---- */
   .download-btn {
     display: inline-block;
-    background: var(--ember-orange);
-    color: #fff;
-    font-family: 'Space Grotesk', sans-serif;
+    background: var(--color-accent);
+    color: var(--color-on-accent);
+    font-family: var(--font-ui);
     font-weight: 600;
     font-size: 18px;
     text-decoration: none;
     padding: 14px 20px;
-    border-radius: 8px;
+    border-radius: var(--radius-m);
     border: none;
     cursor: pointer;
     transition: background 0.2s ease;
@@ -175,12 +175,12 @@
   }
 
   .download-btn:hover {
-    background: var(--flame-orange);
+    background: var(--color-accent-text);
   }
 
   /* ---- Micro-copy ---- */
   .micro-copy {
-    color: var(--text-secondary);
+    color: var(--color-text-muted);
     font-size: 14px;
     margin: 0;
     text-align: center;
@@ -188,14 +188,14 @@
 
   /* ---- Alt platforms link ---- */
   .alt-platforms {
-    color: var(--text-secondary);
+    color: var(--color-text-muted);
     font-size: 14px;
     text-decoration: none;
     transition: color 0.2s ease;
   }
 
   .alt-platforms:hover {
-    color: var(--ember-orange);
+    color: var(--color-accent-text);
   }
 
   /* ---- Mobile message ---- */
@@ -208,8 +208,8 @@
   }
 
   .mobile-heading {
-    color: var(--text-primary, #f5f2ef);
-    font-family: 'Space Grotesk', sans-serif;
+    color: var(--color-text);
+    font-family: var(--font-ui);
     font-weight: 600;
     font-size: 18px;
     margin: 0;
@@ -217,13 +217,13 @@
 
   .share-btn {
     display: inline-block;
-    background: var(--ember-orange);
-    color: #fff;
-    font-family: 'Space Grotesk', sans-serif;
+    background: var(--color-accent);
+    color: var(--color-on-accent);
+    font-family: var(--font-ui);
     font-weight: 600;
     font-size: 16px;
     padding: 12px 20px;
-    border-radius: 8px;
+    border-radius: var(--radius-m);
     border: none;
     cursor: pointer;
     transition: background 0.2s ease;
@@ -231,6 +231,6 @@
   }
 
   .share-btn:hover {
-    background: var(--flame-orange);
+    background: var(--color-accent-text);
   }
 </style>

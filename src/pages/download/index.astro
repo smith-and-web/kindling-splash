@@ -252,9 +252,9 @@ const platforms = Object.entries(DOWNLOADS) as [string, typeof DOWNLOADS[keyof t
     display: inline-block;
     font-size: 12px;
     font-weight: 600;
-    color: var(--ember-orange);
-    background: rgba(232, 90, 27, 0.15);
-    border: 1px solid rgba(232, 90, 27, 0.3);
+    color: var(--color-accent-text);
+    background: color-mix(in srgb, var(--color-accent) 15%, transparent);
+    border: 1px solid color-mix(in srgb, var(--color-accent) 30%, transparent);
     padding: 4px 10px;
     border-radius: 100px;
     margin-bottom: 16px;
@@ -265,9 +265,9 @@ const platforms = Object.entries(DOWNLOADS) as [string, typeof DOWNLOADS[keyof t
     display: none;
     font-size: 11px;
     font-weight: 600;
-    color: var(--ember-orange);
-    background: rgba(232, 90, 27, 0.15);
-    border: 1px solid rgba(232, 90, 27, 0.3);
+    color: var(--color-accent-text);
+    background: color-mix(in srgb, var(--color-accent) 15%, transparent);
+    border: 1px solid color-mix(in srgb, var(--color-accent) 30%, transparent);
     padding: 2px 8px;
     border-radius: 100px;
     margin-bottom: 8px;
@@ -282,7 +282,7 @@ const platforms = Object.entries(DOWNLOADS) as [string, typeof DOWNLOADS[keyof t
   /* ===== Download Card Size Text ===== */
   .size-text {
     font-size: 12px;
-    color: var(--text-secondary);
+    color: var(--color-text-muted);
     margin-top: 4px;
     opacity: 0.7;
   }
@@ -299,8 +299,8 @@ const platforms = Object.entries(DOWNLOADS) as [string, typeof DOWNLOADS[keyof t
     display: flex;
     gap: 12px;
     padding: 16px;
-    background: var(--surface);
-    border: 1px solid var(--surface-light);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
     border-radius: 10px;
   }
 
@@ -311,29 +311,30 @@ const platforms = Object.entries(DOWNLOADS) as [string, typeof DOWNLOADS[keyof t
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(232, 90, 27, 0.1);
+    background: color-mix(in srgb, var(--color-accent) 10%, transparent);
     border-radius: 8px;
-    color: var(--ember-orange);
+    color: var(--color-accent);
   }
 
   .trust-callout strong {
     display: block;
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: var(--font-display);
     font-size: 14px;
     font-weight: 600;
     margin-bottom: 4px;
-    color: var(--text-primary);
+    color: var(--color-text);
   }
 
   .trust-callout p {
+    font-family: var(--font-body);
     font-size: 13px;
-    color: var(--text-secondary);
+    color: var(--color-text-muted);
     line-height: 1.5;
     margin: 0;
   }
 
   .trust-callout a {
-    color: var(--ember-orange);
+    color: var(--color-accent-text);
     text-decoration: none;
   }
 
@@ -363,8 +364,8 @@ const platforms = Object.entries(DOWNLOADS) as [string, typeof DOWNLOADS[keyof t
     display: inline-block;
     width: 8px;
     height: 8px;
-    border-right: 2px solid var(--text-secondary);
-    border-bottom: 2px solid var(--text-secondary);
+    border-right: 2px solid var(--color-text-muted);
+    border-bottom: 2px solid var(--color-text-muted);
     transform: rotate(45deg);
     transition: transform 0.2s;
     margin-left: 8px;

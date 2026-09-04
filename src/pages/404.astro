@@ -32,16 +32,16 @@ export const prerender = true;
   }
 
   .error-code {
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: var(--font-display);
     font-size: 120px;
     font-weight: 700;
-    color: var(--surface-light);
+    color: var(--color-border);
     line-height: 1;
     margin-bottom: 16px;
   }
 
   h1 {
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: var(--font-display);
     font-size: 32px;
     font-weight: 600;
     margin-bottom: 12px;
@@ -49,17 +49,17 @@ export const prerender = true;
 
   p {
     font-size: 18px;
-    color: var(--text-secondary);
+    color: var(--color-text-muted);
     margin-bottom: 32px;
   }
 
   .back-link {
     display: inline-block;
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: var(--font-ui);
     font-size: 16px;
     font-weight: 500;
     color: white;
-    background: var(--ember-orange);
+    background: var(--color-accent);
     padding: 14px 28px;
     border-radius: 8px;
     text-decoration: none;

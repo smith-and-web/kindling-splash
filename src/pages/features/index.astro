@@ -93,186 +93,171 @@ const faqStructuredData = {
 >
   <script type="application/ld+json" set:html={JSON.stringify(faqStructuredData)} />
 
-  <section class="page-hero">
+  <!-- Lede — left-aligned editorial page opener -->
+  <section class="page-lede editorial">
     <h1>Everything you need to go from outline to draft</h1>
-    <p class="page-hero-subtext">Whether you outline every beat or discover your story as you write, Kindling gives you a scaffolded writing space — scene beats as expandable prompts, character details at your fingertips, and the flexibility to add structure at your own pace.</p>
+    <p class="lede-standfirst">Whether you outline every beat or discover your story as you write, Kindling gives you a scaffolded writing space — scene beats as expandable prompts, character details at your fingertips, and the flexibility to add structure at your own pace.</p>
     <a href="/download/" class="download-btn" onclick="typeof gtag==='function'&&gtag('event','download_cta_click',{cta_location:'features_hero'})">Download Kindling — Free</a>
-    <video autoplay loop muted playsinline preload="metadata" poster="/hero-poster.jpg" width="804" height="556" style="margin-top: 32px; max-width: 100%; height: auto; border-radius: 12px;" aria-label="Scaffolded writing view with scene beats expanded">
-      <source src="/demo-2.mp4" type="video/mp4">
-    </video>
   </section>
 
-  <!-- ===== Primary Features — Bento Grid ===== -->
-  <section class="features-section">
-    <div class="bento-grid">
-      <!-- Row 1: Core writing -->
-      <div class="bento-tile fade-in-on-scroll">
-        <div class="bento-label">Core Feature</div>
-        <h3>Outline-Aware Drafting</h3>
-        <p class="bento-problem">Other apps make you flip between your outline and a blank page.</p>
-        <p class="bento-solution">Scene beats appear as expandable prompts in your drafting view. Click a beat, write into it. Your outline is the scaffolding for your first draft.</p>
-        <Image src={scenePanel} alt="Kindling editor showing scene beats alongside prose" width={560} loading="eager" class="bento-image" />
+  <!-- ===== Primary features — editorial sequence ===== -->
+  <section class="features-seq-section editorial">
+    <div class="feature-seq">
+      <article class="feature-row fade-in-on-scroll">
+        <figure class="feature-figure">
+          <Image src={scenePanel} alt="Kindling editor showing scene beats alongside prose" width={560} loading="eager" />
+        </figure>
+        <div class="feature-prose">
+          <p class="kicker">Core Feature</p>
+          <h3>Outline-Aware Drafting</h3>
+          <p class="feature-problem">Other apps make you flip between your outline and a blank page.</p>
+          <p class="feature-solution">Scene beats appear as expandable prompts in your drafting view. Click a beat, write into it. Your outline is the scaffolding for your first draft.</p>
+        </div>
+      </article>
+
+      <article class="feature-row reverse fade-in-on-scroll">
+        <div class="feature-prose">
+          <p class="kicker">Stay in Flow</p>
+          <h3>References Panel</h3>
+          <p class="feature-problem">Was it green eyes or blue? What was the tavern called?</p>
+          <p class="feature-solution">Characters and locations tagged in your scene auto-surface in a side panel. Physical descriptions, key notes, and custom fields — all visible while you write.</p>
+        </div>
+        <figure class="feature-figure">
+          <Image src={referencesPanel} alt="Kindling references panel showing character details" width={560} loading="lazy" />
+        </figure>
+      </article>
+
+      <div class="feature-pair fade-in-on-scroll">
+        <div class="feature-prose">
+          <p class="kicker">Your Pace</p>
+          <h3>Rolling Outline</h3>
+          <p class="feature-problem">Not every scene needs the same level of planning.</p>
+          <p class="feature-solution">Three planning states — <strong>Fixed</strong>, <strong>Flexible</strong>, <strong>Undefined</strong> — let you add structure progressively. Start vague, define as you go. The sidebar adapts automatically.</p>
+        </div>
+        <div class="feature-prose">
+          <p class="kicker">Full Control</p>
+          <h3>Beat Management</h3>
+          <p class="feature-problem">Your outline needs to evolve as you write.</p>
+          <p class="feature-solution">Delete, reorder, split, and merge beats with drag-and-drop. A beat density indicator shows how detailed each scene is at a glance.</p>
+        </div>
       </div>
 
-      <div class="bento-tile fade-in-on-scroll">
-        <div class="bento-label">Stay in Flow</div>
-        <h3>References Panel</h3>
-        <p class="bento-problem">Was it green eyes or blue? What was the tavern called?</p>
-        <p class="bento-solution">Characters and locations tagged in your scene auto-surface in a side panel. Physical descriptions, key notes, and custom fields — all visible while you write.</p>
-        <Image src={referencesPanel} alt="Kindling references panel showing character details" width={560} loading="lazy" class="bento-image" />
-      </div>
-
-      <!-- Row 2: Structure -->
-      <div class="bento-tile fade-in-on-scroll">
-        <div class="bento-label">Your Pace</div>
-        <h3>Rolling Outline</h3>
-        <p class="bento-problem">Not every scene needs the same level of planning.</p>
-        <p class="bento-solution">Three planning states — <strong>Fixed</strong>, <strong>Flexible</strong>, <strong>Undefined</strong> — let you add structure progressively. Start vague, define as you go. The sidebar adapts automatically.</p>
-      </div>
-
-      <div class="bento-tile fade-in-on-scroll">
-        <div class="bento-label">Full Control</div>
-        <h3>Beat Management</h3>
-        <p class="bento-problem">Your outline needs to evolve as you write.</p>
-        <p class="bento-solution">Delete, reorder, split, and merge beats with drag-and-drop. A beat density indicator shows how detailed each scene is at a glance.</p>
-      </div>
-
-      <!-- Row 3: Workflow -->
-      <div class="bento-tile fade-in-on-scroll">
-        <div class="bento-label">Capture Ideas</div>
-        <h3>Discovery Notes</h3>
-        <p class="bento-problem">Inspiration doesn't wait for your outline.</p>
-        <p class="bento-solution">Press <strong>Cmd+D</strong> to jot a note mid-scene — a subplot idea, a character insight, a thread to weave in later. Promote notes to full beats when you're ready.</p>
-      </div>
-
-      <div class="bento-tile fade-in-on-scroll">
-        <div class="bento-label">Your Tools</div>
-        <h3>Import & Export</h3>
-        <p class="bento-problem">Your outline lives in one app, your manuscript in another.</p>
-        <p class="bento-solution">Import from Plottr, Scrivener, yWriter, Obsidian, or Markdown. Export to DOCX, Scrivener, Markdown, or EPUB.</p>
-        <div class="flow-diagram">
-          <div class="flow-node">
-            <span class="flow-label">Import</span>
-            <span class="flow-formats">Plottr · Scrivener · yWriter · Obsidian · Markdown</span>
-          </div>
-          <span class="flow-arrow" aria-hidden="true">↓</span>
-          <div class="flow-node flow-node-center">
-            <span class="flow-label">Kindling</span>
-            <span class="flow-formats">Write & edit</span>
-          </div>
-          <span class="flow-arrow" aria-hidden="true">↓</span>
-          <div class="flow-node">
-            <span class="flow-label">Export</span>
-            <span class="flow-formats">DOCX · Scrivener · Markdown · EPUB</span>
+      <div class="feature-pair fade-in-on-scroll">
+        <div class="feature-prose">
+          <p class="kicker">Capture Ideas</p>
+          <h3>Discovery Notes</h3>
+          <p class="feature-problem">Inspiration doesn't wait for your outline.</p>
+          <p class="feature-solution">Press <strong>Cmd+D</strong> to jot a note mid-scene — a subplot idea, a character insight, a thread to weave in later. Promote notes to full beats when you're ready.</p>
+        </div>
+        <div class="feature-prose">
+          <p class="kicker">Your Tools</p>
+          <h3>Import &amp; Export</h3>
+          <p class="feature-problem">Your outline lives in one app, your manuscript in another.</p>
+          <p class="feature-solution">Import from Plottr, Scrivener, yWriter, Obsidian, or Markdown. Export to DOCX, Scrivener, Markdown, or EPUB.</p>
+          <div class="flow-diagram">
+            <div class="flow-node">
+              <span class="flow-label">Import</span>
+              <span class="flow-formats">Plottr · Scrivener · yWriter · Obsidian · Markdown</span>
+            </div>
+            <span class="flow-arrow" aria-hidden="true">↓</span>
+            <div class="flow-node flow-node-center">
+              <span class="flow-label">Kindling</span>
+              <span class="flow-formats">Write & edit</span>
+            </div>
+            <span class="flow-arrow" aria-hidden="true">↓</span>
+            <div class="flow-node">
+              <span class="flow-label">Export</span>
+              <span class="flow-formats">DOCX · Scrivener · Markdown · EPUB</span>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ===== v1.2 Features — Bento Grid ===== -->
-  <section class="features-section">
-    <div class="features-section-header">
+  <!-- ===== New in v1.2 — hairline-separated pairs ===== -->
+  <section class="features-seq-section editorial">
+    <header class="section-lead">
       <h2>New in v1.2</h2>
-    </div>
-    <div class="bento-grid">
-      <div class="bento-tile fade-in-on-scroll">
-        <div class="bento-label">Write Your Way</div>
-        <h3>Full-Page Prose Editing</h3>
-        <p class="bento-problem">Beat-by-beat is great for structure. But sometimes you just want to write.</p>
-        <p class="bento-solution">Toggle between beat view and a full-page prose editor per scene. Your beats stay available for reference — you get an uninterrupted writing surface without leaving your structure behind.</p>
+    </header>
+    <div class="feature-seq">
+      <div class="feature-pair fade-in-on-scroll">
+        <div class="feature-prose">
+          <p class="kicker">Write Your Way</p>
+          <h3>Full-Page Prose Editing</h3>
+          <p class="feature-problem">Beat-by-beat is great for structure. But sometimes you just want to write.</p>
+          <p class="feature-solution">Toggle between beat view and a full-page prose editor per scene. Your beats stay available for reference — you get an uninterrupted writing surface without leaving your structure behind.</p>
+        </div>
+        <div class="feature-prose">
+          <p class="kicker">Smart Context</p>
+          <h3>Reference Auto-Detection</h3>
+          <p class="feature-problem">You mentioned a character three paragraphs ago but forgot to link them.</p>
+          <p class="feature-solution">A non-AI engine scans your prose for character, location, and item names. Suggestions surface in the References panel — link with one click, or dismiss. No cloud, no magic, just pattern matching.</p>
+        </div>
       </div>
 
-      <div class="bento-tile fade-in-on-scroll">
-        <div class="bento-label">Smart Context</div>
-        <h3>Reference Auto-Detection</h3>
-        <p class="bento-problem">You mentioned a character three paragraphs ago but forgot to link them.</p>
-        <p class="bento-solution">A non-AI engine scans your prose for character, location, and item names. Suggestions surface in the References panel — link with one click, or dismiss. No cloud, no magic, just pattern matching.</p>
-      </div>
-
-      <div class="bento-tile fade-in-on-scroll">
-        <div class="bento-label">Flexible Data</div>
-        <h3>Custom Fields & Tags</h3>
-        <p class="bento-problem">Plain text notes don't cut it for complex characters and worlds.</p>
-        <p class="bento-solution">Define typed fields (text, number, date, select, multi-select) on any reference type. Organise with hierarchical tags up to three levels deep, with colours and a Tag Manager. Use saved filters to find exactly what you need.</p>
-      </div>
-
-      <div class="bento-tile fade-in-on-scroll">
-        <div class="bento-label">Screenwriters</div>
-        <h3>Screenplay Projects & Templates</h3>
-        <p class="bento-problem">Novel tools don't speak the language of screenwriting.</p>
-        <p class="bento-solution">Create Screenplay projects with slugline input (INT./EXT.), page count estimation (250 words/page), and treatment export (1-page or 5-page DOCX). Pre-built templates: Save the Cat, Hero's Journey, Three-Act, Seven-Point, Snowflake, Story Grid.</p>
+      <div class="feature-pair fade-in-on-scroll">
+        <div class="feature-prose">
+          <p class="kicker">Flexible Data</p>
+          <h3>Custom Fields &amp; Tags</h3>
+          <p class="feature-problem">Plain text notes don't cut it for complex characters and worlds.</p>
+          <p class="feature-solution">Define typed fields (text, number, date, select, multi-select) on any reference type. Organise with hierarchical tags up to three levels deep, with colours and a Tag Manager. Use saved filters to find exactly what you need.</p>
+        </div>
+        <div class="feature-prose">
+          <p class="kicker">Screenwriters</p>
+          <h3>Screenplay Projects &amp; Templates</h3>
+          <p class="feature-problem">Novel tools don't speak the language of screenwriting.</p>
+          <p class="feature-solution">Create Screenplay projects with slugline input (INT./EXT.), page count estimation (250 words/page), and treatment export (1-page or 5-page DOCX). Pre-built templates: Save the Cat, Hero's Journey, Three-Act, Seven-Point, Snowflake, Story Grid.</p>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- ===== Secondary Features — Compact Grid ===== -->
-  <section class="features-secondary-section">
-    <h2>And everything else you'd expect</h2>
-    <div class="features-secondary">
-      <div class="feature-card">
-        <span class="feature-icon">⌨️</span>
-        <div>
-          <strong>Command palette</strong>
-          <p>Press Cmd+K to fuzzy-search every action — import, export, settings, navigation.</p>
-        </div>
+  <!-- ===== Everything else — hairline definition list (no emoji) ===== -->
+  <section class="features-seq-section editorial">
+    <header class="section-lead">
+      <h2>And everything else you'd expect</h2>
+    </header>
+    <dl class="spec-list">
+      <div class="spec-item">
+        <dt>Command palette</dt>
+        <dd>Press Cmd+K to fuzzy-search every action — import, export, settings, navigation.</dd>
       </div>
-      <div class="feature-card">
-        <span class="feature-icon">📄</span>
-        <div>
-          <strong>Blank projects</strong>
-          <p>Start from scratch with File → New Project. No import required.</p>
-        </div>
+      <div class="spec-item">
+        <dt>Blank projects</dt>
+        <dd>Start from scratch with File → New Project. No import required.</dd>
       </div>
-      <div class="feature-card">
-        <span class="feature-icon">✨</span>
-        <div>
-          <strong>Distraction-free writing</strong>
-          <p>Clean interface. Beats expand only when you need them. No feature overload.</p>
-        </div>
+      <div class="spec-item">
+        <dt>Distraction-free writing</dt>
+        <dd>Clean interface. Beats expand only when you need them. No feature overload.</dd>
       </div>
-      <div class="feature-card">
-        <span class="feature-icon">🔒</span>
-        <div>
-          <strong>Local-first & private</strong>
-          <p>SQLite on your hard drive. No cloud, no accounts, no data collection. <a href="/open-source/">Open source.</a></p>
-        </div>
+      <div class="spec-item">
+        <dt>Local-first &amp; private</dt>
+        <dd>SQLite on your hard drive. No cloud, no accounts, no data collection. <a href="/open-source/">Open source.</a></dd>
       </div>
-      <div class="feature-card">
-        <span class="feature-icon">⚡</span>
-        <div>
-          <strong>Built with Rust</strong>
-          <p>Sub-second launch. Fraction of the memory of Electron apps. ~10 MB download.</p>
-        </div>
+      <div class="spec-item">
+        <dt>Built with Rust</dt>
+        <dd>Sub-second launch. Fraction of the memory of Electron apps. ~10 MB download.</dd>
       </div>
-      <div class="feature-card">
-        <span class="feature-icon">💾</span>
-        <div>
-          <strong>Session persistence</strong>
-          <p>Cursor position, scroll state, and active scene — all restored when you reopen.</p>
-        </div>
+      <div class="spec-item">
+        <dt>Session persistence</dt>
+        <dd>Cursor position, scroll state, and active scene — all restored when you reopen.</dd>
       </div>
-      <div class="feature-card">
-        <span class="feature-icon">🔄</span>
-        <div>
-          <strong>Automatic updates</strong>
-          <p>New versions download silently. A banner appears when ready — click to restart.</p>
-        </div>
+      <div class="spec-item">
+        <dt>Automatic updates</dt>
+        <dd>New versions download silently. A banner appears when ready — click to restart.</dd>
       </div>
-      <div class="feature-card">
-        <span class="feature-icon">🌗</span>
-        <div>
-          <strong>Light & dark themes</strong>
-          <p>System preference detection or manual override. Switch from Settings → Appearance.</p>
-        </div>
+      <div class="spec-item">
+        <dt>Light &amp; dark themes</dt>
+        <dd>System preference detection or manual override. Switch from Settings → Appearance.</dd>
       </div>
-    </div>
+    </dl>
   </section>
 
   <!-- ===== Bottom CTA ===== -->
   <section class="cta-section">
     <h2>Ready to spark your draft?</h2>
-    <p>Free, open source, MIT licensed. <a href="/compare/" style="color: var(--ember-orange);">See how Kindling compares</a> to Scrivener, Plottr, and other writing tools.</p>
+    <p>Free, open source, MIT licensed. <a href="/compare/" style="color: var(--color-accent-text);">See how Kindling compares</a> to Scrivener, Plottr, and other writing tools.</p>
     <div class="download-buttons single">
       <a href="/download/" class="download-btn" onclick="typeof gtag==='function'&&gtag('event','download_cta_click',{cta_location:'features_bottom'})">Download Kindling — Free</a>
     </div>
@@ -280,190 +265,97 @@ const faqStructuredData = {
 </MarketingLayout>
 
 <style>
-  /* Bento grid (shared pattern with homepage) */
-  .bento-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
-    max-width: 1100px;
-    margin: 0 auto;
+  /* Lede — editorial page opener */
+  .page-lede {
+    padding-top: 128px;
+    padding-bottom: var(--space-2xl);
   }
-
-  .bento-tile {
-    background: var(--deep-charcoal);
-    border: 1px solid var(--surface-light);
-    border-radius: 16px;
-    padding: 28px;
-    grid-column: span 2;
-    overflow: hidden;
-  }
-
-  .bento-label {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 12px;
+  .page-lede h1 {
+    font-family: var(--font-display);
+    font-size: var(--text-hero);
     font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--ember-orange);
-    margin-bottom: 8px;
+    line-height: var(--leading-tight);
+    letter-spacing: var(--tracking-tight);
+    max-width: 18ch;
+    margin-bottom: var(--space-m);
+  }
+  .lede-standfirst {
+    font-family: var(--font-body);
+    font-size: var(--text-body-lg);
+    color: var(--color-text);
+    line-height: var(--leading-relaxed);
+    max-width: var(--measure);
+    margin-bottom: var(--space-l);
   }
 
-  .bento-tile h3 {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 20px;
-    font-weight: 600;
-    margin-bottom: 8px;
+  .features-seq-section {
+    padding: var(--space-3xl) 0;
   }
 
-  .bento-problem {
-    font-size: 15px;
-    color: var(--text-secondary);
-    font-style: italic;
-    margin-bottom: 6px;
-  }
-
-  .bento-solution {
-    font-size: 15px;
-    color: var(--text-primary);
-    line-height: 1.6;
-    margin-bottom: 16px;
-  }
-
-  .bento-image {
-    width: 100%;
-    height: auto;
-    border-radius: 8px;
-    margin-top: 8px;
-  }
-
-  /* Features page layout */
-  .features-section {
-    padding: 56px 24px;
-    max-width: 1100px;
-    margin: 0 auto;
-  }
-
-  .features-section-header {
-    text-align: center;
-    margin-bottom: 32px;
-  }
-
-  .features-section-header h2 {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: clamp(24px, 4vw, 32px);
-    font-weight: 600;
-  }
-
-  .features-secondary-section {
-    padding: 56px 24px;
-    max-width: 1100px;
-    margin: 0 auto;
-  }
-
-  .features-secondary-section h2 {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: clamp(24px, 4vw, 32px);
-    font-weight: 600;
-    text-align: center;
-    margin-bottom: 32px;
-  }
-
-  .features-secondary {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-  }
-
-  .feature-card {
-    display: flex;
-    gap: 14px;
-    align-items: flex-start;
-    background: var(--deep-charcoal);
-    border: 1px solid var(--surface-light);
-    border-radius: 12px;
-    padding: 20px;
-  }
-
-  .feature-icon {
-    font-size: 24px;
-    flex-shrink: 0;
-    line-height: 1;
-    margin-top: 2px;
-  }
-
-  .feature-card strong {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 16px;
-    font-weight: 600;
-    display: block;
-    margin-bottom: 4px;
-  }
-
-  .feature-card p {
-    font-size: 14px;
-    color: var(--text-secondary);
-    line-height: 1.5;
-    margin: 0;
-  }
-
-  .feature-card a {
-    color: var(--ember-orange);
-    text-decoration: none;
-  }
-
-  .feature-card a:hover {
-    text-decoration: underline;
-  }
-
-  /* Flow diagram scoped styles */
+  /* Flow diagram — kept from the previous design, lives inside the
+     Import & Export prose cell. */
   .flow-diagram {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: stretch;
     gap: 4px;
-    margin-top: 12px;
+    margin-top: var(--space-m);
   }
-
   .flow-node {
-    background: var(--surface);
-    border: 1px solid var(--surface-light);
-    border-radius: 10px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-l);
     padding: 10px 16px;
     text-align: center;
-    width: 100%;
   }
-
   .flow-node-center {
-    border-color: var(--ember-orange);
+    border-color: var(--color-accent);
   }
-
   .flow-label {
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: var(--font-ui);
     font-weight: 600;
     font-size: 13px;
     display: block;
   }
-
   .flow-formats {
+    font-family: var(--font-ui);
     font-size: 12px;
-    color: var(--text-secondary);
+    color: var(--color-text-muted);
   }
-
   .flow-arrow {
     font-size: 18px;
-    color: var(--text-secondary);
+    color: var(--color-text-muted);
     line-height: 1;
+    text-align: center;
   }
 
+  /* Spec list — hairline-separated definition list (replaces the emoji grid) */
+  .spec-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: var(--space-2xl);
+  }
+  .spec-item {
+    padding: var(--space-m) 0;
+    border-top: 1px solid var(--color-border);
+  }
+  .spec-item dt {
+    font-family: var(--font-display);
+    font-size: var(--text-h3);
+    font-weight: 600;
+    margin-bottom: var(--space-3xs);
+  }
+  .spec-item dd {
+    font-family: var(--font-body);
+    font-size: var(--text-body);
+    color: var(--color-text-muted);
+    line-height: var(--leading);
+    margin: 0;
+  }
+  .spec-item dd a { color: var(--color-accent-text); text-decoration: none; }
+  .spec-item dd a:hover { text-decoration: underline; }
+
   @media (max-width: 768px) {
-    .bento-grid {
-      grid-template-columns: 1fr;
-    }
-    .bento-tile {
-      grid-column: span 1;
-    }
-    .features-secondary {
-      grid-template-columns: 1fr;
-    }
+    .spec-list { grid-template-columns: 1fr; }
   }
 </style>
