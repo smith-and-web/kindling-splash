@@ -75,14 +75,28 @@ const platforms = Object.entries(DOWNLOADS) as [string, typeof DOWNLOADS[keyof t
     <span class="version-badge">v{APP_VERSION}</span>
     <p class="page-hero-subtext">The free fiction writing app for plotters and pantsers. Open source. No account required.</p>
 
+    <!-- Mobile state — revealed by script when the visitor can't run a desktop
+         binary. Server-rendered so it needs no hydration, hidden by default so
+         desktop visitors never see a flash of it. -->
+    <div class="mobile-notice" data-mobile-notice hidden>
+      <h2>Kindling is a desktop app</h2>
+      <p>It runs on macOS, Windows and Linux — there's no mobile version yet. Send yourself the link and pick it up on your computer.</p>
+      <div class="mobile-notice-actions">
+        <button type="button" class="download-btn" data-copy-link>Copy download link</button>
+        <a
+          class="download-btn secondary"
+          href="mailto:?subject=Kindling%20Writer&body=Download%20Kindling%20on%20your%20computer%3A%20https%3A%2F%2Fkindlingwriter.com%2Fdownload%2F"
+        >Email it to me</a>
+      </div>
+    </div>
+
     <!-- Download Cards -->
-    <div class="download-cards">
+    <div class="download-cards" data-desktop-cards>
       {platforms.map(([key, platform]) => (
         <a
           href={platform.url}
           class="download-card-large"
           data-platform={key}
-          onclick={`event.preventDefault();trackDownload('${key}','${platform.url}')`}
         >
           <span class="recommended-badge">Recommended for your OS</span>
           {key === 'mac' && (
@@ -249,6 +263,41 @@ const platforms = Object.entries(DOWNLOADS) as [string, typeof DOWNLOADS[keyof t
 
 <style>
   /* ===== Version Badge ===== */
+  /* Mobile state — a hairline-framed notice, not a card farm. */
+  .mobile-notice {
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+    padding: var(--space-l) 0;
+    margin-bottom: var(--space-l);
+    max-width: var(--measure);
+  }
+
+  .mobile-notice h2 {
+    font-family: var(--font-display);
+    font-size: var(--text-h2);
+    font-weight: 600;
+    margin-bottom: var(--space-2xs);
+  }
+
+  .mobile-notice p {
+    font-family: var(--font-body);
+    font-size: var(--text-body);
+    color: var(--color-text);
+    line-height: var(--leading-relaxed);
+    margin-bottom: var(--space-m);
+  }
+
+  .mobile-notice-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2xs);
+  }
+
+  /* Installers stay available, demoted below the notice. */
+  .download-cards[data-secondary] {
+    grid-template-columns: 1fr;
+  }
+
   /* Quiet: the page's one terracotta moment is the "Recommended for your OS"
      badge, not the version pill. */
   .version-badge {
@@ -395,41 +444,44 @@ const platforms = Object.entries(DOWNLOADS) as [string, typeof DOWNLOADS[keyof t
   }
 </style>
 
-<script is:inline>
-  // OS Detection — highlight the detected platform's card
-  (function () {
-    var platform = (navigator.platform || '').toLowerCase();
-    var ua = navigator.userAgent.toLowerCase();
-    var detected = null;
+<script>
+  import { detectPlatform } from '../../scripts/platform';
+  import { trackDownload } from '../../scripts/analytics';
 
-    if (platform.includes('mac') || ua.includes('macintosh')) {
-      detected = 'mac';
-    } else if (platform.includes('win') || ua.includes('windows')) {
-      detected = 'windows';
-    } else if (platform.includes('linux') || ua.includes('linux')) {
-      detected = 'linux';
-    }
+  const { os, isMobile } = detectPlatform();
 
-    if (detected) {
-      var card = document.querySelector('[data-platform="' + detected + '"]');
-      if (card) {
-        card.classList.add('highlight');
-      }
-    }
-  })();
-
-  // Download tracking — standardized event name across all pages.
-  // We navigate to the thanks page and trigger the actual file download
-  // from there. Doing both from here races Chrome's download pipeline
-  // against the main-frame navigation and cancels the download.
-  function trackDownload(platform, _downloadUrl) {
-    if (typeof gtag === 'function') {
-      gtag('event', 'download_click', {
-        os_platform: platform,
-        cta_location: 'download_page',
-        app_version: '1.2.0'
-      });
-    }
-    window.location.href = '/download/thanks/?os=' + platform;
+  if (isMobile) {
+    // Lead with "this is a desktop app" rather than silently offering a .dmg.
+    document.querySelector('[data-mobile-notice]')?.removeAttribute('hidden');
+    document.querySelector('[data-desktop-cards]')?.setAttribute('data-secondary', '');
+  } else if (os) {
+    document.querySelector(`[data-platform="${os}"]`)?.classList.add('highlight');
   }
+
+  /*
+   * Navigate to /thanks/ and start the file download from there. Doing both
+   * here races Chrome's download pipeline against the main-frame navigation
+   * and cancels the download.
+   */
+  document.querySelectorAll<HTMLAnchorElement>('[data-platform]').forEach((card) => {
+    card.addEventListener('click', (event) => {
+      event.preventDefault();
+      const key = card.dataset.platform;
+      if (!key) return;
+      trackDownload(key, 'download_page');
+      window.location.href = `/download/thanks/?os=${key}`;
+    });
+  });
+
+  const copyButton = document.querySelector<HTMLButtonElement>('[data-copy-link]');
+  copyButton?.addEventListener('click', async () => {
+    const label = copyButton.textContent;
+    try {
+      await navigator.clipboard.writeText('https://kindlingwriter.com/download/');
+      copyButton.textContent = 'Link copied';
+    } catch {
+      copyButton.textContent = 'Press and hold the address bar to copy';
+    }
+    window.setTimeout(() => { copyButton.textContent = label; }, 2500);
+  });
 </script>

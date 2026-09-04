@@ -1,6 +1,7 @@
 <script lang="ts">
   import { trackDownload, trackDownloadCTA } from '../scripts/analytics';
   import { APP_VERSION } from '../data/downloads';
+  import { detectPlatform } from '../scripts/platform';
 
   function gtagSafe(...args: unknown[]): void {
     if (typeof globalThis.gtag === 'function') {
@@ -40,32 +41,9 @@
   $effect(() => {
     const result = detectPlatform();
     detectedOS = result.os;
-    isMobile = result.mobile;
+    isMobile = result.isMobile;
     ready = true;
   });
-
-  function detectPlatform(): { os: string | null; mobile: boolean } {
-    // Check mobile first
-    const ua = navigator.userAgent;
-    const mobile = /Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(ua);
-    if (mobile) return { os: null, mobile: true };
-
-    // Chromium User-Agent Client Hints (preferred)
-    if ('userAgentData' in navigator) {
-      const uad = (navigator as any).userAgentData;
-      const platform: string = (uad?.platform ?? '').toLowerCase();
-      if (platform.includes('mac')) return { os: 'mac', mobile: false };
-      if (platform.includes('windows') || platform.includes('win')) return { os: 'windows', mobile: false };
-      if (platform.includes('linux') || platform.includes('chromeos')) return { os: 'linux', mobile: false };
-    }
-
-    // Fallback: classic userAgent string
-    if (/Macintosh|Mac OS X/i.test(ua)) return { os: 'mac', mobile: false };
-    if (/Windows/i.test(ua)) return { os: 'windows', mobile: false };
-    if (/Linux/i.test(ua)) return { os: 'linux', mobile: false };
-
-    return { os: null, mobile: false };
-  }
 
   /* ---- Derived values ---- */
   let download = $derived(detectedOS ? DOWNLOADS[detectedOS] : null);

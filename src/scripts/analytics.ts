@@ -1,3 +1,5 @@
+import { APP_VERSION } from '../data/downloads';
+
 /**
  * GA4 event helpers for Kindling marketing site.
  *
@@ -17,7 +19,7 @@ function gtagSafe(...args: unknown[]): void {
 }
 
 /** User clicked a platform download button. */
-export function trackDownload(os: string, location: string, version = '1.2.0'): void {
+export function trackDownload(os: string, location: string, version = APP_VERSION): void {
   gtagSafe('event', 'download_click', {
     os_platform: os,
     cta_location: location,
