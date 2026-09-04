@@ -61,7 +61,7 @@
      Press is asymmetric and column-based, not centred bands. These three
      govern horizontal composition the way the spacing scale governs vertical.
      --measure is the reading column; headings and figures break out wider. */
-  --measure:42rem;         /* ~66ch of Newsreader at 17px */
+  --measure:36rem;         /* 576px ~= 85 characters (68ch) of Newsreader at 17px */
   --page-frame:1120px;     /* outer editorial frame */
   --page-gutter:32px;
 

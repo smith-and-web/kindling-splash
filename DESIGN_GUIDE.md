@@ -175,10 +175,15 @@ SaaS page.
 
 ### The measure
 
-- `--measure` — **42rem, ≈66 characters** of Newsreader at 17px.
-- **All reading prose is capped at the measure.** Target 60–75 characters. At
-  ~100 characters a line, prose stops being comfortable and stops reading as
-  considered.
+- `--measure` — **36rem (576px), ≈85 characters** of Newsreader at 17px.
+  Measured, not estimated: Newsreader's average character width at 17px is
+  6.81px, and its `0` glyph — one CSS `ch` — is 8.50px, so 576px is 68`ch`.
+  Do not reason about the measure in `ch`; the two numbers differ by a quarter.
+- **All reading prose is capped at the measure.** 85 characters sits above the
+  classic 60–75 recommendation and below the ~100 where a line stops being
+  comfortable to track. It is a deliberate compromise: tighter than the 672px
+  this system originally shipped, wide enough that long-form pages did not need
+  reflowing around a much narrower column.
 - **Headings, figures, tables and pull-quotes break out wider** than the prose
   column. That contrast between a narrow text column and wider breakouts is the
   editorial signature — without it you just have a narrow page.
@@ -279,7 +284,7 @@ Restraint applies to motion as much as to colour.
 
 Checkable. If you cannot answer these by looking, the page is not finished.
 
-1. Reading prose is capped at `--measure` (42rem).
+1. Reading prose is capped at `--measure` (36rem).
 2. Reading prose is `--color-text`, not `--color-text-muted`.
 3. No paragraph of **reading prose** longer than one line is centred. Short
    labels inside a semantically-real card may be centred.
