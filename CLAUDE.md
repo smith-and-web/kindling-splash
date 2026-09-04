@@ -104,6 +104,23 @@ src/data/           downloads.ts — version + platform download metadata
 
 ---
 
+## Decisions on record
+
+**GA4 stays; the privacy policy documents it; there is no consent gate.**
+(4 Sep 2026.) The policy previously claimed "We don't run Google Analytics or
+any third-party tracking scripts" and "No cookies for tracking" while GA4 was
+loaded on every marketing page and in the Starlight docs head. Both statements
+were false and are now corrected: the website section describes GA4 plainly,
+states that it is website-only, and points at Google's opt-out.
+
+Deliberately *not* done: a consent gate. GA4 sets `_ga` cookies, which for
+UK/EU visitors likely requires prior consent under PECR/GDPR. That is a known,
+accepted open risk — not an oversight. Don't re-raise it as a defect, and
+don't add a consent banner without asking.
+
+The desktop app remains analytics-free. Keep that distinction explicit
+wherever "no tracking" appears.
+
 ## Current state — the held commit
 
 The editorial restructure is **complete in the working tree but intentionally
