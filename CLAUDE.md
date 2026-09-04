@@ -121,25 +121,31 @@ don't add a consent banner without asking.
 The desktop app remains analytics-free. Keep that distinction explicit
 wherever "no tracking" appears.
 
-## Current state — the held commit
+## Current state — the held PR
 
-The editorial restructure is **complete in the working tree but intentionally
-uncommitted.** It is waiting on two things:
+The editorial restructure and everything after it lives on
+**`press/editorial-restructure`** as **kindling-splash#1**, open and unmerged.
+The working tree is clean — nothing is being held locally any more.
+
+It is waiting on two things:
 
 1. the desktop app reskin landing, and
 2. the site product screenshots being regenerated to match the new app UI.
 
-Josh wants the site changes and refreshed screenshots in the same commit. The
-screenshots to replace live in `src/assets/` — `scene-panel.png`,
+Josh wants the site changes and refreshed screenshots to ship together.
+
+**Screenshots to replace** live in `src/assets/` — `scene-panel.png`,
 `beat-with-prose.png`, `references-panel.png` (used on home + features), plus
-whatever `/download/` and `/compare/` show.
+whatever `/download/` and `/compare/` show. When they land, revisit
+`.hero-figure img { max-height: 560px }` in `src/pages/index.astro` and
+`.feature-figure img { max-height: 440px }` in the design system: both use
+`object-fit: cover`, so a new aspect ratio will crop differently.
 
-**Do not commit the restructure until told the reskin is done.** Additive work
-(docs, config, tooling) can still land as its own commit.
+**Merge upstream first.** `brand-assets` is the source of truth and may have
+its own open PR. Merge it and re-run `npm run sync:design-system` before
+trusting the mirrors here — they have been ahead of `main` before.
 
-*Delete this section once the restructure is committed.*
-
----
+*Delete this section once the PR is merged.*
 
 ## Before you finish a change
 
