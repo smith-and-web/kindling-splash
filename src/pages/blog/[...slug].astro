@@ -102,10 +102,11 @@ const structuredData = {
 </MarketingLayout>
 
 <style>
+  /* The text column is exactly --measure; the gutters sit outside it. */
   .blog-post {
-    max-width: 740px;
+    max-width: calc(var(--measure) + 2 * var(--page-gutter));
     margin: 0 auto;
-    padding: 120px 24px 80px;
+    padding: var(--space-4xl) var(--page-gutter) var(--space-3xl);
   }
 
   .post-header {
@@ -120,7 +121,7 @@ const structuredData = {
     color: var(--color-accent-text);
     text-decoration: none;
     margin-bottom: 24px;
-    transition: opacity 0.2s;
+    transition: opacity var(--transition);
   }
 
   .back-link:hover {
@@ -145,12 +146,12 @@ const structuredData = {
     font-size: var(--text-eyebrow);
     font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
+    letter-spacing: var(--tracking-eyebrow);
     color: var(--color-accent-text);
     background: color-mix(in srgb, var(--color-accent) 12%, transparent);
     border: 1px solid color-mix(in srgb, var(--color-accent) 25%, transparent);
     padding: 3px 10px;
-    border-radius: 100px;
+    border-radius: var(--radius-pill);
   }
 
   .post-meta time {
@@ -160,32 +161,31 @@ const structuredData = {
 
   .post-header h1 {
     font-family: var(--font-display);
-    font-size: clamp(28px, 5vw, 40px);
+    font-size: var(--text-h1);
     font-weight: 600;
-    line-height: 1.25;
-    letter-spacing: -0.02em;
+    line-height: var(--leading-tight);
+    letter-spacing: var(--tracking-tight);
   }
 
   /* Article body content */
   .article-content {
     font-family: var(--font-body);
-    font-size: var(--text-body-lg);
-    line-height: 1.8;
+    font-size: var(--text-body);
+    line-height: var(--leading-relaxed);
     color: var(--color-text);
   }
 
   .article-content :global(h2) {
     font-family: var(--font-display);
-    font-size: 26px;
+    font-size: var(--text-h2);
     font-weight: 600;
     margin-top: 48px;
     margin-bottom: 16px;
-    letter-spacing: -0.01em;
   }
 
   .article-content :global(h3) {
     font-family: var(--font-display);
-    font-size: 21px;
+    font-size: var(--text-h3);
     font-weight: 600;
     margin-top: 36px;
     margin-bottom: 12px;
@@ -220,23 +220,23 @@ const structuredData = {
     padding: 16px 24px;
     margin: 32px 0;
     background: var(--color-surface);
-    border-radius: 0 8px 8px 0;
+    border-radius: 0 var(--radius-m) var(--radius-m) 0;
     font-style: italic;
-    color: var(--color-text-muted);
+    color: var(--color-text);
   }
 
   .article-content :global(code) {
-    font-family: 'Monaco', 'Menlo', 'Consolas', monospace;
+    font-family: var(--font-mono);
     font-size: 0.85em;
     background: var(--color-surface);
     padding: 2px 6px;
-    border-radius: 4px;
+    border-radius: var(--radius-xs);
   }
 
   .article-content :global(pre) {
     background: var(--color-surface);
     border: 1px solid var(--color-border);
-    border-radius: 8px;
+    border-radius: var(--radius-m);
     padding: 20px;
     overflow-x: auto;
     margin: 24px 0;
@@ -251,7 +251,7 @@ const structuredData = {
   .article-content :global(img) {
     max-width: 100%;
     height: auto;
-    border-radius: 8px;
+    border-radius: var(--radius-m);
     margin: 24px 0;
   }
 
@@ -275,10 +275,10 @@ const structuredData = {
     border-collapse: collapse;
     font-family: var(--font-ui);
     font-size: var(--text-ui);
-    line-height: 1.5;
+    line-height: var(--leading);
     margin: 32px 0;
     border: 1px solid var(--color-border);
-    border-radius: 8px;
+    border-radius: var(--radius-m);
   }
 
   .article-content :global(table thead) {
@@ -321,7 +321,7 @@ const structuredData = {
     padding: 32px;
     background: var(--color-surface);
     border: 1px solid var(--color-border);
-    border-radius: 12px;
+    border-radius: var(--radius-xl);
     text-align: center;
   }
 
@@ -348,15 +348,8 @@ const structuredData = {
 
   @media (max-width: 600px) {
     .blog-post {
-      padding: 100px 20px 60px;
+      padding: var(--space-4xl) var(--space-m) var(--space-2xl);
     }
 
-    .article-content {
-      font-size: var(--text-body);
-    }
-
-    .article-content :global(h2) {
-      font-size: 22px;
-    }
   }
 </style>

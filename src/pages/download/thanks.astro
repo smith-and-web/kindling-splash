@@ -144,7 +144,7 @@ const downloadUrls = {
     background: color-mix(in srgb, var(--color-accent) 15%, transparent);
     border: 1px solid color-mix(in srgb, var(--color-accent) 30%, transparent);
     padding: 4px 10px;
-    border-radius: 100px;
+    border-radius: var(--radius-pill);
     margin-bottom: 16px;
   }
 
@@ -160,7 +160,7 @@ const downloadUrls = {
     display: none;
     background: var(--color-surface);
     border: 1px solid var(--color-border);
-    border-radius: 12px;
+    border-radius: var(--radius-xl);
     padding: 24px 28px;
   }
 
@@ -180,7 +180,7 @@ const downloadUrls = {
     font-family: var(--font-body);
     font-size: var(--text-ui);
     color: var(--color-text-muted);
-    line-height: 1.7;
+    line-height: var(--leading-relaxed);
     margin-bottom: 12px;
   }
 
@@ -197,16 +197,16 @@ const downloadUrls = {
     font-family: var(--font-body);
     font-size: var(--text-ui);
     color: var(--color-text-muted);
-    line-height: 1.7;
+    line-height: var(--leading-relaxed);
     margin-bottom: 8px;
   }
 
   .os-tip code {
-    font-family: 'Monaco', 'Menlo', 'Consolas', monospace;
+    font-family: var(--font-mono);
     font-size: var(--text-small);
     background: var(--color-bg);
     padding: 2px 6px;
-    border-radius: 4px;
+    border-radius: var(--radius-xs);
   }
 
   /* Steps list overrides for richer content */
@@ -227,7 +227,7 @@ const downloadUrls = {
     font-family: var(--font-body);
     font-size: var(--text-ui);
     color: var(--color-text-muted);
-    line-height: 1.6;
+    line-height: var(--leading);
     margin: 0;
   }
 
@@ -246,7 +246,7 @@ const downloadUrls = {
     text-align: center;
     background: var(--color-surface);
     border: 1px solid var(--color-border);
-    border-radius: 12px;
+    border-radius: var(--radius-xl);
     padding: 28px 20px;
     text-decoration: none;
     color: inherit;

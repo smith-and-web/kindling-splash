@@ -144,6 +144,12 @@ hierarchy, not editorial hierarchy.
 
 Let Fraunces be **large and quiet** rather than medium and animated.
 
+**Long-form articles use the same scale.** Post title `--text-h1`, section
+headings `--text-h2`, sub-headings `--text-h3`, body `--text-body`. Blog and
+docs templates do not get their own type scale, their own `clamp()`, or their
+own measure — they inherit these. If long-form needs a step the scale lacks,
+add it here rather than inventing one locally.
+
 ### Prose colour
 
 Primary reading prose is set in `--color-text` (ink). `--color-text-muted` is for
@@ -180,7 +186,8 @@ SaaS page.
 ### Alignment
 
 - **Reading prose is left-aligned.** Always.
-- **Never centre a paragraph longer than one line.**
+- **Never centre a paragraph longer than one line** of reading prose. A short
+  label inside a real card is not prose and may be centred.
 - Centring is reserved for genuinely short, ceremonial moments: the closing CTA
   line, the footer tagline, a one-line eyebrow. It is a gesture, not a default.
 
@@ -246,6 +253,8 @@ Prefer a 1px hairline to a shadow. Shadow is licensed in exactly **two** places:
 
 1. Mounted-print figures.
 2. The closing CTA panel, where a card deliberately steps up off the page.
+3. A floating overlay that must read as above the page — the mobile nav
+   dropdown, a dialog. Elevation is doing real work here, not decoration.
 
 Everywhere else, use `--color-border`.
 
@@ -272,11 +281,13 @@ Checkable. If you cannot answer these by looking, the page is not finished.
 
 1. Reading prose is capped at `--measure` (42rem).
 2. Reading prose is `--color-text`, not `--color-text-muted`.
-3. No paragraph longer than one line is centred.
+3. No paragraph of **reading prose** longer than one line is centred. Short
+   labels inside a semantically-real card may be centred.
 4. Terracotta appears at most **twice** per viewport.
 5. `--color-success` appears only in a comparison table.
 6. Every colour and font size resolves to a token — no raw hex, no raw px.
-7. Shadow appears only on a mounted-print figure or the closing CTA panel.
+7. Shadow appears only on a mounted-print figure, the closing CTA panel, or a
+   floating overlay.
 8. Each page has exactly one `--text-hero`/`--text-h1` display moment.
 9. Body text on paper is never `--color-accent`.
 10. Form controls are at least `--text-base` (16px).
@@ -291,7 +302,7 @@ Enumerated prohibitions. These are the specific artifacts that pull a page back
 toward the generic default.
 
 - **Never** use emoji as interface icons.
-- **Never** centre a multi-line paragraph.
+- **Never** centre a multi-line paragraph of reading prose.
 - **Never** set primary reading prose in muted ink.
 - **Never** put a terracotta eyebrow on every card in a grid.
 - **Never** use green outside a comparison-table check.

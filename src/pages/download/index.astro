@@ -256,7 +256,7 @@ const platforms = Object.entries(DOWNLOADS) as [string, typeof DOWNLOADS[keyof t
     background: color-mix(in srgb, var(--color-accent) 15%, transparent);
     border: 1px solid color-mix(in srgb, var(--color-accent) 30%, transparent);
     padding: 4px 10px;
-    border-radius: 100px;
+    border-radius: var(--radius-pill);
     margin-bottom: 16px;
   }
 
@@ -269,7 +269,7 @@ const platforms = Object.entries(DOWNLOADS) as [string, typeof DOWNLOADS[keyof t
     background: color-mix(in srgb, var(--color-accent) 15%, transparent);
     border: 1px solid color-mix(in srgb, var(--color-accent) 30%, transparent);
     padding: 2px 8px;
-    border-radius: 100px;
+    border-radius: var(--radius-pill);
     margin-bottom: 8px;
     letter-spacing: 0.02em;
     text-transform: uppercase;
@@ -301,7 +301,7 @@ const platforms = Object.entries(DOWNLOADS) as [string, typeof DOWNLOADS[keyof t
     padding: 16px;
     background: var(--color-surface);
     border: 1px solid var(--color-border);
-    border-radius: 10px;
+    border-radius: var(--radius-l);
   }
 
   .trust-icon {
@@ -312,7 +312,7 @@ const platforms = Object.entries(DOWNLOADS) as [string, typeof DOWNLOADS[keyof t
     align-items: center;
     justify-content: center;
     background: color-mix(in srgb, var(--color-accent) 10%, transparent);
-    border-radius: 8px;
+    border-radius: var(--radius-m);
     color: var(--color-accent);
   }
 
