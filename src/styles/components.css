@@ -13,9 +13,14 @@ body {
 h1,h2,h3,h4 { font-family:var(--font-display); font-optical-sizing:auto; font-weight:600; line-height:var(--leading-tight); }
 
 /* ---- Page hero ---- */
-.page-hero { padding:140px 24px 60px; text-align:center; max-width:960px; margin:0 auto; }
+/* Left-aligned by default: every interior hero carries a paragraph-length
+   stand-first, and centring is licensed only for lines of one line or less.
+   Add .ceremonial for a genuinely short, centred dead-end hero. */
+.page-hero { padding:140px 24px 60px; max-width:960px; margin:0 auto; }
+.page-hero.ceremonial { text-align:center; }
 .page-hero h1 { font-size:var(--text-hero); letter-spacing:var(--tracking-tight); margin-bottom:16px; }
-.page-hero-subtext { font-family:var(--font-body); font-size:var(--text-body-lg); color:var(--color-text-muted); line-height:var(--leading-relaxed); margin-bottom:32px; }
+.page-hero-subtext { font-family:var(--font-body); font-size:var(--text-body-lg); color:var(--color-text); line-height:var(--leading-relaxed); margin-bottom:32px; max-width:var(--measure); }
+.page-hero.ceremonial .page-hero-subtext { margin-left:auto; margin-right:auto; }
 
 /* ---- Content sections ---- */
 .content-section { padding:80px 24px; max-width:900px; margin:0 auto; }

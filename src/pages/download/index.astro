@@ -236,7 +236,7 @@ const platforms = Object.entries(DOWNLOADS) as [string, typeof DOWNLOADS[keyof t
   <section class="cta-section">
     <p><a href="https://github.com/smith-and-web/kindling" target="_blank" rel="noopener">View source on GitHub</a> &middot; <a href="/features/">See all features &rarr;</a></p>
     <div class="signup-container" style="max-width: 480px; margin: 24px auto 0;">
-      <h2 style="font-size: 18px;">Get notified about updates</h2>
+      <h2 style="font-size: var(--text-body-lg);">Get notified about updates</h2>
       <form class="signup-form" action="https://app.kit.com/forms/8996985/subscriptions" method="post" target="_blank">
         <input type="email" name="email_address" placeholder="your@email.com" required>
         <button type="submit">Subscribe</button>
@@ -250,7 +250,7 @@ const platforms = Object.entries(DOWNLOADS) as [string, typeof DOWNLOADS[keyof t
   /* ===== Version Badge ===== */
   .version-badge {
     display: inline-block;
-    font-size: 12px;
+    font-size: var(--text-eyebrow);
     font-weight: 600;
     color: var(--color-accent-text);
     background: color-mix(in srgb, var(--color-accent) 15%, transparent);
@@ -263,7 +263,7 @@ const platforms = Object.entries(DOWNLOADS) as [string, typeof DOWNLOADS[keyof t
   /* ===== Recommended Badge ===== */
   .recommended-badge {
     display: none;
-    font-size: 11px;
+    font-size: var(--text-eyebrow);
     font-weight: 600;
     color: var(--color-accent-text);
     background: color-mix(in srgb, var(--color-accent) 15%, transparent);
@@ -281,7 +281,7 @@ const platforms = Object.entries(DOWNLOADS) as [string, typeof DOWNLOADS[keyof t
 
   /* ===== Download Card Size Text ===== */
   .size-text {
-    font-size: 12px;
+    font-size: var(--text-eyebrow);
     color: var(--color-text-muted);
     margin-top: 4px;
     opacity: 0.7;
@@ -319,7 +319,7 @@ const platforms = Object.entries(DOWNLOADS) as [string, typeof DOWNLOADS[keyof t
   .trust-callout strong {
     display: block;
     font-family: var(--font-display);
-    font-size: 14px;
+    font-size: var(--text-small);
     font-weight: 600;
     margin-bottom: 4px;
     color: var(--color-text);
@@ -327,7 +327,7 @@ const platforms = Object.entries(DOWNLOADS) as [string, typeof DOWNLOADS[keyof t
 
   .trust-callout p {
     font-family: var(--font-body);
-    font-size: 13px;
+    font-size: var(--text-small);
     color: var(--color-text-muted);
     line-height: 1.5;
     margin: 0;

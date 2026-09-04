@@ -130,7 +130,7 @@ a {
 
 .uninstall-platform h4 {
   font-family: var(--font-display);
-  font-size: 16px;
+  font-size: var(--text-base);
   font-weight: 600;
   margin-bottom: 12px;
   color: var(--color-text);
@@ -159,7 +159,7 @@ a {
 
 .uninstall-platform code {
   font-family: var(--font-mono);
-  font-size: 13px;
+  font-size: var(--text-small);
   background: var(--color-surface);
   padding: 2px 6px;
   border-radius: var(--radius-xs);
@@ -169,7 +169,7 @@ a {
 .download-legal-links {
   font-size: var(--text-small);
   color: var(--color-text-muted);
-  text-align: center;
+  max-width: var(--measure);
   margin: 20px 0 0;
   line-height: var(--leading);
 }

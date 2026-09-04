@@ -164,7 +164,7 @@
     color: var(--color-on-accent);
     font-family: var(--font-ui);
     font-weight: 600;
-    font-size: 18px;
+    font-size: var(--text-body-lg);
     text-decoration: none;
     padding: 14px 20px;
     border-radius: var(--radius-m);
@@ -181,7 +181,7 @@
   /* ---- Micro-copy ---- */
   .micro-copy {
     color: var(--color-text-muted);
-    font-size: 14px;
+    font-size: var(--text-small);
     margin: 0;
     text-align: center;
   }
@@ -189,7 +189,7 @@
   /* ---- Alt platforms link ---- */
   .alt-platforms {
     color: var(--color-text-muted);
-    font-size: 14px;
+    font-size: var(--text-small);
     text-decoration: none;
     transition: color 0.2s ease;
   }
@@ -211,7 +211,7 @@
     color: var(--color-text);
     font-family: var(--font-ui);
     font-weight: 600;
-    font-size: 18px;
+    font-size: var(--text-body-lg);
     margin: 0;
   }
 
@@ -221,7 +221,7 @@
     color: var(--color-on-accent);
     font-family: var(--font-ui);
     font-weight: 600;
-    font-size: 16px;
+    font-size: var(--text-base);
     padding: 12px 20px;
     border-radius: var(--radius-m);
     border: none;
