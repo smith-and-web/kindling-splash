@@ -46,7 +46,7 @@ const structuredData = {
       <!-- Smart Download CTA (hydrated client-side) -->
       <SmartDownloadButton client:load location="hero" />
 
-      <p class="open-source-badge">v{APP_VERSION} · Free &amp; Open Source · AI-free</p>
+      <p class="open-source-badge">v{APP_VERSION} · AI-free</p>
       <a class="hero-secondary" href="#how-it-works">or see how it works &rarr;</a>
     </div>
 
@@ -58,7 +58,7 @@ const structuredData = {
 
   <!-- Social proof — demoted to a single quiet line, not a bordered billboard -->
   <section class="social-proof editorial fade-in-on-scroll">
-    <p>Trusted by 500+ writers · MIT Licensed · Built with Rust &amp; Tauri · macOS · Windows · Linux</p>
+    <p>Trusted by 2000+ writers · MIT Licensed · Built with Rust &amp; Tauri · macOS · Windows · Linux</p>
   </section>
 
   <!-- Problem Statement — the emotional beat: large Fraunces, left-aligned prose at measure -->
@@ -174,7 +174,7 @@ const structuredData = {
     gap: var(--space-2xl);
     align-items: start;
     padding-top: 112px;
-    padding-bottom: var(--space-3xl);
+    padding-bottom: var(--space-m);
   }
 
   .hero-text {
@@ -272,7 +272,7 @@ const structuredData = {
 
   /* ===== Social proof — one quiet line ===== */
   .social-proof {
-    padding: var(--space-l) 24px;
+    padding: 0 24px var(--space-3xl);
     text-align: center;
   }
   .social-proof p {

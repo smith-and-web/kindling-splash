@@ -288,7 +288,10 @@ Checkable. If you cannot answer these by looking, the page is not finished.
 2. Reading prose is `--color-text`, not `--color-text-muted`.
 3. No paragraph of **reading prose** longer than one line is centred. Short
    labels inside a semantically-real card may be centred.
-4. Terracotta appears at most **twice** per viewport.
+4. Terracotta appears at most **twice** per viewport, counting deliberate
+   moments — fills, rules, badges, icons. Inline links set in
+   `--color-accent-text` are the system's link colour, not accent moments,
+   and do not count.
 5. `--color-success` appears only in a comparison table.
 6. Every colour and font size resolves to a token — no raw hex, no raw px.
 7. Shadow appears only on a mounted-print figure, the closing CTA panel, or a

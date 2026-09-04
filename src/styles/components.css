@@ -191,7 +191,9 @@ body::before {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: var(--space-2xl);
-  align-items: start;
+  /* Centred, not top-aligned: prose is usually much shorter than the figure
+     beside it, and top-aligning left a large void under the text. */
+  align-items: center;
 }
 .feature-row.reverse .feature-prose { order: -1; }
 
@@ -211,10 +213,16 @@ body::before {
   box-shadow: 0 0 0 1px var(--color-border), var(--shadow-md);
 }
 
+/* Not two cells of a grid — one spread, divided by a column rule, so a row
+   without figures still reads as an entry in the sequence. */
 .feature-pair {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: var(--space-2xl);
+  column-gap: var(--space-l);
+}
+.feature-pair > .feature-prose + .feature-prose {
+  border-left: 1px solid var(--color-border);
+  padding-left: var(--space-l);
 }
 
 .kicker {
@@ -281,6 +289,8 @@ body::before {
   .feature-row.reverse .feature-prose { order: 0; }
   .feature-pair > .feature-prose + .feature-prose {
     padding-top: var(--space-l);
+    padding-left: 0;
+    border-left: none;
     border-top: 1px solid var(--color-border);
   }
 }
@@ -366,7 +376,8 @@ body::before {
 }
 .download-card-large:hover { border-color:var(--color-accent); background:var(--color-surface-sunken); }
 .download-card-large.highlight { border-color:var(--color-accent); background:var(--color-accent-wash); }
-.download-card-large svg { width:32px; height:32px; margin-bottom:12px; color:var(--color-accent); }
+.download-card-large svg { width:32px; height:32px; margin-bottom:12px; color:var(--color-text-muted); }
+.download-card-large.highlight svg { color:var(--color-accent); }
 .download-card-large .label { font-family:var(--font-display); font-weight:600; font-size:var(--text-base); display:block; margin-bottom:4px; }
 .download-card-large .subtext { font-family:var(--font-ui); font-size:var(--text-small); color:var(--color-text-muted); }
 
