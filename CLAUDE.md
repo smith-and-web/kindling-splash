@@ -125,25 +125,48 @@ wherever "no tracking" appears.
 
 The editorial restructure and everything after it lives on
 **`press/editorial-restructure`** as **kindling-splash#1**, open and unmerged.
-The working tree is clean — nothing is being held locally any more.
+The working tree is clean.
 
-It is waiting on two things:
+**The desktop app reskin is done.** The only remaining gate is regenerating the
+product screenshots against the new app UI.
 
-1. the desktop app reskin landing, and
-2. the site product screenshots being regenerated to match the new app UI.
+### Screenshots to regenerate
 
-Josh wants the site changes and refreshed screenshots to ship together.
+| File | Used on | Renders at | Ratio |
+|---|---|---|---|
+| `src/assets/scene-panel.png` | home hero **and** `/features/` row 1 | 477×560 hero, 530×440 features | 0.85 / 1.20 |
+| `src/assets/beat-with-prose.png` | home row 1 | 498×440 | 1.13 |
+| `src/assets/references-panel.png` | home row 2, `/features/` row 2 | 498×440, 530×440 | 1.13 / 1.20 |
+| `public/docs/app-settings.png` | `docs/settings` | — | — |
+| `public/docs/project-settings.png` | `docs/settings` | — | — |
+| `public/docs/command-palette.png` | `docs/getting-started`, `docs/scene-workflow` | — | — |
+| `public/docs/view-toggle.png` | docs | — | — |
 
-**Screenshots to replace** live in `src/assets/` — `scene-panel.png`,
-`beat-with-prose.png`, `references-panel.png` (used on home + features), plus
-whatever `/download/` and `/compare/` show. When they land, revisit
-`.hero-figure img { max-height: 560px }` in `src/pages/index.astro` and
-`.feature-figure img { max-height: 440px }` in the design system: both use
-`object-fit: cover`, so a new aspect ratio will crop differently.
+**Don't forget the four docs images.** Missing them ships new UI on the
+marketing pages and the old UI in the documentation.
 
-**Merge upstream first.** `brand-assets` is the source of truth and may have
-its own open PR. Merge it and re-run `npm run sync:design-system` before
-trusting the mirrors here — they have been ahead of `main` before.
+### Capture at the display aspect
+
+Both figure treatments use `object-fit: cover` against a fixed `max-height`, so
+a portrait source is cropped from the bottom and the lower half is never seen.
+The current sources are ~0.63 ratio against display ratios of 0.85–1.20, so
+**~24% of the hero and ~44% of each feature figure is discarded.**
+
+Capture at roughly 2× the rendered size, at the rendered aspect:
+
+- **Hero** — target 477×560 (ratio 0.85) → capture ~**960×1120**
+- **Feature rows** — target 530×440 (ratio 1.20) → capture ~**1060×880**
+
+`scene-panel.png` serves both a 0.85 hero and a 1.20 feature slot. Either
+capture it twice (adding e.g. `scene-panel-hero.png`) or accept cropping in one
+of them.
+
+Once the aspects are settled, revisit `.hero-figure img { max-height: 560px }`
+in `src/pages/index.astro` and `.feature-figure img { max-height: 440px }` in
+the design system so `cover` crops nothing.
+
+**Merge upstream first.** `brand-assets` may have an open PR; merge it and
+re-run `npm run sync:design-system` before trusting the mirrors here.
 
 *Delete this section once the PR is merged.*
 
