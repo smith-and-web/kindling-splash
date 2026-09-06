@@ -65,9 +65,11 @@ const structuredData = {
   <section class="problem-section has-grain fade-in-on-scroll">
     <div class="editorial">
       <div class="problem-inner">
-        <span class="accent-rule" aria-hidden="true"></span>
         <h2>You planned every beat.<br>Then you opened a blank document.</h2>
-        <p>Writing apps make you choose: outline <em>or</em> draft. Your beats live in Plottr, your manuscript in Scrivener, your notes in Obsidian. Kindling puts them all in one focused space — so your outline stays visible while you write.</p>
+        <div class="problem-body">
+          <p>Writing apps make you choose: outline <em>or</em> draft. Your beats live in Plottr, your manuscript in Scrivener, your notes in Obsidian. Kindling puts them all in one focused space — so your outline stays visible while you write.</p>
+          <div class="callout">An outline you can't see while you write is just a document you wrote once.</div>
+        </div>
       </div>
     </div>
   </section>
@@ -311,6 +313,32 @@ const structuredData = {
     color: var(--color-text);
     line-height: var(--leading-relaxed);
     max-width: var(--measure);
+  }
+
+  /* Prose left, pull-quote right. A pull-quote is meant to sit apart, so it
+     fills the band without the orphaning a displaced paragraph would cause. */
+  .problem-body {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    column-gap: var(--space-2xl);
+    align-items: start;
+  }
+
+  .problem-body .callout {
+    margin: 0;
+  }
+
+  /* Below 1000px the columns stop carrying a comfortable measure, so the
+     quote drops beneath the prose. */
+  @media (max-width: 1000px) {
+    .problem-body {
+      grid-template-columns: 1fr;
+    }
+
+    .problem-body .callout {
+      margin-top: var(--space-l);
+      max-width: var(--measure);
+    }
   }
 
   /* ===== Features section — uses shared .section-lead / .feature-seq ===== */
