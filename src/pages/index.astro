@@ -286,8 +286,39 @@ const structuredData = {
     padding: var(--space-4xl) 0 var(--space-3xl);
     background: var(--color-surface-sunken);
   }
+  /* The heading is this section's display moment and breaks out wider than the
+     prose, per the guide. Capping both at --measure left 543px of the band
+     unused and force-wrapped the authored two-line heading into three. The
+     paragraph sits in the right column so the band reads as a composed
+     diagonal rather than a half-empty slab. */
   .problem-inner {
-    max-width: var(--measure);
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    column-gap: var(--space-2xl);
+  }
+
+  .problem-section h2 {
+    grid-column: 1 / -1;
+    max-width: 48rem;
+  }
+
+  .problem-section p {
+    grid-column: 2;
+  }
+
+  /* Stack below 1000px, not at the generic mobile breakpoint: two columns of
+     a 936px frame give ~61 characters, and anything narrower drops the prose
+     under a comfortable measure. */
+  @media (max-width: 1000px) {
+    .problem-inner {
+      grid-template-columns: 1fr;
+    }
+
+    .problem-section h2,
+    .problem-section p {
+      grid-column: 1;
+      max-width: var(--measure);
+    }
   }
   .problem-section h2 {
     font-family: var(--font-display);
