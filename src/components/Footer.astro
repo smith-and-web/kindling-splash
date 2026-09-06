@@ -48,18 +48,18 @@
   footer {
     padding: 40px 24px;
     text-align: center;
-    border-top: 1px solid var(--surface-light);
+    border-top: 1px solid var(--color-border);
   }
 
   footer a,
   footer a:visited {
-    color: var(--text-secondary);
+    color: var(--color-text-muted);
     text-decoration: none;
     transition: color 0.2s;
   }
 
   footer a:hover {
-    color: var(--ember-orange);
+    color: var(--color-accent-text);
     text-decoration: none;
   }
 
@@ -73,12 +73,12 @@
   }
 
   .footer-column h4 {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 12px;
+    font-family: var(--font-ui);
+    font-size: var(--text-eyebrow);
     font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--text-secondary);
+    letter-spacing: var(--tracking-eyebrow);
+    color: var(--color-text-muted);
     margin-bottom: 12px;
   }
 
@@ -91,26 +91,39 @@
   }
 
   .footer-column a {
-    font-size: 15px;
+    font-size: var(--text-ui);
+  }
+
+  /* 44px minimum touch target on phones. */
+  @media (max-width: 600px) {
+    .footer-column li {
+      margin-bottom: 0;
+    }
+
+    .footer-column a {
+      display: inline-flex;
+      align-items: center;
+      min-height: 44px;
+    }
   }
 
   .footer-bottom {
     padding-top: 24px;
-    border-top: 1px solid var(--surface-light);
+    border-top: 1px solid var(--color-border);
     text-align: center;
   }
 
   .footer-bottom p {
-    font-size: 14px;
-    color: var(--text-secondary);
+    font-size: var(--text-small);
+    color: var(--color-text-muted);
     margin-bottom: 8px;
   }
 
   .footer-tagline {
-    font-family: 'Lora', Georgia, serif;
+    font-family: var(--font-body);
     font-style: italic;
-    font-size: 15px;
-    color: var(--text-secondary);
-    opacity: 0.9;
+    font-size: var(--text-h3);
+    color: var(--color-text);
+    margin-top: 4px;
   }
 </style>

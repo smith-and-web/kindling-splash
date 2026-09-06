@@ -1,5 +1,7 @@
 <script lang="ts">
   import { trackDownload, trackDownloadCTA } from '../scripts/analytics';
+  import { APP_VERSION } from '../data/downloads';
+  import { detectPlatform } from '../scripts/platform';
 
   function gtagSafe(...args: unknown[]): void {
     if (typeof globalThis.gtag === 'function') {
@@ -7,9 +9,8 @@
     }
   }
 
-  /* ---- Download config (inline for client-side Svelte) ---- */
-  const APP_VERSION = '1.2.0';
-
+  /* ---- Download config. APP_VERSION comes from data/downloads.ts so the
+     version has a single source of truth. ---- */
   const DOWNLOADS: Record<string, { label: string; url: string; size: string }> = {
     mac: {
       label: 'macOS',
@@ -40,32 +41,9 @@
   $effect(() => {
     const result = detectPlatform();
     detectedOS = result.os;
-    isMobile = result.mobile;
+    isMobile = result.isMobile;
     ready = true;
   });
-
-  function detectPlatform(): { os: string | null; mobile: boolean } {
-    // Check mobile first
-    const ua = navigator.userAgent;
-    const mobile = /Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(ua);
-    if (mobile) return { os: null, mobile: true };
-
-    // Chromium User-Agent Client Hints (preferred)
-    if ('userAgentData' in navigator) {
-      const uad = (navigator as any).userAgentData;
-      const platform: string = (uad?.platform ?? '').toLowerCase();
-      if (platform.includes('mac')) return { os: 'mac', mobile: false };
-      if (platform.includes('windows') || platform.includes('win')) return { os: 'windows', mobile: false };
-      if (platform.includes('linux') || platform.includes('chromeos')) return { os: 'linux', mobile: false };
-    }
-
-    // Fallback: classic userAgent string
-    if (/Macintosh|Mac OS X/i.test(ua)) return { os: 'mac', mobile: false };
-    if (/Windows/i.test(ua)) return { os: 'windows', mobile: false };
-    if (/Linux/i.test(ua)) return { os: 'linux', mobile: false };
-
-    return { os: null, mobile: false };
-  }
 
   /* ---- Derived values ---- */
   let download = $derived(detectedOS ? DOWNLOADS[detectedOS] : null);
@@ -160,14 +138,14 @@
   /* ---- Primary CTA Button ---- */
   .download-btn {
     display: inline-block;
-    background: var(--ember-orange);
-    color: #fff;
-    font-family: 'Space Grotesk', sans-serif;
+    background: var(--color-accent);
+    color: var(--color-on-accent);
+    font-family: var(--font-ui);
     font-weight: 600;
-    font-size: 18px;
+    font-size: var(--text-body-lg);
     text-decoration: none;
     padding: 14px 20px;
-    border-radius: 8px;
+    border-radius: var(--radius-m);
     border: none;
     cursor: pointer;
     transition: background 0.2s ease;
@@ -175,27 +153,27 @@
   }
 
   .download-btn:hover {
-    background: var(--flame-orange);
+    background: var(--color-accent-text);
   }
 
   /* ---- Micro-copy ---- */
   .micro-copy {
-    color: var(--text-secondary);
-    font-size: 14px;
+    color: var(--color-text-muted);
+    font-size: var(--text-small);
     margin: 0;
     text-align: center;
   }
 
   /* ---- Alt platforms link ---- */
   .alt-platforms {
-    color: var(--text-secondary);
-    font-size: 14px;
+    color: var(--color-text-muted);
+    font-size: var(--text-small);
     text-decoration: none;
     transition: color 0.2s ease;
   }
 
   .alt-platforms:hover {
-    color: var(--ember-orange);
+    color: var(--color-accent-text);
   }
 
   /* ---- Mobile message ---- */
@@ -208,22 +186,22 @@
   }
 
   .mobile-heading {
-    color: var(--text-primary, #f5f2ef);
-    font-family: 'Space Grotesk', sans-serif;
+    color: var(--color-text);
+    font-family: var(--font-ui);
     font-weight: 600;
-    font-size: 18px;
+    font-size: var(--text-body-lg);
     margin: 0;
   }
 
   .share-btn {
     display: inline-block;
-    background: var(--ember-orange);
-    color: #fff;
-    font-family: 'Space Grotesk', sans-serif;
+    background: var(--color-accent);
+    color: var(--color-on-accent);
+    font-family: var(--font-ui);
     font-weight: 600;
-    font-size: 16px;
+    font-size: var(--text-base);
     padding: 12px 20px;
-    border-radius: 8px;
+    border-radius: var(--radius-m);
     border: none;
     cursor: pointer;
     transition: background 0.2s ease;
@@ -231,6 +209,6 @@
   }
 
   .share-btn:hover {
-    background: var(--flame-orange);
+    background: var(--color-accent-text);
   }
 </style>

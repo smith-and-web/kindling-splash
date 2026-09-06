@@ -111,7 +111,7 @@ import MarketingLayout from '../../layouts/MarketingLayout.astro';
   .success-icon {
     width: 80px;
     height: 80px;
-    background: var(--success);
+    background: var(--color-success);
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -122,12 +122,12 @@ import MarketingLayout from '../../layouts/MarketingLayout.astro';
   .success-icon svg {
     width: 40px;
     height: 40px;
-    color: white;
+    color: var(--color-on-accent);
   }
 
   /* Header */
   h1 {
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: var(--font-display);
     font-size: clamp(32px, 6vw, 48px);
     font-weight: 600;
     margin-bottom: 12px;
@@ -135,31 +135,37 @@ import MarketingLayout from '../../layouts/MarketingLayout.astro';
   }
 
   .subtitle {
-    font-size: 18px;
-    color: var(--text-secondary);
+    text-align: left;
+    max-width: var(--measure);
+    margin-left: auto;
+    margin-right: auto;
+    font-family: var(--font-body);
+    font-size: var(--text-body-lg);
+    color: var(--color-text-muted);
     margin-bottom: 40px;
-    line-height: 1.7;
+    line-height: var(--leading-relaxed);
   }
 
   /* CTA Card */
   .cta-card {
-    background: var(--surface);
-    border: 1px solid var(--surface-light);
-    border-radius: 16px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-2xl);
     padding: 32px;
     margin-bottom: 32px;
   }
 
   .cta-card h2 {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 24px;
+    font-family: var(--font-display);
+    font-size: var(--text-h2);
     font-weight: 600;
     margin-bottom: 8px;
   }
 
   .cta-card p {
-    font-size: 16px;
-    color: var(--text-secondary);
+    font-family: var(--font-body);
+    font-size: var(--text-base);
+    color: var(--color-text-muted);
     margin-bottom: 24px;
   }
 
@@ -170,11 +176,11 @@ import MarketingLayout from '../../layouts/MarketingLayout.astro';
   }
 
   .expect-section h3 {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 18px;
+    font-family: var(--font-display);
+    font-size: var(--text-body-lg);
     font-weight: 500;
     margin-bottom: 16px;
-    color: var(--text-secondary);
+    color: var(--color-text-muted);
   }
 
   .expect-list {
@@ -186,7 +192,7 @@ import MarketingLayout from '../../layouts/MarketingLayout.astro';
     align-items: flex-start;
     gap: 12px;
     padding: 12px 0;
-    border-bottom: 1px solid var(--surface-light);
+    border-bottom: 1px solid var(--color-border);
   }
 
   .expect-list li:last-child {
@@ -196,14 +202,14 @@ import MarketingLayout from '../../layouts/MarketingLayout.astro';
   .expect-list svg {
     width: 20px;
     height: 20px;
-    color: var(--ember-orange);
+    color: var(--color-accent);
     flex-shrink: 0;
     margin-top: 2px;
   }
 
   .expect-list span {
-    font-size: 15px;
-    color: var(--text-primary);
+    font-size: var(--text-ui);
+    color: var(--color-text);
   }
 
   /* Social Links */
@@ -212,19 +218,19 @@ import MarketingLayout from '../../layouts/MarketingLayout.astro';
   }
 
   .social-section p {
-    font-size: 14px;
-    color: var(--text-secondary);
+    font-size: var(--text-small);
+    color: var(--color-text-muted);
     margin-bottom: 12px;
   }
 
   /* Footer */
   .back-link {
-    font-size: 14px;
-    color: var(--text-secondary);
+    font-size: var(--text-small);
+    color: var(--color-text-muted);
   }
 
   .back-link a {
-    color: var(--ember-orange);
+    color: var(--color-accent-text);
     text-decoration: none;
   }
 

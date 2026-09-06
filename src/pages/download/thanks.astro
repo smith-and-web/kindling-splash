@@ -124,10 +124,11 @@ const downloadUrls = {
   <!-- Email Signup -->
   <section class="cta-section">
     <div class="signup-container" style="max-width: 480px; margin: 0 auto;">
-      <h2 style="font-size: 18px;">Get notified about updates</h2>
-      <p style="font-size: 15px; color: var(--text-secondary); margin-bottom: 16px;">We'll email you when new versions are released. No spam, unsubscribe anytime.</p>
+      <h2 style="font-size: var(--text-body-lg);">Get notified about updates</h2>
+      <p style="font-size: var(--text-ui); color: var(--color-text-muted); margin-bottom: 16px;">We'll email you when new versions are released. No spam, unsubscribe anytime.</p>
       <form class="signup-form" action="https://app.kit.com/forms/8996985/subscriptions" method="post" target="_blank">
-        <input type="email" name="email_address" placeholder="your@email.com" required>
+        <label class="sr-only" for="newsletter-email">Email address</label>
+        <input type="email" id="newsletter-email" name="email_address" placeholder="your@email.com" autocomplete="email" required>
         <button type="submit">Subscribe</button>
       </form>
     </div>
@@ -138,13 +139,13 @@ const downloadUrls = {
   /* Version badge */
   .version-badge {
     display: inline-block;
-    font-size: 12px;
+    font-size: var(--text-eyebrow);
     font-weight: 600;
-    color: var(--ember-orange);
-    background: rgba(232, 90, 27, 0.15);
-    border: 1px solid rgba(232, 90, 27, 0.3);
+    color: var(--color-accent-text);
+    background: color-mix(in srgb, var(--color-accent) 15%, transparent);
+    border: 1px solid color-mix(in srgb, var(--color-accent) 30%, transparent);
     padding: 4px 10px;
-    border-radius: 100px;
+    border-radius: var(--radius-pill);
     margin-bottom: 16px;
   }
 
@@ -158,9 +159,9 @@ const downloadUrls = {
 
   .os-tip {
     display: none;
-    background: var(--surface);
-    border: 1px solid var(--surface-light);
-    border-radius: 12px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
     padding: 24px 28px;
   }
 
@@ -169,17 +170,18 @@ const downloadUrls = {
   }
 
   .os-tip h3 {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 18px;
+    font-family: var(--font-display);
+    font-size: var(--text-body-lg);
     font-weight: 600;
     margin-bottom: 12px;
-    color: var(--text-primary);
+    color: var(--color-text);
   }
 
   .os-tip p {
-    font-size: 15px;
-    color: var(--text-secondary);
-    line-height: 1.7;
+    font-family: var(--font-body);
+    font-size: var(--text-ui);
+    color: var(--color-text-muted);
+    line-height: var(--leading-relaxed);
     margin-bottom: 12px;
   }
 
@@ -193,18 +195,19 @@ const downloadUrls = {
   }
 
   .os-tip ol li {
-    font-size: 15px;
-    color: var(--text-secondary);
-    line-height: 1.7;
+    font-family: var(--font-body);
+    font-size: var(--text-ui);
+    color: var(--color-text-muted);
+    line-height: var(--leading-relaxed);
     margin-bottom: 8px;
   }
 
   .os-tip code {
-    font-family: 'Monaco', 'Menlo', 'Consolas', monospace;
-    font-size: 13px;
-    background: var(--deep-charcoal);
+    font-family: var(--font-mono);
+    font-size: var(--text-small);
+    background: var(--color-bg);
     padding: 2px 6px;
-    border-radius: 4px;
+    border-radius: var(--radius-xs);
   }
 
   /* Steps list overrides for richer content */
@@ -214,17 +217,18 @@ const downloadUrls = {
 
   .steps-list li strong {
     display: block;
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 16px;
+    font-family: var(--font-display);
+    font-size: var(--text-base);
     font-weight: 600;
-    color: var(--text-primary);
+    color: var(--color-text);
     margin-bottom: 4px;
   }
 
   .steps-list li p {
-    font-size: 15px;
-    color: var(--text-secondary);
-    line-height: 1.6;
+    font-family: var(--font-body);
+    font-size: var(--text-ui);
+    color: var(--color-text-muted);
+    line-height: var(--leading);
     margin: 0;
   }
 
@@ -241,9 +245,9 @@ const downloadUrls = {
     flex-direction: column;
     align-items: center;
     text-align: center;
-    background: var(--surface);
-    border: 1px solid var(--surface-light);
-    border-radius: 12px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
     padding: 28px 20px;
     text-decoration: none;
     color: inherit;
@@ -251,29 +255,30 @@ const downloadUrls = {
   }
 
   .community-card:hover {
-    border-color: var(--ember-orange);
+    border-color: var(--color-accent);
     transform: translateY(-2px);
   }
 
   .community-card svg {
     width: 28px;
     height: 28px;
-    color: var(--ember-orange);
+    color: var(--color-accent);
     margin-bottom: 12px;
   }
 
   .community-card strong {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 16px;
+    font-family: var(--font-display);
+    font-size: var(--text-base);
     font-weight: 600;
     display: block;
     margin-bottom: 6px;
-    color: var(--text-primary);
+    color: var(--color-text);
   }
 
   .community-card p {
-    font-size: 14px;
-    color: var(--text-secondary);
+    font-family: var(--font-body);
+    font-size: var(--text-small);
+    color: var(--color-text-muted);
     line-height: 1.5;
     margin: 0;
   }

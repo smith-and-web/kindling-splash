@@ -31,7 +31,7 @@ import MarketingLayout from '../../layouts/MarketingLayout.astro';
   <section class="content-section">
     <h2>No accounts. No tracking. No cloud.</h2>
     <p>Kindling doesn't require an account. It doesn't phone home. It doesn't collect analytics. It doesn't upload your manuscripts. Your projects live as files on your hard drive — just like a Word document. Back them up however you want. Move them between computers with a USB drive. They're yours.</p>
-    <p style="font-size: 15px; color: var(--text-secondary);">We plan to offer optional cloud sync as a paid feature in the future. It will always be optional — the core app will always work completely offline and for free.</p>
+    <p style="font-size: var(--text-ui); color: var(--color-text-muted);">We plan to offer optional cloud sync as a paid feature in the future. It will always be optional — the core app will always work completely offline and for free.</p>
   </section>
 
   <section class="content-section alt">
@@ -48,9 +48,16 @@ import MarketingLayout from '../../layouts/MarketingLayout.astro';
 
   <section class="cta-section">
     <h2>MIT Licensed. Always free. Always yours.</h2>
-    <p style="color: var(--text-secondary);"><a href="/features/" style="color: var(--ember-orange);">Explore features</a> · <a href="/compare/" style="color: var(--ember-orange);">Compare to other writing apps</a></p>
+    <p style="color: var(--color-text-muted);"><a href="/features/" style="color: var(--color-accent-text);">Explore features</a> · <a href="/compare/" style="color: var(--color-accent-text);">Compare to other writing apps</a></p>
     <div class="download-buttons single" style="margin-top: 24px;">
       <a href="/download/" class="download-btn" onclick="typeof gtag==='function'&&gtag('event','download_cta_click',{cta_location:'open_source_bottom'})">Download Kindling — Free</a>
     </div>
   </section>
 </MarketingLayout>
+
+<style>
+  /* Close the stranded empty band between the short hero and the first
+     section, so the whitespace reads as intentional rather than a gap. */
+  .page-hero { padding-bottom: var(--space-m); }
+  .content-section:first-of-type { padding-top: var(--space-xl); }
+</style>

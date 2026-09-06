@@ -3,9 +3,10 @@ import Logo from './Logo.astro';
 
 const currentPath = Astro.url.pathname;
 
+// Download is intentionally omitted here — the terracotta CTA button is the
+// single download affordance, so the link row doesn't duplicate it.
 const links = [
   { href: '/features/', label: 'Features' },
-  { href: '/download/', label: 'Download' },
   { href: '/compare/', label: 'Compare' },
   { href: '/open-source/', label: 'Open Source' },
   { href: '/blog/', label: 'Blog' },
@@ -32,6 +33,7 @@ function isActive(href: string): boolean {
         <a
           href={link.href}
           class:list={['navbar-link', { active: isActive(link.href) }]}
+          aria-current={isActive(link.href) ? 'page' : undefined}
         >
           {link.label}
         </a>
@@ -48,10 +50,10 @@ function isActive(href: string): boolean {
     left: 0;
     right: 0;
     z-index: 1000;
-    background: rgba(15, 15, 15, 0.85);
+    background: var(--color-nav-scrim);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--surface-light);
+    border-bottom: 1px solid var(--color-border);
     padding: 0 24px;
   }
 
@@ -70,13 +72,13 @@ function isActive(href: string): boolean {
     align-items: center;
     gap: 10px;
     text-decoration: none;
-    color: var(--text-primary);
+    color: var(--color-text);
     flex-shrink: 0;
   }
 
   .navbar-logo span {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 20px;
+    font-family: var(--font-display);
+    font-size: var(--text-h3);
     font-weight: 600;
   }
 
@@ -87,41 +89,41 @@ function isActive(href: string): boolean {
   }
 
   .navbar-link {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 15px;
+    font-family: var(--font-ui);
+    font-size: var(--text-ui);
     font-weight: 500;
-    color: var(--text-secondary);
+    color: var(--color-text-muted);
     text-decoration: none;
     padding: 8px 14px;
-    border-radius: 6px;
+    border-radius: var(--radius-s);
     transition: color 0.2s, background-color 0.2s;
   }
 
   .navbar-link:hover {
-    color: var(--text-primary);
-    background: var(--surface);
+    color: var(--color-text);
+    background: var(--color-surface);
   }
 
   .navbar-link.active {
-    color: var(--text-primary);
-    box-shadow: inset 0 -2px 0 0 var(--ember-orange);
+    color: var(--color-text);
+    box-shadow: inset 0 -2px 0 0 var(--color-accent);
   }
 
   .navbar-cta {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 14px;
+    font-family: var(--font-ui);
+    font-size: var(--text-small);
     font-weight: 500;
-    color: white;
-    background: var(--ember-orange);
+    color: var(--color-on-accent);
+    background: var(--color-accent);
     text-decoration: none;
     padding: 8px 16px;
-    border-radius: 6px;
+    border-radius: var(--radius-s);
     margin-left: 8px;
     transition: background-color 0.2s;
   }
 
   .navbar-cta:hover {
-    background: var(--flame-orange);
+    background: var(--color-accent-text);
   }
 
   /* Mobile nav toggle */
@@ -134,15 +136,15 @@ function isActive(href: string): boolean {
     padding: 0;
     background: none;
     border: none;
-    border-radius: 6px;
-    color: var(--text-primary);
+    border-radius: var(--radius-s);
+    color: var(--color-text);
     cursor: pointer;
     transition: background-color 0.2s;
     flex-shrink: 0;
   }
 
   .navbar-toggle:hover {
-    background: var(--surface);
+    background: var(--color-surface);
   }
 
   .navbar-toggle-icon {
@@ -199,9 +201,9 @@ function isActive(href: string): boolean {
       flex-direction: column;
       gap: 0;
       padding: 16px;
-      background: var(--surface);
-      border-bottom: 1px solid var(--surface-light);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      background: var(--color-surface);
+      border-bottom: 1px solid var(--color-border);
+      box-shadow: var(--shadow-md);
       z-index: 1001;
     }
 
@@ -211,15 +213,15 @@ function isActive(href: string): boolean {
 
     .navbar-link {
       padding: 12px 16px;
-      font-size: 16px;
-      border-radius: 8px;
+      font-size: var(--text-base);
+      border-radius: var(--radius-m);
     }
 
     .navbar-cta {
       margin: 8px 0 0;
       margin-left: 0;
       padding: 12px 16px;
-      font-size: 16px;
+      font-size: var(--text-base);
       display: flex;
       justify-content: center;
     }
@@ -227,29 +229,63 @@ function isActive(href: string): boolean {
 </style>
 
 <script>
-  const toggle = document.querySelector('.navbar-toggle');
-  const navbar = document.querySelector('.navbar');
-  if (toggle && navbar) {
-    toggle.addEventListener('click', () => {
-      const isOpen = navbar.classList.toggle('navbar-open');
-      toggle.setAttribute('aria-expanded', String(isOpen));
-      document.body.style.overflow = isOpen ? 'hidden' : '';
-    });
+  const toggle = document.querySelector<HTMLButtonElement>('.navbar-toggle');
+  const navbar = document.querySelector<HTMLElement>('.navbar');
 
-    function closeMenu() {
-      navbar.classList.remove('navbar-open');
-      toggle!.setAttribute('aria-expanded', 'false');
-      document.body.style.overflow = '';
+  if (toggle && navbar) {
+    const menu = navbar.querySelector<HTMLElement>('.navbar-links');
+    const isOpen = () => navbar.classList.contains('navbar-open');
+    const focusable = () =>
+      Array.from(menu?.querySelectorAll<HTMLElement>('a[href], button:not([disabled])') ?? []);
+
+    function openMenu() {
+      navbar!.classList.add('navbar-open');
+      toggle!.setAttribute('aria-expanded', 'true');
+      document.body.style.overflow = 'hidden';
+      focusable()[0]?.focus();
     }
 
-    navbar.querySelectorAll('.navbar-link, .navbar-cta').forEach(link => {
-      link.addEventListener('click', closeMenu);
+    function closeMenu(restoreFocus = false) {
+      navbar!.classList.remove('navbar-open');
+      toggle!.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+      if (restoreFocus) toggle!.focus();
+    }
+
+    toggle.addEventListener('click', () => (isOpen() ? closeMenu() : openMenu()));
+
+    navbar.querySelectorAll('.navbar-link, .navbar-cta').forEach((link) => {
+      link.addEventListener('click', () => closeMenu());
     });
 
-    document.addEventListener('click', (e) => {
-      if (navbar.classList.contains('navbar-open') && !navbar.contains(e.target as Node)) {
-        closeMenu();
+    document.addEventListener('keydown', (event) => {
+      if (!isOpen()) return;
+
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        closeMenu(true);
+        return;
       }
+
+      // Keep Tab inside the open menu; the rest of the page is inert behind it.
+      if (event.key !== 'Tab') return;
+      const items = [toggle!, ...focusable()];
+      if (items.length === 0) return;
+      const first = items[0];
+      const last = items[items.length - 1];
+      const active = document.activeElement;
+
+      if (event.shiftKey && active === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && active === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    });
+
+    document.addEventListener('click', (event) => {
+      if (isOpen() && !navbar.contains(event.target as Node)) closeMenu();
     });
   }
 </script>

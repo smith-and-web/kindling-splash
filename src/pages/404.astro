@@ -28,40 +28,40 @@ export const prerender = true;
   }
 
   .container {
-    max-width: 480px;
+    max-width: 560px;
   }
 
   .error-code {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 120px;
+    font-family: var(--font-display);
+    font-size: 120px; /* decorative numeral, deliberately off-scale */
     font-weight: 700;
-    color: var(--surface-light);
+    color: var(--color-border);
     line-height: 1;
     margin-bottom: 16px;
   }
 
   h1 {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 32px;
+    font-family: var(--font-display);
+    font-size: var(--text-h2);
     font-weight: 600;
     margin-bottom: 12px;
   }
 
   p {
-    font-size: 18px;
-    color: var(--text-secondary);
+    font-size: var(--text-body-lg);
+    color: var(--color-text-muted);
     margin-bottom: 32px;
   }
 
   .back-link {
     display: inline-block;
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 16px;
+    font-family: var(--font-ui);
+    font-size: var(--text-base);
     font-weight: 500;
-    color: white;
-    background: var(--ember-orange);
+    color: var(--color-on-accent);
+    background: var(--color-accent);
     padding: 14px 28px;
-    border-radius: 8px;
+    border-radius: var(--radius-m);
     text-decoration: none;
     transition: opacity 0.2s;
   }

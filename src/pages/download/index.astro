@@ -75,14 +75,28 @@ const platforms = Object.entries(DOWNLOADS) as [string, typeof DOWNLOADS[keyof t
     <span class="version-badge">v{APP_VERSION}</span>
     <p class="page-hero-subtext">The free fiction writing app for plotters and pantsers. Open source. No account required.</p>
 
+    <!-- Mobile state — revealed by script when the visitor can't run a desktop
+         binary. Server-rendered so it needs no hydration, hidden by default so
+         desktop visitors never see a flash of it. -->
+    <div class="mobile-notice" data-mobile-notice hidden>
+      <h2>Kindling is a desktop app</h2>
+      <p>It runs on macOS, Windows and Linux — there's no mobile version yet. Send yourself the link and pick it up on your computer.</p>
+      <div class="mobile-notice-actions">
+        <button type="button" class="download-btn" data-copy-link>Copy download link</button>
+        <a
+          class="download-btn secondary"
+          href="mailto:?subject=Kindling%20Writer&body=Download%20Kindling%20on%20your%20computer%3A%20https%3A%2F%2Fkindlingwriter.com%2Fdownload%2F"
+        >Email it to me</a>
+      </div>
+    </div>
+
     <!-- Download Cards -->
-    <div class="download-cards">
+    <div class="download-cards" data-desktop-cards>
       {platforms.map(([key, platform]) => (
         <a
           href={platform.url}
           class="download-card-large"
           data-platform={key}
-          onclick={`event.preventDefault();trackDownload('${key}','${platform.url}')`}
         >
           <span class="recommended-badge">Recommended for your OS</span>
           {key === 'mac' && (
@@ -236,9 +250,10 @@ const platforms = Object.entries(DOWNLOADS) as [string, typeof DOWNLOADS[keyof t
   <section class="cta-section">
     <p><a href="https://github.com/smith-and-web/kindling" target="_blank" rel="noopener">View source on GitHub</a> &middot; <a href="/features/">See all features &rarr;</a></p>
     <div class="signup-container" style="max-width: 480px; margin: 24px auto 0;">
-      <h2 style="font-size: 18px;">Get notified about updates</h2>
+      <h2 style="font-size: var(--text-body-lg);">Get notified about updates</h2>
       <form class="signup-form" action="https://app.kit.com/forms/8996985/subscriptions" method="post" target="_blank">
-        <input type="email" name="email_address" placeholder="your@email.com" required>
+        <label class="sr-only" for="newsletter-email">Email address</label>
+        <input type="email" id="newsletter-email" name="email_address" placeholder="your@email.com" autocomplete="email" required>
         <button type="submit">Subscribe</button>
       </form>
     </div>
@@ -248,28 +263,65 @@ const platforms = Object.entries(DOWNLOADS) as [string, typeof DOWNLOADS[keyof t
 
 <style>
   /* ===== Version Badge ===== */
+  /* Mobile state — a hairline-framed notice, not a card farm. */
+  .mobile-notice {
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+    padding: var(--space-l) 0;
+    margin-bottom: var(--space-l);
+    max-width: var(--measure);
+  }
+
+  .mobile-notice h2 {
+    font-family: var(--font-display);
+    font-size: var(--text-h2);
+    font-weight: 600;
+    margin-bottom: var(--space-2xs);
+  }
+
+  .mobile-notice p {
+    font-family: var(--font-body);
+    font-size: var(--text-body);
+    color: var(--color-text);
+    line-height: var(--leading-relaxed);
+    margin-bottom: var(--space-m);
+  }
+
+  .mobile-notice-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2xs);
+  }
+
+  /* Installers stay available, demoted below the notice. */
+  .download-cards[data-secondary] {
+    grid-template-columns: 1fr;
+  }
+
+  /* Quiet: the page's one terracotta moment is the "Recommended for your OS"
+     badge, not the version pill. */
   .version-badge {
     display: inline-block;
-    font-size: 12px;
+    font-size: var(--text-eyebrow);
     font-weight: 600;
-    color: var(--ember-orange);
-    background: rgba(232, 90, 27, 0.15);
-    border: 1px solid rgba(232, 90, 27, 0.3);
+    color: var(--color-text-muted);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
     padding: 4px 10px;
-    border-radius: 100px;
+    border-radius: var(--radius-pill);
     margin-bottom: 16px;
   }
 
   /* ===== Recommended Badge ===== */
   .recommended-badge {
     display: none;
-    font-size: 11px;
+    font-size: var(--text-eyebrow);
     font-weight: 600;
-    color: var(--ember-orange);
-    background: rgba(232, 90, 27, 0.15);
-    border: 1px solid rgba(232, 90, 27, 0.3);
+    color: var(--color-accent-text);
+    background: color-mix(in srgb, var(--color-accent) 15%, transparent);
+    border: 1px solid color-mix(in srgb, var(--color-accent) 30%, transparent);
     padding: 2px 8px;
-    border-radius: 100px;
+    border-radius: var(--radius-pill);
     margin-bottom: 8px;
     letter-spacing: 0.02em;
     text-transform: uppercase;
@@ -281,10 +333,9 @@ const platforms = Object.entries(DOWNLOADS) as [string, typeof DOWNLOADS[keyof t
 
   /* ===== Download Card Size Text ===== */
   .size-text {
-    font-size: 12px;
-    color: var(--text-secondary);
+    font-size: var(--text-eyebrow);
+    color: var(--color-text-muted);
     margin-top: 4px;
-    opacity: 0.7;
   }
 
   /* ===== Trust Callouts ===== */
@@ -299,9 +350,9 @@ const platforms = Object.entries(DOWNLOADS) as [string, typeof DOWNLOADS[keyof t
     display: flex;
     gap: 12px;
     padding: 16px;
-    background: var(--surface);
-    border: 1px solid var(--surface-light);
-    border-radius: 10px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-l);
   }
 
   .trust-icon {
@@ -311,29 +362,30 @@ const platforms = Object.entries(DOWNLOADS) as [string, typeof DOWNLOADS[keyof t
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(232, 90, 27, 0.1);
-    border-radius: 8px;
-    color: var(--ember-orange);
+    background: color-mix(in srgb, var(--color-accent) 10%, transparent);
+    border-radius: var(--radius-m);
+    color: var(--color-accent);
   }
 
   .trust-callout strong {
     display: block;
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 14px;
+    font-family: var(--font-display);
+    font-size: var(--text-small);
     font-weight: 600;
     margin-bottom: 4px;
-    color: var(--text-primary);
+    color: var(--color-text);
   }
 
   .trust-callout p {
-    font-size: 13px;
-    color: var(--text-secondary);
+    font-family: var(--font-body);
+    font-size: var(--text-small);
+    color: var(--color-text-muted);
     line-height: 1.5;
     margin: 0;
   }
 
   .trust-callout a {
-    color: var(--ember-orange);
+    color: var(--color-accent-text);
     text-decoration: none;
   }
 
@@ -363,8 +415,8 @@ const platforms = Object.entries(DOWNLOADS) as [string, typeof DOWNLOADS[keyof t
     display: inline-block;
     width: 8px;
     height: 8px;
-    border-right: 2px solid var(--text-secondary);
-    border-bottom: 2px solid var(--text-secondary);
+    border-right: 2px solid var(--color-text-muted);
+    border-bottom: 2px solid var(--color-text-muted);
     transform: rotate(45deg);
     transition: transform 0.2s;
     margin-left: 8px;
@@ -392,41 +444,44 @@ const platforms = Object.entries(DOWNLOADS) as [string, typeof DOWNLOADS[keyof t
   }
 </style>
 
-<script is:inline>
-  // OS Detection — highlight the detected platform's card
-  (function () {
-    var platform = (navigator.platform || '').toLowerCase();
-    var ua = navigator.userAgent.toLowerCase();
-    var detected = null;
+<script>
+  import { detectPlatform } from '../../scripts/platform';
+  import { trackDownload } from '../../scripts/analytics';
 
-    if (platform.includes('mac') || ua.includes('macintosh')) {
-      detected = 'mac';
-    } else if (platform.includes('win') || ua.includes('windows')) {
-      detected = 'windows';
-    } else if (platform.includes('linux') || ua.includes('linux')) {
-      detected = 'linux';
-    }
+  const { os, isMobile } = detectPlatform();
 
-    if (detected) {
-      var card = document.querySelector('[data-platform="' + detected + '"]');
-      if (card) {
-        card.classList.add('highlight');
-      }
-    }
-  })();
-
-  // Download tracking — standardized event name across all pages.
-  // We navigate to the thanks page and trigger the actual file download
-  // from there. Doing both from here races Chrome's download pipeline
-  // against the main-frame navigation and cancels the download.
-  function trackDownload(platform, _downloadUrl) {
-    if (typeof gtag === 'function') {
-      gtag('event', 'download_click', {
-        os_platform: platform,
-        cta_location: 'download_page',
-        app_version: '1.2.0'
-      });
-    }
-    window.location.href = '/download/thanks/?os=' + platform;
+  if (isMobile) {
+    // Lead with "this is a desktop app" rather than silently offering a .dmg.
+    document.querySelector('[data-mobile-notice]')?.removeAttribute('hidden');
+    document.querySelector('[data-desktop-cards]')?.setAttribute('data-secondary', '');
+  } else if (os) {
+    document.querySelector(`[data-platform="${os}"]`)?.classList.add('highlight');
   }
+
+  /*
+   * Navigate to /thanks/ and start the file download from there. Doing both
+   * here races Chrome's download pipeline against the main-frame navigation
+   * and cancels the download.
+   */
+  document.querySelectorAll<HTMLAnchorElement>('[data-platform]').forEach((card) => {
+    card.addEventListener('click', (event) => {
+      event.preventDefault();
+      const key = card.dataset.platform;
+      if (!key) return;
+      trackDownload(key, 'download_page');
+      window.location.href = `/download/thanks/?os=${key}`;
+    });
+  });
+
+  const copyButton = document.querySelector<HTMLButtonElement>('[data-copy-link]');
+  copyButton?.addEventListener('click', async () => {
+    const label = copyButton.textContent;
+    try {
+      await navigator.clipboard.writeText('https://kindlingwriter.com/download/');
+      copyButton.textContent = 'Link copied';
+    } catch {
+      copyButton.textContent = 'Press and hold the address bar to copy';
+    }
+    window.setTimeout(() => { copyButton.textContent = label; }, 2500);
+  });
 </script>
