@@ -287,39 +287,14 @@ const structuredData = {
     background: var(--color-surface-sunken);
   }
   /* The heading is this section's display moment and breaks out wider than the
-     prose, per the guide. Capping both at --measure left 543px of the band
-     unused and force-wrapped the authored two-line heading into three. The
-     paragraph sits in the right column so the band reads as a composed
-     diagonal rather than a half-empty slab. */
+     prose, per the guide — capping both at --measure force-wrapped the authored
+     two-line heading into three. The paragraph stays directly under it at the
+     measure, matching how every other section sets a heading over its
+     stand-first. */
   .problem-inner {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    column-gap: var(--space-2xl);
+    max-width: none;
   }
 
-  .problem-section h2 {
-    grid-column: 1 / -1;
-    max-width: 48rem;
-  }
-
-  .problem-section p {
-    grid-column: 2;
-  }
-
-  /* Stack below 1000px, not at the generic mobile breakpoint: two columns of
-     a 936px frame give ~61 characters, and anything narrower drops the prose
-     under a comfortable measure. */
-  @media (max-width: 1000px) {
-    .problem-inner {
-      grid-template-columns: 1fr;
-    }
-
-    .problem-section h2,
-    .problem-section p {
-      grid-column: 1;
-      max-width: var(--measure);
-    }
-  }
   .problem-section h2 {
     font-family: var(--font-display);
     font-size: var(--text-h1);
@@ -327,12 +302,15 @@ const structuredData = {
     line-height: var(--leading-tight);
     letter-spacing: var(--tracking-tight);
     margin-bottom: var(--space-m);
+    max-width: 48rem;
   }
+
   .problem-section p {
     font-family: var(--font-body);
     font-size: var(--text-body-lg);
     color: var(--color-text);
     line-height: var(--leading-relaxed);
+    max-width: var(--measure);
   }
 
   /* ===== Features section — uses shared .section-lead / .feature-seq ===== */
