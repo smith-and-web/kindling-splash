@@ -1,10 +1,10 @@
 {
   "package": "@kindling/design-system",
   "version": "0.12.0",
-  "commit": "bc3a4e36fc27c037e5cb69ee3a9d96c4f518185b",
+  "commit": "4eddda72f4dea3217cf003e1911def342b7a4279",
   "snapshot": "commit",
-  "note": "Taken from ../press at bc3a4e36fc27c037e5cb69ee3a9d96c4f518185b with a clean working tree.",
-  "syncedAt": "2026-09-15T19:14:28Z",
+  "note": "Taken from ../press at 4eddda72f4dea3217cf003e1911def342b7a4279 with a clean working tree.",
+  "syncedAt": "2026-09-15T20:00:07Z",
   "generator": "scripts/sync-design-system.sh -> scripts/check-design-system.mjs --write",
   "verify": "npm run check:design-system",
   "exclusions": {
