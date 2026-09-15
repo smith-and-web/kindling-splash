@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { trackDownload, trackDownloadCTA } from '../scripts/analytics';
+  import { requestDownload, isPlatform } from '../scripts/download-flow';
   import { APP_VERSION } from '../data/downloads';
   import { detectPlatform } from '../scripts/platform';
 
@@ -30,7 +30,7 @@
   };
 
   /* ---- Props ---- */
-  let { location = 'hero' }: { location?: string } = $props();
+  let { location = 'hero', compact = false }: { location?: string; compact?: boolean } = $props();
 
   /* ---- Reactive state ---- */
   let detectedOS: string | null = $state(null);
@@ -50,138 +50,154 @@
 
   /* ---- Handlers ---- */
   function handleDownloadClick(event: MouseEvent): void {
-    if (detectedOS && download) {
-      event.preventDefault();
-      // Fire the CTA click event too — the direct-download path skips /download/
-      // entirely, so without this the top of the funnel would be invisible.
-      trackDownloadCTA(location);
-      trackDownload(detectedOS, location);
-      // Navigate to the thanks page; the thanks page triggers the actual file
-      // download once loaded. Kicking off the download here and then navigating
-      // races Chrome's download pipeline against the main-frame navigation.
-      window.location.href = `/download/thanks/?os=${detectedOS}`;
+    if (isPlatform(detectedOS) && download) {
+      requestDownload(event, detectedOS, location);
+    }
+  }
+
+  const SHARE_URL = 'https://kindlingwriter.com/download/';
+
+  async function copyLink(): Promise<void> {
+    try {
+      await navigator.clipboard.writeText(SHARE_URL);
+      shareStatus = 'Link copied.';
+      gtagSafe('event', 'mobile_share', { method: 'clipboard', cta_location: location });
+    } catch {
+      // Clipboard permission denied, or no clipboard at all. Don't claim
+      // success and don't dead-end: expose the URL so it can be selected.
+      shareStatus = 'Copy the link below to send it to yourself.';
+      showManualLink = true;
     }
   }
 
   async function handleShare(): Promise<void> {
-    const shareData = {
-      title: 'Kindling - Free Writing Software',
-      text: 'Check out Kindling, a free open-source writing app for plotters and plantsers.',
-      url: 'https://kindlingwriter.com/download/',
-    };
+    showManualLink = false;
 
-    if (navigator.share) {
-      try {
-        await navigator.share(shareData);
-        gtagSafe('event', 'mobile_share', { method: 'native_share', cta_location: location });
-      } catch {
-        // User cancelled or share failed — ignore
-      }
-    } else {
-      // Clipboard fallback
-      try {
-        await navigator.clipboard.writeText(shareData.url);
-        clipboardCopied = true;
-        gtagSafe('event', 'mobile_share', { method: 'clipboard', cta_location: location });
-        setTimeout(() => (clipboardCopied = false), 2000);
-      } catch {
-        // Clipboard also failed — ignore
-      }
+    if (!navigator.share) {
+      await copyLink();
+      return;
+    }
+
+    try {
+      await navigator.share({
+        title: 'kindling — free writing software',
+        text: 'Check out kindling, a free open-source writing app for plotters and pantsers.',
+        url: SHARE_URL,
+      });
+      gtagSafe('event', 'mobile_share', { method: 'native_share', cta_location: location });
+    } catch (error) {
+      // Dismissing the share sheet is a deliberate choice, so stay quiet. Any
+      // other rejection means the sheet never delivered the link — previously
+      // both were swallowed identically, so the button just looked dead.
+      if ((error as Error)?.name === 'AbortError') return;
+      await copyLink();
     }
   }
 
-  let clipboardCopied = $state(false);
+  let shareStatus = $state('');
+  let showManualLink = $state(false);
 </script>
 
-<div class="smart-download">
+<div class="smart-download" class:compact={compact}>
   {#if ready && isMobile}
     <!-- Mobile visitor -->
     <div class="mobile-message">
-      <p class="mobile-heading">Kindling is a desktop app</p>
+      <p class="mobile-heading">kindling is a desktop app</p>
       <p class="micro-copy">Available for macOS, Windows &amp; Linux</p>
-      <button class="share-btn" onclick={handleShare}>
-        {clipboardCopied ? 'Link copied!' : 'Send this page to yourself'}
-      </button>
+      <button class="ka-button share-btn" type="button" onclick={handleShare}>Share download link</button>
+      <p class="share-status" role="status" aria-live="polite">{shareStatus}</p>
+      {#if showManualLink}
+        <div class="ka-field share-url">
+          <label for={`share-url-${location}`}>Download page link</label>
+          <input
+            id={`share-url-${location}`}
+            type="text"
+            readonly
+            value={SHARE_URL}
+            onfocus={(e) => (e.currentTarget as HTMLInputElement).select()}
+          />
+        </div>
+      {/if}
     </div>
 
   {:else if ready && download && detectedOS}
     <!-- Known desktop platform -->
     <a
       href={download.url}
-      class="download-btn"
+      class="pw-button download-btn"
       onclick={handleDownloadClick}
     >
-      Download Kindling for {download.label}
+      {compact ? 'Download' : 'Download kindling'} for {download.label}
     </a>
-    <p class="micro-copy">Free &amp; open source · No account required · {download.size}</p>
-    <a href="/download/" class="alt-platforms">Also available for other platforms &rarr;</a>
+    <p class="micro-copy">Free &amp; open source · No account required{compact ? ' · AI-free' : ` · ${download.size}`}</p>
+    <a href="/download/" class="alt-platforms" data-cta-location={`${location}_all_platforms`}>{compact ? 'All platforms' : 'Also available for other platforms'} &rarr;</a>
 
   {:else}
     <!-- Unknown platform / pre-hydration fallback (renders during SSR and before JS detection) -->
-    <a href="/download/" class="download-btn" onclick={() => trackDownloadCTA(location)}>
-      Download Kindling &mdash; Free
+    <a href="/download/" class="pw-button download-btn" data-cta-location={location}>
+      Download kindling &mdash; free
     </a>
-    <p class="micro-copy">Free &amp; open source · No account required · ~10 MB</p>
-    <a href="/download/" class="alt-platforms">See all platforms &rarr;</a>
+    <p class="micro-copy">Free &amp; open source · No account required{compact ? ' · AI-free' : ' · ~10 MB'}</p>
+    <a href="/download/" class="alt-platforms" data-cta-location={`${location}_all_platforms`}>{compact ? 'All platforms' : 'See all platforms'} &rarr;</a>
   {/if}
 </div>
 
 <style>
+  /* Arrangement only. The action's fill, radius, label size, hover, disabled
+     state and 44px target belong to `.pw-button` (the marketing CTA) and
+     `.ka-button` / `.ka-field` (operational controls) — see press/DESIGN.md,
+     "One implementation per control role". The class names that remain here are
+     behavioural hooks: analytics.js and scripts/check-launch.mjs address them. */
   .smart-download {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 10px;
+    gap: var(--space-2xs);
     width: 100%;
   }
 
-  /* ---- Primary CTA Button ---- */
-  .download-btn {
-    display: inline-block;
-    background: var(--color-accent);
-    color: var(--color-on-accent);
-    font-family: var(--font-ui);
-    font-weight: 600;
-    font-size: var(--text-body-lg);
-    text-decoration: none;
-    padding: 14px 20px;
-    border-radius: var(--radius-m);
-    border: none;
-    cursor: pointer;
-    transition: background 0.2s ease;
-    text-align: center;
+  .smart-download.compact {
+    display: grid;
+    grid-template-columns: auto auto;
+    justify-content: start;
+    align-items: center;
+    gap: var(--space-xs) var(--space-s);
+  }
+  .compact .alt-platforms { grid-column: 2; grid-row: 1; color: var(--color-accent-text); }
+  .compact .micro-copy { grid-column: 1 / -1; text-align: left; }
+  .compact .mobile-message { grid-column: 1 / -1; align-items: flex-start; text-align: left; }
+  @media (max-width: 480px) {
+    .smart-download.compact { grid-template-columns: minmax(0, 1fr); justify-items: start; }
+    .compact .alt-platforms { grid-column: 1; grid-row: 3; }
   }
 
-  .download-btn:hover {
-    background: var(--color-accent-text);
-  }
-
-  /* ---- Micro-copy ---- */
   .micro-copy {
     color: var(--color-text-muted);
     font-size: var(--text-small);
-    margin: 0;
     text-align: center;
   }
 
-  /* ---- Alt platforms link ---- */
+  /* A standalone control, so it meets the target contract rather than being
+     whatever height its label happens to occupy. */
   .alt-platforms {
+    display: inline-flex;
+    align-items: center;
+    min-block-size: var(--control-target);
     color: var(--color-text-muted);
     font-size: var(--text-small);
     text-decoration: none;
-    transition: color 0.2s ease;
+    transition: color var(--transition);
   }
 
   .alt-platforms:hover {
     color: var(--color-accent-text);
   }
 
-  /* ---- Mobile message ---- */
   .mobile-message {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 8px;
+    gap: var(--space-2xs);
     text-align: center;
   }
 
@@ -190,25 +206,14 @@
     font-family: var(--font-ui);
     font-weight: 600;
     font-size: var(--text-body-lg);
-    margin: 0;
   }
 
-  .share-btn {
-    display: inline-block;
-    background: var(--color-accent);
-    color: var(--color-on-accent);
+  .share-status {
     font-family: var(--font-ui);
-    font-weight: 600;
-    font-size: var(--text-base);
-    padding: 12px 20px;
-    border-radius: var(--radius-m);
-    border: none;
-    cursor: pointer;
-    transition: background 0.2s ease;
-    margin-top: 4px;
+    font-size: var(--text-small);
+    color: var(--color-text-muted);
+    min-height: 1.5em;
   }
 
-  .share-btn:hover {
-    background: var(--color-accent-text);
-  }
+  .share-url { text-align: left; }
 </style>

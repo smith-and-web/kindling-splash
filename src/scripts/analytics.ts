@@ -1,7 +1,7 @@
 import { APP_VERSION } from '../data/downloads';
 
 /**
- * GA4 event helpers for Kindling marketing site.
+ * GA4 event helpers for kindling marketing site.
  *
  * All functions guard on `typeof gtag === 'function'` so they are safe to call
  * even when the GA snippet has not loaded (e.g. ad-blockers, local dev).
@@ -27,7 +27,7 @@ export function trackDownload(os: string, location: string, version = APP_VERSIO
   });
 }
 
-/** User clicked a CTA that navigates to the download page (not a direct download). */
+/** User chose a download action, including the direct installer route. */
 export function trackDownloadCTA(location: string): void {
   gtagSafe('event', 'download_cta_click', {
     cta_location: location,

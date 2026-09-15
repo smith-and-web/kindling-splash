@@ -2,70 +2,70 @@
 import MarketingLayout from '../../layouts/MarketingLayout.astro';
 ---
 
-<MarketingLayout title="Send Feedback — Kindling | Free Writing Software for Plotters" description="Help make Kindling better. Report a bug, request a feature, or rate the app. Your feedback is anonymous.">
+<MarketingLayout title="Send Feedback — kindling | Free Writing Software for Plotters" description="Help make kindling better. Report a bug, request a feature, or rate the app. Your feedback is anonymous.">
 
   <!-- Cloudflare Turnstile (anti-spam) -->
   <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 
   <section class="page-hero">
     <h1>Send Us Feedback</h1>
-    <p class="page-hero-subtext">Help us make Kindling better for writers. Report a bug, request a feature, or let us know what you think. Your feedback is anonymous unless you choose to share your email.</p>
+    <p class="page-hero-subtext">Help us make kindling better for writers. Report a bug, request a feature, or let us know what you think. Your feedback is anonymous unless you choose to share your email.</p>
   </section>
 
   <section class="content-section">
     <div class="feedback-form-container">
 
       <!-- Tab selector -->
-      <div class="feedback-tabs" role="tablist">
+      <div class="ka-tablist feedback-tabs" role="tablist">
         <button role="tab" class="tab active" data-type="bug" aria-selected="true">Bug Report</button>
         <button role="tab" class="tab" data-type="feature" aria-selected="false">Feature Request</button>
-        <button role="tab" class="tab" data-type="rating" aria-selected="false">Rate Kindling</button>
+        <button role="tab" class="tab" data-type="rating" aria-selected="false">Rate kindling</button>
       </div>
 
       <!-- Bug Report Form -->
       <div class="feedback-form visible" id="form-bug">
-        <div class="form-group">
+        <div class="ka-field form-group">
           <label for="bug-summary">Summary <span class="required">*</span></label>
           <input type="text" id="bug-summary" maxlength="120" placeholder="Briefly describe the issue">
           <span class="char-count"><span id="bug-summary-count">0</span>/120</span>
         </div>
 
-        <div class="form-group">
+        <div class="ka-field form-group">
           <label for="bug-description">What happened? <span class="required">*</span></label>
           <textarea id="bug-description" maxlength="2000" rows="5" placeholder="Describe what you were doing and what went wrong"></textarea>
           <span class="char-count"><span id="bug-desc-count">0</span>/2000</span>
         </div>
 
-        <div class="form-group">
+        <div class="ka-field form-group">
           <label for="bug-expected">What did you expect to happen?</label>
           <textarea id="bug-expected" maxlength="1000" rows="3" placeholder="Optional"></textarea>
         </div>
 
-        <div class="form-group">
+        <div class="ka-field form-group">
           <label>How severe is this? <span class="required">*</span></label>
           <div class="severity-options">
-            <label><input type="radio" name="severity" value="minor"> Minor annoyance</label>
-            <label><input type="radio" name="severity" value="broken"> Something's broken</label>
-            <label><input type="radio" name="severity" value="crash"> App crashed or data loss</label>
+            <div class="ka-check od-row"><input type="radio" id="severity-minor" name="severity" value="minor"><label for="severity-minor">Minor annoyance</label></div>
+            <div class="ka-check od-row"><input type="radio" id="severity-broken" name="severity" value="broken"><label for="severity-broken">Something's broken</label></div>
+            <div class="ka-check od-row"><input type="radio" id="severity-crash" name="severity" value="crash"><label for="severity-crash">App crashed or data loss</label></div>
           </div>
         </div>
       </div>
 
       <!-- Feature Request Form -->
       <div class="feedback-form" id="form-feature">
-        <div class="form-group">
+        <div class="ka-field form-group">
           <label for="feature-title">Feature title <span class="required">*</span></label>
           <input type="text" id="feature-title" maxlength="120" placeholder="Name the feature">
           <span class="char-count"><span id="feature-title-count">0</span>/120</span>
         </div>
 
-        <div class="form-group">
+        <div class="ka-field form-group">
           <label for="feature-description">Describe the feature <span class="required">*</span></label>
           <textarea id="feature-description" maxlength="2000" rows="5" placeholder="What should this feature do?"></textarea>
           <span class="char-count"><span id="feature-desc-count">0</span>/2000</span>
         </div>
 
-        <div class="form-group">
+        <div class="ka-field form-group">
           <label for="feature-usecase">What problem would this solve for your writing?</label>
           <textarea id="feature-usecase" maxlength="1000" rows="3" placeholder="Optional"></textarea>
         </div>
@@ -73,12 +73,12 @@ import MarketingLayout from '../../layouts/MarketingLayout.astro';
 
       <!-- Rating Form -->
       <div class="feedback-form" id="form-rating">
-        <div class="form-group">
-          <label>How would you rate Kindling?</label>
+        <div class="ka-field form-group">
+          <label>How would you rate kindling?</label>
           <div class="star-rating" id="star-rating"></div>
         </div>
 
-        <div class="form-group">
+        <div class="ka-field form-group">
           <label for="rating-comment">Any additional thoughts?</label>
           <textarea id="rating-comment" maxlength="2000" rows="4" placeholder="Optional"></textarea>
         </div>
@@ -86,15 +86,15 @@ import MarketingLayout from '../../layouts/MarketingLayout.astro';
 
       <!-- Shared fields -->
       <div class="shared-fields">
-        <div class="form-group">
-          <label>Are you a current Kindling user?</label>
+        <div class="ka-field form-group">
+          <label>Are you a current kindling user?</label>
           <div class="toggle-options">
-            <label><input type="radio" name="is-user" value="yes" checked> Yes</label>
-            <label><input type="radio" name="is-user" value="no"> No, just evaluating</label>
+            <div class="ka-check od-row"><input type="radio" id="is-user-yes" name="is-user" value="yes" checked><label for="is-user-yes">Yes</label></div>
+            <div class="ka-check od-row"><input type="radio" id="is-user-no" name="is-user" value="no"><label for="is-user-no">No, just evaluating</label></div>
           </div>
         </div>
 
-        <div class="form-group">
+        <div class="ka-field form-group">
           <label for="feedback-os">Your operating system</label>
           <select id="feedback-os">
             <option value="unknown">Select...</option>
@@ -104,39 +104,39 @@ import MarketingLayout from '../../layouts/MarketingLayout.astro';
           </select>
         </div>
 
-        <div class="form-group">
+        <div class="ka-field form-group">
           <label for="feedback-email">Email (optional — only if you'd like us to follow up)</label>
           <input type="email" id="feedback-email" placeholder="your@email.com">
         </div>
       </div>
 
       <!-- Honeypot field (hidden from real users) -->
-      <div style="position:absolute;left:-9999px" aria-hidden="true">
+      <div class="feedback-honeypot" aria-hidden="true">
         <input type="text" name="website" id="feedback-honeypot" tabindex="-1" autocomplete="off">
       </div>
 
       <!-- Turnstile widget -->
-      <div class="cf-turnstile" data-sitekey="0x4AAAAAACkqRWHDozaF1dmj" data-theme="dark"></div>
+      <div class="cf-turnstile" data-sitekey="0x4AAAAAACkqRWHDozaF1dmj" data-theme="light"></div>
 
       <!-- Privacy disclosure -->
-      <p class="privacy-note">
+      <p class="ka-help privacy-note">
         This form collects your OS selection to help diagnose issues.
         No personal data is stored unless you provide your email.
         Please don't include personal information in your feedback.
         <a href="/privacy/">Privacy policy &rarr;</a>
       </p>
 
-      <button type="button" id="submit-feedback" class="btn-submit">Send Feedback</button>
+      <button type="button" id="submit-feedback" class="ka-button btn-submit">Send Feedback</button>
 
-      <div class="feedback-status" id="feedback-status"></div>
+      <div class="ka-notice feedback-status" id="feedback-status" role="status" aria-live="polite"></div>
     </div>
   </section>
 
   <section class="cta-section">
-    <h2>Haven't tried Kindling yet?</h2>
+    <h2>Haven't tried kindling yet?</h2>
     <p>Free, open source, no account required.</p>
     <div class="download-buttons single">
-      <a href="/download/" class="download-btn" onclick="typeof gtag==='function'&&gtag('event','download_cta_click',{cta_location:'feedback_bottom'})">Download Kindling — Free</a>
+      <a href="/download/" class="pw-button" data-cta-location="feedback_bottom">Download kindling — Free</a>
     </div>
   </section>
 
@@ -304,7 +304,7 @@ import MarketingLayout from '../../layouts/MarketingLayout.astro';
     function showStatus(message, type) {
       const statusEl = document.getElementById('feedback-status');
       statusEl.textContent = message;
-      statusEl.className = `feedback-status visible ${type}`;
+      statusEl.className = `ka-notice ka-notice--${type} feedback-status visible`;
     }
 
     function resetForm() {
@@ -333,166 +333,61 @@ import MarketingLayout from '../../layouts/MarketingLayout.astro';
 </MarketingLayout>
 
 <style>
-  /* Feedback tabs */
-  .feedback-tabs {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 32px;
-    flex-wrap: wrap;
-  }
+  /* Arrangement only. The tab strip, fields, radio rows, submit action, status
+     notice and every focus/invalid/disabled state come from `application.css` —
+     the same controls a writer operates inside kindling. This page previously
+     carried its own copy of all of them, which is the duplicate form language
+     this adoption removes. */
 
-  .feedback-tabs .tab {
-    font-family: var(--font-ui);
-    font-size: var(--text-ui);
-    font-weight: 500;
-    padding: 10px 20px;
-    border-radius: var(--radius-m);
-    border: 1px solid var(--color-border);
-    background: var(--color-surface);
-    color: var(--color-text-muted);
-    cursor: pointer;
-    transition: border-color 0.2s, color 0.2s, background-color 0.2s;
-  }
-
-  .feedback-tabs .tab:hover {
-    border-color: var(--color-accent);
-    color: var(--color-text);
-  }
-
-  .feedback-tabs .tab.active {
-    border-color: var(--color-accent);
-    background: color-mix(in srgb, var(--color-accent) 12%, transparent);
-    color: var(--color-accent-text);
-  }
-
-  /* Form layout */
   .feedback-form-container {
     max-width: 640px;
     margin: 0 auto;
   }
 
-  .feedback-form {
-    display: none;
-  }
+  .feedback-tabs { margin-bottom: var(--space-l); }
 
-  .feedback-form.visible {
-    display: block;
-  }
+  .feedback-form { display: none; }
+  .feedback-form.visible { display: block; }
 
-  .form-group {
-    margin-bottom: 24px;
-  }
+  .form-group { margin-bottom: var(--space-m); }
 
-  .form-group label {
-    display: block;
-    font-family: var(--font-ui);
-    font-size: var(--text-ui);
-    font-weight: 500;
-    color: var(--color-text);
-    margin-bottom: 8px;
-  }
-
-  .form-group .required {
-    color: var(--color-accent-text);
-  }
-
-  .form-group input[type="text"],
-  .form-group input[type="email"],
-  .form-group textarea,
-  .form-group select {
-    width: 100%;
-    padding: 12px 16px;
-    font-size: var(--text-ui);
-    font-family: 'Inter', sans-serif;
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-m);
-    background: var(--color-bg);
-    color: var(--color-text);
-    outline: none;
-    transition: border-color 0.2s;
-  }
-
-  .form-group input[type="text"]:focus,
-  .form-group input[type="email"]:focus,
-  .form-group textarea:focus,
-  .form-group select:focus {
-    border-color: var(--color-accent);
-  }
-
-  .form-group input::placeholder,
-  .form-group textarea::placeholder {
-    color: var(--color-text-muted);
-  }
-
-  .form-group textarea {
-    resize: vertical;
-    min-height: 80px;
-  }
-
-  .form-group select {
-    appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath fill='%239A9490' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 16px center;
-    padding-right: 40px;
-    cursor: pointer;
-  }
+  /* A required marker inside a field label. */
+  .form-group .required { color: var(--color-accent-text); }
 
   .char-count {
     display: block;
     font-size: var(--text-eyebrow);
     color: var(--color-text-muted);
     text-align: right;
-    margin-top: 4px;
   }
 
-  /* Radio / toggle options */
   .severity-options,
   .toggle-options {
     display: flex;
     flex-wrap: wrap;
-    gap: 12px;
+    gap: var(--space-s) var(--space-m);
   }
 
-  .severity-options label,
-  .toggle-options label {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: var(--text-ui);
-    color: var(--color-text-muted);
-    cursor: pointer;
-    padding: 8px 16px;
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-m);
-    transition: border-color 0.2s, color 0.2s;
-  }
-
-  .severity-options label:hover,
-  .toggle-options label:hover {
-    border-color: var(--color-accent);
-    color: var(--color-text);
-  }
-
-  .severity-options input[type="radio"],
-  .toggle-options input[type="radio"] {
-    accent-color: var(--color-accent);
-  }
-
-  /* Star rating */
+  /* Star rating — no shared equivalent; a five-point scale of glyph buttons is
+     this page's own control. It still meets the target contract and reads its
+     colours from tokens. */
   .star-rating {
     display: flex;
-    gap: 8px;
+    gap: var(--space-2xs);
   }
 
   .star-rating .star {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-inline-size: var(--control-target);
+    min-block-size: var(--control-target);
     font-size: 32px; /* decorative star glyph, deliberately off-scale */
     background: none;
     border: none;
     color: var(--color-border);
     cursor: pointer;
-    padding: 4px;
-    transition: color 0.15s, transform 0.1s;
+    transition: color var(--transition), transform var(--transition-fast);
     line-height: 1;
   }
 
@@ -502,99 +397,40 @@ import MarketingLayout from '../../layouts/MarketingLayout.astro';
     transform: scale(1.1);
   }
 
-  /* Submit button */
-  .btn-submit {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    padding: 14px 28px;
-    font-family: var(--font-ui);
-    font-size: var(--text-base);
-    font-weight: 500;
-    background: var(--color-accent);
-    color: var(--color-on-accent);
-    border: none;
-    border-radius: var(--radius-m);
-    cursor: pointer;
-    transition: background-color 0.2s, transform 0.1s, opacity 0.2s;
+  .star-rating .star:focus-visible {
+    outline: 2px solid var(--color-accent-text);
+    outline-offset: 3px;
+  }
+
+  button.btn-submit {
     width: 100%;
-    margin-top: 8px;
+    margin-top: var(--space-2xs);
   }
 
-  .btn-submit:hover {
-    background: var(--color-accent-text);
-  }
+  /* An empty status must not draw a notice surface. */
+  div.feedback-status { display: none; margin-top: var(--space-s); }
+  div.feedback-status.visible { display: block; }
 
-  .btn-submit:active {
-    transform: scale(0.98);
-  }
-
-  .btn-submit:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-  }
-
-  /* Status messages */
-  .feedback-status {
-    display: none;
-    padding: 16px 20px;
-    border-radius: var(--radius-m);
-    font-size: var(--text-ui);
-    margin-top: 16px;
-    text-align: center;
-  }
-
-  .feedback-status.visible {
-    display: block;
-  }
-
-  .feedback-status.success {
-    background: color-mix(in srgb, var(--color-success) 12%, transparent);
-    border: 1px solid color-mix(in srgb, var(--color-success) 30%, transparent);
-    color: var(--color-success);
-  }
-
-  .feedback-status.error {
-    background: color-mix(in srgb, var(--color-accent) 12%, transparent);
-    border: 1px solid color-mix(in srgb, var(--color-accent) 30%, transparent);
-    color: var(--color-accent-text);
-  }
-
-  /* Privacy note */
   .privacy-note {
-    font-size: var(--text-small);
-    color: var(--color-text-muted);
-    line-height: var(--leading);
-    margin-top: 24px;
-    margin-bottom: 24px;
-    padding: 16px;
+    margin-block: var(--space-m);
+    padding: var(--space-s);
     background: var(--color-surface);
     border-radius: var(--radius-m);
     border: 1px solid var(--color-border);
     font-family: var(--font-body);
+    max-width: none;
   }
 
-  .privacy-note a {
-    color: var(--color-accent-text);
-    text-decoration: none;
-  }
+  /* Offscreen, not display:none: a hidden input is not submitted by some
+     autofill agents, which is the whole point of the honeypot. */
+  .feedback-honeypot { position: absolute; left: -9999px; }
 
-  .privacy-note a:hover {
-    text-decoration: underline;
-  }
+  .cf-turnstile { margin-block: var(--space-s) var(--space-2xs); }
 
-  /* Turnstile widget */
-  .cf-turnstile {
-    margin-top: 16px;
-    margin-bottom: 8px;
-  }
-
-  /* Shared fields separator */
   .shared-fields {
     border-top: 1px solid var(--color-border);
-    padding-top: 24px;
-    margin-top: 32px;
+    padding-top: var(--space-m);
+    margin-top: var(--space-l);
   }
 
   @media (max-width: 520px) {

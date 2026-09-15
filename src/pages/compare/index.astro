@@ -5,7 +5,7 @@ import { APP_VERSION } from '../../data/downloads';
 const structuredData = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  "name": "Kindling Writer",
+  "name": "kindling Writer",
   "description": "Free open-source fiction writing software that keeps your outline visible while you draft. Import from Plottr, Scrivener, yWriter, or Obsidian.",
   "url": "https://kindlingwriter.com/",
   "applicationCategory": "DesktopApplication",
@@ -21,7 +21,7 @@ const structuredData = {
   "license": "https://opensource.org/licenses/MIT",
   "author": {
     "@type": "Organization",
-    "name": "Kindling",
+    "name": "kindling",
     "url": "https://kindlingwriter.com"
   }
 };
@@ -32,267 +32,158 @@ const faqStructuredData = {
   "mainEntity": [
     {
       "@type": "Question",
-      "name": "Is Kindling free?",
+      "name": "Is kindling free?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Yes. Kindling is completely free and open-source under the MIT license. There are no premium tiers, no subscriptions, and no feature gates. It is free forever."
+        "text": "Yes. kindling is completely free and open-source under the MIT license. There are no premium tiers, no subscriptions, and no feature gates. It is free forever."
       }
     },
     {
       "@type": "Question",
-      "name": "What platforms does Kindling run on?",
+      "name": "What platforms does kindling run on?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Kindling is available for Windows 10 and later, macOS 12 (Monterey) and later (universal binary — works on both Apple Silicon and Intel Macs), and Linux (x86_64 AppImage). It is a native desktop application built with Rust and Tauri. The macOS build is signed with an Apple Developer ID and notarized by Apple."
+        "text": "kindling is available for Windows 10 and later, macOS 12 (Monterey) and later (universal binary — works on both Apple Silicon and Intel Macs), and Linux (x86_64 AppImage). It is a native desktop application built with Rust and Tauri. The macOS build is signed with an Apple Developer ID and notarized by Apple."
       }
     },
     {
       "@type": "Question",
-      "name": "How is Kindling different from Scrivener?",
+      "name": "How is kindling different from Scrivener?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Scrivener excels at manuscript management, compilation, and long-term project organization. When you open a new scene in Scrivener, you get a blank page. Kindling pre-populates your drafting space with your synopsis beats and character context, so you never face a blank page. Many writers use Kindling alongside Scrivener — drafting scenes in Kindling, then exporting to Scrivener for revision and compilation. Scrivener costs $49 one-time; Kindling is free."
+        "text": "Scrivener excels at manuscript management, compilation, and long-term project organization. When you open a new scene in Scrivener, you get a blank page. kindling pre-populates your drafting space with your synopsis beats and character context, so you never face a blank page. Many writers use kindling alongside Scrivener — drafting scenes in kindling, then exporting to Scrivener for revision and compilation. Scrivener costs $59.99 for a standard macOS or Windows licence; kindling is free."
       }
     },
     {
       "@type": "Question",
-      "name": "Can Kindling import from Plottr?",
+      "name": "Can kindling import from Plottr?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Yes. Kindling imports Plottr (.pltr) files directly and turns your beats into expandable writing prompts. It also imports from yWriter (.yw7), Obsidian Longform, and Markdown outlines. Your character and location cards surface automatically while you write."
+        "text": "Yes. kindling imports Plottr (.pltr) files directly and turns your beats into expandable writing prompts. It also imports from yWriter (.yw7), Obsidian Longform, and Markdown outlines. Your character and location cards surface automatically while you write."
       }
     },
     {
       "@type": "Question",
-      "name": "Does Kindling use AI to write?",
+      "name": "Does kindling use AI to write?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "No. Kindling provides structure and context, not generated text. Your writing is 100% yours — Kindling never suggests, autocompletes, or generates prose. There are no subscription fees, no API costs, and no data sent to external servers. It is built for writers who want to write, not outsource their creativity."
+        "text": "No. kindling provides structure and context, not generated text. Your writing is 100% yours — kindling never suggests, autocompletes, or generates prose. There are no subscription fees or AI API costs, and your manuscript is not uploaded. Automatic updates and optional feedback submissions use the internet."
       }
     },
     {
       "@type": "Question",
-      "name": "Is Kindling offline and local-first?",
+      "name": "Is kindling offline and local-first?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Yes. Kindling is a desktop application that works completely offline. Your projects are stored as SQLite files on your hard drive — no cloud accounts, no internet connection required, and no data collection. Your words stay on your computer."
+        "text": "Yes. Writing and editorial review work offline, without an account. Projects are stored in a local SQLite database, with no desktop analytics or telemetry. You choose how to share review files. Automatic updates and optional feedback submissions use the internet."
       }
     }
   ]
 };
+// Sources checked 2026-09-10. Price links and feature references are visible below.
+const comparisonTools = [
+  { name: 'kindling', price: 'Free', url: '/download/' },
+  { name: 'Scrivener', price: '$59.99 once / platform', url: 'https://www.literatureandlatte.com/crossgrading' },
+  { name: 'Plottr', price: 'From $60/year or $150 lifetime', url: 'https://plottr.com/pricing/' },
+  { name: 'Dabble', price: '$19–49/month; $699 lifetime Author', url: 'https://www.dabblewriter.com/pricing' },
+  { name: 'Novelcrafter', price: '$4–20/month', url: 'https://www.novelcrafter.com/pricing' },
+  { name: 'Campfire', price: 'Free tier; $12/month offer', url: 'https://www.campfirewriting.com/pricing' },
+  { name: 'Atticus', price: '$147 once', url: 'https://www.atticus.io/' },
+  { name: 'Wavemaker', price: 'Free', url: 'https://wavemaker.co.uk/' },
+];
+
+const comparisonRows: { feature: string; values: (boolean | string | null)[] }[] = [
+  { feature: 'Planning alongside drafting', values: ['Beat prompts with prose', 'Synopsis / split editor', 'Timeline and outline', 'Plot Grid + editor', 'Scene beats + Codex', 'Manuscript + modules', 'Writing + book layout', 'Planning tools + writer'] },
+  { feature: 'Full-page prose editing', values: [true, true, 'Scene cards', true, true, true, true, true] },
+  { feature: 'Light theme', values: [true, true, true, true, true, true, true, true] },
+  { feature: 'Custom fields', values: [true, 'Custom metadata', 'Custom attributes', null, 'Codex details', 'Custom panels', null, null] },
+  { feature: 'Tagging system', values: [true, 'Keywords', true, null, 'Codex tags', null, null, 'Card hashtags'] },
+  { feature: 'Reference auto-detection', values: [true, null, null, null, 'Codex detection', null, null, null] },
+  { feature: 'Screenplay support', values: [true, true, 'Planning templates', null, null, null, null, null] },
+  { feature: 'Story structure templates', values: [true, 'Project templates', 'Beat sheets', null, null, 'Custom templates', null, 'Snowflake tool'] },
+  { feature: 'Export to Scrivener', values: [true, 'Native format', 'Outline export', null, null, null, null, null] },
+  { feature: 'Export to DOCX', values: [true, true, 'Outline export', true, true, true, true, null] },
+  { feature: 'Export to EPUB', values: [true, true, null, null, null, true, true, null] },
+  { feature: 'Offline writing / planning', values: ['Local desktop app', 'Local desktop app', 'Desktop plan', 'Offline + cloud sync', null, 'Desktop app', 'Installed web app', 'Installed web app'] },
+  { feature: 'Open source', values: [true, false, false, false, false, false, false, true] },
+  { feature: 'AI assistance', values: ['None', null, 'None', null, 'Optional; paid AI plans', null, null, 'Optional API-key bot'] },
+];
+
 ---
 
 <MarketingLayout
-  title="Fiction Writing Software Comparison: Kindling vs Scrivener, Plottr & More"
-  description="The fiction writing software comparison: Kindling vs Scrivener, Plottr, Dabble, Novelcrafter, and Campfire Write. Feature matrix, pricing, and which tool is right for plotters, pantsers, and worldbuilders."
+  title="Fiction Writing Software Comparison: kindling vs Scrivener, Plottr & More"
+  description="The fiction writing software comparison: Compare kindling with Scrivener, Plottr, Dabble, Novelcrafter, Campfire, Atticus, and Wavemaker. Current pricing, drafting features, and workflows."
   structuredData={structuredData}
 >
   <script type="application/ld+json" set:html={JSON.stringify(faqStructuredData)} />
 
   <section class="page-hero">
-    <h1>How Kindling compares to Scrivener, Plottr, and other writing tools</h1>
-    <p class="page-hero-subtext">Kindling isn't trying to replace your favorite writing tools. It fills the gap between your outline and your first draft — the part no other tool addresses.</p>
-    <div class="callout" style="margin-top: 24px; margin-bottom: 0;">Scrivener is where your manuscript lives. Plottr is where your story takes shape. Kindling is where your scenes are born.</div>
+    <h1>How kindling compares to Scrivener, Plottr, and other writing tools</h1>
+    <p class="page-hero-subtext">kindling isn't trying to replace your favorite writing tools. It keeps your outline close while you draft, then helps you work through editorial feedback. Choose the tools that fit each stage of your book.</p>
+    <div class="callout" style="margin-top: 24px; margin-bottom: 0;">Scrivener is where your manuscript lives. Plottr is where your story takes shape. kindling is where your scenes are born.</div>
   </section>
 
   <section class="content-section alt">
-    <h2>Who is Kindling for?</h2>
-    <p>Kindling is built for fiction writers who plan before they write — plotters, outliners, and structure-first storytellers. If you relate to any of these, Kindling was designed for you:</p>
+    <p class="pw-label">02 / Who it’s for</p>
+    <h2>Who is kindling for?</h2>
+    <p>kindling is built for fiction writers who plan before they write — plotters, outliners, and structure-first storytellers. If you relate to any of these, kindling was designed for you:</p>
     <ul style="list-style: none; padding: 0;">
-      <li style="margin-bottom: 12px;"><strong>Plotters who stall at the drafting stage.</strong> You've spent weeks building a detailed outline, but when it's time to write prose, the blank page feels like starting over. Kindling puts your outline inside your drafting space so the structure you built actually helps you write.</li>
-      <li style="margin-bottom: 12px;"><strong>Writers who use multiple tools.</strong> You plan in Plottr, draft in Scrivener, and keep character notes in a spreadsheet. Kindling bridges the gap between your planning tool and your writing tool by importing outlines and surfacing context while you draft.</li>
-      <li style="margin-bottom: 12px;"><strong>Writers who want to own their tools.</strong> You're tired of subscription software that holds your data hostage. Kindling is <a href="/open-source/">free, open source, and local-first</a>. Your projects are files on your computer. No accounts, no cloud, no lock-in.</li>
-      <li style="margin-bottom: 12px;"><strong>Writers who don't want AI writing for them.</strong> You want to write your own words. Kindling gives you structure and context — not generated prose, not autocomplete suggestions, not AI rewrites. Just your outline, your characters, and your voice.</li>
+      <li style="margin-bottom: 12px;"><strong>Plotters who stall at the drafting stage.</strong> You've spent weeks building a detailed outline, but when it's time to write prose, the blank page feels like starting over. kindling puts your outline inside your drafting space so the structure you built actually helps you write.</li>
+      <li style="margin-bottom: 12px;"><strong>Writers who use multiple tools.</strong> You plan in Plottr, draft in Scrivener, and keep character notes in a spreadsheet. kindling bridges the gap between your planning tool and your writing tool by importing outlines and surfacing context while you draft.</li>
+      <li style="margin-bottom: 12px;"><strong>Writers who want to own their tools.</strong> You're tired of subscription software that holds your data hostage. kindling is <a href="/open-source/">free, open source, and local-first</a>. Your projects are files on your computer. No accounts, no cloud, no lock-in.</li>
+      <li style="margin-bottom: 12px;"><strong>Writers who don't want AI writing for them.</strong> You want to write your own words. kindling gives you structure and context — not generated prose, not autocomplete suggestions, not AI rewrites. Just your outline, your characters, and your voice.</li>
     </ul>
-    <p>Not sure if Kindling fits your workflow? Read about <a href="/features/">how the outline-to-draft system works</a>, or just <a href="/download/">download it for free</a> and try it on your next chapter.</p>
+    <p>Not sure if kindling fits your workflow? Read about <a href="/features/">how the outline-to-draft system works</a>, or just <a href="/download/">download it for free</a> and try it on your next chapter.</p>
     <p style="margin-top: 16px;">See also: <a href="/plottr-vs-scrivener/">Plottr vs Scrivener detailed comparison</a> · <a href="/story-outlining-software/">Story outlining software guide</a></p>
   </section>
 
   <section class="content-section">
+    <p class="pw-label">03 / At a glance</p>
     <h2>Feature comparison</h2>
-    <p class="table-scroll-hint">Scroll sideways to see every column.</p>
-    <div class="comparison-table-wrap">
+    <p>kindling v{APP_VERSION} includes the drafting features below. Descriptive cells explain where another tool takes a different approach; a dash means the feature was not verified in the linked documentation.</p>
+    <p class="comparison-help" id="comparison-scroll-help">Scroll sideways to see all eight tools. You can also focus the table and use the arrow keys.</p>
+    <div class="comparison-table-wrap" tabindex="0" role="region" aria-label="Writing software feature comparison" aria-describedby="comparison-scroll-help">
       <table class="comparison-table">
-          <caption class="sr-only">How Kindling compares to Scrivener, Plottr, Dabble, Novelcrafter and Campfire across key features</caption>
+        <caption class="sr-only">kindling, Scrivener, Plottr, Dabble, Novelcrafter, Campfire, Atticus, and Wavemaker features and pricing</caption>
         <thead>
           <tr>
             <th scope="col">Feature</th>
-            <th scope="col">Kindling</th>
-            <th scope="col">Scrivener</th>
-            <th scope="col">Plottr</th>
-            <th scope="col">Dabble</th>
-            <th scope="col">Novelcrafter</th>
-            <th scope="col">Campfire</th>
+            {comparisonTools.map((tool) => <th scope="col">{tool.name}</th>)}
           </tr>
         </thead>
         <tbody>
+          {comparisonRows.map((row) => (
+            <tr>
+              <th scope="row">{row.feature}</th>
+              {row.values.map((value) => (
+                <td class:list={{ check: value === true, cross: value === false }}>
+                  {typeof value === 'boolean' ? <><span class="sr-only">{value ? 'Yes' : 'No'}</span><span aria-hidden="true">{value ? '✓' : '✗'}</span></> : value === null ? <><span aria-hidden="true">—</span><span class="sr-only">Not verified</span></> : value}
+                </td>
+              ))}
+            </tr>
+          ))}
           <tr>
-            <th scope="row">Outline scaffolding in drafting view</th>
-            <td class="check"><span class="sr-only">Yes</span><span aria-hidden="true">&#10003;</span></td>
-            <td class="cross"><span class="sr-only">No</span><span aria-hidden="true">&#10007;</span></td>
-            <td class="cross"><span class="sr-only">No</span><span aria-hidden="true">&#10007;</span></td>
-            <td class="cross"><span class="sr-only">No</span><span aria-hidden="true">&#10007;</span></td>
-            <td class="cross"><span class="sr-only">No</span><span aria-hidden="true">&#10007;</span></td>
-            <td class="cross"><span class="sr-only">No</span><span aria-hidden="true">&#10007;</span></td>
-          </tr>
-          <tr>
-            <th scope="row">Context-aware character/location refs</th>
-            <td class="check"><span class="sr-only">Yes</span><span aria-hidden="true">&#10003;</span></td>
-            <td>Partial</td>
-            <td class="cross"><span class="sr-only">No</span><span aria-hidden="true">&#10007;</span></td>
-            <td class="cross"><span class="sr-only">No</span><span aria-hidden="true">&#10007;</span></td>
-            <td>&#10003; (AI)</td>
-            <td>Partial</td>
-          </tr>
-          <tr>
-            <th scope="row">Import from Plottr</th>
-            <td class="check"><span class="sr-only">Yes</span><span aria-hidden="true">&#10003;</span></td>
-            <td class="cross"><span class="sr-only">No</span><span aria-hidden="true">&#10007;</span></td>
-            <td>N/A</td>
-            <td class="cross"><span class="sr-only">No</span><span aria-hidden="true">&#10007;</span></td>
-            <td class="cross"><span class="sr-only">No</span><span aria-hidden="true">&#10007;</span></td>
-            <td class="cross"><span class="sr-only">No</span><span aria-hidden="true">&#10007;</span></td>
-          </tr>
-          <tr>
-            <th scope="row">Import from yWriter</th>
-            <td class="check"><span class="sr-only">Yes</span><span aria-hidden="true">&#10003;</span></td>
-            <td class="cross"><span class="sr-only">No</span><span aria-hidden="true">&#10007;</span></td>
-            <td class="cross"><span class="sr-only">No</span><span aria-hidden="true">&#10007;</span></td>
-            <td class="cross"><span class="sr-only">No</span><span aria-hidden="true">&#10007;</span></td>
-            <td class="cross"><span class="sr-only">No</span><span aria-hidden="true">&#10007;</span></td>
-            <td class="cross"><span class="sr-only">No</span><span aria-hidden="true">&#10007;</span></td>
-          </tr>
-          <tr>
-            <th scope="row">Manuscript management</th>
-            <td class="cross"><span class="sr-only">No</span><span aria-hidden="true">&#10007;</span></td>
-            <td class="check"><span class="sr-only">Yes</span><span aria-hidden="true">&#10003;</span></td>
-            <td class="cross"><span class="sr-only">No</span><span aria-hidden="true">&#10007;</span></td>
-            <td class="check"><span class="sr-only">Yes</span><span aria-hidden="true">&#10003;</span></td>
-            <td class="check"><span class="sr-only">Yes</span><span aria-hidden="true">&#10003;</span></td>
-            <td>Partial</td>
-          </tr>
-          <tr>
-            <th scope="row">Visual timeline/outlining</th>
-            <td class="cross"><span class="sr-only">No</span><span aria-hidden="true">&#10007;</span></td>
-            <td>Partial</td>
-            <td class="check"><span class="sr-only">Yes</span><span aria-hidden="true">&#10003;</span></td>
-            <td class="cross"><span class="sr-only">No</span><span aria-hidden="true">&#10007;</span></td>
-            <td class="cross"><span class="sr-only">No</span><span aria-hidden="true">&#10007;</span></td>
-            <td class="check"><span class="sr-only">Yes</span><span aria-hidden="true">&#10003;</span></td>
-          </tr>
-          <tr>
-            <th scope="row">World-building tools</th>
-            <td class="cross"><span class="sr-only">No</span><span aria-hidden="true">&#10007;</span></td>
-            <td class="cross"><span class="sr-only">No</span><span aria-hidden="true">&#10007;</span></td>
-            <td>Partial</td>
-            <td class="cross"><span class="sr-only">No</span><span aria-hidden="true">&#10007;</span></td>
-            <td>Partial</td>
-            <td class="check"><span class="sr-only">Yes</span><span aria-hidden="true">&#10003;</span></td>
-          </tr>
-          <tr>
-            <th scope="row">Export to DOCX</th>
-            <td class="check"><span class="sr-only">Yes</span><span aria-hidden="true">&#10003;</span></td>
-            <td class="check"><span class="sr-only">Yes</span><span aria-hidden="true">&#10003;</span></td>
-            <td class="cross"><span class="sr-only">No</span><span aria-hidden="true">&#10007;</span></td>
-            <td class="check"><span class="sr-only">Yes</span><span aria-hidden="true">&#10003;</span></td>
-            <td class="check"><span class="sr-only">Yes</span><span aria-hidden="true">&#10003;</span></td>
-            <td class="check"><span class="sr-only">Yes</span><span aria-hidden="true">&#10003;</span></td>
-          </tr>
-          <tr>
-            <th scope="row">Import from Scrivener</th>
-            <td class="check"><span class="sr-only">Yes</span><span aria-hidden="true">&#10003;</span></td>
-            <td>N/A</td>
-            <td class="cross"><span class="sr-only">No</span><span aria-hidden="true">&#10007;</span></td>
-            <td class="cross"><span class="sr-only">No</span><span aria-hidden="true">&#10007;</span></td>
-            <td class="cross"><span class="sr-only">No</span><span aria-hidden="true">&#10007;</span></td>
-            <td class="cross"><span class="sr-only">No</span><span aria-hidden="true">&#10007;</span></td>
-          </tr>
-          <tr>
-            <th scope="row">Export to Scrivener</th>
-            <td class="check"><span class="sr-only">Yes</span><span aria-hidden="true">&#10003;</span></td>
-            <td>N/A</td>
-            <td class="cross"><span class="sr-only">No</span><span aria-hidden="true">&#10007;</span></td>
-            <td class="cross"><span class="sr-only">No</span><span aria-hidden="true">&#10007;</span></td>
-            <td class="cross"><span class="sr-only">No</span><span aria-hidden="true">&#10007;</span></td>
-            <td class="cross"><span class="sr-only">No</span><span aria-hidden="true">&#10007;</span></td>
-          </tr>
-          <tr>
-            <th scope="row">Export to EPUB</th>
-            <td class="check"><span class="sr-only">Yes</span><span aria-hidden="true">&#10003;</span></td>
-            <td class="check"><span class="sr-only">Yes</span><span aria-hidden="true">&#10003;</span></td>
-            <td class="cross"><span class="sr-only">No</span><span aria-hidden="true">&#10007;</span></td>
-            <td class="cross"><span class="sr-only">No</span><span aria-hidden="true">&#10007;</span></td>
-            <td class="cross"><span class="sr-only">No</span><span aria-hidden="true">&#10007;</span></td>
-            <td class="cross"><span class="sr-only">No</span><span aria-hidden="true">&#10007;</span></td>
-          </tr>
-          <tr>
-            <th scope="row">Screenplay support</th>
-            <td class="check"><span class="sr-only">Yes</span><span aria-hidden="true">&#10003;</span></td>
-            <td class="check"><span class="sr-only">Yes</span><span aria-hidden="true">&#10003;</span></td>
-            <td class="cross"><span class="sr-only">No</span><span aria-hidden="true">&#10007;</span></td>
-            <td class="cross"><span class="sr-only">No</span><span aria-hidden="true">&#10007;</span></td>
-            <td class="cross"><span class="sr-only">No</span><span aria-hidden="true">&#10007;</span></td>
-            <td class="cross"><span class="sr-only">No</span><span aria-hidden="true">&#10007;</span></td>
-          </tr>
-          <tr>
-            <th scope="row">Custom fields & tags</th>
-            <td class="check"><span class="sr-only">Yes</span><span aria-hidden="true">&#10003;</span></td>
-            <td class="check"><span class="sr-only">Yes</span><span aria-hidden="true">&#10003;</span></td>
-            <td>Partial</td>
-            <td class="cross"><span class="sr-only">No</span><span aria-hidden="true">&#10007;</span></td>
-            <td class="cross"><span class="sr-only">No</span><span aria-hidden="true">&#10007;</span></td>
-            <td class="check"><span class="sr-only">Yes</span><span aria-hidden="true">&#10003;</span></td>
-          </tr>
-          <tr>
-            <th scope="row">Light & dark themes</th>
-            <td class="check"><span class="sr-only">Yes</span><span aria-hidden="true">&#10003;</span></td>
-            <td class="check"><span class="sr-only">Yes</span><span aria-hidden="true">&#10003;</span></td>
-            <td class="check"><span class="sr-only">Yes</span><span aria-hidden="true">&#10003;</span></td>
-            <td class="check"><span class="sr-only">Yes</span><span aria-hidden="true">&#10003;</span></td>
-            <td class="check"><span class="sr-only">Yes</span><span aria-hidden="true">&#10003;</span></td>
-            <td class="check"><span class="sr-only">Yes</span><span aria-hidden="true">&#10003;</span></td>
-          </tr>
-          <tr>
-            <th scope="row">Offline / local-first</th>
-            <td class="check"><span class="sr-only">Yes</span><span aria-hidden="true">&#10003;</span></td>
-            <td class="check"><span class="sr-only">Yes</span><span aria-hidden="true">&#10003;</span></td>
-            <td class="check"><span class="sr-only">Yes</span><span aria-hidden="true">&#10003;</span></td>
-            <td class="cross"><span class="sr-only">No</span><span aria-hidden="true">&#10007;</span></td>
-            <td class="cross"><span class="sr-only">No</span><span aria-hidden="true">&#10007;</span></td>
-            <td class="check"><span class="sr-only">Yes</span><span aria-hidden="true">&#10003;</span></td>
-          </tr>
-          <tr>
-            <th scope="row">Price</th>
-            <td><strong>Free</strong></td>
-            <td>$49</td>
-            <td>$99-149</td>
-            <td>~$10/mo</td>
-            <td>~$8-25/mo</td>
-            <td>$0-50+</td>
-          </tr>
-          <tr>
-            <th scope="row">Open source</th>
-            <td class="check"><span class="sr-only">Yes</span><span aria-hidden="true">&#10003;</span></td>
-            <td class="cross"><span class="sr-only">No</span><span aria-hidden="true">&#10007;</span></td>
-            <td class="cross"><span class="sr-only">No</span><span aria-hidden="true">&#10007;</span></td>
-            <td class="cross"><span class="sr-only">No</span><span aria-hidden="true">&#10007;</span></td>
-            <td class="cross"><span class="sr-only">No</span><span aria-hidden="true">&#10007;</span></td>
-            <td class="cross"><span class="sr-only">No</span><span aria-hidden="true">&#10007;</span></td>
-          </tr>
-          <tr>
-            <th scope="row">AI features</th>
-            <td>&#10007; (by design)</td>
-            <td class="cross"><span class="sr-only">No</span><span aria-hidden="true">&#10007;</span></td>
-            <td class="cross"><span class="sr-only">No</span><span aria-hidden="true">&#10007;</span></td>
-            <td class="cross"><span class="sr-only">No</span><span aria-hidden="true">&#10007;</span></td>
-            <td class="check"><span class="sr-only">Yes</span><span aria-hidden="true">&#10003;</span></td>
-            <td class="cross"><span class="sr-only">No</span><span aria-hidden="true">&#10007;</span></td>
+            <th scope="row">Price (USD)</th>
+            {comparisonTools.map((tool) => <td><a href={tool.url}>{tool.price}</a></td>)}
           </tr>
         </tbody>
       </table>
     </div>
-    <p style="font-size: var(--text-ui); color: var(--color-text-muted);">Kindling is designed to complement these tools, not replace them. Many writers use Kindling alongside Scrivener or Plottr. See <a href="/features/" style="color: var(--color-text-muted);">all Kindling features</a>.</p>
-    <p class="verified-note">Pricing and features last verified 4 September 2026. Competitor products change often — check their sites for current details.</p>
+    <p class="verified-note">Prices checked 10 September 2026. Prices are in USD before tax; annual billing and lifetime plans differ by product. Campfire’s $12/month is a displayed offer against a $19/month standard price. Follow the price links for current terms.</p>
+    <details class="pw-disclosure comparison-sources">
+      <summary>Feature sources and comparison notes</summary>
+      <p>kindling entries describe v{APP_VERSION}; see <a href="/features/">kindling features</a> and the <a href="/docs/">documentation</a>. A dash means unverified, not necessarily unavailable. Templates, fields, and references work differently in each app.</p>
+      <ul>
+        <li>Scrivener: <a href="https://www.literatureandlatte.com/scrivener/overview">features</a>, <a href="https://www.literatureandlatte.com/blog/how-to-add-custom-metadata-to-the-scrivener-inspector">custom metadata</a>, and <a href="https://scrivener.tenderapp.com/help/kb/features-and-usage/project-and-document-templates">templates</a>.</li>
+        <li>Plottr: <a href="https://docs.plottr.com/article/54-timeline-overview">timeline, tags, and attributes</a>, <a href="https://docs.plottr.com/article/66-exporting">Word and Scrivener export</a>, and <a href="https://docs.plottr.com/article/60-timeline-scene-templates">templates</a>.</li>
+        <li>Dabble: <a href="https://www.dabblewriter.com/pricing">plan features</a> and <a href="https://www.dabblewriter.com/docs/apps-sync-offline/how-sync-works">offline writing and sync</a>.</li>
+        <li>Novelcrafter: <a href="https://www.novelcrafter.com/pricing">plans and optional AI</a>, <a href="https://feedback.novelcrafter.com/changelog/december-22-2024">Codex details and tags</a>, and <a href="https://feedback.novelcrafter.com/changelog/june-8th-2024-birthday-release">Codex detection</a>.</li>
+        <li>Campfire: <a href="https://www.campfirewriting.com/pricing">modules, templates, and exports</a>.</li>
+        <li>Atticus: <a href="https://www.atticus.io/">writing, formatting, and offline use</a> and <a href="https://www.atticus.io/quick-start-guide/">import and export</a>.</li>
+        <li>Wavemaker: <a href="https://github.com/wavemakercards/wavemaker-v4">v4 features, storage, and MIT licence</a>, <a href="https://wavemaker.co.uk/">Snowflake and card tools</a>, and <a href="https://wavemaker.co.uk/blog/getting-started-with-the-open-ai-bot/">optional AI assistant</a>.</li>
+      </ul>
+    </details>
     <nav class="compare-jump" aria-label="Jump to a detailed comparison">
       <span>Detailed comparisons:</span>
       <a href="#vs-scrivener">Scrivener</a>
@@ -300,74 +191,101 @@ const faqStructuredData = {
       <a href="#vs-dabble">Dabble</a>
       <a href="#vs-novelcrafter">Novelcrafter</a>
       <a href="#vs-campfire">Campfire</a>
+      <a href="#vs-atticus">Atticus</a>
+      <a href="#vs-wavemaker">Wavemaker</a>
       <a href="#vs-ai">AI tools</a>
     </nav>
   </section>
 
   <section class="content-section alt" id="vs-scrivener">
-    <h2>Kindling vs Scrivener</h2>
-    <p>Scrivener ($49 one-time, Mac/Windows) is the gold standard for manuscript management. Its binder, compilation engine, and research tools have earned it a loyal following among serious novelists. If you need to manage a 400-page manuscript with footnotes, front matter, and multi-format export, Scrivener is hard to beat.</p>
-    <p>But Scrivener is built for the revision and compilation stage of writing. When you open a new scene, you get a blank page with a blinking cursor. Your outline synopsis sits in an inspector panel off to the side. Your character sheets live in a separate research folder. That context is available, but it's not woven into your drafting experience.</p>
-    <p>Kindling is built for the earlier stage — going from outline to first draft. It pre-populates your drafting space with your synopsis beats and character context so you never face a blank page. Many writers use both: they draft scenes in Kindling, then export to Scrivener for revision, restructuring, and compilation.</p>
-    <p>As of v1.2, Kindling supports full bidirectional Scrivener import and export. Import your .scriv binder — chapters, scenes, synopses, and RTF content are all brought in. Draft your scenes with beat scaffolding and character references visible. When you're ready, export back to a new .scriv bundle or update your existing one with a match preview dialog that shows exactly how Kindling scenes will map to Scrivener documents.</p>
-    <p class="callout pull-quote">If you love Scrivener but dread the blank page at the start of every scene, Kindling bridges that gap.</p>
-    <p style="font-size: var(--text-ui); color: var(--color-text-muted);">Scrivener: $49 one-time. Kindling: Free and <a href="/open-source/" style="color: var(--color-text-muted);">open source</a>.</p>
+    <p class="pw-label">04 / Scrivener</p>
+    <h2>kindling vs Scrivener</h2>
+    <p>Considering a switch? See our <a href="/free-scrivener-alternative/">free Scrivener alternative guide</a> for the workflow and trade-offs.</p>
+    <p>Scrivener ($59.99 for a standard macOS or Windows licence) is the gold standard for manuscript management. Its binder, compilation engine, and research tools have earned it a loyal following among serious novelists. If you need to manage a 400-page manuscript with footnotes, front matter, and multi-format export, Scrivener is hard to beat.</p>
+    <p>Scrivener also supports drafting, with synopses, research, and split editors close at hand. kindling takes a more guided approach: expand an outline beat and write directly beneath its prompt, with the scene’s references alongside.</p>
+    <p>kindling is built for the earlier stage — going from outline to first draft. It pre-populates your drafting space with your synopsis beats and character context so you never face a blank page. Many writers use both: they draft scenes in kindling, then export to Scrivener for revision, restructuring, and compilation.</p>
+    <p>As of v1.2, kindling supports full bidirectional Scrivener import and export. Import your .scriv binder — chapters, scenes, synopses, and RTF content are all brought in. Draft your scenes with beat scaffolding and character references visible. When you're ready, export back to a new .scriv bundle or update your existing one with a match preview dialog that shows exactly how kindling scenes will map to Scrivener documents.</p>
+    <p class="callout pull-quote">If you love Scrivener but dread the blank page at the start of every scene, kindling bridges that gap.</p>
+    <p class="pw-note">Scrivener: <a href="https://www.literatureandlatte.com/crossgrading">$59.99 per desktop platform</a>. kindling: Free and <a href="/open-source/">open source</a>.</p>
   </section>
 
   <section class="content-section" id="vs-plottr">
-    <h2>Kindling vs Plottr</h2>
-    <p>Plottr ($99 one-time or $149 with lifetime updates) is outstanding for visual timeline planning and beat organization. Its drag-and-drop timeline, color-coded storylines, and character arc templates make it the best visual outlining tool for fiction writers. If you're a plotter who thinks in timelines and structure boards, Plottr is a great planning tool.</p>
+    <p class="pw-label">05 / Plottr</p>
+    <h2>kindling vs Plottr</h2>
+    <p>Compare the two established tools in <a href="/plottr-vs-scrivener/">Plottr vs Scrivener</a>, or explore <a href="/blog/best-plottr-alternatives-for-fiction-writers/">Plottr alternatives for fiction writers</a>.</p>
+    <p>Plottr (from $60/year or $150 lifetime) is outstanding for visual timeline planning and beat organization. Its drag-and-drop timeline, color-coded storylines, and character arc templates make it the best visual outlining tool for fiction writers. If you're a plotter who thinks in timelines and structure boards, Plottr is a great planning tool.</p>
     <p>Plottr's output is a finished outline — it doesn't have a prose drafting space. Once you've planned your novel, you still need to open a separate writing app to start drafting. That transition is where many writers stall. You've done all that planning work, but the new document doesn't know about it.</p>
-    <p>Kindling imports your Plottr (.pltr) file directly. It turns your timeline beats into expandable writing prompts. Your character and location cards surface automatically in the drafting view while you write each scene. It's the natural next step after Plottr — you plan in Plottr, then draft in Kindling.</p>
-    <p>With v1.2, the workflow extends further: draft in Kindling, then export to Scrivener for revision, or directly to EPUB for review. Kindling now supports Scrivener bidirectional import/export, making the Plottr → Kindling → Scrivener pipeline seamless.</p>
-    <p class="callout pull-quote">If you've built a beautiful Plottr outline but still open a blank document to draft, Kindling is the missing step.</p>
-    <p style="font-size: var(--text-ui); color: var(--color-text-muted);">Plottr: $99-149. Kindling: Free.</p>
+    <p>kindling imports your Plottr (.pltr) file directly. It turns your timeline beats into expandable writing prompts. Your character and location cards surface automatically in the drafting view while you write each scene. It's the natural next step after Plottr — you plan in Plottr, then draft in kindling.</p>
+    <p>With v1.2, the workflow extends further: draft in kindling, then export to Scrivener for revision, or directly to EPUB for review. kindling now supports Scrivener bidirectional import/export, making the Plottr → kindling → Scrivener pipeline seamless.</p>
+    <p class="callout pull-quote">If you've built a beautiful Plottr outline but still open a blank document to draft, kindling is the missing step.</p>
+    <p class="pw-note">Plottr: <a href="https://plottr.com/pricing/">$60/year or $150 lifetime</a> for the desktop plan. Pro is $9.99/month, $99/year, or $599 lifetime; Pro + Community is $14.99/month, $129/year, or $649 lifetime. kindling: Free.</p>
   </section>
 
   <section class="content-section alt" id="vs-dabble">
-    <h2>Kindling vs Dabble Writer</h2>
-    <p>Dabble Writer (subscription, ~$10/month) combines outlining and manuscript writing in a single cloud-based app. It has a clean interface, goal tracking, and a plot grid that helps you organize story structure. For writers who want everything in one place with cloud sync, Dabble is a solid choice.</p>
-    <p>The trade-off is that Dabble requires an internet connection and a monthly subscription. Your data lives on their servers. If you stop paying, you lose access to the writing environment (though you can export your work). Dabble's drafting view also doesn't scaffold your outline into the writing space — you still switch between your plot grid and your manuscript.</p>
-    <p>Kindling is free, offline, and <a href="/open-source/">open source</a>. Your projects are SQLite files on your hard drive. Kindling focuses specifically on the outline-to-draft workflow: your beats and character context appear directly in your writing space, so the transition from planning to prose is seamless.</p>
-    <p class="callout pull-quote">If you want a free, offline alternative to Dabble that focuses on turning outlines into drafts, Kindling is worth trying.</p>
+    <p class="pw-label">06 / Dabble Writer</p>
+    <h2>kindling vs Dabble Writer</h2>
+    <p>Dabble Writer ($19–49/month, or $699 for lifetime Author access) combines outlining and manuscript writing in a single cloud-based app. It has a clean interface, goal tracking, and a plot grid that helps you organize story structure. For writers who want everything in one place with cloud sync, Dabble is a solid choice.</p>
+    <p>Dabble supports <a href="https://www.dabblewriter.com/docs/apps-sync-offline/how-sync-works">offline writing with cloud sync</a>, and its Plot Grid can sit beside the editor. Its <a href="https://www.dabblewriter.com/pricing">Writer, Author, and Bestseller plans</a> add different levels of editing and learning tools. Lifetime access covers the Author tier.</p>
+    <p>kindling is free, offline, and <a href="/open-source/">open source</a>. Your projects are SQLite files on your hard drive. kindling focuses specifically on the outline-to-draft workflow: your beats and character context appear directly in your writing space, so the transition from planning to prose is seamless.</p>
+    <p class="callout pull-quote">If you want a free, offline alternative to Dabble that focuses on turning outlines into drafts, kindling is worth trying.</p>
   </section>
 
   <section class="content-section" id="vs-novelcrafter">
-    <h2>Kindling vs Novelcrafter</h2>
-    <p>Novelcrafter (subscription, ~$8-25/month) is a browser-based writing tool with a strong focus on AI integration. It offers AI-powered brainstorming, codex entries, and prose suggestions. For writers who want AI assistance baked into their writing environment, Novelcrafter is one of the more thoughtful implementations.</p>
-    <p>The trade-off is cost, privacy, and philosophy. Novelcrafter requires a subscription plus separate AI API credits. Your projects live in the cloud. And AI-generated suggestions, while helpful for some, can subtly influence your voice if you rely on them during first drafts.</p>
-    <p>Kindling takes the opposite approach: it provides structure and context, not generated text. Your writing is 100% yours. No AI suggestions, no API costs, no data sent to external servers. Kindling is <a href="/open-source/">MIT licensed</a>, works completely offline, and stores projects as local files you control.</p>
-    <p class="callout pull-quote">If you want a tool that helps you write — not one that writes for you — Kindling is built for that philosophy.</p>
+    <p class="pw-label">07 / Novelcrafter</p>
+    <h2>kindling vs Novelcrafter</h2>
+    <p>Novelcrafter (<a href="https://www.novelcrafter.com/pricing">$4–20/month</a>) is a browser-based writing tool with a strong focus on AI integration. It offers AI-powered brainstorming, codex entries, and prose suggestions. For writers who want AI assistance baked into their writing environment, Novelcrafter is one of the more thoughtful implementations.</p>
+    <p>The trade-off is cost, privacy, and philosophy. Novelcrafter’s $4/month Scribe plan works without AI. Optional AI starts with the $8/month Hobbyist plan and uses a separately connected provider; provider charges depend on usage. Your projects live in the cloud. And AI-generated suggestions, while helpful for some, can subtly influence your voice if you rely on them during first drafts.</p>
+    <p>kindling provides structure and context for your own prose, with no AI suggestions or AI API costs. It is <a href="/open-source/">MIT licensed</a>; writing works offline and projects stay in a local database you control. Automatic updates and optional feedback submissions use the internet, as described in the <a href="/privacy/">privacy policy</a>.</p>
+    <p class="callout pull-quote">If you want a tool that helps you write — not one that writes for you — kindling is built for that philosophy.</p>
   </section>
 
   <section class="content-section alt" id="vs-campfire">
-    <h2>Kindling vs Campfire Write</h2>
-    <p>Campfire Write (modules from $0-50+) takes a modular approach to world-building and novel writing. You buy individual modules — characters, timelines, maps, manuscript — and build a custom toolset. It's well-suited for fantasy and sci-fi writers with complex worlds who want deep world-building features like interactive maps and relationship webs.</p>
-    <p>The modular pricing can add up quickly if you want the full feature set, and some writers find the interface more oriented toward world-building than actual prose writing. Campfire's strength is encyclopedic world management, not the drafting workflow.</p>
-    <p>Kindling is purpose-built for one thing: getting from your outline to your first draft. It doesn't try to be a world-building encyclopedia. Instead, it takes whatever outline and character notes you have and weaves them into your drafting space. It's free, <a href="/open-source/">open source</a>, and focused on the writing itself.</p>
-    <p class="callout pull-quote">If you've done your world-building elsewhere and need a free tool to start drafting scenes, Kindling fills that role.</p>
+    <p class="pw-label">08 / Campfire Write</p>
+    <h2>kindling vs Campfire Write</h2>
+    <p>Campfire offers a <a href="https://www.campfirewriting.com/pricing">free tier and paid access to all modules</a>, with a displayed $12/month offer. Its modules cover characters, timelines, maps, manuscript, and more. It's well-suited for fantasy and sci-fi writers with complex worlds who want deep world-building features like interactive maps and relationship webs.</p>
+    <p>The free tier limits the number of story elements and manuscript words; paid plans remove those limits. Campfire's strength is encyclopedic world management, not the drafting workflow.</p>
+    <p>kindling is purpose-built for one thing: getting from your outline to your first draft. It doesn't try to be a world-building encyclopedia. Instead, it takes whatever outline and character notes you have and weaves them into your drafting space. It's free, <a href="/open-source/">open source</a>, and focused on the writing itself.</p>
+    <p class="callout pull-quote">If you've done your world-building elsewhere and need a free tool to start drafting scenes, kindling fills that role.</p>
+  </section>
+
+  <section class="content-section" id="vs-atticus">
+    <p class="pw-label">09 / Atticus</p>
+    <h2>kindling and Atticus</h2>
+    <p><a href="https://www.atticus.io/">Atticus costs $147 once</a> and combines writing with book formatting. Its particular strength is preparing your manuscript for readers: chapter designs, ebook layout, and print-ready PDF and EPUB output. It works as an installable web app on desktop platforms.</p>
+    <p>We recommend pairing the tools when you want guided drafting and dedicated book formatting. Plan, draft, and review in kindling; export a <a href="/docs/exporting-projects/#docx-standard-manuscript-format">DOCX manuscript</a>, then <a href="https://www.atticus.io/tutorial/importing-docx-file/">import it into Atticus</a> for final layout. Check chapter breaks after import. This is a file handoff, with no direct sync between the apps.</p>
+    <p class="callout pull-quote">kindling takes you from outline to draft. Atticus takes that draft toward a published book.</p>
+  </section>
+
+  <section class="content-section alt" id="vs-wavemaker">
+    <p class="pw-label">10 / Wavemaker</p>
+    <h2>kindling vs Wavemaker</h2>
+    <p><a href="https://github.com/wavemakercards/wavemaker-v4">Wavemaker</a> is a close peer: free, MIT-licensed, and usable offline. Its browser-based app includes mind maps, planning boards, and a dedicated Snowflake Method tool. Choose it if you want to develop a story across desktop and mobile; choose kindling if you want outline beats built into a native desktop drafting space. kindling also includes a Snowflake structure template, while Wavemaker provides an interactive planning tool.</p>
+    <p>The storage differs. Wavemaker uses your browser’s IndexedDB database, with Google Drive sync available. <a href="https://support.google.com/chrome/answer/2392709?hl=en">Clearing site data can delete that local copy</a>, so keep exported backups or a synced copy. kindling stores projects in a SQLite database outside the browser; <a href="/docs/settings/#backing-up-your-projects">back up that database too</a>.</p>
+    <p>Both let you write your own prose, but their AI policies differ. Wavemaker documents an <a href="https://wavemaker.co.uk/blog/getting-started-with-the-open-ai-bot/">optional assistant using your own API key</a>. kindling has no generative AI features.</p>
+    <p class="callout pull-quote">Two free, open-source tools, with different ways to plan and draft. Pick the workspace that helps you keep writing.</p>
   </section>
 
   <section class="content-section" id="vs-ai">
-    <h2>Kindling vs AI writing tools</h2>
+    <p class="pw-label">11 / AI writing tools</p>
+    <h2>kindling vs AI writing tools</h2>
     <p>A growing category of tools — Sudowrite, Jasper, NovelAI, and others — use large language models to generate prose, suggest plot directions, or rewrite your sentences. These tools can be useful for brainstorming or overcoming blocks, but they raise questions about voice, originality, and ownership that many fiction writers care about deeply.</p>
-    <p>Kindling is not an AI writing tool. It never suggests, autocompletes, or generates prose. There are no subscription fees, no API costs, and no data sent to external servers. Instead, Kindling gives you <a href="/features/">structural scaffolding</a> — your own outline beats, your own character notes, your own world details — presented in your drafting space so you can write with full context.</p>
-    <p class="callout pull-quote">Every word in your Kindling draft is yours. That's not a limitation — it's the whole point.</p>
+    <p>kindling is not an AI writing tool. It never suggests, autocompletes, or generates prose. There are no subscription fees or AI API costs, and your manuscript is not uploaded. kindling gives you <a href="/features/">structural scaffolding</a> — your own outline beats, your own character notes, your own world details — presented in your drafting space so you can write with full context.</p>
+    <p class="callout pull-quote">Every word in your kindling draft is yours. That's not a limitation — it's the whole point.</p>
   </section>
 
   <section class="cta-section">
     <h2>Try it free — no strings attached</h2>
-    <p>MIT licensed. <a href="/open-source/" style="color: var(--color-text-muted);">Open source</a>. Your words, your data, forever.</p>
+    <p>MIT licensed. <a href="/open-source/">Open source</a>. Your words, your data, forever.</p>
     <div class="download-buttons single">
-      <a href="/download/" class="download-btn" onclick="typeof gtag==='function'&&gtag('event','download_cta_click',{cta_location:'compare_bottom'})">Download Kindling — Free</a>
+      <a href="/download/" class="pw-button" data-cta-location="compare_bottom">Download kindling — Free</a>
     </div>
   </section>
 </MarketingLayout>
 
 <style>
-  /* Spotlight the Kindling column — the whole point of the page. Without this
+  /* Spotlight the kindling column — the whole point of the page. Without this
      it is styled identically to every competitor and the answer is invisible.
-     Column 2 (Kindling) gets a terracotta tint and a heavier, accented header. */
+     Column 2 (kindling) gets a terracotta tint and a heavier, accented header. */
   /* Jump links — introduces the detailed sections without duplicating them. */
   .compare-jump {
     display: flex;
@@ -392,6 +310,29 @@ const faqStructuredData = {
 
   .compare-jump a:hover {
     text-decoration: underline;
+  }
+
+  .comparison-help,
+  .comparison-sources {
+    font-family: var(--font-ui);
+    font-size: var(--text-small);
+    color: var(--color-text);
+  }
+
+  .comparison-table-wrap {
+    position: relative;
+  }
+
+  .comparison-sources {
+    margin-top: var(--space-m);
+  }
+
+  .comparison-sources ul {
+    padding-left: var(--space-l);
+  }
+
+  .comparison-sources li {
+    margin-block: var(--space-2xs);
   }
 
   .verified-note {

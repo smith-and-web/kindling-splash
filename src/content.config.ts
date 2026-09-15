@@ -15,7 +15,7 @@ const blog = defineCollection({
     description: z.string(),
     publishedDate: z.string(),
     modifiedDate: z.string().optional(),
-    author: z.string().default('Kindling'),
+    author: z.string().default('kindling'),
     tags: z.array(z.string()).optional(),
     ogImage: z.string().optional(),
     draft: z.boolean().default(false),

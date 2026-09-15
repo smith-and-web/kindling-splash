@@ -1,291 +1,93 @@
 ---
-import Logo from './Logo.astro';
+/*
+ * The Press masthead: `.pw-header` + `.pw-nav`, with the shared in-flow
+ * navigation disclosure from website.js. Nothing here styles the nav — the
+ * previous version carried its own fixed positioning, stacking values, blur
+ * and breakpoint, which is exactly the local reimplementation this adoption
+ * removes. Routing, active state and download attribution stay site business.
+ */
+import wordmark from "../vendor/press/assets/svg/kindling-wordmark.svg?raw";
 
 const currentPath = Astro.url.pathname;
 
-// Download is intentionally omitted here — the terracotta CTA button is the
-// single download affordance, so the link row doesn't duplicate it.
+// Read the signature's dimensions from the asset rather than repeating them.
+// The old navbar hard-coded width 6790, which described the previous lettering
+// and silently stopped matching when the lowercase wordmark was recut to 6445.
+const viewBox = wordmark.match(/viewBox="0 0 ([\d.]+) ([\d.]+)"/);
+const wordmarkWidth = Number(viewBox?.[1] ?? 6445);
+const wordmarkHeight = Number(viewBox?.[2] ?? 1972);
+
+// Download is intentionally omitted from the link row — the header's own
+// Download action is the one affordance, and it is secondary so an in-content
+// download keeps the only primary fill in view (DESIGN.md, one main action).
 const links = [
-  { href: '/features/', label: 'Features' },
-  { href: '/compare/', label: 'Compare' },
-  { href: '/open-source/', label: 'Open Source' },
-  { href: '/blog/', label: 'Blog' },
-  { href: '/docs/getting-started/', label: 'Docs' },
+    { href: "/features/", label: "Features" },
+    { href: "/compare/", label: "Compare" },
+    { href: "/open-source/", label: "Open source" },
+    { href: "/blog/", label: "Blog" },
+    { href: "/docs/getting-started/", label: "Docs" },
+    { href: "/feedback/", label: "Contact" },
 ];
 
 function isActive(href: string): boolean {
-  if (href === '/') return currentPath === '/';
-  return currentPath.startsWith(href);
+    if (href === "/") return currentPath === "/";
+    return currentPath.startsWith(href);
 }
 ---
 
-<nav class="navbar">
-  <div class="navbar-container">
-    <a href="/" class="navbar-logo">
-      <Logo size="nav" />
-      <span>kindling</span>
-    </a>
-    <button class="navbar-toggle" type="button" aria-label="Toggle menu" aria-expanded="false">
-      <span class="navbar-toggle-icon"></span>
-    </button>
-    <div class="navbar-links">
-      {links.map(link => (
-        <a
-          href={link.href}
-          class:list={['navbar-link', { active: isActive(link.href) }]}
-          aria-current={isActive(link.href) ? 'page' : undefined}
-        >
-          {link.label}
+<header class="pw-header">
+    <nav class="pw-nav pw-frame" data-pw-nav aria-label="Primary">
+        <a href="/" class="pw-brand" aria-label="kindling — home">
+            <img
+                src="/brand/kindling-wordmark.svg"
+                width={wordmarkWidth}
+                height={wordmarkHeight}
+                alt="kindling"
+            />
         </a>
-      ))}
-      <a href="/download/" class="navbar-cta">Download</a>
-    </div>
-  </div>
-</nav>
-
-<style>
-  .navbar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 1000;
-    background: var(--color-nav-scrim);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--color-border);
-    padding: 0 24px;
-  }
-
-  .navbar-container {
-    max-width: 1100px;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 64px;
-    width: 100%;
-  }
-
-  .navbar-logo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    text-decoration: none;
-    color: var(--color-text);
-    flex-shrink: 0;
-  }
-
-  .navbar-logo span {
-    font-family: var(--font-display);
-    font-size: var(--text-h3);
-    font-weight: 600;
-  }
-
-  .navbar-links {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .navbar-link {
-    font-family: var(--font-ui);
-    font-size: var(--text-ui);
-    font-weight: 500;
-    color: var(--color-text-muted);
-    text-decoration: none;
-    padding: 8px 14px;
-    border-radius: var(--radius-s);
-    transition: color 0.2s, background-color 0.2s;
-  }
-
-  .navbar-link:hover {
-    color: var(--color-text);
-    background: var(--color-surface);
-  }
-
-  .navbar-link.active {
-    color: var(--color-text);
-    box-shadow: inset 0 -2px 0 0 var(--color-accent);
-  }
-
-  .navbar-cta {
-    font-family: var(--font-ui);
-    font-size: var(--text-small);
-    font-weight: 500;
-    color: var(--color-on-accent);
-    background: var(--color-accent);
-    text-decoration: none;
-    padding: 8px 16px;
-    border-radius: var(--radius-s);
-    margin-left: 8px;
-    transition: background-color 0.2s;
-  }
-
-  .navbar-cta:hover {
-    background: var(--color-accent-text);
-  }
-
-  /* Mobile nav toggle */
-  .navbar-toggle {
-    display: none;
-    align-items: center;
-    justify-content: center;
-    width: 44px;
-    height: 44px;
-    padding: 0;
-    background: none;
-    border: none;
-    border-radius: var(--radius-s);
-    color: var(--color-text);
-    cursor: pointer;
-    transition: background-color 0.2s;
-    flex-shrink: 0;
-  }
-
-  .navbar-toggle:hover {
-    background: var(--color-surface);
-  }
-
-  .navbar-toggle-icon {
-    display: block;
-    width: 22px;
-    height: 2px;
-    background: currentColor;
-    position: relative;
-    transition: background 0.2s;
-  }
-
-  .navbar-toggle-icon::before,
-  .navbar-toggle-icon::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    width: 22px;
-    height: 2px;
-    background: currentColor;
-    transition: transform 0.2s;
-  }
-
-  .navbar-toggle-icon::before { top: -7px; }
-  .navbar-toggle-icon::after { top: 7px; }
-
-  :global(.navbar-open) .navbar-toggle-icon {
-    background: transparent;
-  }
-
-  :global(.navbar-open) .navbar-toggle-icon::before {
-    transform: translateY(7px) rotate(45deg);
-  }
-
-  :global(.navbar-open) .navbar-toggle-icon::after {
-    transform: translateY(-7px) rotate(-45deg);
-  }
-
-  @media (max-width: 768px) {
-    .navbar-container {
-      flex-wrap: wrap;
-    }
-
-    .navbar-toggle {
-      display: flex !important;
-      order: 2;
-    }
-
-    .navbar-links {
-      display: none !important;
-      position: absolute;
-      top: 64px;
-      left: 0;
-      right: 0;
-      flex-direction: column;
-      gap: 0;
-      padding: 16px;
-      background: var(--color-surface);
-      border-bottom: 1px solid var(--color-border);
-      box-shadow: var(--shadow-md);
-      z-index: 1001;
-    }
-
-    :global(.navbar-open) .navbar-links {
-      display: flex !important;
-    }
-
-    .navbar-link {
-      padding: 12px 16px;
-      font-size: var(--text-base);
-      border-radius: var(--radius-m);
-    }
-
-    .navbar-cta {
-      margin: 8px 0 0;
-      margin-left: 0;
-      padding: 12px 16px;
-      font-size: var(--text-base);
-      display: flex;
-      justify-content: center;
-    }
-  }
-</style>
+        <button
+            class="pw-menu"
+            type="button"
+            aria-expanded="false"
+            aria-controls="primary-nav-links"
+            data-pw-menu
+        >
+            Menu
+        </button>
+        <div class="pw-nav-links" id="primary-nav-links" data-pw-links>
+            {links.map((link) => (
+                <a
+                    href={link.href}
+                    aria-current={isActive(link.href) ? "page" : undefined}
+                >
+                    {link.label}
+                </a>
+            ))}
+            {/*
+              On /download/ this points at the page the visitor is already on,
+              and its fill lands in the same viewport as the hero's action.
+              WEBSITE_COMPONENTS.md: use the secondary treatment for a
+              persistent header download so the in-content action keeps the
+              only primary fill in view.
+            */}
+            <a
+                href="/download/"
+                class:list={[
+                    "pw-button",
+                    "navbar-cta",
+                    isActive("/download/") && "pw-button--secondary",
+                ]}
+                aria-current={isActive("/download/") ? "page" : undefined}
+            >
+                Download
+            </a>
+        </div>
+    </nav>
+</header>
 
 <script>
-  const toggle = document.querySelector<HTMLButtonElement>('.navbar-toggle');
-  const navbar = document.querySelector<HTMLElement>('.navbar');
-
-  if (toggle && navbar) {
-    const menu = navbar.querySelector<HTMLElement>('.navbar-links');
-    const isOpen = () => navbar.classList.contains('navbar-open');
-    const focusable = () =>
-      Array.from(menu?.querySelectorAll<HTMLElement>('a[href], button:not([disabled])') ?? []);
-
-    function openMenu() {
-      navbar!.classList.add('navbar-open');
-      toggle!.setAttribute('aria-expanded', 'true');
-      document.body.style.overflow = 'hidden';
-      focusable()[0]?.focus();
-    }
-
-    function closeMenu(restoreFocus = false) {
-      navbar!.classList.remove('navbar-open');
-      toggle!.setAttribute('aria-expanded', 'false');
-      document.body.style.overflow = '';
-      if (restoreFocus) toggle!.focus();
-    }
-
-    toggle.addEventListener('click', () => (isOpen() ? closeMenu() : openMenu()));
-
-    navbar.querySelectorAll('.navbar-link, .navbar-cta').forEach((link) => {
-      link.addEventListener('click', () => closeMenu());
-    });
-
-    document.addEventListener('keydown', (event) => {
-      if (!isOpen()) return;
-
-      if (event.key === 'Escape') {
-        event.preventDefault();
-        closeMenu(true);
-        return;
-      }
-
-      // Keep Tab inside the open menu; the rest of the page is inert behind it.
-      if (event.key !== 'Tab') return;
-      const items = [toggle!, ...focusable()];
-      if (items.length === 0) return;
-      const first = items[0];
-      const last = items[items.length - 1];
-      const active = document.activeElement;
-
-      if (event.shiftKey && active === first) {
-        event.preventDefault();
-        last.focus();
-      } else if (!event.shiftKey && active === last) {
-        event.preventDefault();
-        first.focus();
-      }
-    });
-
-    document.addEventListener('click', (event) => {
-      if (isOpen() && !navbar.contains(event.target as Node)) closeMenu();
-    });
-  }
+    // The shared disclosure controller. It binds [data-pw-nav] once, sets
+    // data-pw-ready only after its handlers are attached, and leaves every link
+    // visible without it — the CSS collapse is gated on that attribute.
+    import "../vendor/press/design-system/website.js";
 </script>

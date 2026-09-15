@@ -1,23 +1,19 @@
 ---
 import MarketingLayout from '../../layouts/MarketingLayout.astro';
-import { APP_VERSION, DOWNLOADS } from '../../data/downloads';
+import { APP_VERSION } from '../../data/downloads';
 
-const downloadUrls = {
-  mac: DOWNLOADS.mac.url,
-  windows: DOWNLOADS.windows.url,
-  linux: DOWNLOADS.linux.url,
-};
 ---
 
 <MarketingLayout
-  title="Thanks for Downloading Kindling!"
-  description={`You've downloaded Kindling v${APP_VERSION}. Get started with installation tips, a quick-start guide, and join the community.`}
+  title="Thanks for Downloading kindling!"
+  noindex
+  description={`Get started with kindling v${APP_VERSION}: installation tips, a quick-start guide, and links to the community.`}
 >
   <!-- Hero -->
   <section class="page-hero">
-    <h1>Thanks for downloading Kindling!</h1>
+    <h1>Thanks for downloading kindling!</h1>
     <span class="version-badge">v{APP_VERSION}</span>
-    <p class="page-hero-subtext">
+    <p class="page-hero-subtext" id="download-status">
       Your download should start automatically. If not, <a href="/download/">go back to the download page</a>.
     </p>
   </section>
@@ -25,24 +21,24 @@ const downloadUrls = {
   <!-- Installation Tips -->
   <section class="content-section">
     <h2>Installation tips</h2>
-    <p>Your OS may show a security prompt the first time you open Kindling. This is normal for open-source software that isn't distributed through an app store.</p>
+    <p>Your OS may show a security prompt the first time you open kindling. This is normal for open-source software that isn't distributed through an app store.</p>
 
     <div class="os-tips" id="os-tips">
       <!-- macOS -->
       <div class="os-tip" data-os="mac">
         <h3>macOS</h3>
-        <p>Kindling is signed with an Apple Developer ID and notarized by Apple, so it opens without Gatekeeper warnings.</p>
+        <p>kindling is signed with an Apple Developer ID and notarized by Apple, so it opens without Gatekeeper warnings.</p>
         <ol>
           <li>Double-click the downloaded <strong>.dmg</strong> file to mount it.</li>
-          <li>Drag <strong>Kindling</strong> into your <strong>Applications</strong> folder.</li>
-          <li>Open <strong>Kindling</strong> from Applications.</li>
+          <li>Drag <strong>kindling</strong> into your <strong>Applications</strong> folder.</li>
+          <li>Open <strong>kindling</strong> from Applications.</li>
         </ol>
       </div>
 
       <!-- Windows -->
       <div class="os-tip" data-os="windows">
         <h3>Windows</h3>
-        <p>Windows SmartScreen may show a warning because Kindling is new and not yet widely recognized.</p>
+        <p>Windows SmartScreen may show a warning because kindling is new and not yet widely recognized.</p>
         <ol>
           <li>When the SmartScreen dialog appears, click <strong>More info</strong>.</li>
           <li>Click <strong>Run anyway</strong>.</li>
@@ -111,7 +107,7 @@ const downloadUrls = {
       <a href="https://github.com/smith-and-web/kindling" class="community-card" target="_blank" rel="noopener">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
         <strong>Star on GitHub</strong>
-        <p>Help others discover Kindling. Every star counts.</p>
+        <p>Help others discover kindling. Every star counts.</p>
       </a>
       <a href="/docs/getting-started/" class="community-card">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
@@ -124,9 +120,9 @@ const downloadUrls = {
   <!-- Email Signup -->
   <section class="cta-section">
     <div class="signup-container" style="max-width: 480px; margin: 0 auto;">
-      <h2 style="font-size: var(--text-body-lg);">Get notified about updates</h2>
-      <p style="font-size: var(--text-ui); color: var(--color-text-muted); margin-bottom: 16px;">We'll email you when new versions are released. No spam, unsubscribe anytime.</p>
-      <form class="signup-form" action="https://app.kit.com/forms/8996985/subscriptions" method="post" target="_blank">
+      <h2>Get notified about updates</h2>
+      <p class="pw-note">We'll email you when new versions are released. No spam, unsubscribe anytime.</p>
+      <form class="signup-form" data-newsletter-form="release_updates" action="https://app.kit.com/forms/8996985/subscriptions" method="post" target="_blank">
         <label class="sr-only" for="newsletter-email">Email address</label>
         <input type="email" id="newsletter-email" name="email_address" placeholder="your@email.com" autocomplete="email" required>
         <button type="submit">Subscribe</button>
@@ -284,7 +280,8 @@ const downloadUrls = {
   }
 </style>
 
-<script is:inline define:vars={{ downloadUrls, APP_VERSION }}>
+<script>
+  import { initiatePendingDownload } from '../../scripts/download-flow';
   // Detect OS from query parameter or user agent
   (function () {
     var params = new URLSearchParams(window.location.search);
@@ -320,34 +317,13 @@ const downloadUrls = {
     }
   })();
 
-  // Trigger the actual file download from here (not from the CTA page).
-  // Doing it on the thanks page avoids a race where a follow-up navigation
-  // cancels Chrome's in-flight request before it sees Content-Disposition.
-  (function () {
-    var params = new URLSearchParams(window.location.search);
-    var osKey = params.get('os');
-    if (osKey && downloadUrls[osKey]) {
-      var link = document.createElement('a');
-      link.href = downloadUrls[osKey];
-      link.rel = 'noopener';
-      link.style.display = 'none';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+  if (!initiatePendingDownload()) {
+    const status = document.querySelector('#download-status');
+    if (status) {
+      const link = document.createElement('a');
+      link.href = '/download/';
+      link.textContent = 'Choose your platform';
+      status.replaceChildren(link, ' to start a download, or follow the installation tips below if you already have the file.');
     }
-  })();
-
-  // GA4 download_initiated event — fires when the user reaches the thanks page
-  // after a click. Named "initiated" (not "complete") because we can't actually
-  // verify the binary download succeeded; this is a proxy for intent.
-  (function () {
-    if (typeof gtag === 'function') {
-      var params = new URLSearchParams(window.location.search);
-      var os = params.get('os') || 'unknown';
-      gtag('event', 'download_initiated', {
-        os_platform: os,
-        app_version: APP_VERSION
-      });
-    }
-  })();
+  }
 </script>

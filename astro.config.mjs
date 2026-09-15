@@ -2,6 +2,9 @@ import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 import svelte from '@astrojs/svelte';
 import sitemap from '@astrojs/sitemap';
+import { readFileSync } from 'node:fs';
+
+const analyticsScript = readFileSync(new URL('./public/analytics.js', import.meta.url), 'utf8');
 
 export default defineConfig({
   site: 'https://kindlingwriter.com',
@@ -9,10 +12,14 @@ export default defineConfig({
 
   integrations: [
     starlight({
-      title: 'Kindling Docs',
+      title: 'kindling Docs',
       disable404Route: true,
       logo: {
-        src: './src/assets/kindling-logo.svg',
+        // The approved book-and-flame emblem at its original geometry. The
+        // asset this replaced was a cropped viewBox of the same original,
+        // which the design contract forbids; it is also verified by
+        // `npm run check:design-system`, which a hand-copy would not be.
+        src: './src/vendor/press/assets/svg/kindling-mark.svg',
         replacesTitle: false,
       },
       social: [
@@ -28,10 +35,10 @@ export default defineConfig({
       },
       sidebar: [
         {
-          label: 'Kindling',
+          label: 'kindling',
           items: [
             { label: 'Back to kindlingwriter.com', link: '/' },
-            { label: 'Download Kindling', link: '/download/' },
+            { label: 'Download kindling', link: '/download/' },
           ],
         },
         {
@@ -42,12 +49,15 @@ export default defineConfig({
           ],
         },
         {
-          label: 'Using Kindling',
+          label: 'Using kindling',
           items: [
             { label: 'Importing Projects', slug: 'docs/importing-projects' },
             { label: 'Scene Workflow', slug: 'docs/scene-workflow' },
+            { label: 'Writing Goals & Statistics', slug: 'docs/writing-progress' },
+            { label: 'Editorial Review', slug: 'docs/editorial-review' },
             { label: 'References', slug: 'docs/references' },
             { label: 'Exporting Projects', slug: 'docs/exporting-projects' },
+            { label: 'Export Workspace', slug: 'docs/export-workspace' },
             { label: 'Sync & Reimport', slug: 'docs/sync-and-reimport' },
             { label: 'Settings', slug: 'docs/settings' },
             { label: 'Troubleshooting', slug: 'docs/troubleshooting' },
@@ -74,15 +84,13 @@ export default defineConfig({
         },
         {
           tag: 'script',
-          attrs: { async: true, src: 'https://www.googletagmanager.com/gtag/js?id=G-VJQ72G87FE' },
-        },
-        {
-          tag: 'script',
-          content: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-VJQ72G87FE');`,
+          content: analyticsScript,
         },
       ],
     }),
     svelte(),
-    sitemap(),
+    sitemap({
+      filter: (page) => !['/download/thanks/', '/welcome/'].includes(new URL(page).pathname),
+    }),
   ],
 });

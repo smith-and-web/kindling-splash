@@ -1,9 +1,9 @@
 ---
 title: Importing Projects
-description: Import story outlines into Kindling from Plottr, Scrivener, Markdown, yWriter, or Longform/Obsidian.
+description: Import story outlines into kindling from Plottr, Scrivener, Markdown, yWriter, or Longform/Obsidian.
 ---
 
-Kindling supports importing story outlines from multiple sources. This guide explains how to prepare your files for a successful import and how reference data is handled.
+kindling supports importing story outlines from multiple sources. This guide explains how to prepare your files for a successful import and how reference data is handled.
 
 ## Importing a Project
 
@@ -20,18 +20,19 @@ Kindling supports importing story outlines from multiple sources. This guide exp
 | [Markdown](#markdown-md) | `.md` | Plain text markdown outlines |
 | [yWriter](#ywriter-yw7) | `.yw7` | yWriter 7 project files |
 | [Longform/Obsidian](#longformobsidian-md) | `.md` index or vault folder | Longform index + scene files |
+| [novelWriter](#novelwriter-project-folder) | Project folder | `nwProject.nwx` + `content/` documents |
 
 ---
 
 ## Post-import Reference Classification
 
-If Kindling detects references during import, it opens a classification dialog so you can confirm or adjust reference types before continuing. You can skip this step and refine reference types later in the References panel.
+If kindling detects references during import, it opens a classification dialog so you can confirm or adjust reference types before continuing. You can skip this step and refine reference types later in the References panel.
 
 ---
 
 ## Plottr (.pltr)
 
-Plottr is a visual story planning tool. Kindling imports the full project structure including characters, locations, and scene cards.
+Plottr is a visual story planning tool. kindling imports the full project structure including characters, locations, and scene cards.
 
 ### What Gets Imported
 
@@ -59,7 +60,7 @@ Plottr is a visual story planning tool. Kindling imports the full project struct
 
 ## Scrivener (.scriv)
 
-Kindling supports importing Scrivener 3 project bundles, making it easy to move a project you've already started in Scrivener into Kindling's outline-and-draft workflow.
+kindling supports importing Scrivener 3 project bundles, making it easy to move a project you've already started in Scrivener into kindling's outline-and-draft workflow.
 
 ### What Gets Imported
 
@@ -75,15 +76,15 @@ Kindling supports importing Scrivener 3 project bundles, making it easy to move 
 
 ### Notes
 
-- Scrivener's compile settings are not imported — export formatting is handled by Kindling
+- Scrivener's compile settings are not imported — export formatting is handled by kindling
 - Rich text styles (bold, italic, tables) are preserved where possible; complex formatting may simplify
-- Scrivener labels and status fields are mapped to Kindling scene type and status where possible
+- Scrivener labels and status fields are mapped to kindling scene type and status where possible
 
 ---
 
 ## Markdown (.md)
 
-For users who prefer plain text, Kindling supports a simple markdown outline format.
+For users who prefer plain text, kindling supports a simple markdown outline format.
 
 ### What Gets Imported
 
@@ -155,7 +156,7 @@ The stakes begin to escalate.
 
 ## yWriter (.yw7)
 
-yWriter stores projects in a single XML file. Kindling imports the outline, metadata, and reference data.
+yWriter stores projects in a single XML file. kindling imports the outline, metadata, and reference data.
 
 ### What Gets Imported
 
@@ -181,12 +182,12 @@ yWriter stores projects in a single XML file. Kindling imports the outline, meta
 
 ## Longform/Obsidian (.md)
 
-Kindling supports Longform/Obsidian projects by reading a Longform index file and its scene files. You can import either:
+kindling supports Longform/Obsidian projects by reading a Longform index file and its scene files. You can import either:
 
 - The **index file** (recommended), or
 - The **vault folder**, if it contains exactly one Longform index
 
-Kindling enhances the Obsidian workflow — it doesn't replace it. Keep research and worldbuilding in Obsidian, and use Kindling for structured outlining, scene planning, and export-ready manuscripts.
+kindling enhances the Obsidian workflow — it doesn't replace it. Keep research and worldbuilding in Obsidian, and use kindling for structured outlining, scene planning, and export-ready manuscripts.
 
 ### What Gets Imported
 
@@ -234,7 +235,7 @@ longform:
 
 ### Scene Frontmatter Conventions
 
-Scene files can include frontmatter fields to help Kindling parse metadata and reference types:
+Scene files can include frontmatter fields to help kindling parse metadata and reference types:
 
 ```yaml
 ---
@@ -277,6 +278,69 @@ You can also use Dataview-style fields (`characters::`, `setting::`) or `#status
 | Locations | ✓ | ✓ | — | ✓ | ✓ |
 | Items/Objectives/Orgs | — | — | — | Items only | ✓ |
 | Scene–reference links | ✓ | — | — | Characters/locations | ✓ |
+
+---
+
+## novelWriter (Project Folder)
+
+Import a novelWriter project to plan its chapters and scenes in kindling while keeping your draft and reference notes together.
+
+### File Requirements
+
+1. Choose **Import → novelWriter** from the project menu, or **novelWriter** in the guided import.
+2. Select the project folder containing `nwProject.nwx` and its `content/` folder. Select the whole folder, not an individual scene file.
+3. Finish the import and review any reference classifications offered.
+
+Keep the project folder intact. kindling reads current `.md` documents and legacy `.nwd` documents from project format versions 1.4–1.6.
+
+### What Gets Imported
+
+- **Project name and author**
+- **Parts, chapters and scenes** from the manuscript headings
+- **Prose** with bold, italic and strikethrough formatting
+- **Scene synopses** from `%Synopsis:` comments
+- **Beats** from `% Beat:` comments, with the prose following each comment
+- **Reference notes** with names, descriptions and attributes
+- **Scene links** to characters, locations and supported reference notes, resolved by their tags
+
+| novelWriter Note Root | kindling Reference Type |
+|-----------------------|-------------------------|
+| Character | Characters |
+| World | Locations |
+| Object | Items |
+| Plot | Objectives |
+| Entity | Organizations |
+| Timeline | Timelines |
+| Custom | Notes |
+
+Blank lines separate paragraphs; a single newline stays within the same paragraph. Part documents that contain prose receive a normal chapter so their scenes remain accessible.
+
+A scene without beat comments opens in Page mode and also has a single beat titled **Scene Content**. Archive, Trash and Template roots are skipped; only the first Novel root is imported.
+
+### Moving Between kindling and novelWriter
+
+To take a kindling novel into novelWriter, choose **Export → novelWriter** and select an empty destination folder. Exported projects require **novelWriter 26.2 or newer**. Beat comments and reference notes are included by default; archived chapters and scenes are excluded. Screenplays cannot be exported to this format.
+
+Keep **Include beat comments** enabled to preserve beat boundaries for later sync. Page-mode scenes export as whole-scene prose because they have no stored beat boundaries. Exporting does not change the project's existing sync connection. Import the exported folder to create a kindling project linked to that novelWriter source.
+
+### Reviewing Changes with Sync
+
+After editing the source project in novelWriter, open the linked kindling project and choose **Sync**. Review the full current and incoming prose, select the changes you want, then choose **Apply Sync**. Prose changes are unselected by default, and locked chapters and scenes are skipped.
+
+![The Sync from Source dialog listing new items beside a prose diff, with each change unselected until you choose it](/docs/sync-preview.png)
+
+- With beat comments, Beat-mode prose can be reviewed and accepted for individual beats.
+- Without beat comments, or in Page mode, prose is reviewed as one scene-level change.
+- Accepting a whole-scene replacement in Beat mode keeps the planning beats, puts the incoming text in the first beat and clears prose from the remaining beats. The editor mode stays the same.
+- Declining a change leaves your local prose untouched. Sync reads changes into kindling; export to a new empty folder to take kindling changes back to novelWriter.
+
+Beats created or split locally keep their own prose and are not assigned to incoming beat comments during Sync.
+
+Sync covers chapters, scenes, beats and prose. Changes to notes, reference links and project metadata are not synced. Keep beat comments in their original order when possible: inserting a beat between existing comments can change how subsequent beats are matched, so review those changes carefully.
+
+### Limitations
+
+Underline and kindling-only planning data are not included in export. novelWriter shortcodes, footnotes, alignment and indent codes, ignored text and per-item importance are not preserved. H4 sections are flattened into scene prose; POV, focus, mention and story references are not restored as scene links.
 
 ---
 

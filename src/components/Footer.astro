@@ -1,129 +1,156 @@
 ---
+/*
+ * The Press footer: `.pw-footer` with its top/bottom rows. Routes, legal links
+ * and external destinations are unchanged; only the styling authority moved.
+ * The italic Newsreader tagline and the wordmark signature are the two site
+ * additions, and both are composed from shared tokens.
+ */
+import wordmark from '../vendor/press/assets/svg/kindling-wordmark.svg?raw';
+
+const viewBox = wordmark.match(/viewBox="0 0 ([\d.]+) ([\d.]+)"/);
+const wordmarkWidth = Number(viewBox?.[1] ?? 6445);
+const wordmarkHeight = Number(viewBox?.[2] ?? 1972);
+
+/*
+ * Four columns, not three. Every footer link is a standalone control at the
+ * 44px target, so a ten-item column is 440px tall on its own — which is what
+ * left the signature stranded beside a wall of links. Splitting the product
+ * links from the reading ones puts the tallest column at six items and the
+ * footer at a little over half its height, without shortening a single target.
+ * Routes are unchanged; only their grouping is.
+ */
+const columns = [
+  {
+    heading: 'Product',
+    links: [
+      { href: '/features/', label: 'Features' },
+      { href: '/download/', label: 'Download' },
+      { href: '/compare/', label: 'Compare' },
+      { href: '/open-source/', label: 'Open source' },
+      { href: '/feedback/', label: 'Send feedback' },
+    ],
+  },
+  {
+    heading: 'Read',
+    links: [
+      { href: '/docs/getting-started/', label: 'Docs' },
+      { href: '/blog/', label: 'Blog' },
+      { href: '/faq/', label: 'FAQ' },
+      { href: '/story-outlining-software/', label: 'Story outlining' },
+      { href: '/plottr-vs-scrivener/', label: 'Plottr vs Scrivener' },
+    ],
+  },
+  {
+    heading: 'Community',
+    links: [
+      { href: 'https://github.com/smith-and-web/kindling', label: 'GitHub', external: true },
+      { href: 'https://discord.gg/g7bkj4kY8w', label: 'Discord', external: true },
+      { href: 'https://twitter.com/KindlingWriter', label: 'Twitter/X', external: true },
+      { href: 'https://bsky.app/profile/kindlingwriter.com', label: 'Bluesky', external: true },
+      { href: 'https://www.instagram.com/kindling.writer/', label: 'Instagram', external: true },
+      { href: 'https://indiesocial.social/@kindling', label: 'Mastodon', external: true, me: true },
+    ],
+  },
+  {
+    heading: 'Legal',
+    links: [
+      { href: 'https://opensource.org/licenses/MIT', label: 'MIT License', external: true },
+      { href: '/privacy/', label: 'Privacy policy' },
+      { href: '/terms/', label: 'Terms of service' },
+      { href: '/code-signing-policy/', label: 'Code signing policy' },
+    ],
+  },
+];
 ---
 
-<footer>
-  <div class="footer-grid">
-    <div class="footer-column">
-      <h4>Links</h4>
-      <ul>
-        <li><a href="/features/">Features</a></li>
-        <li><a href="/download/">Download</a></li>
-        <li><a href="/compare/">Compare</a></li>
-        <li><a href="/story-outlining-software/">Story Outlining</a></li>
-        <li><a href="/plottr-vs-scrivener/">Plottr vs Scrivener</a></li>
-        <li><a href="/open-source/">Open Source</a></li>
-        <li><a href="/blog/">Blog</a></li>
-        <li><a href="/faq/">FAQ</a></li>
-        <li><a href="/docs/getting-started/">Docs</a></li>
-      </ul>
+<footer class="pw-footer">
+  <div class="pw-frame">
+    <div class="pw-footer-top">
+      <div class="footer-signature">
+        <a href="/" class="pw-brand" aria-label="kindling — home">
+          <img src="/brand/kindling-wordmark.svg" width={wordmarkWidth} height={wordmarkHeight} alt="kindling">
+        </a>
+        <p class="footer-tagline">Your words, your data, forever.</p>
+      </div>
+      <div class="footer-columns">
+        {columns.map(column => (
+          <div>
+            <p class="pw-label">{column.heading}</p>
+            <ul class="pw-footer-links footer-column-links">
+              {column.links.map(link => (
+                <li>
+                  <a
+                    href={link.href}
+                    rel={link.me ? 'me' : link.external ? 'noopener' : undefined}
+                    target={link.external ? '_blank' : undefined}
+                  >{link.label}</a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
     </div>
-    <div class="footer-column">
-      <h4>Community</h4>
-      <ul>
-        <li><a href="https://github.com/smith-and-web/kindling" target="_blank" rel="noopener">GitHub</a></li>
-        <li><a href="https://discord.gg/g7bkj4kY8w" target="_blank" rel="noopener">Discord</a></li>
-        <li><a href="https://twitter.com/KindlingWriter" target="_blank" rel="noopener">Twitter/X</a></li>
-        <li><a href="https://bsky.app/profile/kindlingwriter.com" target="_blank" rel="noopener">Bluesky</a></li>
-        <li><a href="https://www.instagram.com/kindling.writer/" target="_blank" rel="noopener">Instagram</a></li>
-        <li><a rel="me" href="https://indiesocial.social/@kindling" target="_blank">Mastodon</a></li>
-      </ul>
+    <div class="pw-footer-bottom">
+      <!-- One quiet line. The tagline moved up beside the signature, where it
+           fills the column the links left empty; the legal routes are in their
+           own column above and are not repeated here. -->
+      <p>&copy; 2026 kindling. Free and open source.</p>
     </div>
-    <div class="footer-column">
-      <h4>Legal</h4>
-      <ul>
-        <li><a href="https://opensource.org/licenses/MIT" target="_blank" rel="noopener">MIT License</a></li>
-        <li><a href="/privacy/">Privacy Policy</a></li>
-        <li><a href="/terms/">Terms of Service</a></li>
-        <li><a href="/code-signing-policy/">Code Signing Policy</a></li>
-      </ul>
-    </div>
-  </div>
-  <div class="footer-bottom">
-    <p>&copy; 2026 Kindling. Free and open source.</p>
-    <p class="footer-tagline">Your words, your data, forever.</p>
   </div>
 </footer>
 
 <style>
-  footer {
-    padding: 40px 24px;
-    text-align: center;
-    border-top: 1px solid var(--color-border);
+  /* Content arrangement only. The surface, hairlines, link targets and type
+     roles are `.pw-footer` / `.pw-footer-links` / `.pw-label`. */
+  .footer-signature {
+    flex: 0 1 auto;
+    max-width: 16rem;
   }
 
-  footer a,
-  footer a:visited {
-    color: var(--color-text-muted);
-    text-decoration: none;
-    transition: color 0.2s;
+  .footer-signature .pw-brand {
+    width: 120px;
   }
 
-  footer a:hover {
-    color: var(--color-accent-text);
-    text-decoration: none;
-  }
-
-  .footer-grid {
+  .footer-columns {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-    gap: 40px;
-    max-width: 900px;
-    margin: 0 auto 32px;
-    text-align: left;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--space-m) var(--space-l);
+    flex: 1 1 32rem;
+    min-width: 0;
   }
 
-  .footer-column h4 {
-    font-family: var(--font-ui);
-    font-size: var(--text-eyebrow);
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: var(--tracking-eyebrow);
-    color: var(--color-text-muted);
-    margin-bottom: 12px;
-  }
-
-  .footer-column ul {
+  /* `.pw-footer-links` is a row with a 16px gap; these are stacked columns
+     under a label, where that gap sits on top of each link's own 44px target
+     and spaces the rows 60px apart.
+     `.footer-columns ul.footer-column-links` (0,2,1) rather than a bare class:
+     Astro scopes with `:where(.astro-xxxx)`, which adds no specificity, so
+     `.footer-column-links` alone only ties with `.press-web .pw-footer-links`
+     and loses on source order. See CLAUDE.md. */
+  .footer-columns ul.footer-column-links {
+    flex-direction: column;
+    align-items: start;
+    gap: 0;
     list-style: none;
-  }
-
-  .footer-column li {
-    margin-bottom: 8px;
-  }
-
-  .footer-column a {
-    font-size: var(--text-ui);
-  }
-
-  /* 44px minimum touch target on phones. */
-  @media (max-width: 600px) {
-    .footer-column li {
-      margin-bottom: 0;
-    }
-
-    .footer-column a {
-      display: inline-flex;
-      align-items: center;
-      min-height: 44px;
-    }
-  }
-
-  .footer-bottom {
-    padding-top: 24px;
-    border-top: 1px solid var(--color-border);
-    text-align: center;
-  }
-
-  .footer-bottom p {
-    font-size: var(--text-small);
-    color: var(--color-text-muted);
-    margin-bottom: 8px;
+    margin-top: var(--space-3xs);
   }
 
   .footer-tagline {
+    margin-top: var(--space-2xs);
     font-family: var(--font-body);
     font-style: italic;
-    font-size: var(--text-h3);
+    font-size: var(--text-body-lg);
+    line-height: var(--leading);
     color: var(--color-text);
-    margin-top: 4px;
+  }
+
+  /* Two columns all the way down. One column stacks twenty links into a
+     1260px scroll on a phone; two hold it near 600px and cost only a wrapped
+     label or two, which the 44px target absorbs without clipping. */
+  @media (max-width: 900px) {
+    .footer-columns {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-m) var(--space-s);
+    }
   }
 </style>

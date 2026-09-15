@@ -1,13 +1,13 @@
 ---
 title: Architecture
-description: An overview of the Kindling codebase for contributors — how the pieces fit together and where to find things.
+description: An overview of the kindling codebase for contributors — how the pieces fit together and where to find things.
 ---
 
-This document provides an overview of the Kindling codebase for contributors.
+This document provides an overview of the kindling codebase for contributors.
 
 ## High-Level Overview
 
-Kindling is a desktop application built with [Tauri](https://tauri.app/), which combines a Rust backend with a web-based frontend. The frontend uses Svelte 5 and communicates with the Rust backend via Tauri's IPC (Inter-Process Communication) system.
+kindling is a desktop application built with [Tauri](https://tauri.app/), which combines a Rust backend with a web-based frontend. The frontend uses Svelte 5 and communicates with the Rust backend via Tauri's IPC (Inter-Process Communication) system.
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
@@ -82,7 +82,7 @@ kindling/
 
 ### State Management (`src/lib/stores/`)
 
-Kindling uses Svelte 5's runes-based reactivity with class-based stores:
+kindling uses Svelte 5's runes-based reactivity with class-based stores:
 
 **`project.svelte.ts`** — Project data state:
 

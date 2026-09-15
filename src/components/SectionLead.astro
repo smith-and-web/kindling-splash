@@ -1,0 +1,41 @@
+---
+/*
+ * A section opener in the Press aligned-heading device: the heading (and its
+ * stand-first) held to the wide track, with an optional running label in the
+ * narrow one — `02 / From plan to page`.
+ *
+ * It exists so the composition cannot be got wrong. `.pw-section-head` is a
+ * two-track grid; written by hand without the wrapping element the stand-first
+ * escapes the heading block, and before Press 0.10.0 a head written without a
+ * label put its `<h2>` in the narrow track, where a three-word title wrapped to
+ * three lines. Both are invisible in review and obvious on the page.
+ *
+ * The label is optional furniture; the alignment is the device. Give a section
+ * a label when the page has a running rhythm to express, not to restate the
+ * heading underneath it.
+ */
+interface Props {
+  /** Running section label, e.g. `03 / Close at hand`. Omit if there isn't one. */
+  label?: string;
+  /** Heading text. Omit and use the `title` slot for markup inside the heading. */
+  title?: string;
+  /** One paragraph under the heading, at reading measure. */
+  standfirst?: string;
+  /** Anchor target, when the section is linked to. */
+  id?: string;
+  class?: string;
+}
+
+const { label, title, standfirst, id, class: className } = Astro.props;
+---
+
+<div class:list={['pw-section-head', className]}>
+  {label && <p class="pw-label">{label}</p>}
+  <div>
+    <h2 class="pw-heading" id={id}>
+      {title ? title : <slot name="title" />}
+    </h2>
+    {standfirst && <p class="pw-prose">{standfirst}</p>}
+    <slot />
+  </div>
+</div>

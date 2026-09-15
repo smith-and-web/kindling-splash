@@ -1,4 +1,4 @@
-export const APP_VERSION = '1.2.0';
+export const APP_VERSION = '1.3.0';
 
 const BASE_URL = 'https://github.com/smith-and-web/kindling/releases/latest/download';
 
@@ -8,7 +8,7 @@ export const DOWNLOADS = {
     icon: 'apple',
     url: `${BASE_URL}/Kindling_${APP_VERSION}_universal.dmg`,
     size: '~10 MB',
-    note: 'Universal — Intel & Apple Silicon',
+    note: 'Intel & Apple Silicon',
     sysReq: 'macOS 12 (Monterey) or later',
     format: '.dmg',
   },

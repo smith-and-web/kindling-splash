@@ -10,26 +10,26 @@ const posts = allPosts
 const structuredData = {
   "@context": "https://schema.org",
   "@type": "Blog",
-  "name": "Kindling Blog",
-  "description": "News, updates, and writing tips from the Kindling team.",
+  "name": "kindling Blog",
+  "description": "News, updates, and writing tips from the kindling team.",
   "url": "https://kindlingwriter.com/blog/",
   "publisher": {
     "@type": "Organization",
-    "name": "Kindling",
+    "name": "kindling",
     "url": "https://kindlingwriter.com"
   }
 };
 ---
 
 <MarketingLayout
-  title="Blog — Kindling Writer"
-  description="News, updates, and writing tips from the Kindling team. Follow along as we build free open-source writing software for plotters and pantsers."
+  title="Blog — kindling Writer"
+  description="News, updates, and writing tips from the kindling team. Follow along as we build free open-source writing software for plotters and pantsers."
   structuredData={structuredData}
 >
   <section class="page-hero">
     <h1>Blog</h1>
     <p class="page-hero-subtext">
-      News, updates, and writing tips from the Kindling team.
+      News, updates, and writing tips from the kindling team.
     </p>
   </section>
 
@@ -38,6 +38,7 @@ const structuredData = {
       {posts.map((post) => {
         const date = new Date(post.data.publishedDate);
         const formatted = date.toLocaleDateString('en-US', {
+          timeZone: 'UTC',
           year: 'numeric',
           month: 'long',
           day: 'numeric',
@@ -63,10 +64,14 @@ const structuredData = {
 </MarketingLayout>
 
 <style>
+  /* The same frame and gutter as `.page-hero` above it. This used to be
+     `--page-frame` with `--page-gutter`, which put the list 72px left of its
+     own heading — three different left edges on one page once the navbar's
+     frame is counted. */
   .blog-listing {
-    max-width: var(--page-frame);
+    max-width: var(--page-frame-editorial);
     margin: 0 auto;
-    padding: 0 var(--page-gutter) var(--space-3xl);
+    padding: 0 24px var(--space-3xl);
   }
 
   .posts-grid {
@@ -80,6 +85,16 @@ const structuredData = {
     color: inherit;
     border-top: 1px solid var(--color-border);
     transition: background-color var(--transition);
+    /* The hover surface bleeds past the text on both sides instead of stopping
+       flush against it. Pulling the row out by the same amount it is padded
+       keeps every row's text on the page's left edge, so the highlight reads as
+       a band behind the row rather than a box drawn around the words. It stays
+       inside the 24px gutter at every width. */
+    margin-inline: calc(var(--space-s) * -1);
+  }
+
+  .post-card:last-child {
+    border-bottom: 1px solid var(--color-border);
   }
 
   .post-card:hover {
@@ -87,7 +102,7 @@ const structuredData = {
   }
 
   .post-card-inner {
-    padding: var(--space-m) 0;
+    padding: var(--space-m) var(--space-s);
   }
 
   .post-meta {
@@ -144,7 +159,11 @@ const structuredData = {
 
   @media (max-width: 600px) {
     .post-card-inner {
-      padding: var(--space-s) 0;
+      padding: var(--space-s) var(--space-2xs);
+    }
+
+    .post-card {
+      margin-inline: calc(var(--space-2xs) * -1);
     }
   }
 </style>
