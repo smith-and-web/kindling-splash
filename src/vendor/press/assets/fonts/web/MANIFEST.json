@@ -1,0 +1,63 @@
+{
+  "generator": "scripts/build-web-fonts.mjs",
+  "encoder": "wawoff2@2.0.1",
+  "note": "Lossless container conversion of the canonical TTFs. No subsetting; axes, weights, italics and glyph coverage are unchanged.",
+  "stylesheet": "design-system/fonts-web.css",
+  "faces": [
+    {
+      "family": "Fraunces",
+      "style": "normal",
+      "weight": "100 900",
+      "source": "assets/fonts/Fraunces[SOFT,WONK,opsz,wght].ttf",
+      "sourceSha256": "0776a870a0856b296e11639505ac0cf9be5e7800bb1849dfa21a1bd182455fc0",
+      "sourceBytes": 384052,
+      "published": "assets/fonts/web/Fraunces-Variable.woff2",
+      "sha256": "da722bdda0bd373890add1433edef8596aa1c5fab39baaf15284ca52f6e3edbd",
+      "bytes": 205888
+    },
+    {
+      "family": "Newsreader",
+      "style": "normal",
+      "weight": "200 800",
+      "source": "assets/fonts/Newsreader[opsz,wght].ttf",
+      "sourceSha256": "8a08d13f8a6c0d51be379a60af84f945f65369a67e509ee3c3bdcc421254d7c1",
+      "sourceBytes": 451664,
+      "published": "assets/fonts/web/Newsreader-Variable.woff2",
+      "sha256": "d55bdae1b13430cbb23b9c1f76af762da5aa86993643fafa0f589c4043cc5809",
+      "bytes": 215060
+    },
+    {
+      "family": "Newsreader",
+      "style": "italic",
+      "weight": "200 800",
+      "source": "assets/fonts/Newsreader-Italic[opsz,wght].ttf",
+      "sourceSha256": "796668611f80b64d5adf182fde3b6f29ed83b4e7cbec7b96937e84ac01364792",
+      "sourceBytes": 495684,
+      "published": "assets/fonts/web/Newsreader-Variable-Italic.woff2",
+      "sha256": "0e23efb5db59cfe8eb3e8bc36580d45e1a5a18ee93306d0318fee022eb050ab6",
+      "bytes": 239268
+    },
+    {
+      "family": "Inter",
+      "style": "normal",
+      "weight": "100 900",
+      "source": "assets/fonts/Inter[opsz,wght].ttf",
+      "sourceSha256": "29160a80ff49ddcab2c97711247e08b1fab27a484a329ce8b813d820dc559031",
+      "sourceBytes": 876576,
+      "published": "assets/fonts/web/Inter-Variable.woff2",
+      "sha256": "42426531a64068352acf2295ca6efc4dca331a60cbecbae56101f623f2e6ed31",
+      "bytes": 350348
+    },
+    {
+      "family": "Inter",
+      "style": "italic",
+      "weight": "100 900",
+      "source": "assets/fonts/Inter-Italic[opsz,wght].ttf",
+      "sourceSha256": "acd98e64795781b2058f07b18475e0ecee2a0fe2b42a49e2f9e37d0d6bf66ce6",
+      "sourceBytes": 906596,
+      "published": "assets/fonts/web/Inter-Variable-Italic.woff2",
+      "sha256": "c7c5944376e0d1cf070d5bc17d0eac8f47f05b42a3d2fb94700a5cfb758b424e",
+      "bytes": 386108
+    }
+  ]
+}

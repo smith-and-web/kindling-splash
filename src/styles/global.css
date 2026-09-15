@@ -1,69 +1,44 @@
-/* ===== Press design system ===== */
-/* tokens.css + components.css are read-only mirrors of ../brand-assets/design-system.
-   Refresh with `npm run sync:design-system`; never hand-edit them here.
-   tokens first (defines the custom properties), then the components that read them. */
-@import './tokens.css';
-@import './components.css';
+/* ===== Press =====
+   Every rule below this block lives in ../vendor/press/, a read-only snapshot
+   of @kindling/design-system. Refresh it with `npm run sync:design-system`;
+   `npm run check:design-system` fails if a copy was hand-edited. The snapshot's
+   identity, source mappings and intentional exclusions are recorded in
+   src/vendor/press/MANIFEST.json. The design contract is press/DESIGN.md.
 
-/* ===== Font Faces (self-hosted, no CDN) ===== */
-/* Fraunces + Newsreader are variable (opsz + wght axes); font-optical-sizing:auto
-   lets them adjust to rendered size. Vendored via `npm run sync:fonts`. Inter stays. */
-@font-face {
-  font-family: 'Fraunces';
-  src: url('/fonts/Fraunces-Variable-latin.woff2') format('woff2');
-  font-weight: 300 600;
-  font-style: normal;
-  font-display: swap;
-  font-optical-sizing: auto;
-}
+   Order matters, and each step depends on the one above it:
+     fonts-web    the five canonical faces as WOFF2. This is the ONLY place the
+                  families Fraunces, Newsreader and Inter are declared — the
+                  site used to redeclare them here against narrower Fontsource
+                  subsets, which meant two authorities for one family name.
+     tokens       defines the custom properties everything else reads.
+     components   the editorial foundation: page reset, paper grain, hero,
+                  content sections, feature sequences, navbar, download cards.
+     application  every operational control on every surface — .ka-button,
+                  .ka-field, .ka-dialog, .ka-notice. Since Press 0.10.0 this is
+                  the single implementation of those roles; the website layer
+                  no longer carries a competing one.
+     website      the opt-in .press-web marketing layer. Inert until an element
+                  opts in. It rebinds the semantic --color-* names to the light
+                  palette locally and sets Inter as website body copy through
+                  --pw-body, so it must load last. */
+@import '../vendor/press/design-system/fonts-web.css';
+@import '../vendor/press/design-system/tokens.css';
+@import '../vendor/press/design-system/components.css';
+@import '../vendor/press/design-system/application.css';
+@import '../vendor/press/design-system/website.css';
 
-@font-face {
-  font-family: 'Newsreader';
-  src: url('/fonts/Newsreader-Variable-latin.woff2') format('woff2');
-  font-weight: 300 600;
-  font-style: normal;
-  font-display: swap;
-  font-optical-sizing: auto;
-}
-@font-face {
-  font-family: 'Newsreader';
-  src: url('/fonts/Newsreader-Variable-Italic-latin.woff2') format('woff2');
-  font-weight: 300 600;
-  font-style: italic;
-  font-display: swap;
-  font-optical-sizing: auto;
-}
+/* ===== Site adapters =====
+   Routing, content arrangement and page chrome only. Nothing here may redefine
+   a palette value, a font family or a control's appearance — if a shared rule
+   is wrong, fix it in ../press and re-sync. No raw hex, no raw px font sizes. */
 
-@font-face {
-  font-family: 'Inter';
-  src: url('/fonts/Inter-Regular-latin.woff2') format('woff2');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Inter';
-  src: url('/fonts/Inter-Medium-latin.woff2') format('woff2');
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Inter';
-  src: url('/fonts/Inter-SemiBold-latin.woff2') format('woff2');
-  font-weight: 600;
-  font-style: normal;
-  font-display: swap;
-}
-
-/* ===== Site-only rules (not part of the shared component system) ===== */
-
-/* Skip link — offscreen until keyboard-focused. */
+/* Skip link — offscreen until keyboard-focused. Site chrome: Press has no
+   opinion on a route-level skip target. */
 .skip-link {
   position: absolute;
   left: var(--space-s);
   top: -6rem;
-  z-index: 1100;
+  z-index: var(--z-toast);
   padding: var(--space-2xs) var(--space-s);
   background: var(--color-surface);
   border: 1px solid var(--color-border);
@@ -81,9 +56,19 @@
   box-shadow: var(--focus-ring);
 }
 
+/* A running section label above a full-width heading — `03 / Close at hand`.
+   On the composed pages a lead's label sits in `.pw-section-head`'s narrow
+   track; on a reading page the heading stays full width and the label sits
+   directly above it, so it needs its own spacing. `.pw-label` itself carries
+   no margin, by design: it is used in both positions. */
+.content-section > .pw-label,
+.features-seq-section > .pw-label {
+  margin-bottom: var(--space-2xs);
+}
+
 /* Layout helper */
 .page-padding {
-  padding: 120px 24px 80px;
+  padding: var(--space-4xl) var(--space-m) var(--space-3xl);
 }
 
 /* Default link colour — accent-text clears AA (terracotta is never body text) */
@@ -91,39 +76,40 @@ a {
   color: var(--color-accent-text);
 }
 
-/* Buttons keep their own colours inside content sections, where `.content-section a`
-   would otherwise recolour their text. */
-.content-section a.download-btn,
-.content-section a.download-btn:visited {
+/* An action keeps its own foreground inside a content section, where
+   `.content-section a` (0,1,1) would otherwise recolour its label. This is a
+   cascade repair, not a restyle: the value each rule restores is the one the
+   control's own class already set. */
+.content-section a:is(.pw-button, .ka-button),
+.content-section a:is(.pw-button, .ka-button):visited,
+.cta-section a:is(.pw-button, .ka-button),
+.cta-section a:is(.pw-button, .ka-button):visited {
   color: var(--color-on-accent);
   text-decoration: none;
 }
 
-.content-section a.download-btn.secondary,
-.content-section a.download-btn.secondary:visited {
+.content-section a:is(.pw-button--secondary, .pw-button--ghost, .ka-button--secondary, .ka-button--ghost),
+.content-section a:is(.pw-button--secondary, .pw-button--ghost, .ka-button--secondary, .ka-button--ghost):visited,
+.cta-section a:is(.pw-button--secondary, .pw-button--ghost, .ka-button--secondary, .ka-button--ghost),
+.cta-section a:is(.pw-button--secondary, .pw-button--ghost, .ka-button--secondary, .ka-button--ghost):visited {
   color: var(--color-text);
   text-decoration: none;
 }
 
-.content-section a.download-btn:hover,
-.content-section a.download-btn.secondary:hover {
+.content-section a:is(.pw-button, .ka-button):hover,
+.cta-section a:is(.pw-button, .ka-button):hover {
   text-decoration: none;
 }
 
 /* CTA section links */
-.cta-section a:not(.download-btn),
-.cta-section a:not(.download-btn):visited {
+.cta-section a:not(.pw-button, .ka-button),
+.cta-section a:not(.pw-button, .ka-button):visited {
   color: var(--color-accent-text);
   text-decoration: none;
 }
 
-.cta-section a:not(.download-btn):hover {
+.cta-section a:not(.pw-button, .ka-button):hover {
   text-decoration: underline;
-}
-
-.cta-section a.download-btn,
-.cta-section a.download-btn:visited {
-  color: var(--color-on-accent);
 }
 
 /* ===== Download Note ===== */
@@ -144,7 +130,7 @@ a {
 
 /* ===== Uninstall ===== */
 .uninstall-platform {
-  margin-bottom: 28px;
+  margin-bottom: var(--space-m);
 }
 
 .uninstall-platform:last-child {
@@ -155,7 +141,7 @@ a {
   font-family: var(--font-display);
   font-size: var(--text-base);
   font-weight: 600;
-  margin-bottom: 12px;
+  margin-bottom: var(--space-xs);
   color: var(--color-text);
 }
 
@@ -164,20 +150,20 @@ a {
   font-size: var(--text-ui);
   color: var(--color-text-muted);
   line-height: var(--leading-relaxed);
-  margin-bottom: 12px;
+  margin-bottom: var(--space-xs);
 }
 
 .uninstall-platform ul {
-  padding-left: 24px;
+  padding-left: var(--space-m);
 }
 
 .uninstall-platform ol {
-  padding-left: 24px;
-  margin: 0 0 12px;
+  padding-left: var(--space-m);
+  margin: 0 0 var(--space-xs);
 }
 
 .uninstall-platform ol li {
-  margin-bottom: 8px;
+  margin-bottom: var(--space-2xs);
 }
 
 .uninstall-platform code {
@@ -193,7 +179,7 @@ a {
   font-size: var(--text-small);
   color: var(--color-text-muted);
   max-width: var(--measure);
-  margin: 20px 0 0;
+  margin: var(--space-s) 0 0;
   line-height: var(--leading);
 }
 
@@ -205,16 +191,4 @@ a {
 
 .download-legal-links a:hover {
   text-decoration: underline;
-}
-
-/* ===== Visual Placeholder ===== */
-.visual-placeholder {
-  background: var(--color-surface);
-  border: 1px dashed var(--color-border);
-  border-radius: var(--radius-xl);
-  padding: 60px 24px;
-  text-align: center;
-  color: var(--color-text-muted);
-  font-size: var(--text-small);
-  margin: 24px 0;
 }

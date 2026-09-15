@@ -8,7 +8,10 @@
     "build": "astro build",
     "preview": "astro preview",
     "sync:design-system": "bash scripts/sync-design-system.sh",
-    "sync:fonts": "bash scripts/vendor-fonts.sh"
+    "shots": "bash scripts/capture-hidpi.sh",
+    "test:launch": "npm run check:design-system && npm run build && node scripts/check-launch.mjs",
+    "check:design-system": "node scripts/check-design-system.mjs",
+    "test:design": "npm run build && node scripts/check-design.mjs"
   },
   "repository": {
     "type": "git",
@@ -26,13 +29,11 @@
     "@astrojs/sitemap": "^3.7.2",
     "@astrojs/starlight": "^0.38.2",
     "@astrojs/svelte": "^8.0.4",
-    "@fontsource/inter": "^5.2.8",
     "astro": "^6.1.2",
     "sharp": "^0.34.5",
     "svelte": "^5.55.1"
   },
   "devDependencies": {
-    "@fontsource-variable/fraunces": "^5.2.9",
-    "@fontsource-variable/newsreader": "^5.2.10"
+    "playwright": "^1.63.0"
   }
 }
