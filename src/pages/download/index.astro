@@ -1,487 +1,669 @@
 ---
-import MarketingLayout from '../../layouts/MarketingLayout.astro';
-import { APP_VERSION, DOWNLOADS } from '../../data/downloads';
+import MarketingLayout from "../../layouts/MarketingLayout.astro";
+import { APP_VERSION, DOWNLOADS } from "../../data/downloads";
 
 const structuredData = {
-  "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
-  "name": "Kindling Writer",
-  "description": "Free open-source fiction writing software that keeps your outline visible while you draft. Import from Plottr, Scrivener, yWriter, or Obsidian.",
-  "url": "https://kindlingwriter.com/",
-  "applicationCategory": "DesktopApplication",
-  "operatingSystem": "Windows, macOS, Linux",
-  "offers": {
-    "@type": "Offer",
-    "price": "0",
-    "priceCurrency": "USD"
-  },
-  "downloadUrl": "https://kindlingwriter.com/download/",
-  "screenshot": "https://kindlingwriter.com/og-image.png",
-  "softwareVersion": APP_VERSION,
-  "license": "https://opensource.org/licenses/MIT",
-  "author": {
-    "@type": "Organization",
-    "name": "Kindling",
-    "url": "https://kindlingwriter.com"
-  }
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    name: "kindling Writer",
+    description:
+        "Free open-source fiction writing software that keeps your outline visible while you draft. Import from Plottr, Scrivener, yWriter, or Obsidian.",
+    url: "https://kindlingwriter.com/",
+    applicationCategory: "DesktopApplication",
+    operatingSystem: "Windows, macOS, Linux",
+    offers: {
+        "@type": "Offer",
+        price: "0",
+        priceCurrency: "USD",
+    },
+    downloadUrl: "https://kindlingwriter.com/download/",
+    screenshot: "https://kindlingwriter.com/og-image.png",
+    softwareVersion: APP_VERSION,
+    license: "https://opensource.org/licenses/MIT",
+    author: {
+        "@type": "Organization",
+        name: "kindling",
+        url: "https://kindlingwriter.com",
+    },
 };
 
 const faqStructuredData = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "Is Kindling available on mobile?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Kindling is currently a desktop app for macOS, Windows, and Linux. A mobile version is not available yet."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Is Kindling free?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes. Kindling is completely free and open source under the MIT license. No account, subscription, or payment required."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What are the system requirements?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "macOS 12 or later, Windows 10 or later, or x86_64 Linux. Approximately 50 MB disk space. No internet connection required after download."
-      }
-    }
-  ]
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: [
+        {
+            "@type": "Question",
+            name: "Is kindling available on mobile?",
+            acceptedAnswer: {
+                "@type": "Answer",
+                text: "kindling is currently a desktop app for macOS, Windows, and Linux. A mobile version is not available yet.",
+            },
+        },
+        {
+            "@type": "Question",
+            name: "Is kindling free?",
+            acceptedAnswer: {
+                "@type": "Answer",
+                text: "Yes. kindling is completely free and open source under the MIT license. No account, subscription, or payment required.",
+            },
+        },
+        {
+            "@type": "Question",
+            name: "What are the system requirements?",
+            acceptedAnswer: {
+                "@type": "Answer",
+                text: "macOS 12 or later, Windows 10 or later, or x86_64 Linux. Approximately 50 MB disk space. No internet connection required after download.",
+            },
+        },
+    ],
 };
 
-const platforms = Object.entries(DOWNLOADS) as [string, typeof DOWNLOADS[keyof typeof DOWNLOADS]][];
+/*
+ * Every platform is rendered server-side — its segment, its description, its
+ * installer anchor and its checksum command — and CSS reveals the set matching
+ * the checked radio. That is what makes the choice work without JavaScript:
+ * the visitor picks Linux, the Linux anchor appears, and it is a real link to a
+ * real binary. Swapping one anchor's href in script would have left a no-JS
+ * visitor unable to reach anything but macOS.
+ *
+ * This is also why Press's `data-pw-platform` handler is deliberately not
+ * wired. It is documented as a local specimen that rewrites a single result
+ * element, and CLAUDE.md records the decision not to ship it. The
+ * `.pw-platforms` pattern it belongs to — fieldset, legend, explicit choice,
+ * live result, no silent detection — is what we are keeping.
+ */
+const platforms = Object.entries(DOWNLOADS) as [
+    string,
+    (typeof DOWNLOADS)[keyof typeof DOWNLOADS],
+][];
+
+const DESCRIPTIONS: Record<string, string> = {
+    mac: "Intel & Apple Silicon, ~10 MB. Requires macOS 12 (Monterey) or later.",
+    windows: "64-bit installer, ~10 MB. Requires Windows 10 or later.",
+    linux: "x86_64 AppImage, ~10 MB. Mark it executable and run it.",
+};
+
+const FILENAMES: Record<string, string> = {
+    mac: `Kindling_${APP_VERSION}_universal.dmg`,
+    windows: `Kindling_${APP_VERSION}_x64-setup.exe`,
+    linux: `Kindling_${APP_VERSION}_amd64.AppImage`,
+};
+
+const GLYPHS: Record<string, string> = {
+    mac: "M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z",
+    windows:
+        "M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.9-1.801",
+    linux: "M12.504 0c-.155 0-.315.008-.48.021-4.226.333-3.105 4.807-3.17 6.298-.076 1.092-.3 1.953-1.05 3.02-.885 1.051-2.127 2.75-2.716 4.521-.278.832-.41 1.684-.287 2.489a.424.424 0 00-.11.135c-.26.268-.45.6-.663.839-.199.199-.485.267-.797.4-.313.136-.658.269-.864.68-.09.189-.136.394-.132.602 0 .199.027.4.055.536.058.399.116.728.04.97-.249.68-.28 1.145-.106 1.484.174.334.535.47.94.601.81.2 1.91.135 2.774.6.926.466 1.866.67 2.616.47.526-.116.97-.464 1.208-.946.587-.003 1.23-.269 2.26-.334.699-.058 1.574.267 2.577.2.025.134.063.198.114.333l.003.003c.391.778 1.113 1.132 1.884 1.071.771-.06 1.592-.536 2.257-1.306.631-.765 1.683-1.084 2.378-1.503.348-.199.629-.469.649-.853.023-.4-.2-.811-.714-1.376v-.097l-.003-.003c-.17-.2-.25-.535-.338-.926-.085-.401-.182-.786-.492-1.046h-.003c-.059-.054-.123-.067-.188-.135a.357.357 0 00-.19-.064c.431-1.278.264-2.55-.173-3.694-.533-1.41-1.465-2.638-2.175-3.483-.796-1.005-1.576-1.957-1.56-3.368.026-2.152.236-6.133-3.544-6.139z",
+};
 ---
 
 <MarketingLayout
-  title="Download Kindling — Free Fiction Writing App for Mac, Windows & Linux"
-  description={`Download the Kindling app for macOS, Windows, or Linux. Free, open-source fiction writing software — no account required, works offline. Import outlines from Plottr, Scrivener, yWriter, or Obsidian.`}
-  downloadContext="download_page"
-  structuredData={structuredData}
+    title="Download kindling — Free Fiction Writing App for Mac, Windows & Linux"
+    description={`Download the kindling app for macOS, Windows, or Linux. Free, open-source fiction writing software — no account required, works offline. Import outlines from Plottr, Scrivener, yWriter, or Obsidian.`}
+    downloadContext="download_page"
+    structuredData={structuredData}
 >
+    <script
+        type="application/ld+json"
+        set:html={JSON.stringify(faqStructuredData)}
+    ></script>
 
-  <script type="application/ld+json" set:html={JSON.stringify(faqStructuredData)} />
+    <!-- ===== 01 · Hero. One primary action; the choice drives it. =====
+         The right column holds the choice and the action and nothing else.
+         Version, licence and the releases link sit on the left: they are page
+         metadata, not part of the decision, and carrying them opposite an
+         `align-items: end` grid is what pushes the h1 off the top. -->
+    <section class="pw-hero pw-frame">
+        <div class="pw-hero-grid">
+            <div>
+                <h1 class="pw-hero-title">Download <em>kindling</em></h1>
+                <p class="pw-prose hero-lede">
+                    The outline stays beside the draft. Free, open source, and
+                    it runs on your own machine — no account, no sync, nothing
+                    to cancel.
+                </p>
+                <div class="pw-row hero-meta">
+                    <span class="pw-version">Version {APP_VERSION}</span>
+                    <span class="pw-note">
+                        MIT licensed ·
+                        <a
+                            href="https://github.com/smith-and-web/kindling/releases"
+                            target="_blank"
+                            rel="noopener"
+                        >All releases and checksums</a>
+                    </span>
+                </div>
+            </div>
 
-  <!-- ===== Hero ===== -->
-  <section class="page-hero">
-    <h1>Download Kindling</h1>
-    <span class="version-badge">v{APP_VERSION}</span>
-    <p class="page-hero-subtext">The free fiction writing app for plotters and pantsers. Open source. No account required.</p>
+            <div class="pw-stack">
+                <fieldset class="pw-platforms" data-platform-picker>
+                    <legend>Choose your platform</legend>
+                    <!-- `.ka-segment` is the application's own pick-one-of-N:
+                         the same control a writer meets on the view toggle,
+                         because it is the same decision. -->
+                    <div class="ka-segment-track">
+                        {platforms.map(([key, platform]) => (
+                            <label class="ka-segment">
+                                <input
+                                    type="radio"
+                                    name="platform"
+                                    id={`platform-${key}`}
+                                    value={key}
+                                    checked={key === "mac"}
+                                />
+                                <span>{platform.label}</span>
+                            </label>
+                        ))}
+                    </div>
 
-    <!-- Mobile state — revealed by script when the visitor can't run a desktop
-         binary. Server-rendered so it needs no hydration, hidden by default so
-         desktop visitors never see a flash of it. -->
-    <div class="mobile-notice" data-mobile-notice hidden>
-      <h2>Kindling is a desktop app</h2>
-      <p>It runs on macOS, Windows and Linux — there's no mobile version yet. Send yourself the link and pick it up on your computer.</p>
-      <div class="mobile-notice-actions">
-        <button type="button" class="download-btn" data-copy-link>Copy download link</button>
-        <a
-          class="download-btn secondary"
-          href="mailto:?subject=Kindling%20Writer&body=Download%20Kindling%20on%20your%20computer%3A%20https%3A%2F%2Fkindlingwriter.com%2Fdownload%2F"
-        >Email it to me</a>
-      </div>
-    </div>
+                    <div class="pw-platform-result">
+                        {platforms.map(([key]) => (
+                            <p class="pw-note platform-only" data-for={key}>
+                                {FILENAMES[key]} — {DESCRIPTIONS[key]}
+                            </p>
+                        ))}
 
-    <!-- Download Cards -->
-    <div class="download-cards" data-desktop-cards>
-      {platforms.map(([key, platform]) => (
-        <a
-          href={platform.url}
-          class="download-card-large"
-          data-platform={key}
-        >
-          <span class="recommended-badge">Recommended for your OS</span>
-          {key === 'mac' && (
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-              <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
-            </svg>
-          )}
-          {key === 'windows' && (
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-              <path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.9-1.801"/>
-            </svg>
-          )}
-          {key === 'linux' && (
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-              <path d="M12.504 0c-.155 0-.315.008-.48.021-4.226.333-3.105 4.807-3.17 6.298-.076 1.092-.3 1.953-1.05 3.02-.885 1.051-2.127 2.75-2.716 4.521-.278.832-.41 1.684-.287 2.489a.424.424 0 00-.11.135c-.26.268-.45.6-.663.839-.199.199-.485.267-.797.4-.313.136-.658.269-.864.68-.09.189-.136.394-.132.602 0 .199.027.4.055.536.058.399.116.728.04.97-.249.68-.28 1.145-.106 1.484.174.334.535.47.94.601.81.2 1.91.135 2.774.6.926.466 1.866.67 2.616.47.526-.116.97-.464 1.208-.946.587-.003 1.23-.269 2.26-.334.699-.058 1.574.267 2.577.2.025.134.063.198.114.333l.003.003c.391.778 1.113 1.132 1.884 1.071.771-.06 1.592-.536 2.257-1.306.631-.765 1.683-1.084 2.378-1.503.348-.199.629-.469.649-.853.023-.4-.2-.811-.714-1.376v-.097l-.003-.003c-.17-.2-.25-.535-.338-.926-.085-.401-.182-.786-.492-1.046h-.003c-.059-.054-.123-.067-.188-.135a.357.357 0 00-.19-.064c.431-1.278.264-2.55-.173-3.694-.533-1.41-1.465-2.638-2.175-3.483-.796-1.005-1.576-1.957-1.56-3.368.026-2.152.236-6.133-3.544-6.139zm.529 3.405h.013c.213 0 .396.062.584.198.19.135.33.332.438.533.105.259.158.459.166.724 0-.02.006-.04.006-.06v.105a.086.086 0 01-.004-.021l-.004-.024a1.807 1.807 0 01-.15.706.953.953 0 01-.213.335.71.71 0 00-.088-.042c-.104-.045-.198-.064-.284-.133a1.312 1.312 0 00-.22-.066c.05-.06.146-.133.183-.198.053-.128.082-.264.088-.402v-.02a1.21 1.21 0 00-.061-.4c-.045-.134-.101-.2-.183-.333-.084-.066-.167-.132-.267-.132h-.016c-.093 0-.176.03-.262.132a.8.8 0 00-.205.334 1.18 1.18 0 00-.09.4v.019c.002.089.008.179.02.267-.193-.067-.438-.135-.607-.202a1.635 1.635 0 01-.018-.2v-.02a1.772 1.772 0 01.15-.768c.082-.22.232-.406.43-.534a.985.985 0 01.594-.2z"/>
-            </svg>
-          )}
-          <span class="label">{platform.label}</span>
-          <span class="subtext">{platform.note} — {platform.format}</span>
-          <span class="size-text">{platform.size}</span>
-        </a>
-      ))}
-    </div>
+                        {platforms.map(([key, platform]) => (
+                            <a
+                                class="pw-button platform-only"
+                                data-for={key}
+                                data-platform={key}
+                                href={platform.url}
+                            >
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24"
+                                    fill="currentColor"
+                                    aria-hidden="true"
+                                >
+                                    <path d={GLYPHS[key]} />
+                                </svg>
+                                <span>Download for {platform.label}</span>
+                            </a>
+                        ))}
+                    </div>
+                </fieldset>
 
-    <p class="download-note">All downloads from <a href="https://github.com/smith-and-web/kindling/releases" target="_blank" rel="noopener">GitHub Releases</a></p>
-  </section>
-
-  <!-- ===== Trust: What You're Downloading ===== -->
-  <section class="content-section">
-    <h2>What you're downloading</h2>
-    <div class="about-download-card">
-      <table class="about-download-table">
-        <tr><td>Software</td><td>Kindling v{APP_VERSION}</td></tr>
-        <tr><td>Type</td><td>Desktop application</td></tr>
-        <tr><td>Size</td><td>~10 MB</td></tr>
-        <tr><td>License</td><td>MIT License (free and open source)</td></tr>
-        <tr><td>Platforms</td><td>macOS 12+, Windows 10+, Linux</td></tr>
-        <tr><td>Source code</td><td><a href="https://github.com/smith-and-web/kindling" target="_blank" rel="noopener">View on GitHub</a></td></tr>
-      </table>
-    </div>
-
-    <!-- Trust Callouts -->
-    <div class="trust-callouts">
-      <div class="trust-callout">
-        <span class="trust-icon" aria-hidden="true">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        </span>
-        <div>
-          <strong>No background services</strong>
-          <p>Single desktop app. No browser extensions, toolbars, startup items, or registry changes.</p>
+                <!-- Mobile state. An operational notice, not a bespoke panel:
+                     the same .ka-notice and .ka-button a writer meets in the
+                     app. Revealed by script, so it never flashes on desktop. -->
+                <div class="ka-notice" data-mobile-notice hidden>
+                    <p>
+                        <strong>kindling is a desktop app.</strong> It runs on
+                        macOS, Windows and Linux — there is no mobile version
+                        yet. Send yourself the link and pick it up on your
+                        computer.
+                    </p>
+                    <div class="ka-row">
+                        <button
+                            type="button"
+                            class="ka-button"
+                            data-copy-link
+                        >
+                            Copy download link
+                        </button>
+                        <a
+                            class="ka-button ka-button--secondary"
+                            href="mailto:?subject=kindling%20Writer&body=Download%20kindling%20on%20your%20computer%3A%20https%3A%2F%2Fkindlingwriter.com%2Fdownload%2F"
+                        >Email it to me</a>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="trust-callout">
-        <span class="trust-icon" aria-hidden="true">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-        </span>
-        <div>
-          <strong>No data collected</strong>
-          <p>The Kindling app does not collect, transmit, or store personal data. All files stay on your computer.</p>
+    </section>
+
+    <!-- ===== Trust band ===== -->
+    <section class="pw-band">
+        <ul class="pw-trust pw-frame">
+            <li>Runs entirely offline</li>
+            <li>No account, no telemetry</li>
+            <li>Your files stay yours</li>
+            <li>MIT licensed source</li>
+        </ul>
+    </section>
+
+    <!-- ===== 02 · What you're downloading ===== -->
+    <section class="pw-frame page-section">
+        <div class="page-split">
+            <div>
+                <p class="pw-label">02 / What you get</p>
+                <h2 class="pw-heading">
+                    A single application, and nothing beside it
+                </h2>
+                <p class="pw-prose section-lede">
+                    kindling installs one desktop application. No browser
+                    extension, no background service, no launch agent, no
+                    startup item. Uninstalling it removes the application and
+                    leaves every project file where you put it.
+                </p>
+                <p class="pw-prose section-para">
+                    The desktop application collects nothing and transmits
+                    nothing. It has no analytics of any kind — that is a
+                    property of the software, not a setting you have to find.
+                </p>
+            </div>
+
+            <div class="ka-panel">
+                <header class="ka-between">
+                    <h4>Release</h4>
+                    <span class="pw-version">{APP_VERSION}</span>
+                </header>
+                <div class="ka-panel-body panel-stack">
+                    <dl class="ka-facts">
+                        <div><dt>Type</dt><dd>Desktop application</dd></div>
+                        <div><dt>Size</dt><dd>~10 MB</dd></div>
+                        <div><dt>Disk</dt><dd>~50 MB installed</dd></div>
+                        <div><dt>Licence</dt><dd>MIT</dd></div>
+                        <div>
+                            <dt>Source</dt>
+                            <dd>
+                                <a
+                                    href="https://github.com/smith-and-web/kindling"
+                                    target="_blank"
+                                    rel="noopener"
+                                >GitHub</a>
+                            </dd>
+                        </div>
+                    </dl>
+                    <p class="ka-help">
+                        Verify the download against the published checksum:
+                    </p>
+                    <div class="ka-code">
+                        {platforms.map(([key]) => (
+                            <code class="platform-only" data-for={key}>
+                                shasum -a 256 {FILENAMES[key]}
+                            </code>
+                        ))}
+                        <button
+                            type="button"
+                            class="ka-button ka-button--secondary"
+                            data-copy-checksum
+                        >
+                            Copy
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="trust-callout">
-        <span class="trust-icon" aria-hidden="true">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-        </span>
-        <div>
-          <strong>Source viewable</strong>
-          <p>MIT-licensed open source. <a href="https://github.com/smith-and-web/kindling" target="_blank" rel="noopener">Browse the code on GitHub.</a></p>
-        </div>
-      </div>
-      <div class="trust-callout">
-        <span class="trust-icon" aria-hidden="true">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-        </span>
-        <div>
-          <strong>Fully uninstallable</strong>
-          <p>Remove Kindling completely at any time. Your project files are never deleted. <a href="#uninstall">See instructions.</a></p>
-        </div>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- ===== Quick Start ===== -->
-  <section class="content-section alt">
-    <h2>Get writing in 60 seconds</h2>
-    <ol class="steps-list">
-      <li><span class="step-num">1</span> Download and install Kindling</li>
-      <li><span class="step-num">2</span> Click "Import Project" and select your Plottr, yWriter, or Markdown file</li>
-      <li><span class="step-num">3</span> Choose a scene — your beats appear as expandable prompts</li>
-      <li><span class="step-num">4</span> Start writing</li>
-    </ol>
-  </section>
-
-  <!-- ===== System Requirements (collapsible) ===== -->
-  <section class="content-section">
-    <details class="collapsible-section" open>
-      <summary><h2>System requirements</h2></summary>
-      <ul class="sysreq-list">
-        {platforms.map(([, platform]) => (
-          <li>{platform.sysReq}</li>
-        ))}
-        <li>~50 MB disk space</li>
-        <li>No internet connection required after download</li>
-      </ul>
-    </details>
-  </section>
-
-  <!-- ===== Uninstall Instructions (collapsible) ===== -->
-  <section class="content-section alt" id="uninstall">
-    <details class="collapsible-section">
-      <summary><h2>How to uninstall Kindling</h2></summary>
-      <p>Kindling can be completely removed from your computer at any time. Your project files are not deleted when you uninstall Kindling — they remain wherever you saved them.</p>
-
-      <div class="uninstall-platform">
-        <h4>macOS</h4>
-        <ol>
-          <li>Open Finder and go to the Applications folder.</li>
-          <li>Drag <strong>Kindling</strong> to the Trash (or right-click &rarr; Move to Trash).</li>
-          <li>Empty the Trash.</li>
+    <!-- ===== 03 · First run ===== -->
+    <section class="pw-frame page-section">
+        <p class="pw-label">03 / First run</p>
+        <h2 class="pw-heading">From installer to first scene</h2>
+        <ol class="pw-steps steps-block">
+            <li class="pw-step">
+                <div>
+                    <h3>Install and open it</h3>
+                    <p>
+                        macOS may ask you to confirm the first launch. See the
+                        <a href="/code-signing-policy/">code signing policy</a>
+                        {" "}for why.
+                    </p>
+                </div>
+            </li>
+            <li class="pw-step">
+                <div>
+                    <h3>Import your outline</h3>
+                    <p>
+                        Plottr, Scrivener, yWriter, novelWriter, Obsidian or
+                        plain Markdown. Nothing is rewritten at the source.
+                    </p>
+                </div>
+            </li>
+            <li class="pw-step">
+                <div>
+                    <h3>Open a scene</h3>
+                    <p>
+                        Its beats appear beside the manuscript as prompts you
+                        can expand, reorder or ignore.
+                    </p>
+                </div>
+            </li>
+            <li class="pw-step">
+                <div>
+                    <h3>Write</h3>
+                    <p>
+                        The outline stays visible. Nothing you type leaves the
+                        machine.
+                    </p>
+                </div>
+            </li>
         </ol>
-        <p>Kindling does not install any background services, launch agents, or system extensions. To remove application data (preferences, not project files), delete <code>~/Library/Application Support/com.kindlingwriter.app/</code> if present.</p>
-      </div>
+    </section>
 
-      <div class="uninstall-platform">
-        <h4>Windows</h4>
-        <ol>
-          <li>Open <strong>Settings</strong> &rarr; <strong>Apps</strong> &rarr; <strong>Installed apps</strong> (or <strong>Apps &amp; features</strong> on Windows 10).</li>
-          <li>Search for <strong>Kindling</strong>.</li>
-          <li>Click <strong>Uninstall</strong> and follow the prompts.</li>
-        </ol>
-        <p>Alternatively, use Control Panel: <strong>Programs and Features</strong> &rarr; select Kindling &rarr; <strong>Uninstall</strong>. Kindling does not install background services or startup items. To remove application data: delete <code>%APPDATA%\com.kindlingwriter.app\</code> if present.</p>
-      </div>
+    <!-- ===== 04 · Requirements and removal ===== -->
+    <section class="pw-frame page-section" id="uninstall">
+        <p class="pw-label">04 / Requirements and removal</p>
+        <h2 class="pw-heading">Before and after</h2>
+        <div class="disclosure-set">
+            <details class="pw-disclosure" open>
+                <summary>System requirements</summary>
+                <div class="disclosure-body">
+                    <dl class="ka-facts">
+                        {platforms.map(([, platform]) => (
+                            <div>
+                                <dt>{platform.label}</dt>
+                                <dd>{platform.sysReq}</dd>
+                            </div>
+                        ))}
+                        <div><dt>Disk</dt><dd>~50 MB</dd></div>
+                        <div>
+                            <dt>Network</dt>
+                            <dd>Needed to download. Not needed to write.</dd>
+                        </div>
+                    </dl>
+                </div>
+            </details>
 
-      <div class="uninstall-platform">
-        <h4>Linux (AppImage)</h4>
-        <ol>
-          <li>Delete the Kindling AppImage file (wherever you saved it).</li>
-          <li>If you created a desktop entry, remove <code>~/.local/share/applications/kindling.desktop</code>.</li>
-        </ol>
-        <p>To remove application data: delete <code>~/.config/com.kindlingwriter.app/</code> or <code>~/.local/share/com.kindlingwriter.app/</code> if present.</p>
-      </div>
-    </details>
-  </section>
+            <details class="pw-disclosure">
+                <summary>How to uninstall</summary>
+                <div class="disclosure-body">
+                    <p class="pw-prose">
+                        Your project files are never removed by an uninstall —
+                        they stay wherever you saved them. kindling installs no
+                        background services, launch agents or startup items.
+                    </p>
+                    <dl class="ka-facts disclosure-facts">
+                        <div>
+                            <dt>macOS</dt>
+                            <dd>
+                                Drag kindling from Applications to the Trash.
+                                Application data, if present, is in
+                                <code>
+                                    ~/Library/Application
+                                    Support/com.kindlingwriter.app/
+                                </code>.
+                            </dd>
+                        </div>
+                        <div>
+                            <dt>Windows</dt>
+                            <dd>
+                                Settings → Apps → Installed apps → kindling →
+                                Uninstall. Application data, if present, is in
+                                <code>%APPDATA%\com.kindlingwriter.app\</code>.
+                            </dd>
+                        </div>
+                        <div>
+                            <dt>Linux</dt>
+                            <dd>
+                                Delete the AppImage and any desktop entry you
+                                created. Application data, if present, is in
+                                <code>~/.config/com.kindlingwriter.app/</code>.
+                            </dd>
+                        </div>
+                    </dl>
+                </div>
+            </details>
 
-  <!-- ===== Legal Links ===== -->
-  <section class="content-section">
-    <p class="download-legal-links">By downloading Kindling, you agree to our <a href="/terms/">Terms of Service</a> and <a href="/privacy/">Privacy Policy</a>. Kindling is released under the <a href="https://opensource.org/licenses/MIT" target="_blank" rel="noopener">MIT License</a>. <a href="/code-signing-policy/">Code Signing Policy</a></p>
-  </section>
+            <details class="pw-disclosure">
+                <summary>Why macOS warns on first launch</summary>
+                <div class="disclosure-body">
+                    <p class="pw-prose">
+                        kindling is notarised but not distributed through the
+                        App Store. The
+                        <a href="/code-signing-policy/">code signing policy</a>
+                        {" "}records what is signed, by whom, and how to verify
+                        it yourself.
+                    </p>
+                </div>
+            </details>
+        </div>
 
-  <!-- ===== CTA ===== -->
-  <section class="cta-section">
-    <p><a href="https://github.com/smith-and-web/kindling" target="_blank" rel="noopener">View source on GitHub</a> &middot; <a href="/features/">See all features &rarr;</a></p>
-    <div class="signup-container" style="max-width: 480px; margin: 24px auto 0;">
-      <h2 style="font-size: var(--text-body-lg);">Get notified about updates</h2>
-      <form class="signup-form" action="https://app.kit.com/forms/8996985/subscriptions" method="post" target="_blank">
-        <label class="sr-only" for="newsletter-email">Email address</label>
-        <input type="email" id="newsletter-email" name="email_address" placeholder="your@email.com" autocomplete="email" required>
-        <button type="submit">Subscribe</button>
-      </form>
-    </div>
-  </section>
+        <p class="pw-note legal-note">
+            By downloading kindling you agree to the
+            <a href="/terms/">Terms of Service</a> and
+            <a href="/privacy/">Privacy Policy</a>. kindling is released under
+            the
+            <a
+                href="https://opensource.org/licenses/MIT"
+                target="_blank"
+                rel="noopener"
+            >MIT License</a>.
+        </p>
+    </section>
 
+    <!-- ===== Closing ===== -->
+    <section class="pw-frame">
+        <div class="pw-closing">
+            <div>
+                <h2 class="pw-heading">Tell me when there is a new release</h2>
+                <p class="pw-prose section-lede">
+                    Release notes only — a few messages a year, no marketing
+                    sequence.
+                </p>
+            </div>
+            <form
+                class="pw-signup pw-stack"
+                data-newsletter-form="release_updates"
+                action="https://app.kit.com/forms/8996985/subscriptions"
+                method="post"
+                target="_blank"
+            >
+                <div class="ka-field od-field">
+                    <label for="newsletter-email">Email address</label>
+                    <input
+                        type="email"
+                        id="newsletter-email"
+                        name="email_address"
+                        placeholder="you@example.com"
+                        autocomplete="email"
+                        required
+                        aria-describedby="newsletter-help"
+                    />
+                </div>
+                <button type="submit" class="ka-button">Subscribe</button>
+                <p class="ka-help" id="newsletter-help">
+                    Used for release notes and nothing else. Unsubscribe in one
+                    click.
+                </p>
+            </form>
+        </div>
+    </section>
 </MarketingLayout>
 
 <style>
-  /* ===== Version Badge ===== */
-  /* Mobile state — a hairline-framed notice, not a card farm. */
-  .mobile-notice {
-    border-top: 1px solid var(--color-border);
-    border-bottom: 1px solid var(--color-border);
-    padding: var(--space-l) 0;
-    margin-bottom: var(--space-l);
-    max-width: var(--measure);
-  }
+    /*
+     * Page scaffolding only. Every control, every type role and every colour
+     * comes from Press — `.pw-steps`, `.pw-version`, `.ka-facts`, `.ka-code`
+     * and the `.ka-segment` no-JS selected state all landed upstream in 0.11.0
+     * and are vendored, not redefined here.
+     *
+     * Astro compiles a scoped selector to `.foo:where(.astro-xxxx)`, which adds
+     * no specificity — so anything that has to win against a Press rule is
+     * qualified with its element name. Nothing here needs to.
+     */
 
-  .mobile-notice h2 {
-    font-family: var(--font-display);
-    font-size: var(--text-h2);
-    font-weight: 600;
-    margin-bottom: var(--space-2xs);
-  }
-
-  .mobile-notice p {
-    font-family: var(--font-body);
-    font-size: var(--text-body);
-    color: var(--color-text);
-    line-height: var(--leading-relaxed);
-    margin-bottom: var(--space-m);
-  }
-
-  .mobile-notice-actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-2xs);
-  }
-
-  /* Installers stay available, demoted below the notice. */
-  .download-cards[data-secondary] {
-    grid-template-columns: 1fr;
-  }
-
-  /* Quiet: the page's one terracotta moment is the "Recommended for your OS"
-     badge, not the version pill. */
-  .version-badge {
-    display: inline-block;
-    font-size: var(--text-eyebrow);
-    font-weight: 600;
-    color: var(--color-text-muted);
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    padding: 4px 10px;
-    border-radius: var(--radius-pill);
-    margin-bottom: 16px;
-  }
-
-  /* ===== Recommended Badge ===== */
-  .recommended-badge {
-    display: none;
-    font-size: var(--text-eyebrow);
-    font-weight: 600;
-    color: var(--color-accent-text);
-    background: color-mix(in srgb, var(--color-accent) 15%, transparent);
-    border: 1px solid color-mix(in srgb, var(--color-accent) 30%, transparent);
-    padding: 2px 8px;
-    border-radius: var(--radius-pill);
-    margin-bottom: 8px;
-    letter-spacing: 0.02em;
-    text-transform: uppercase;
-  }
-
-  .download-card-large.highlight .recommended-badge {
-    display: inline-block;
-  }
-
-  /* ===== Download Card Size Text ===== */
-  .size-text {
-    font-size: var(--text-eyebrow);
-    color: var(--color-text-muted);
-    margin-top: 4px;
-  }
-
-  /* ===== Trust Callouts ===== */
-  .trust-callouts {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
-    margin-top: 32px;
-  }
-
-  .trust-callout {
-    display: flex;
-    gap: 12px;
-    padding: 16px;
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-l);
-  }
-
-  .trust-icon {
-    flex-shrink: 0;
-    width: 36px;
-    height: 36px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: color-mix(in srgb, var(--color-accent) 10%, transparent);
-    border-radius: var(--radius-m);
-    color: var(--color-accent);
-  }
-
-  .trust-callout strong {
-    display: block;
-    font-family: var(--font-display);
-    font-size: var(--text-small);
-    font-weight: 600;
-    margin-bottom: 4px;
-    color: var(--color-text);
-  }
-
-  .trust-callout p {
-    font-family: var(--font-body);
-    font-size: var(--text-small);
-    color: var(--color-text-muted);
-    line-height: 1.5;
-    margin: 0;
-  }
-
-  .trust-callout a {
-    color: var(--color-accent-text);
-    text-decoration: none;
-  }
-
-  .trust-callout a:hover {
-    text-decoration: underline;
-  }
-
-  /* ===== Collapsible Sections ===== */
-  .collapsible-section {
-    border: none;
-  }
-
-  .collapsible-section summary {
-    cursor: pointer;
-    list-style: none;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .collapsible-section summary::-webkit-details-marker {
-    display: none;
-  }
-
-  .collapsible-section summary::after {
-    content: '';
-    display: inline-block;
-    width: 8px;
-    height: 8px;
-    border-right: 2px solid var(--color-text-muted);
-    border-bottom: 2px solid var(--color-text-muted);
-    transform: rotate(45deg);
-    transition: transform 0.2s;
-    margin-left: 8px;
-    flex-shrink: 0;
-  }
-
-  .collapsible-section[open] summary::after {
-    transform: rotate(-135deg);
-  }
-
-  .collapsible-section summary h2 {
-    display: inline;
-    margin-bottom: 0;
-  }
-
-  .collapsible-section > :not(summary) {
-    margin-top: 16px;
-  }
-
-  /* ===== Responsive ===== */
-  @media (max-width: 640px) {
-    .trust-callouts {
-      grid-template-columns: 1fr;
+    /* Which platform's description, installer and checksum are visible. This
+       is the whole no-JS story: the radio is checked in the markup, `:has()`
+       reveals the matching set, and the revealed anchor is a real link to a
+       real binary. Script adds analytics on top; it is not load-bearing. */
+    /* Qualified with the element name and an ancestor on purpose. Astro
+       compiles a scoped selector to `.foo:where(.astro-xxxx)` and `:where()`
+       adds nothing, so a bare `.platform-only` (0,1,0) loses to Press's
+       `.press-web .pw-button` (0,2,0) and every installer stays visible. The
+       reveal rules carry `:has(#id)` and outrank both. */
+    .pw-platform-result p.platform-only,
+    .pw-platform-result a.platform-only,
+    .ka-code > code.platform-only {
+        display: none;
     }
-  }
+    .pw-platforms:has(#platform-mac:checked) p[data-for="mac"],
+    .pw-platforms:has(#platform-windows:checked) p[data-for="windows"],
+    .pw-platforms:has(#platform-linux:checked) p[data-for="linux"] {
+        display: block;
+    }
+    /* The action is a flex row of glyph and label, not an inline anchor. */
+    .pw-platforms:has(#platform-mac:checked) a[data-for="mac"],
+    .pw-platforms:has(#platform-windows:checked) a[data-for="windows"],
+    .pw-platforms:has(#platform-linux:checked) a[data-for="linux"] {
+        display: inline-flex;
+    }
+    /* The checksum sits in the panel, outside the fieldset, so it reads the
+       selection from the page rather than from an ancestor. */
+    :global(body:has(#platform-mac:checked)) .ka-code > code[data-for="mac"],
+    :global(body:has(#platform-windows:checked))
+        .ka-code
+        > code[data-for="windows"],
+    :global(body:has(#platform-linux:checked))
+        .ka-code
+        > code[data-for="linux"] {
+        display: block;
+    }
+
+    /* Vertical rhythm. `.pw-hero` and `.pw-closing` bring their own. */
+    .page-section {
+        padding-block: var(--space-3xl);
+    }
+    .page-section + .page-section {
+        border-top: 1px solid var(--color-border);
+    }
+    .page-split {
+        display: grid;
+        grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+        gap: var(--space-2xl);
+        align-items: start;
+    }
+
+    .hero-lede,
+    .section-lede {
+        margin-top: var(--space-m);
+    }
+    .section-para {
+        margin-top: var(--space-s);
+    }
+    .hero-meta {
+        margin-top: var(--space-m);
+    }
+    .steps-block,
+    .disclosure-set {
+        margin-top: var(--space-l);
+    }
+    .disclosure-body {
+        max-width: var(--measure);
+        padding-bottom: var(--space-m);
+    }
+    .disclosure-facts {
+        margin-top: var(--space-m);
+    }
+    .legal-note {
+        margin-top: var(--space-l);
+        max-width: var(--measure);
+    }
+    .panel-stack {
+        display: grid;
+        gap: var(--space-m);
+    }
+    .ka-notice .ka-row {
+        margin-top: var(--space-2xs);
+    }
+
+    /* A phone visitor should meet "this is a desktop app" before the platform
+       choice, not after it. The notice is authored after the fieldset so a
+       no-JS desktop visitor never sees it above the download. */
+    .pw-stack > [data-mobile-notice]:not([hidden]) {
+        order: -1;
+    }
+
+    @media (max-width: 767px) {
+        .page-split {
+            grid-template-columns: minmax(0, 1fr);
+            gap: var(--space-l);
+        }
+        .page-section {
+            padding-block: var(--space-2xl);
+        }
+    }
 </style>
 
 <script>
-  import { detectPlatform } from '../../scripts/platform';
-  import { trackDownload } from '../../scripts/analytics';
+    import { detectPlatform } from "../../scripts/platform";
+    import { requestDownload, isPlatform } from "../../scripts/download-flow";
 
-  const { os, isMobile } = detectPlatform();
+    const { os, isMobile } = detectPlatform();
 
-  if (isMobile) {
-    // Lead with "this is a desktop app" rather than silently offering a .dmg.
-    document.querySelector('[data-mobile-notice]')?.removeAttribute('hidden');
-    document.querySelector('[data-desktop-cards]')?.setAttribute('data-secondary', '');
-  } else if (os) {
-    document.querySelector(`[data-platform="${os}"]`)?.classList.add('highlight');
-  }
-
-  /*
-   * Navigate to /thanks/ and start the file download from there. Doing both
-   * here races Chrome's download pipeline against the main-frame navigation
-   * and cancels the download.
-   */
-  document.querySelectorAll<HTMLAnchorElement>('[data-platform]').forEach((card) => {
-    card.addEventListener('click', (event) => {
-      event.preventDefault();
-      const key = card.dataset.platform;
-      if (!key) return;
-      trackDownload(key, 'download_page');
-      window.location.href = `/download/thanks/?os=${key}`;
-    });
-  });
-
-  const copyButton = document.querySelector<HTMLButtonElement>('[data-copy-link]');
-  copyButton?.addEventListener('click', async () => {
-    const label = copyButton.textContent;
-    try {
-      await navigator.clipboard.writeText('https://kindlingwriter.com/download/');
-      copyButton.textContent = 'Link copied';
-    } catch {
-      copyButton.textContent = 'Press and hold the address bar to copy';
+    if (isMobile) {
+        /*
+         * Lead with "this is a desktop app" rather than silently offering a
+         * .dmg, and demote the installer to the secondary treatment. Without
+         * the demotion the first mobile viewport carries three terracotta
+         * moments — the hero `em`, the copy action and the installer —
+         * against a budget of two.
+         */
+        document
+            .querySelector("[data-mobile-notice]")
+            ?.removeAttribute("hidden");
+        document
+            .querySelectorAll<HTMLAnchorElement>("a[data-platform]")
+            .forEach((a) => a.classList.add("pw-button--secondary"));
+    } else if (os) {
+        // Detection pre-selects. It never decides: the visitor's explicit
+        // choice wins, and the page is correct before this runs at all.
+        const radio = document.querySelector<HTMLInputElement>(
+            `#platform-${os}`,
+        );
+        if (radio) radio.checked = true;
     }
-    window.setTimeout(() => { copyButton.textContent = label; }, 2500);
-  });
+
+    /*
+     * Navigate to /thanks/ and start the file download from there. Doing both
+     * here races Chrome's download pipeline against the main-frame navigation
+     * and cancels the download.
+     */
+    document
+        .querySelectorAll<HTMLAnchorElement>("a[data-platform]")
+        .forEach((action) => {
+            action.addEventListener("click", (event) => {
+                const key = action.dataset.platform;
+                if (isPlatform(key))
+                    requestDownload(event, key, "download_page");
+            });
+        });
+
+    function flash(button: HTMLElement, done: string, fallback: string) {
+        return async (text: string) => {
+            const label = button.textContent;
+            try {
+                await navigator.clipboard.writeText(text);
+                button.textContent = done;
+            } catch {
+                button.textContent = fallback;
+            }
+            window.setTimeout(() => {
+                button.textContent = label;
+            }, 2500);
+        };
+    }
+
+    const copyButton =
+        document.querySelector<HTMLButtonElement>("[data-copy-link]");
+    if (copyButton) {
+        const run = flash(
+            copyButton,
+            "Link copied",
+            "Press and hold the address bar to copy",
+        );
+        copyButton.addEventListener("click", async () => {
+            await run("https://kindlingwriter.com/download/");
+            if (typeof gtag === "function") {
+                gtag("event", "mobile_share", {
+                    method: "clipboard",
+                    cta_location: "download_page",
+                });
+            }
+        });
+    }
+
+    const copyChecksum =
+        document.querySelector<HTMLButtonElement>("[data-copy-checksum]");
+    if (copyChecksum) {
+        const run = flash(copyChecksum, "Copied", "Select and copy manually");
+        copyChecksum.addEventListener("click", () => {
+            // Whichever command the current selection reveals.
+            const visible = [
+                ...document.querySelectorAll<HTMLElement>(".ka-code > code"),
+            ].find((code) => code.offsetParent !== null);
+            if (visible) run(visible.textContent?.trim() ?? "");
+        });
+    }
 </script>
