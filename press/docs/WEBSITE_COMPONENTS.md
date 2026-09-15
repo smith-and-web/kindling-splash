@@ -23,13 +23,14 @@ Place `.press-web` outside the layout component, not on that same node. It estab
 
 | Pattern | Public classes / hooks | Read-only source |
 | --- | --- | --- |
-| Page scaffolding | `pw-frame`, `pw-band`, `pw-header` | Open Design homepage integration |
+| Page scaffolding | `pw-frame`, `pw-band`, `pw-band--sunken`, `pw-header` | Open Design homepage integration; kindling-splash home band rhythm |
 | Navigation | `pw-nav`, `pw-brand`, `pw-nav-links`, `data-pw-nav`, `data-pw-menu`, `data-pw-links` | kindling-splash `src/components/Navbar.astro`; redesign masthead |
-| Editorial hero | `pw-hero`, `pw-hero-grid`, `pw-hero-title`, `pw-button` | redesign hero |
+| Editorial hero | `pw-hero`, `pw-hero-grid`, `pw-hero-grid--top`, `pw-hero-title`, `--pw-hero-measure`, `--pw-hero-columns`, `--pw-hero-gap`, `pw-button` | redesign hero; kindling-splash home |
 | Writing demo | `pw-writing`, `pw-scene`, `pw-beats`, `data-pw-beats`, `data-pw-beat`, `data-pw-draft` | redesign scene/beat sample; website `WritingDemo.astro` context |
-| Trust strip | `pw-trust` | redesign full-width raised trust band |
+| Trust strip | `pw-trust`, `pw-trust--inline` | redesign full-width raised trust band |
 | Section heading & quotation | `pw-section-head`, `pw-heading`, `pw-quote` | redesign aligned headings and plan-to-page section |
 | Feature sequence | `pw-feature-grid`, `pw-feature`, `pw-feature--reverse`, `pw-problem`, `pw-image-frame` | redesign aligned feature refinements and four supplied images |
+| Captioned specimen | `pw-figure`, `pw-caption` | kindling-splash home scene specimen |
 | Release rows | `pw-release-grid`, `pw-release-item`, `pw-link` | redesign spotlight/release section |
 | Platform choices | `pw-platforms`, `data-pw-platform`, `data-pw-platform-choice`, `data-pw-platform-result`; the choice itself is `ka-segment-track` / `ka-segment` | website `src/pages/download/index.astro` |
 | Numbered procedure | `pw-steps`, `pw-step` | website download first-run sequence |
@@ -163,7 +164,7 @@ Use `type="email"`, `required`, an explicit label, and `aria-describedby` linkin
 - **Controls:** the layer styles the marketing CTA only. Before 0.10.0 it carried a full button system that disagreed with `application.css` on fill, label size, hover, disabled colours and secondary treatment; those are now shared and asserted by `npm run system:check`.
 - **Images:** product figures use the guide's **mounted print** treatment — a 10px raised-surface mat, a hairline ring and `--shadow-md`, cropped `cover` at `max-height: 440px`. Opt into `.pw-image-frame` for a 4:3 `object-fit: contain` frame (`--pw-reference-ratio`) when a whole image must stay visible, such as a catalog specimen or a diagram; it letterboxes instead of cropping and is not the default. Intrinsic width/height attributes remain. The live catalog embeds the original PNG bytes, while copyable markup keeps portable asset paths.
 - **Navigation:** the source's modal-like fixed mobile menu is adapted to an in-flow disclosure with the same clear open/close affordances. This avoids embedding viewport-fixed chrome in a catalog specimen.
-- **Trust copy:** the redesign's unverified writer-count claim is not promoted to a shared fact. The catalog uses descriptive labels grounded in its writing-space content and identifies them as example copy.
+- **Trust copy:** the catalog uses descriptive labels grounded in its writing-space content and identifies them as example copy, because catalog copy is illustrative. **Corrected in 0.12.0:** earlier revisions of this line described the consumer's writer-count claim as *unverified* and declined to promote it. That was wrong, and it caused the claim to be deleted from a live page more than once by people reading this file as an instruction. The figure is sourced from GitHub release analytics filtered to binary assets only, and is conservative. A consumer may state it. It measures download events rather than unique people, so whoever maintains it should record the value, the source and the date last checked alongside it.
 - **Theme:** website specimens stay light, matching the existing website policy. The surrounding reference and Application section still support light/dark.
 - **Icons and motion:** consistent outline arrows; small state feedback only, with reduced-motion support.
 

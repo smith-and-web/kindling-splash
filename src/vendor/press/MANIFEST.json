@@ -1,10 +1,10 @@
 {
   "package": "@kindling/design-system",
-  "version": "0.11.0",
-  "commit": "7979d68f27e7200955f8e6dbccd9e5483064b08a",
+  "version": "0.12.0",
+  "commit": "bc3a4e36fc27c037e5cb69ee3a9d96c4f518185b",
   "snapshot": "commit",
-  "note": "Taken from ../press at 7979d68f27e7200955f8e6dbccd9e5483064b08a with a clean working tree.",
-  "syncedAt": "2026-09-15T14:46:39Z",
+  "note": "Taken from ../press at bc3a4e36fc27c037e5cb69ee3a9d96c4f518185b with a clean working tree.",
+  "syncedAt": "2026-09-15T19:14:28Z",
   "generator": "scripts/sync-design-system.sh -> scripts/check-design-system.mjs --write",
   "verify": "npm run check:design-system",
   "exclusions": {
@@ -43,8 +43,8 @@
     {
       "path": "src/vendor/press/design-system/website.css",
       "from": "../press/design-system/website.css",
-      "bytes": 28965,
-      "sha256": "ced06ec0128786258f55cfb4b17bb56a9226b260254e9b7d02a4b5ffd14026ed"
+      "bytes": 35982,
+      "sha256": "32be7b85c77b780938ab7e30fd60c94c5c67f41fc3a29a38a2ab981b1c932a1d"
     },
     {
       "path": "src/vendor/press/design-system/website.js",
@@ -307,8 +307,8 @@
     {
       "path": "press/docs/WEBSITE_COMPONENTS.md",
       "from": "../press/docs/WEBSITE_COMPONENTS.md",
-      "bytes": 17406,
-      "sha256": "e37a4977bc9baa6a91aed77cd79c86a05b72524fb315b6cbe2dee3c55a77ec0c"
+      "bytes": 18191,
+      "sha256": "eb690bab321cedb1e2eb89c11f55c60f5c4d0d1faac016adbc1bd7cb9dab73dc"
     }
   ]
 }

@@ -22,26 +22,42 @@ interface Props {
   width?: number;
   loading?: 'eager' | 'lazy';
   class?: string;
+  /*
+   * `intrinsic` (the default) matches the frame to this capture's own ratio, so
+   * a standalone figure neither crops nor letterboxes.
+   *
+   * `inherit` leaves the ratio to an ancestor. A *sequence* of figures is a
+   * different problem from a single one: four captures at 1.25/1.25/1.95/1.25
+   * in one column stand 424/424/272/424px tall, and a run of rows that are each
+   * individually perfect reads as ragged. Setting one ratio on
+   * `.pw-feature-grid` and letting every frame letterbox into it makes the run
+   * even, and `.pw-image-frame` contains rather than crops, so nothing is lost.
+   */
+  ratio?: 'intrinsic' | 'inherit';
 }
 
-const { src, alt, width = 560, loading = 'lazy', class: className } = Astro.props;
+const {
+  src,
+  alt,
+  width = 560,
+  loading = 'lazy',
+  class: className,
+  ratio = 'intrinsic',
+} = Astro.props;
+
+const frameStyle =
+  ratio === 'intrinsic' ? `--pw-reference-ratio: ${src.width} / ${src.height}` : undefined;
 ---
 
-<figure class:list={['product-figure', className]}>
-  <div class="pw-image-frame" style={`--pw-reference-ratio: ${src.width} / ${src.height}`}>
+{/* `.pw-figure` and the caption role come from Press 0.12.0; the local
+    figcaption styling this component used to carry is gone. */}
+<figure class:list={['pw-figure', 'product-figure', className]}>
+  <div class="pw-image-frame" style={frameStyle}>
     <Image src={src} alt={alt} width={width} loading={loading} />
   </div>
   {Astro.slots.has('default') && <figcaption><slot /></figcaption>}
 </figure>
 
 <style>
-  .product-figure { margin: 0; min-width: 0; }
-
-  figcaption {
-    margin-top: var(--space-2xs);
-    font-family: var(--font-body);
-    font-size: var(--text-small);
-    color: var(--color-text-muted);
-    max-width: var(--measure);
-  }
+  .product-figure { min-width: 0; }
 </style>

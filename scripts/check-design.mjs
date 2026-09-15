@@ -254,21 +254,49 @@ try {
      wrong at least once: 960 against 900, an alt band re-centred on a
      hard-coded 852, and a blog list on the wider marketing frame — three edges
      on one page. Their *content* must start in the same place. */
-  for (const [path] of ROUTES) {
-    await go(path);
-    const edges = await page.evaluate(() => {
-      const seen = new Map();
-      for (const el of document.querySelectorAll('.page-hero, .content-section, .blog-listing, .article-content')) {
-        if (!el.getClientRects().length) continue;
-        const box = el.getBoundingClientRect();
-        const left = Math.round(box.left + parseFloat(getComputedStyle(el).paddingLeft));
-        seen.set(left, (seen.get(left) ?? '') + ' ' + (el.className.toString().split(' ')[0] || el.tagName));
+  /* Measured at the default width AND at 1200. Below the 1120px `--page-frame`
+     cap both composition paths — a component with its own `padding-inline` and
+     one without — land on the same offset, so a 1440-only check proves nothing.
+     `.pw-footer` was 32px out at every laptop width while this check passed.
+
+     `.pw-frame` is in the selector because it is the website layer's content
+     box: every framed region on a page must start in the same place, whether
+     the frame is ON the component or nested inside a full-bleed one. */
+  /* TWO families, compared within themselves and never against each other.
+     CLAUDE.md: editorial pages are framed by `--page-frame-editorial` (960px)
+     while the navbar, the footer and the composed pages share `--page-frame`
+     (1120px). Those two edges differing is the design, not a bug — an earlier
+     version of this check compared them and failed nine correct pages.
+
+     Measured at 1200 as well as 1440. Below the 1120px cap both composition
+     paths — a component with its own `padding-inline` and one without — land
+     on the same offset, so a wide-only check proves nothing. `.pw-footer` was
+     32px out at every laptop width while this check passed. */
+  const EDGE_FAMILIES = [
+    ['editorial', '.page-hero, .content-section, .blog-listing, .article-content'],
+    ['website frame', ':is(.pw-frame, .pw-hero, .pw-closing, .pw-footer):not(:has(> .pw-frame))'],
+  ];
+  for (const width of [1440, 1200]) {
+    await page.setViewportSize({ width, height: 1000 });
+    for (const [path] of ROUTES) {
+      await go(path);
+      for (const [family, selector] of EDGE_FAMILIES) {
+        const edges = await page.evaluate((sel) => {
+          const seen = new Map();
+          for (const el of document.querySelectorAll(sel)) {
+            if (!el.getClientRects().length) continue;
+            const box = el.getBoundingClientRect();
+            const left = Math.round(box.left + parseFloat(getComputedStyle(el).paddingLeft));
+            seen.set(left, (seen.get(left) ?? '') + ' ' + (el.className.toString().split(' ')[0] || el.tagName));
+          }
+          return [...seen.entries()];
+        }, selector);
+        check(edges.length <= 1, `${path} at ${width}px: ${edges.length} different ${family} left edges — ${edges.map(([x, who]) => x + 'px:' + who).join(', ')}`);
       }
-      return [...seen.entries()];
-    });
-    check(edges.length <= 1, `${path}: ${edges.length} different content left edges — ${edges.map(([x, who]) => x + 'px:' + who).join(', ')}`);
+    }
   }
-  pass('hero, sections, bands and list frames share one content edge per page');
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  pass('editorial regions and website frames each share one content edge, at 1200 as well as wide');
 
   /* ---- 5. Screenshots keep their whole frame ----------------------------- */
   for (const path of ['/', '/features/', '/story-outlining-software/', '/docs/settings/']) {

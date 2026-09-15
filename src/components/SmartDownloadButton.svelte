@@ -163,7 +163,7 @@
     align-items: center;
     gap: var(--space-xs) var(--space-s);
   }
-  .compact .alt-platforms { grid-column: 2; grid-row: 1; color: var(--color-accent-text); }
+  .compact .alt-platforms { grid-column: 2; grid-row: 1; }
   .compact .micro-copy { grid-column: 1 / -1; text-align: left; }
   .compact .mobile-message { grid-column: 1 / -1; align-items: flex-start; text-align: left; }
   @media (max-width: 480px) {

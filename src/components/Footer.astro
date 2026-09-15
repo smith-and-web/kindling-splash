@@ -12,54 +12,50 @@ const wordmarkWidth = Number(viewBox?.[1] ?? 6445);
 const wordmarkHeight = Number(viewBox?.[2] ?? 1972);
 
 /*
- * Four columns, not three. Every footer link is a standalone control at the
- * 44px target, so a ten-item column is 440px tall on its own — which is what
- * left the signature stranded beside a wall of links. Splitting the product
- * links from the reading ones puts the tallest column at six items and the
- * footer at a little over half its height, without shortening a single target.
- * Routes are unchanged; only their grouping is.
+ * One row, not four labelled columns.
+ *
+ * The four-column wall was the tallest thing on every page and read as a
+ * sitemap rather than a footer. This is the prototype's lighter shape: the
+ * signature and its tagline on the left, the routes a reader actually leaves
+ * by on the right, and one quiet legal line underneath.
+ *
+ * Restructuring the footer dropped no destination: the primary routes are in
+ * the row, the off-site and legal ones in the closing line. The legal routes
+ * should stay reachable from every page, and `/story-outlining-software/` and
+ * `/plottr-vs-scrivener/` are landing pages that depend on internal links
+ * (`check-launch.mjs` asserts contextual inlinks). The four social profiles
+ * removed below went separately and deliberately — see the note on `secondary`.
  */
-const columns = [
-  {
-    heading: 'Product',
-    links: [
-      { href: '/features/', label: 'Features' },
-      { href: '/download/', label: 'Download' },
-      { href: '/compare/', label: 'Compare' },
-      { href: '/open-source/', label: 'Open source' },
-      { href: '/feedback/', label: 'Send feedback' },
-    ],
-  },
-  {
-    heading: 'Read',
-    links: [
-      { href: '/docs/getting-started/', label: 'Docs' },
-      { href: '/blog/', label: 'Blog' },
-      { href: '/faq/', label: 'FAQ' },
-      { href: '/story-outlining-software/', label: 'Story outlining' },
-      { href: '/plottr-vs-scrivener/', label: 'Plottr vs Scrivener' },
-    ],
-  },
-  {
-    heading: 'Community',
-    links: [
-      { href: 'https://github.com/smith-and-web/kindling', label: 'GitHub', external: true },
-      { href: 'https://discord.gg/g7bkj4kY8w', label: 'Discord', external: true },
-      { href: 'https://twitter.com/KindlingWriter', label: 'Twitter/X', external: true },
-      { href: 'https://bsky.app/profile/kindlingwriter.com', label: 'Bluesky', external: true },
-      { href: 'https://www.instagram.com/kindling.writer/', label: 'Instagram', external: true },
-      { href: 'https://indiesocial.social/@kindling', label: 'Mastodon', external: true, me: true },
-    ],
-  },
-  {
-    heading: 'Legal',
-    links: [
-      { href: 'https://opensource.org/licenses/MIT', label: 'MIT License', external: true },
-      { href: '/privacy/', label: 'Privacy policy' },
-      { href: '/terms/', label: 'Terms of service' },
-      { href: '/code-signing-policy/', label: 'Code signing policy' },
-    ],
-  },
+const primary = [
+  { href: '/features/', label: 'Features' },
+  { href: '/download/', label: 'Download' },
+  { href: '/compare/', label: 'Compare' },
+  { href: '/open-source/', label: 'Open source' },
+  { href: '/docs/getting-started/', label: 'Docs' },
+  { href: '/blog/', label: 'Blog' },
+  { href: '/faq/', label: 'FAQ' },
+  { href: '/story-outlining-software/', label: 'Story outlining' },
+  { href: '/plottr-vs-scrivener/', label: 'Plottr vs Scrivener' },
+  { href: '/feedback/', label: 'Send feedback' },
+];
+
+/*
+ * Off-site and legal. Twitter/X, Bluesky, Instagram and Mastodon were removed
+ * on 15 Sep 2026 — social is not a channel this project is working. GitHub and
+ * Discord stay because they are where the software and its users actually are,
+ * not because they are social links.
+ *
+ * The Mastodon entry carried `rel="me"`, which is what verifies a profile's
+ * link back to this site; that verification lapses with it. It was the only
+ * `rel="me"` on the site, so the `me` flag is gone from the model too.
+ */
+const secondary = [
+  { href: 'https://github.com/smith-and-web/kindling', label: 'GitHub', external: true },
+  { href: 'https://discord.gg/g7bkj4kY8w', label: 'Discord', external: true },
+  { href: 'https://opensource.org/licenses/MIT', label: 'MIT License', external: true },
+  { href: '/privacy/', label: 'Privacy policy' },
+  { href: '/terms/', label: 'Terms of service' },
+  { href: '/code-signing-policy/', label: 'Code signing policy' },
 ];
 ---
 
@@ -72,30 +68,25 @@ const columns = [
         </a>
         <p class="footer-tagline">Your words, your data, forever.</p>
       </div>
-      <div class="footer-columns">
-        {columns.map(column => (
-          <div>
-            <p class="pw-label">{column.heading}</p>
-            <ul class="pw-footer-links footer-column-links">
-              {column.links.map(link => (
-                <li>
-                  <a
-                    href={link.href}
-                    rel={link.me ? 'me' : link.external ? 'noopener' : undefined}
-                    target={link.external ? '_blank' : undefined}
-                  >{link.label}</a>
-                </li>
-              ))}
-            </ul>
-          </div>
+      <ul class="pw-footer-links footer-primary">
+        {primary.map(link => (
+          <li><a href={link.href}>{link.label}</a></li>
         ))}
-      </div>
+      </ul>
     </div>
     <div class="pw-footer-bottom">
-      <!-- One quiet line. The tagline moved up beside the signature, where it
-           fills the column the links left empty; the legal routes are in their
-           own column above and are not repeated here. -->
       <p>&copy; 2026 kindling. Free and open source.</p>
+      <ul class="pw-footer-links footer-secondary">
+        {secondary.map(link => (
+          <li>
+            <a
+              href={link.href}
+              rel={link.external ? 'noopener' : undefined}
+              target={link.external ? '_blank' : undefined}
+            >{link.label}</a>
+          </li>
+        ))}
+      </ul>
     </div>
   </div>
 </footer>
@@ -112,27 +103,36 @@ const columns = [
     width: 120px;
   }
 
-  .footer-columns {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: var(--space-m) var(--space-l);
-    flex: 1 1 32rem;
+  /* `ul.footer-primary` (0,2,0) rather than a bare class: Astro scopes with
+     `:where(.astro-xxxx)`, which adds no specificity, so `.footer-primary`
+     alone only ties with `.press-web .pw-footer-links` and loses on source
+     order. See CLAUDE.md. */
+  ul.footer-primary,
+  ul.footer-secondary {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    justify-content: flex-end;
+    column-gap: var(--space-m);
+  }
+
+  ul.footer-primary {
+    flex: 1 1 28rem;
     min-width: 0;
   }
 
-  /* `.pw-footer-links` is a row with a 16px gap; these are stacked columns
-     under a label, where that gap sits on top of each link's own 44px target
-     and spaces the rows 60px apart.
-     `.footer-columns ul.footer-column-links` (0,2,1) rather than a bare class:
-     Astro scopes with `:where(.astro-xxxx)`, which adds no specificity, so
-     `.footer-column-links` alone only ties with `.press-web .pw-footer-links`
-     and loses on source order. See CLAUDE.md. */
-  .footer-columns ul.footer-column-links {
-    flex-direction: column;
-    align-items: start;
-    gap: 0;
-    list-style: none;
-    margin-top: var(--space-3xs);
+  /* The closing line's own routes — source, chat, licence and legal. Smaller
+     company than the primary row and set beside the copyright, not above it. */
+  ul.footer-secondary {
+    flex: 1 1 24rem;
+    column-gap: var(--space-s);
+  }
+
+  @media (max-width: 767px) {
+    ul.footer-primary,
+    ul.footer-secondary {
+      justify-content: flex-start;
+    }
   }
 
   .footer-tagline {
@@ -144,13 +144,4 @@ const columns = [
     color: var(--color-text);
   }
 
-  /* Two columns all the way down. One column stacks twenty links into a
-     1260px scroll on a phone; two hold it near 600px and cost only a wrapped
-     label or two, which the 44px target absorbs without clipping. */
-  @media (max-width: 900px) {
-    .footer-columns {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: var(--space-m) var(--space-s);
-    }
-  }
 </style>

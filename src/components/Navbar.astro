@@ -64,19 +64,18 @@ function isActive(href: string): boolean {
                 </a>
             ))}
             {/*
-              On /download/ this points at the page the visitor is already on,
-              and its fill lands in the same viewport as the hero's action.
-              WEBSITE_COMPONENTS.md: use the secondary treatment for a
-              persistent header download so the in-content action keeps the
-              only primary fill in view.
+              Always secondary. WEBSITE_COMPONENTS.md: "use the secondary
+              treatment for a persistent header download so the in-content
+              action keeps the only primary fill in view." This was previously
+              demoted on /download/ alone, so every other page — the home page
+              worst of all — showed the masthead's terracotta Download fill and
+              the hero's, the same word in the same shape 250px apart, and no
+              primary at all. A persistent header action is secondary to
+              whatever the page itself is asking for, on every route.
             */}
             <a
                 href="/download/"
-                class:list={[
-                    "pw-button",
-                    "navbar-cta",
-                    isActive("/download/") && "pw-button--secondary",
-                ]}
+                class:list={["pw-button", "pw-button--secondary", "navbar-cta"]}
                 aria-current={isActive("/download/") ? "page" : undefined}
             >
                 Download

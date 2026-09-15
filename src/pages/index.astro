@@ -1,50 +1,57 @@
 ---
-import { Image } from 'astro:assets';
 import MarketingLayout from '../layouts/MarketingLayout.astro';
 import SmartDownloadButton from '../components/SmartDownloadButton.svelte';
 import { APP_VERSION } from '../data/downloads';
 import WritingDemo from '../components/WritingDemo.astro';
+import ProductFigure from '../components/ProductFigure.astro';
 import beatWithProse from '../assets/beat-with-prose.png';
 import referencesPanel from '../assets/references-panel.png';
 import planningStates from '../assets/planning-states.png';
 import importFormats from '../assets/import-formats.png';
 
-/* Product figures keep their whole frame. `.pw-image-frame` letterboxes inside
-   a fixed `--pw-reference-ratio`, so giving it each capture's own intrinsic
-   ratio means no crop and no letterbox — and, unlike the mounted print's
-   `cover` default, no capture ratio that silently decides how much of the
-   interface a visitor sees. */
-const frame = (image: { width: number; height: number }) =>
-  `--pw-reference-ratio: ${image.width} / ${image.height}`;
-
+/*
+ * Rebuilt on Press 0.12.0 from prototypes/home/. The eight problems it fixes
+ * are recorded in prototypes/home/NOTES.md, measured against the previous
+ * version of this page; the thirteen local overrides that prototype needed were
+ * resolved upstream in Press 0.12.0 rather than carried here.
+ *
+ * The per-row `.pw-label` kickers are deliberately gone. Each row already
+ * carries a folio number from `.pw-feature`'s own counter, inside a section
+ * that already has a running "03 /" label — three labelling systems, and none
+ * of "Core feature" / "Stay in flow" / "Your pace" / "Your tools" said anything
+ * its title did not.
+ */
 const features = [
   {
     image: beatWithProse,
     alt: 'The kindling editor showing scene beats alongside prose',
-    kicker: 'Core feature',
     title: 'Outline-aware drafting',
     problem: 'Other apps make you flip between your outline and a blank page.',
+    answer:
+      'kindling puts your scene beats right inside your writing space. Click a beat, write into it.',
   },
   {
     image: referencesPanel,
     alt: 'The kindling references panel showing character details',
-    kicker: 'Stay in flow',
     title: 'References panel',
     problem: 'Was it green eyes or blue? What was the tavern called?',
+    answer:
+      'Characters and locations tagged in your scene auto-surface in a side panel.',
   },
   {
     image: planningStates,
     alt: "A scene set to Flexible planning, with the chapter tree marking each scene's planning state",
-    kicker: 'Your pace',
     title: 'Rolling outline',
     problem: 'Not every scene needs the same level of planning.',
+    answer: null,
   },
   {
     image: importFormats,
     alt: "kindling's import options, including novelWriter, Plottr, yWriter, Markdown, Longform and Scrivener",
-    kicker: 'Your tools',
     title: 'Import and export',
     problem: 'Your outline lives in Plottr. Your manuscript in Word. Your notes in Obsidian.',
+    answer:
+      'Import from Plottr, yWriter, Obsidian Longform, Scrivener, novelWriter, or Markdown. Export to DOCX, Markdown, Longform, Scrivener, novelWriter, or EPUB.',
   },
 ];
 
@@ -78,39 +85,59 @@ const structuredData = {
   description="kindling Writer is free fiction writing software that keeps your outline visible while you draft. Import from Plottr, Scrivener, yWriter, or Obsidian. Desktop app for macOS, Windows & Linux."
   structuredData={structuredData}
 >
-  <!-- The introduction stays at reading measure; the sample scene breaks wider. -->
+  <!-- 01 — the opener carries no running label, as on every other page.
+       The explaining sentence sits under the headline it explains, at reading
+       measure, on the page's one left edge; the narrow track carries ancillary
+       matter only. Two terracotta moments in this viewport: the accent clause
+       and the one filled action. The masthead's Download is secondary. -->
   <section class="pw-hero pw-frame hero" aria-labelledby="hero-title">
-    <div class="pw-hero-grid">
-      <h1 class="pw-hero-title" id="hero-title">Keep your outline close. <em>Keep writing.</em></h1>
-      <div class="pw-stack">
-        <p class="hero-tagline">Draft one scene at a time, with your beats, characters, and notes close at hand.</p>
+    <div class="pw-hero-grid pw-hero-grid--top">
+      <div class="hero-stack">
+        <h1 class="pw-hero-title" id="hero-title">Keep your outline close. <em>Keep writing.</em></h1>
+        <p class="pw-prose">Draft one scene at a time, with your beats, characters, and notes close at hand. kindling is a desktop writing app that keeps the plan you made beside the page you are writing.</p>
         <SmartDownloadButton client:load location="hero" compact />
       </div>
+
+      <!-- `.pw-version` is the released-artifact label: a hairline and tabular
+           figures, no fill and no accent, so it costs nothing from the budget.
+           `.ka-facts` carries only what the trust strip below does not. -->
+      <div class="hero-aside">
+        <span class="pw-version">v{APP_VERSION}</span>
+        <dl class="ka-facts">
+          <div><dt>Requires</dt><dd>macOS 11+, Windows 10+, Linux</dd></div>
+          <div><dt>Download</dt><dd>~10&nbsp;MB</dd></div>
+        </dl>
+      </div>
     </div>
+  </section>
+
+  <!-- The specimen, below the action rather than above it. It keeps its
+       behaviour and loses its rank: a visitor is told what kindling is before
+       being handed something to operate. -->
+  <section class="pw-frame specimen" aria-label="A scene in kindling">
     <WritingDemo />
   </section>
 
-  <!-- Social proof — the shared full-bleed band. Deliberately not
-       .fade-in-on-scroll: it sits at the fold, where a scroll-driven reveal
-       parks part-way through its range, and a band at the fold has nothing
-       left to reveal. -->
+  <!-- The fact strip. Left-aligned per `.pw-trust--inline`; the writer count is
+       sourced from GitHub release analytics filtered to binary assets and is
+       conservative — see press/docs/WEBSITE_COMPONENTS.md, corrected in 0.12.0. -->
   <section class="pw-band trust-band" aria-label="About kindling">
-    <ul class="pw-trust pw-frame">
+    <ul class="pw-trust pw-trust--inline pw-frame">
       <li>Trusted by 2000+ writers</li>
-      <li>MIT licensed</li>
-      <li>Built with Rust &amp; Tauri</li>
+      <li>MIT licensed, open source</li>
       <li>macOS · Windows · Linux</li>
+      <li>No account, no subscription, no AI</li>
     </ul>
   </section>
 
-  <!-- Problem statement — the emotional beat. The heading is this section's
-       display moment and breaks out wider than the prose beside it. -->
-  <section class="problem-section has-grain fade-in-on-scroll">
+  <!-- 02 — the problem. The strongest section on the page before this pass and
+       kept intact, minus the hard <br>, so `.pw-heading` can balance at width. -->
+  <section class="pw-band--sunken has-grain" aria-labelledby="problem-title">
     <div class="pw-frame">
       <div class="pw-section-head">
         <p class="pw-label">02 / From plan to page</p>
         <div>
-          <h2 class="pw-heading">You planned every beat.<br>Then you opened a blank document.</h2>
+          <h2 class="pw-heading" id="problem-title">You planned every beat. Then you opened a blank document.</h2>
           <p class="pw-prose">Writing apps make you choose: outline <em>or</em> draft. Your beats live in Plottr, your manuscript in Scrivener, your notes in Obsidian. kindling puts them all in one focused space — so your outline stays visible while you write.</p>
           <p class="pw-quote">An outline you can’t see while you write is just a document you wrote once.</p>
         </div>
@@ -118,55 +145,50 @@ const structuredData = {
     </div>
   </section>
 
-  <!-- Features — the shared sequence: full-width alternating rows, hairline
-       separated, each carrying a print folio. Never a tile matrix. -->
-  <section class="pw-frame features-section" id="how-it-works">
-    <div class="pw-section-head fade-in-on-scroll">
+  <!-- 03 — the sequence. One ratio for the whole run: four captures at their
+       own ratios stand 424/424/272/424px tall in one column, and a run of rows
+       each individually correct reads as ragged. `.pw-image-frame` contains
+       rather than crops, so nothing is lost to the even frame. -->
+  <section class="pw-frame features-section" id="how-it-works" aria-labelledby="features-title">
+    <div class="pw-section-head">
       <p class="pw-label">03 / Close at hand</p>
       <div>
-        <h2 class="pw-heading">Fiction writing software built for outline-driven novelists</h2>
+        <h2 class="pw-heading" id="features-title">Fiction writing software built for outline-driven novelists</h2>
         <p class="pw-prose">Stop switching between apps. kindling brings your planning and drafting into one focused space — where outlines become novels.</p>
       </div>
     </div>
 
-    <div class="pw-feature-grid">
+    <div class="pw-feature-grid feature-run">
       {features.map((feature, index) => (
-        <article class:list={['pw-feature', 'fade-in-on-scroll', { 'pw-feature--reverse': index % 2 === 1 }]}>
-          <figure>
-            <div class="pw-image-frame" style={frame(feature.image)}>
-              <Image src={feature.image} alt={feature.alt} width={560} loading="lazy" />
-            </div>
-          </figure>
+        <article class:list={['pw-feature', { 'pw-feature--reverse': index % 2 === 1 }]}>
+          <ProductFigure src={feature.image} alt={feature.alt} ratio="inherit" />
           <div>
-            <p class="pw-label">{feature.kicker}</p>
             <h3 class="pw-feature-title">{feature.title}</h3>
             <p class="pw-problem">{feature.problem}</p>
-            {index === 0 && <p>kindling puts your scene beats right inside your writing space. Click a beat, write into it.</p>}
-            {index === 1 && <p>Characters and locations tagged in your scene auto-surface in a side panel.</p>}
-            {index === 2 && <p>Three planning states — Fixed, Flexible, Undefined — let you add structure at your own pace. <a href="/story-outlining-software/">Learn more &rarr;</a></p>}
-            {index === 3 && <p>Import from Plottr, yWriter, Obsidian Longform, Scrivener, novelWriter, or Markdown. Export to DOCX, Markdown, Longform, Scrivener, novelWriter, or EPUB.</p>}
+            {feature.answer && <p>{feature.answer}</p>}
+            {index === 2 && (
+              <p>Three planning states — Fixed, Flexible, Undefined — let you add structure at your own pace. <a href="/story-outlining-software/">Learn more &rarr;</a></p>
+            )}
           </div>
         </article>
       ))}
     </div>
   </section>
 
-  <!-- v1.3 spotlight — the shared release rows under a running "04 /" label -->
-  <section class="spotlight has-grain fade-in-on-scroll">
+  <!-- 04 — the trailer for the release story, not the changelog. This ran to
+       eight items, each with its own terracotta link: about as tall as the
+       whole feature sequence above it, and the release story has its own page. -->
+  <section class="pw-band--sunken has-grain" aria-labelledby="whats-new-title">
     <div class="pw-frame">
       <div class="pw-section-head">
         <p class="pw-label">04 / New in v{APP_VERSION}</p>
         <div>
-          <h2 class="pw-section-title pw-heading">Keep writing. Bring your editor along.</h2>
-          <p class="pw-prose">Meet Press, kindling’s new editorial design, with manuscript review and writing tools that keep you close to your story.</p>
+          <h2 class="pw-heading" id="whats-new-title">Keep writing. Bring your editor along.</h2>
+          <p class="pw-prose">Manuscript review, writing goals, and a new editorial design that carries the same care into every surface.</p>
         </div>
       </div>
+
       <div class="pw-release-grid">
-        <div class="pw-release-item">
-          <h3>Meet Press</h3>
-          <p>A new design for kindling and its website: warm paper, bookish type, and clear, quiet controls. Light and dark themes bring the same care to your writing space.</p>
-          <a class="pw-link" href="/blog/kindling-v1-3-writing-and-review/#meet-press">Take a first look &rarr;</a>
-        </div>
         <div class="pw-release-item">
           <h3>Editorial review without accounts</h3>
           <p>Send your manuscript as a local file. Exchange tracked suggestions and comments, then decide what belongs in your story.</p>
@@ -183,32 +205,21 @@ const structuredData = {
           <a class="pw-link" href="/docs/scene-workflow/#previous-scene-context">Return to your draft &rarr;</a>
         </div>
         <div class="pw-release-item">
-          <h3>Custom exports for your next reader</h3>
-          <p>Save an export profile for your agent, writing group, or website. Choose chapters, adjust the layout, and preview your manuscript. Simple exports are still available.</p>
-          <a class="pw-link" href="/docs/export-workspace/">Make an export your own &rarr;</a>
-        </div>
-        <div class="pw-release-item">
-          <h3>Carry your story world forward</h3>
-          <p>Copy references, custom fields, and tags into another project. Each book’s characters and notes can evolve independently.</p>
-          <a class="pw-link" href="/docs/references/#copying-references-between-projects">Copy references between books &rarr;</a>
-        </div>
-        <div class="pw-release-item">
-          <h3>A novelWriter workflow</h3>
-          <p>Import and export novelWriter projects, then compare incoming prose and choose which changes to bring into kindling.</p>
-          <a class="pw-link" href="/docs/importing-projects/#novelwriter-project-folder">Bring your novelWriter project &rarr;</a>
-        </div>
-        <div class="pw-release-item">
-          <h3>One place for settings</h3>
-          <p>Appearance, author details, and project preferences share one window. Configure another book without leaving your manuscript, and <a href="/docs/settings/#keyboard-shortcuts">customize shortcuts</a> to suit the way you write.</p>
+          <h3>Meet Press</h3>
+          <p>A new design for kindling and its website: warm paper, bookish type, and clear, quiet controls that read the same in the app and out of it.</p>
+          <a class="pw-link" href="/blog/kindling-v1-3-writing-and-review/#meet-press">Take a first look &rarr;</a>
         </div>
       </div>
-      <p class="release-link"><a href="/blog/kindling-v1-3-writing-and-review/">Read the v1.3 release story &rarr;</a></p>
+
+      <p class="section-foot">Custom export profiles, reference copying between projects, a novelWriter workflow, and one place for settings also landed in v{APP_VERSION}. <a href="/blog/kindling-v1-3-writing-and-review/">Read the release story &rarr;</a></p>
     </div>
   </section>
 
-  <!-- Closing action — the shared pattern. One primary fill in view. -->
-  <section class="pw-closing pw-frame fade-in-on-scroll">
-    <h2 class="pw-section-title">Your outline is ready. Start writing.</h2>
+  <!-- 05 — closing. One primary fill, on the page's one left edge. -->
+  <section class="pw-closing pw-frame" aria-labelledby="closing-title">
+    <div>
+      <h2 class="pw-section-title" id="closing-title">Your outline is ready. Start writing.</h2>
+    </div>
     <div class="pw-closing-actions">
       <SmartDownloadButton client:visible location="bottom" />
     </div>
@@ -216,52 +227,106 @@ const structuredData = {
 </MarketingLayout>
 
 <style>
-  /* Page arrangement only: band rhythm, opening space and the two editorial
-     breaks. Every surface, hairline, type role and control below comes from
-     the shared website layer. */
+  /* Page arrangement only. Band rhythm, the hero's two stacks and the
+     sequence's shared figure ratio — every surface, hairline, type role and
+     control comes from Press 0.12.0.
+
+     DO NOT prefix these with `.press-web`. Astro stamps its scope hash only on
+     elements in THIS component's template, and `.press-web` is in
+     MarketingLayout — so `.press-web .hero-stack` compiles to
+     `.press-web:where(.astro-hash) .hero-stack:where(.astro-hash)` and matches
+     nothing at all. A whole block of arrangement silently did nothing while the
+     page still looked plausible.
+
+     Where a rule must beat a Press rule, qualify with the element name instead:
+     Astro's `:where()` adds no specificity, so a bare class only ties with
+     `.press-web .pw-thing` (0,2,0) and loses on source order. See CLAUDE.md,
+     "Astro scoped styles have zero specificity". */
+
+  /* `--pw-hero-measure` replaces Press's 15ch default, which breaks this
+     37-character headline as "Keep your outline / close. / Keep writing." —
+     a two-word middle line with room to spare.
+
+     `--pw-hero-columns` aligns the hero's narrow track with the references
+     panel of the `.pw-writing` specimen directly below it, so the specimen's
+     column divider reads as one line running the height of the page rather
+     than as a second vertical a few dozen pixels off the hero's.
+
+     The arithmetic is the specimen's: `.pw-writing` is `2fr 1fr` with no gap,
+     so its right column opens at two thirds of the frame, and `.pw-references`
+     then insets its content by `--pw-gutter`. The hero's first track is that
+     sum, with no gap, which puts the aside's text on the references heading's
+     left edge exactly. Press's narrow-width rules set `grid-template-columns`
+     directly, so both still stack below 600px without restating them here. */
   .hero {
-    padding-top: var(--space-4xl);
-    padding-bottom: var(--space-l);
-  }
-  .hero .pw-hero-grid { margin-bottom: var(--space-xl); }
-  .hero-tagline {
-    font-family: var(--font-body);
-    font-size: var(--text-body-lg);
-    color: var(--color-text);
-    line-height: var(--leading-relaxed);
-    max-width: var(--measure);
-    text-wrap: balance;
+    --pw-hero-measure: 18ch;
+    --pw-hero-columns: calc(100% * 2 / 3 + var(--pw-gutter)) minmax(0, 1fr);
+    --pw-hero-gap: 0;
   }
 
-  /* The trailing gap before the problem band is the only page business here. */
-  .trust-band { margin-bottom: var(--space-3xl); }
-
-  /* ===== Problem statement ===== */
-  /* Full-bleed sunken plane; the inner .pw-frame holds content to width. With
-     the spotlight below it this sets a paper → sunken → paper → sunken rhythm
-     so sections read as planes rather than a scroll of undivided copy. */
-  .problem-section {
-    padding: var(--space-4xl) var(--space-l) var(--space-3xl);
-    background: var(--color-surface-sunken);
-  }
-  .problem-section h2 {
-    font-size: var(--text-h1);
-    margin-bottom: var(--space-m);
-    max-width: 30ch;
+  .hero-stack {
+    display: grid;
+    gap: var(--space-m);
+    justify-items: start;
   }
 
-  .features-section {
-    padding-block: var(--space-4xl) var(--space-3xl);
+  /* The hero's action stacks: one button, then its micro-copy, then the
+     platforms link. The compact default is a two-column grid with the link
+     beside the button — right in a tight column, wrong here, where it reads as
+     a second action competing with the primary fill. Element-qualified to beat
+     the Svelte component's own `.smart-download.compact` (0,3,0). */
+  div.hero-stack :global(div.smart-download.compact) {
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: start;
+    gap: var(--space-2xs);
   }
-  .features-section .pw-section-head { margin-bottom: var(--space-l); }
+  div.hero-stack :global(div.smart-download.compact .alt-platforms) {
+    grid-column: 1;
+    grid-row: 3;
+  }
 
-  .spotlight {
-    padding: var(--space-3xl) var(--space-l);
-    background: var(--color-surface-sunken);
+  /* The aside drops to the stand-first's top edge, so the hero's right column
+     starts where its reading copy does rather than beside the headline.
+
+     Derived, not a magic number: the headline is two lines of `--text-hero` at
+     Press's `.pw-hero-title` line-height of 1.06, and `.hero-stack` puts
+     `--space-m` under it. `--text-hero` is a clamp, so this tracks the headline
+     as it scales instead of holding one width's offset everywhere.
+
+     It does assume the headline stays at two lines, which it does from 601px
+     up with this copy. A third line would leave the aside one line high — it is
+     ancillary matter, so that degrades quietly rather than breaking, but a
+     longer headline wants this re-checked. Reset wherever the grid stacks and
+     the aside follows the stack in flow. */
+  .hero-aside {
+    display: grid;
+    gap: var(--space-s);
+    justify-items: start;
+    padding-top: calc(var(--text-hero) * 1.06 * 2 + var(--space-m));
   }
-  .spotlight .pw-section-head { margin-bottom: var(--space-l); }
-  .release-link {
-    margin-top: var(--space-xl);
+
+  @media (max-width: 767px) {
+    .hero-aside { padding-top: 0; }
+  }
+
+  .specimen { padding-bottom: var(--space-3xl); }
+
+  /* The strip sits directly on top of the 02 band, not below the specimen with
+     a gap after it. It is a set of claims about the product, so it reads as the
+     lead-in to the section that argues for them. */
+  .trust-band { margin-top: var(--space-3xl); }
+
+  .features-section { padding-block: var(--space-3xl); }
+
+  /* One ratio for the run — see the section comment and ProductFigure's
+     `ratio` prop. `.pw-feature-grid` sets this variable at (0,2,0), so the
+     element qualifier is load-bearing, not decoration. */
+  div.pw-feature-grid.feature-run { --pw-reference-ratio: 3 / 2; }
+
+  .section-foot {
+    margin-top: var(--space-2xl);
+    padding-top: var(--space-m);
+    border-top: var(--pw-line);
     max-width: var(--measure);
   }
 
@@ -272,4 +337,11 @@ const structuredData = {
     text-align: left;
   }
   .pw-closing-actions :global(.micro-copy) { text-align: left; }
+
+  @container press-website (max-width: 600px) {
+    .hero-aside { padding-top: 0; }
+    .specimen { padding-bottom: var(--space-2xl); }
+    .trust-band { margin-top: var(--space-2xl); }
+    .features-section { padding-block: var(--space-2xl); }
+  }
 </style>

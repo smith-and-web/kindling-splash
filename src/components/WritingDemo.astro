@@ -38,7 +38,7 @@ const beats = [
 ];
 ---
 
-<figure class="writing-demo" aria-labelledby="demo-caption">
+<figure class="pw-figure writing-demo" aria-labelledby="demo-caption">
   <div class="pw-writing pw-writing--app">
     <div class="pw-scene">
       <p class="pw-label">The Letter <span aria-hidden="true">/</span> Chapter 1</p>
@@ -83,7 +83,7 @@ const beats = [
     </div>
 
     <aside class="pw-references" aria-label="Sample scene references">
-      <h3>References</h3>
+      <h4>References</h4>
       <p class="pw-note">Linked to this scene</p>
       <div class="pw-reference">
         <p class="pw-label">Character</p>
@@ -97,9 +97,7 @@ const beats = [
       </div>
     </aside>
   </div>
-  <figcaption class="demo-caption" id="demo-caption">
-    <p>A sample scene from <em>The Letter</em>. Your outline stays with the words it becomes.</p>
-  </figcaption>
+  <figcaption id="demo-caption">A sample scene from <em>The Letter</em>. Your outline stays with the words it becomes.</figcaption>
 </figure>
 
 <style>
@@ -145,16 +143,4 @@ const beats = [
      `.press-web [hidden]` enforces with !important, so the two agree. */
   .pw-beat:not(:has(input:checked)) .pw-draft { display: none; }
 
-  .demo-caption {
-    display: block;
-    margin-top: var(--space-s);
-    max-width: var(--measure);
-  }
-
-  .demo-caption p {
-    line-height: var(--leading);
-    font-family: var(--font-body);
-    font-size: var(--text-small);
-    color: var(--color-text-muted);
-  }
 </style>
