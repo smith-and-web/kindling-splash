@@ -1,469 +1,767 @@
 ---
-import { Image } from 'astro:assets';
-import MarketingLayout from '../../layouts/MarketingLayout.astro';
-import { APP_VERSION } from '../../data/downloads';
-import scenePanel from '../../assets/scene-panel.png';
-import referencesPanel from '../../assets/references-panel.png';
+import ProductFigure from "../../components/ProductFigure.astro";
+import SectionLead from "../../components/SectionLead.astro";
+import MarketingLayout from "../../layouts/MarketingLayout.astro";
+import { APP_VERSION } from "../../data/downloads";
+import referencesPanel from "../../assets/references-panel.png";
+import beatWithProse from "../../assets/beat-with-prose.png";
+import pageView from "../../assets/page-view.png";
+import screenplay from "../../assets/screenplay.png";
+import importFormats from "../../assets/import-formats.png";
 
 const structuredData = {
-  "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
-  "name": "Kindling Writer",
-  "description": "Free, open-source fiction writing software that keeps your outline visible while you draft. Built for plotters, pantsers, and every kind of fiction writer.",
-  "url": "https://kindlingwriter.com/",
-  "applicationCategory": "DesktopApplication",
-  "operatingSystem": "Windows, macOS, Linux",
-  "offers": {
-    "@type": "Offer",
-    "price": "0",
-    "priceCurrency": "USD"
-  },
-  "softwareVersion": APP_VERSION,
-  "license": "https://opensource.org/licenses/MIT",
-  "downloadUrl": "https://kindlingwriter.com/download/",
-  "screenshot": "https://kindlingwriter.com/og-image.png",
-  "author": {
-    "@type": "Organization",
-    "name": "Kindling",
-    "url": "https://kindlingwriter.com"
-  },
-  "featureList": [
-    "Rolling Outline Mode — progressive structure for plotters and plantsers",
-    "Blank projects — start from scratch without importing",
-    "Import outlines from Plottr, yWriter, Obsidian Longform, and Markdown",
-    "Expandable scene beats as writing prompts",
-    "Beat management — split, merge, reorder, and delete beats",
-    "Inline discovery notes to capture ideas mid-writing",
-    "Context-aware character and location references",
-    "Command palette for quick access to all actions",
-    "Export to DOCX, Markdown, and Obsidian Longform",
-    "Local-first — all data stays on your computer",
-    "Distraction-free writing interface",
-    "Automatic updates — never download manually again",
-    "Built with Rust and Tauri for fast performance",
-    "Session persistence — pick up where you left off",
-    "Free and open source under MIT license"
-  ]
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    name: "kindling Writer",
+    description:
+        "Free, open-source fiction writing software that keeps your outline visible while you draft. Built for plotters, pantsers, and every kind of fiction writer.",
+    url: "https://kindlingwriter.com/",
+    applicationCategory: "DesktopApplication",
+    operatingSystem: "Windows, macOS, Linux",
+    offers: {
+        "@type": "Offer",
+        price: "0",
+        priceCurrency: "USD",
+    },
+    softwareVersion: APP_VERSION,
+    license: "https://opensource.org/licenses/MIT",
+    downloadUrl: "https://kindlingwriter.com/download/",
+    screenshot: "https://kindlingwriter.com/og-image.png",
+    author: {
+        "@type": "Organization",
+        name: "kindling",
+        url: "https://kindlingwriter.com",
+    },
+    featureList: [
+        "Rolling Outline Mode — progressive structure for plotters and plantsers",
+        "Blank projects — start from scratch without importing",
+        "Import outlines from Plottr, Scrivener, yWriter, Obsidian Longform, novelWriter, and Markdown",
+        "Expandable scene beats as writing prompts",
+        "Beat management — split, merge, reorder, and delete beats",
+        "Inline discovery notes to capture ideas mid-writing",
+        "Context-aware character and location references",
+        "Command palette for quick access to all actions",
+        "Export to DOCX, EPUB, HTML, plain text, Markdown, Scrivener, Obsidian Longform, and novelWriter",
+        "Custom export workspace with saved profiles, manuscript previews, chapter selection, and typography controls",
+        "Local-first — all data stays on your computer",
+        "Distraction-free writing interface",
+        "Automatic updates — never download manually again",
+        "Built with Rust and Tauri for fast performance",
+        "Session persistence — pick up where you left off",
+        "Press — an editorial design with warm paper surfaces and light and dark themes",
+        "Editorial review — local files, tracked suggestions, and threaded comments",
+        "Daily writing goals, session totals, streaks, and manuscript statistics",
+        "Previous scene context and project-wide find and replace",
+        "Copy references, custom fields, and tags between projects",
+        "Free and open source under MIT license",
+    ],
 };
 
 const faqStructuredData = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "What file formats does Kindling support?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Kindling imports from Plottr (.pltr), yWriter (.yw7), Obsidian Longform, and Markdown outlines. It exports to DOCX, Markdown, and Obsidian Longform format. This lets you bring in your existing outline and export finished work to the tools you already use."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Is Kindling open source?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes. Kindling is fully open source under the MIT license. The complete source code is available on GitHub at https://github.com/smith-and-web/kindling. Anyone can inspect, modify, and redistribute the code."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Does Kindling send data to the cloud?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "No. Kindling is a local-first desktop application. Your projects are stored as SQLite files on your hard drive. Kindling does not require an account, does not phone home, does not collect analytics, and does not upload your manuscripts. Your data never leaves your machine."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "What is Kindling built with?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Kindling is built with Rust and Tauri 2.x for the backend, providing fast performance and a small ~10MB application size. The user interface is built with Svelte 5. Project data is stored in SQLite databases. It launches in under a second and uses a fraction of the memory of Electron-based writing tools."
-      }
-    }
-  ]
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: [
+        {
+            "@type": "Question",
+            name: "What file formats does kindling support?",
+            acceptedAnswer: {
+                "@type": "Answer",
+                text: "kindling imports from Plottr (.pltr), Scrivener (.scriv), yWriter (.yw7), Obsidian Longform, novelWriter projects, and Markdown outlines. It exports to DOCX, EPUB, HTML, plain text, Markdown, Scrivener, Obsidian Longform, and novelWriter. Choose a simple export or use Custom for saved profiles and manuscript previews; HTML and plain-text manuscripts are available through Custom.",
+            },
+        },
+        {
+            "@type": "Question",
+            name: "Is kindling open source?",
+            acceptedAnswer: {
+                "@type": "Answer",
+                text: "Yes. kindling is fully open source under the MIT license. The complete source code is available on GitHub at https://github.com/smith-and-web/kindling. Anyone can inspect, modify, and redistribute the code.",
+            },
+        },
+        {
+            "@type": "Question",
+            name: "Does kindling send data to the cloud?",
+            acceptedAnswer: {
+                "@type": "Answer",
+                text: "kindling stores your projects locally and does not upload your manuscripts. Writing and editorial review work offline, with no account, analytics, or telemetry. You choose how to transfer editorial review files. Automatic updates use the internet, and submitting the optional Send Feedback form sends your feedback to the kindling team.",
+            },
+        },
+        {
+            "@type": "Question",
+            name: "What is kindling built with?",
+            acceptedAnswer: {
+                "@type": "Answer",
+                text: "kindling is built with Rust and Tauri 2.x for the backend, providing fast performance and a small ~10MB application size. The user interface is built with Svelte 5. Project data is stored in SQLite databases. It launches in under a second and uses a fraction of the memory of Electron-based writing tools.",
+            },
+        },
+    ],
 };
 ---
 
 <MarketingLayout
-  title="Kindling Writer Features — Free Fiction Writing Software for Plotters & Pantsers"
-  description="Writing software for plotters and pantsers. Rolling outlines, expandable scene beats, character references, command palette, auto-updates. Free & open source."
-  structuredData={structuredData}
+    title="kindling Writer Features — Free Fiction Writing Software for Plotters & Pantsers"
+    description="Writing software for plotters and pantsers. Rolling outlines, scene beats, editorial review, writing goals, and character references. Free & open source."
+    structuredData={structuredData}
 >
-  <script type="application/ld+json" set:html={JSON.stringify(faqStructuredData)} />
+    <script
+        type="application/ld+json"
+        set:html={JSON.stringify(faqStructuredData)}
+    ></script>
+    <!-- Lede — left-aligned editorial page opener -->
+    <section class="page-lede editorial">
+        <h1>From your first outline to editorial review</h1>
+        <p class="lede-standfirst">
+            Whether you outline every beat or discover your story as you write,
+            kindling gives you a scaffolded writing space — scene beats as
+            expandable prompts, character details at your fingertips, and the
+            flexibility to add structure at your own pace. When the draft is
+            ready for another reader, exchange comments and tracked suggestions
+            through local review files.
+        </p>
+        <a
+            href="/download/"
+            class="pw-button"
+            data-cta-location="features_hero"
+        >
+            Download kindling — Free
+        </a>
+    </section>
 
-  <section class="page-hero">
-    <h1>Everything you need to go from outline to draft</h1>
-    <p class="page-hero-subtext">Whether you outline every beat or discover your story as you write, Kindling gives you a scaffolded writing space — scene beats as expandable prompts, character details at your fingertips, and the flexibility to add structure at your own pace.</p>
-    <a href="/download/" class="download-btn" onclick="typeof gtag==='function'&&gtag('event','download_cta_click',{cta_location:'features_hero'})">Download Kindling — Free</a>
-    <video autoplay loop muted playsinline preload="metadata" poster="/hero-poster.jpg" width="804" height="556" style="margin-top: 32px; max-width: 100%; height: auto; border-radius: 12px;" aria-label="Scaffolded writing view with scene beats expanded">
-      <source src="/demo-2.mp4" type="video/mp4">
-    </video>
-  </section>
+    <!-- ===== Primary features — editorial sequence ===== -->
+    <section class="features-seq-section pw-frame">
+        <div class="pw-feature-grid">
+            <article class="pw-feature fade-in-on-scroll">
+                <ProductFigure
+                    src={beatWithProse}
+                    alt="kindling editor showing scene beats alongside prose"
+                    width={560}
+                    loading="eager"
+                />
+                <div>
+                    <p class="pw-label">Core Feature</p>
+                    <h3>Outline-Aware Drafting</h3>
+                    <p class="pw-problem">
+                        Other apps make you flip between your outline and a
+                        blank page.
+                    </p>
+                    <p>
+                        Scene beats appear as expandable prompts in your
+                        drafting view. Click a beat, write into it. Your outline
+                        is the scaffolding for your first draft.
+                    </p>
+                </div>
+            </article>
 
-  <!-- ===== Primary Features — Bento Grid ===== -->
-  <section class="features-section">
-    <div class="bento-grid">
-      <!-- Row 1: Core writing -->
-      <div class="bento-tile fade-in-on-scroll">
-        <div class="bento-label">Core Feature</div>
-        <h3>Outline-Aware Drafting</h3>
-        <p class="bento-problem">Other apps make you flip between your outline and a blank page.</p>
-        <p class="bento-solution">Scene beats appear as expandable prompts in your drafting view. Click a beat, write into it. Your outline is the scaffolding for your first draft.</p>
-        <Image src={scenePanel} alt="Kindling editor showing scene beats alongside prose" width={560} loading="eager" class="bento-image" />
-      </div>
+            <article class="pw-feature pw-feature--reverse fade-in-on-scroll">
+                <div>
+                    <p class="pw-label">Stay in Flow</p>
+                    <h3>References Panel</h3>
+                    <p class="pw-problem">
+                        Was it green eyes or blue? What was the tavern called?
+                    </p>
+                    <p>
+                        Characters and locations tagged in your scene
+                        auto-surface in a side panel. Physical descriptions, key
+                        notes, and custom fields — all visible while you write.
+                    </p>
+                </div>
+                <ProductFigure
+                    src={referencesPanel}
+                    alt="kindling references panel showing character details"
+                    width={560}
+                    loading="lazy"
+                />
+            </article>
 
-      <div class="bento-tile fade-in-on-scroll">
-        <div class="bento-label">Stay in Flow</div>
-        <h3>References Panel</h3>
-        <p class="bento-problem">Was it green eyes or blue? What was the tavern called?</p>
-        <p class="bento-solution">Characters and locations tagged in your scene auto-surface in a side panel. Physical descriptions, key notes, and custom fields — all visible while you write.</p>
-        <Image src={referencesPanel} alt="Kindling references panel showing character details" width={560} loading="lazy" class="bento-image" />
-      </div>
-
-      <!-- Row 2: Structure -->
-      <div class="bento-tile fade-in-on-scroll">
-        <div class="bento-label">Your Pace</div>
-        <h3>Rolling Outline</h3>
-        <p class="bento-problem">Not every scene needs the same level of planning.</p>
-        <p class="bento-solution">Three planning states — <strong>Fixed</strong>, <strong>Flexible</strong>, <strong>Undefined</strong> — let you add structure progressively. Start vague, define as you go. The sidebar adapts automatically.</p>
-      </div>
-
-      <div class="bento-tile fade-in-on-scroll">
-        <div class="bento-label">Full Control</div>
-        <h3>Beat Management</h3>
-        <p class="bento-problem">Your outline needs to evolve as you write.</p>
-        <p class="bento-solution">Delete, reorder, split, and merge beats with drag-and-drop. A beat density indicator shows how detailed each scene is at a glance.</p>
-      </div>
-
-      <!-- Row 3: Workflow -->
-      <div class="bento-tile fade-in-on-scroll">
-        <div class="bento-label">Capture Ideas</div>
-        <h3>Discovery Notes</h3>
-        <p class="bento-problem">Inspiration doesn't wait for your outline.</p>
-        <p class="bento-solution">Press <strong>Cmd+D</strong> to jot a note mid-scene — a subplot idea, a character insight, a thread to weave in later. Promote notes to full beats when you're ready.</p>
-      </div>
-
-      <div class="bento-tile fade-in-on-scroll">
-        <div class="bento-label">Your Tools</div>
-        <h3>Import & Export</h3>
-        <p class="bento-problem">Your outline lives in one app, your manuscript in another.</p>
-        <p class="bento-solution">Import from Plottr, Scrivener, yWriter, Obsidian, or Markdown. Export to DOCX, Scrivener, Markdown, or EPUB.</p>
-        <div class="flow-diagram">
-          <div class="flow-node">
-            <span class="flow-label">Import</span>
-            <span class="flow-formats">Plottr · Scrivener · yWriter · Obsidian · Markdown</span>
-          </div>
-          <span class="flow-arrow" aria-hidden="true">↓</span>
-          <div class="flow-node flow-node-center">
-            <span class="flow-label">Kindling</span>
-            <span class="flow-formats">Write & edit</span>
-          </div>
-          <span class="flow-arrow" aria-hidden="true">↓</span>
-          <div class="flow-node">
-            <span class="flow-label">Export</span>
-            <span class="flow-formats">DOCX · Scrivener · Markdown · EPUB</span>
-          </div>
+            <article class="pw-feature fade-in-on-scroll">
+                <ProductFigure
+                    src={importFormats}
+                    alt="kindling's import options, including novelWriter, Plottr, yWriter, Markdown, Longform and Scrivener"
+                    width={560}
+                    loading="lazy"
+                />
+                <div>
+                    <p class="pw-label">Your Tools</p>
+                    <h3>Import &amp; Export</h3>
+                    <p class="pw-problem">
+                        Your outline lives in one app, your manuscript in
+                        another.
+                    </p>
+                    <p>
+                        Import from Plottr, Scrivener, yWriter, Obsidian
+                        Longform, novelWriter, or Markdown. Choose a simple
+                        export or save a Custom profile with manuscript previews
+                        and layout controls. Custom also adds HTML and
+                        plain-text manuscript output. See our{" "}
+                        <a href="/free-scrivener-alternative/">
+                            Scrivener alternative guide
+                        </a>{" "}
+                        and{" "}
+                        <a href="/docs/importing-projects/">
+                            import instructions
+                        </a>{" "}
+                        before moving an existing project.
+                    </p>
+                    <div class="flow-diagram">
+                        <div class="flow-node">
+                            <span class="flow-label">Import</span>
+                            <span class="flow-formats">
+                                Plottr · Scrivener · yWriter · Obsidian ·
+                                novelWriter · Markdown
+                            </span>
+                        </div>
+                        <span class="flow-arrow" aria-hidden="true">
+                            ↓
+                        </span>
+                        <div class="flow-node flow-node-center">
+                            <span class="flow-label">kindling</span>
+                            <span class="flow-formats">Write &amp; edit</span>
+                        </div>
+                        <span class="flow-arrow" aria-hidden="true">
+                            ↓
+                        </span>
+                        <div class="flow-node">
+                            <span class="flow-label">Export</span>
+                            <span class="flow-formats">
+                                DOCX · EPUB · HTML · Plain text · Markdown ·
+                                Scrivener · Longform · novelWriter
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </article>
         </div>
-      </div>
-    </div>
-  </section>
 
-  <!-- ===== v1.2 Features — Bento Grid ===== -->
-  <section class="features-section">
-    <div class="features-section-header">
-      <h2>New in v1.2</h2>
-    </div>
-    <div class="bento-grid">
-      <div class="bento-tile fade-in-on-scroll">
-        <div class="bento-label">Write Your Way</div>
-        <h3>Full-Page Prose Editing</h3>
-        <p class="bento-problem">Beat-by-beat is great for structure. But sometimes you just want to write.</p>
-        <p class="bento-solution">Toggle between beat view and a full-page prose editor per scene. Your beats stay available for reference — you get an uninterrupted writing surface without leaving your structure behind.</p>
-      </div>
+        <!-- The three features with nothing to photograph, gathered on one line
+         under the sequence. They are short and text-only, so pairing each with
+         an empty half-spread left a void beside every one of them; three
+         columns of equal weight read as a coda to the sequence rather than
+         three more rows of it. No folio: it is not another numbered spread. -->
+        <div class="feature-coda fade-in-on-scroll">
+            <div>
+                <p class="pw-label">Your Pace</p>
+                <h3 class="pw-feature-title">Rolling Outline</h3>
+                <p class="pw-problem">
+                    Not every scene needs the same level of planning.
+                </p>
+                <p>
+                    Three planning states — <strong>Fixed</strong>,{" "}
+                    <strong>Flexible</strong>, <strong>Undefined</strong> — let
+                    you add structure progressively. Start vague, define as you
+                    go. The sidebar adapts automatically.
+                </p>
+            </div>
+            <div>
+                <p class="pw-label">Full Control</p>
+                <h3 class="pw-feature-title">Beat Management</h3>
+                <p class="pw-problem">
+                    Your outline needs to evolve as you write.
+                </p>
+                <p>
+                    Delete, reorder, split, and merge beats with drag-and-drop.
+                    A beat density indicator shows how detailed each scene is at
+                    a glance.
+                </p>
+            </div>
+            <div>
+                <p class="pw-label">Capture Ideas</p>
+                <h3 class="pw-feature-title">Discovery Notes</h3>
+                <p class="pw-problem">
+                    Inspiration doesn't wait for your outline.
+                </p>
+                <p>
+                    Press <strong>Cmd/Ctrl+D</strong> to jot a note mid-scene —
+                    a subplot idea, a character insight, a thread to weave in
+                    later. Promote notes to full beats when you're ready.
+                </p>
+            </div>
+        </div>
+    </section>
 
-      <div class="bento-tile fade-in-on-scroll">
-        <div class="bento-label">Smart Context</div>
-        <h3>Reference Auto-Detection</h3>
-        <p class="bento-problem">You mentioned a character three paragraphs ago but forgot to link them.</p>
-        <p class="bento-solution">A non-AI engine scans your prose for character, location, and item names. Suggestions surface in the References panel — link with one click, or dismiss. No cloud, no magic, just pattern matching.</p>
-      </div>
+    <!-- v1.3 — the release story, with direct paths into the guides. -->
+    <section class="features-seq-section pw-frame" id="new-in-v1-3">
+        <SectionLead
+            label="02 / This release"
+            title="New in v1.3"
+            standfirst="A new editorial design, and tools for your next draft, writing session, and round of feedback."
+        />
+        <div class="pw-release-grid">
+            <article class="pw-release-item">
+                <h3>Meet Press</h3>
+                <p>
+                    kindling’s new design brings warm paper surfaces, bookish
+                    typography, and quiet controls to the app and website. Your
+                    prose has room to breathe, with fine rules to separate the
+                    tools around it. The app’s light and dark themes share the
+                    same care for reading.
+                </p>
+                <a
+                    class="pw-link"
+                    href="/blog/kindling-v1-3-writing-and-review/#meet-press"
+                >
+                    Take a first look at Press &rarr;
+                </a>
+            </article>
+            <article class="pw-release-item">
+                <h3>Editorial review without accounts</h3>
+                <p>
+                    Send your whole manuscript or selected chapters as a{" "}
+                    <code>.kindling-review</code> file. Your editor reads and
+                    edits in kindling, with tracked suggestions, threaded
+                    comments, and simple or full markup. Import their feedback
+                    and accept or reject changes beside your manuscript. Keep
+                    writing while the review is out; if a passage has changed,
+                    compare it before applying the suggestion.
+                </p>
+                <a class="pw-link" href="/docs/editorial-review/">
+                    See the review workflow &rarr;
+                </a>
+            </article>
+            <article class="pw-release-item">
+                <h3>Custom exports for your next reader</h3>
+                <p>
+                    Prepare a submission, a reading copy, or chapters for your
+                    website. Save profiles with chapter selections, typography,
+                    and book details, and check the manuscript preview before
+                    exporting. Start with Agent submission, Writing group, or
+                    Website chapters. The simple format choices remain available
+                    whenever you just need a file.
+                </p>
+                <a class="pw-link" href="/docs/export-workspace/">
+                    Explore the export workspace &rarr;
+                </a>
+            </article>
+            <article class="pw-release-item">
+                <h3>Writing goals, sessions, and statistics</h3>
+                <p>
+                    Set a daily goal for each book and follow your writing
+                    streak. Scene, chapter, project, and session totals stay
+                    visible in the status bar. Open Writing statistics for
+                    chapter counts and a breakdown of scenes with prose. Daily
+                    totals count net words added through saved edits, so cutting
+                    words can lower the number.
+                </p>
+                <a class="pw-link" href="/docs/writing-progress/">
+                    Understand your progress &rarr;
+                </a>
+            </article>
+            <article class="pw-release-item">
+                <h3>Return to the story</h3>
+                <p>
+                    Previously shows the preceding scene’s title, synopsis, and
+                    closing three sentences, even across chapter boundaries.
+                    kindling also restores your last scene, expanded beat,
+                    cursor, and scroll position when you reopen a project.
+                </p>
+                <a
+                    class="pw-link"
+                    href="/docs/scene-workflow/#previous-scene-context"
+                >
+                    Pick up where you left off &rarr;
+                </a>
+            </article>
+            <article class="pw-release-item">
+                <h3>Find and replace across the manuscript</h3>
+                <p>
+                    Search the current scene or the whole project, match case or
+                    whole words, and jump directly to a passage. Replace one
+                    match or all editable matches, with Undo replacement while
+                    the dialog stays open. Locked scenes and chapters are
+                    protected from replacement.
+                </p>
+                <a
+                    class="pw-link"
+                    href="/docs/scene-workflow/#find-and-replace"
+                >
+                    See search scope and shortcuts &rarr;
+                </a>
+            </article>
+            <article class="pw-release-item">
+                <h3>References that travel between books</h3>
+                <p>
+                    Copy characters, locations, and other references into
+                    another project, including their notes, custom fields, and
+                    tags. Review possible duplicates before copying. Existing
+                    references are never overwritten, and the copies evolve
+                    independently with each book.
+                </p>
+                <a
+                    class="pw-link"
+                    href="/docs/references/#copying-references-between-projects"
+                >
+                    Bring your story world along &rarr;
+                </a>
+            </article>
+            <article class="pw-release-item">
+                <h3>novelWriter import, export, and prose sync</h3>
+                <p>
+                    Bring in a novelWriter project folder with chapters, scenes,
+                    prose, beat comments, and reference notes. Export for
+                    novelWriter 26.2 or newer. For a linked project, Sync lets
+                    you compare incoming prose and select the replacements you
+                    want; no prose changes are selected by default.
+                </p>
+                <a
+                    class="pw-link"
+                    href="/docs/importing-projects/#novelwriter-project-folder"
+                >
+                    Follow the novelWriter workflow &rarr;
+                </a>
+            </article>
+            <article class="pw-release-item">
+                <h3>One Settings window</h3>
+                <p>
+                    Appearance, shortcuts, author details, project preferences,
+                    reference types, tags, and custom fields now share one
+                    window. Choose another project inside Settings without
+                    moving away from the manuscript you have open.
+                </p>
+                <a class="pw-link" href="/docs/settings/">
+                    Explore Settings &rarr;
+                </a>
+            </article>
+            <article class="pw-release-item">
+                <h3>Make the shortcuts yours</h3>
+                <p>
+                    Remap commands and prose formatting, clear a binding, or
+                    restore the defaults. Changes apply across projects and
+                    launches, with menus and shortcut hints updating
+                    immediately. Conflicts name the command already using your
+                    chosen keys.
+                </p>
+                <a class="pw-link" href="/docs/settings/#keyboard-shortcuts">
+                    Customize your shortcuts &rarr;
+                </a>
+            </article>
+        </div>
+        <p class="release-link">
+            <a href="/blog/kindling-v1-3-writing-and-review/">
+                Read the full v1.3 release story &rarr;
+            </a>
+        </p>
+    </section>
 
-      <div class="bento-tile fade-in-on-scroll">
-        <div class="bento-label">Flexible Data</div>
-        <h3>Custom Fields & Tags</h3>
-        <p class="bento-problem">Plain text notes don't cut it for complex characters and worlds.</p>
-        <p class="bento-solution">Define typed fields (text, number, date, select, multi-select) on any reference type. Organise with hierarchical tags up to three levels deep, with colours and a Tag Manager. Use saved filters to find exactly what you need.</p>
-      </div>
+    <!-- More drafting tools — hairline-separated pairs. -->
+    <section class="features-seq-section pw-frame">
+        <SectionLead
+            label="03 / Drafting tools"
+            title="More ways to shape your draft"
+        />
+        <div class="pw-feature-grid">
+            <article class="pw-feature fade-in-on-scroll">
+                <ProductFigure
+                    src={pageView}
+                    alt="A scene in kindling's full-page prose editor, with the Page view active"
+                    width={560}
+                    loading="lazy"
+                />
+                <div>
+                    <p class="pw-label">Write Your Way</p>
+                    <h3>Full-Page Prose Editing</h3>
+                    <p class="pw-problem">
+                        Beat-by-beat is great for structure. But sometimes you
+                        just want to write.
+                    </p>
+                    <p>
+                        Toggle between beat view and a full-page prose editor
+                        per scene. Your beats stay available for reference — you
+                        get an uninterrupted writing surface without leaving
+                        your structure behind.
+                    </p>
+                </div>
+            </article>
 
-      <div class="bento-tile fade-in-on-scroll">
-        <div class="bento-label">Screenwriters</div>
-        <h3>Screenplay Projects & Templates</h3>
-        <p class="bento-problem">Novel tools don't speak the language of screenwriting.</p>
-        <p class="bento-solution">Create Screenplay projects with slugline input (INT./EXT.), page count estimation (250 words/page), and treatment export (1-page or 5-page DOCX). Pre-built templates: Save the Cat, Hero's Journey, Three-Act, Seven-Point, Snowflake, Story Grid.</p>
-      </div>
-    </div>
-  </section>
+            <article class="pw-feature pw-feature--reverse fade-in-on-scroll">
+                <div>
+                    <p class="pw-label">Screenwriters</p>
+                    <h3>Screenplay Projects &amp; Templates</h3>
+                    <p class="pw-problem">
+                        Novel tools don't speak the language of screenwriting.
+                    </p>
+                    <p>
+                        Create Screenplay projects with slugline input
+                        (INT./EXT.), page count estimation (250 words/page), and
+                        treatment export (1-page or 5-page DOCX). Pre-built
+                        templates: Save the Cat, Hero's Journey, Three-Act,
+                        Seven-Point, Snowflake, Story Grid.
+                    </p>
+                </div>
+                <ProductFigure
+                    src={screenplay}
+                    alt="A screenplay project with an INT./EXT. slugline, act sequences and a running page estimate"
+                    width={560}
+                    loading="lazy"
+                />
+            </article>
 
-  <!-- ===== Secondary Features — Compact Grid ===== -->
-  <section class="features-secondary-section">
-    <h2>And everything else you'd expect</h2>
-    <div class="features-secondary">
-      <div class="feature-card">
-        <span class="feature-icon">⌨️</span>
-        <div>
-          <strong>Command palette</strong>
-          <p>Press Cmd+K to fuzzy-search every action — import, export, settings, navigation.</p>
+            <article class="pw-feature fade-in-on-scroll">
+                <div>
+                    <p class="pw-label">Smart Context</p>
+                    <h3>Reference Auto-Detection</h3>
+                    <p class="pw-problem">
+                        You mentioned a character three paragraphs ago but
+                        forgot to link them.
+                    </p>
+                    <p>
+                        A non-AI engine scans your prose for character,
+                        location, and item names. Suggestions surface in the
+                        References panel — link with one click, or dismiss. No
+                        cloud, no magic, just pattern matching.
+                    </p>
+                </div>
+                <div>
+                    <p class="pw-label">Flexible Data</p>
+                    <h3>Custom Fields &amp; Tags</h3>
+                    <p class="pw-problem">
+                        Plain text notes don't cut it for complex characters and
+                        worlds.
+                    </p>
+                    <p>
+                        Define typed fields (text, number, date, select,
+                        multi-select) on any reference type. Organise with
+                        hierarchical tags up to three levels deep, with colours
+                        and a Tag Manager. Use saved filters to find exactly
+                        what you need.
+                    </p>
+                </div>
+            </article>
         </div>
-      </div>
-      <div class="feature-card">
-        <span class="feature-icon">📄</span>
-        <div>
-          <strong>Blank projects</strong>
-          <p>Start from scratch with File → New Project. No import required.</p>
-        </div>
-      </div>
-      <div class="feature-card">
-        <span class="feature-icon">✨</span>
-        <div>
-          <strong>Distraction-free writing</strong>
-          <p>Clean interface. Beats expand only when you need them. No feature overload.</p>
-        </div>
-      </div>
-      <div class="feature-card">
-        <span class="feature-icon">🔒</span>
-        <div>
-          <strong>Local-first & private</strong>
-          <p>SQLite on your hard drive. No cloud, no accounts, no data collection. <a href="/open-source/">Open source.</a></p>
-        </div>
-      </div>
-      <div class="feature-card">
-        <span class="feature-icon">⚡</span>
-        <div>
-          <strong>Built with Rust</strong>
-          <p>Sub-second launch. Fraction of the memory of Electron apps. ~10 MB download.</p>
-        </div>
-      </div>
-      <div class="feature-card">
-        <span class="feature-icon">💾</span>
-        <div>
-          <strong>Session persistence</strong>
-          <p>Cursor position, scroll state, and active scene — all restored when you reopen.</p>
-        </div>
-      </div>
-      <div class="feature-card">
-        <span class="feature-icon">🔄</span>
-        <div>
-          <strong>Automatic updates</strong>
-          <p>New versions download silently. A banner appears when ready — click to restart.</p>
-        </div>
-      </div>
-      <div class="feature-card">
-        <span class="feature-icon">🌗</span>
-        <div>
-          <strong>Light & dark themes</strong>
-          <p>System preference detection or manual override. Switch from Settings → Appearance.</p>
-        </div>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- ===== Bottom CTA ===== -->
-  <section class="cta-section">
-    <h2>Ready to spark your draft?</h2>
-    <p>Free, open source, MIT licensed. <a href="/compare/" style="color: var(--ember-orange);">See how Kindling compares</a> to Scrivener, Plottr, and other writing tools.</p>
-    <div class="download-buttons single">
-      <a href="/download/" class="download-btn" onclick="typeof gtag==='function'&&gtag('event','download_cta_click',{cta_location:'features_bottom'})">Download Kindling — Free</a>
-    </div>
-  </section>
+    <!-- ===== Everything else — hairline definition list (no emoji) ===== -->
+    <section class="features-seq-section pw-frame">
+        <SectionLead
+            label="04 / Specifications"
+            title="And everything else you'd expect"
+        />
+        <dl class="spec-list">
+            <div class="spec-item">
+                <dt>Command palette</dt>
+                <dd>
+                    Press Cmd+K to fuzzy-search every action — import, export,
+                    settings, navigation.
+                </dd>
+            </div>
+            <div class="spec-item">
+                <dt>Blank projects</dt>
+                <dd>
+                    Start from scratch with File → New Project. No import
+                    required.
+                </dd>
+            </div>
+            <div class="spec-item">
+                <dt>Distraction-free writing</dt>
+                <dd>
+                    Clean interface. Beats expand only when you need them. No
+                    feature overload.
+                </dd>
+            </div>
+            <div class="spec-item">
+                <dt>Local-first &amp; private</dt>
+                <dd>
+                    Your manuscripts stay on your computer. No account, desktop
+                    analytics, or telemetry. You choose how to share review
+                    files. <a href="/open-source/">Open source.</a>
+                </dd>
+            </div>
+            <div class="spec-item">
+                <dt>Built with Rust</dt>
+                <dd>
+                    Sub-second launch. Fraction of the memory of Electron apps.
+                    ~10 MB download.
+                </dd>
+            </div>
+            <div class="spec-item">
+                <dt>Session persistence</dt>
+                <dd>
+                    Cursor position, scroll state, and active scene — all
+                    restored when you reopen.
+                </dd>
+            </div>
+            <div class="spec-item">
+                <dt>Automatic updates</dt>
+                <dd>
+                    New versions download silently. A banner appears when ready
+                    — click to restart.
+                </dd>
+            </div>
+            <div class="spec-item">
+                <dt>Light &amp; dark themes</dt>
+                <dd>
+                    System preference detection or manual override. Switch from
+                    Settings → Appearance &amp; Guidance.
+                </dd>
+            </div>
+        </dl>
+    </section>
+
+    <!-- ===== Bottom CTA ===== -->
+    <section class="cta-section">
+        <h2>Ready to spark your draft?</h2>
+        <p>
+            Free, open source, MIT licensed.{" "}
+            <a href="/compare/">See how kindling compares</a> to Scrivener,
+            Plottr, and other writing tools.
+        </p>
+        <div class="download-buttons single">
+            <a
+                href="/download/"
+                class="pw-button"
+                data-cta-location="features_bottom"
+            >
+                Download kindling — Free
+            </a>
+        </div>
+    </section>
 </MarketingLayout>
 
 <style>
-  /* Bento grid (shared pattern with homepage) */
-  .bento-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
-    max-width: 1100px;
-    margin: 0 auto;
-  }
-
-  .bento-tile {
-    background: var(--deep-charcoal);
-    border: 1px solid var(--surface-light);
-    border-radius: 16px;
-    padding: 28px;
-    grid-column: span 2;
-    overflow: hidden;
-  }
-
-  .bento-label {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 12px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--ember-orange);
-    margin-bottom: 8px;
-  }
-
-  .bento-tile h3 {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 20px;
-    font-weight: 600;
-    margin-bottom: 8px;
-  }
-
-  .bento-problem {
-    font-size: 15px;
-    color: var(--text-secondary);
-    font-style: italic;
-    margin-bottom: 6px;
-  }
-
-  .bento-solution {
-    font-size: 15px;
-    color: var(--text-primary);
-    line-height: 1.6;
-    margin-bottom: 16px;
-  }
-
-  .bento-image {
-    width: 100%;
-    height: auto;
-    border-radius: 8px;
-    margin-top: 8px;
-  }
-
-  /* Features page layout */
-  .features-section {
-    padding: 56px 24px;
-    max-width: 1100px;
-    margin: 0 auto;
-  }
-
-  .features-section-header {
-    text-align: center;
-    margin-bottom: 32px;
-  }
-
-  .features-section-header h2 {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: clamp(24px, 4vw, 32px);
-    font-weight: 600;
-  }
-
-  .features-secondary-section {
-    padding: 56px 24px;
-    max-width: 1100px;
-    margin: 0 auto;
-  }
-
-  .features-secondary-section h2 {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: clamp(24px, 4vw, 32px);
-    font-weight: 600;
-    text-align: center;
-    margin-bottom: 32px;
-  }
-
-  .features-secondary {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-  }
-
-  .feature-card {
-    display: flex;
-    gap: 14px;
-    align-items: flex-start;
-    background: var(--deep-charcoal);
-    border: 1px solid var(--surface-light);
-    border-radius: 12px;
-    padding: 20px;
-  }
-
-  .feature-icon {
-    font-size: 24px;
-    flex-shrink: 0;
-    line-height: 1;
-    margin-top: 2px;
-  }
-
-  .feature-card strong {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 16px;
-    font-weight: 600;
-    display: block;
-    margin-bottom: 4px;
-  }
-
-  .feature-card p {
-    font-size: 14px;
-    color: var(--text-secondary);
-    line-height: 1.5;
-    margin: 0;
-  }
-
-  .feature-card a {
-    color: var(--ember-orange);
-    text-decoration: none;
-  }
-
-  .feature-card a:hover {
-    text-decoration: underline;
-  }
-
-  /* Flow diagram scoped styles */
-  .flow-diagram {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 4px;
-    margin-top: 12px;
-  }
-
-  .flow-node {
-    background: var(--surface);
-    border: 1px solid var(--surface-light);
-    border-radius: 10px;
-    padding: 10px 16px;
-    text-align: center;
-    width: 100%;
-  }
-
-  .flow-node-center {
-    border-color: var(--ember-orange);
-  }
-
-  .flow-label {
-    font-family: 'Space Grotesk', sans-serif;
-    font-weight: 600;
-    font-size: 13px;
-    display: block;
-  }
-
-  .flow-formats {
-    font-size: 12px;
-    color: var(--text-secondary);
-  }
-
-  .flow-arrow {
-    font-size: 18px;
-    color: var(--text-secondary);
-    line-height: 1;
-  }
-
-  @media (max-width: 768px) {
-    .bento-grid {
-      grid-template-columns: 1fr;
+    /* Lede — editorial page opener */
+    .page-lede {
+        padding-top: var(--space-4xl);
+        padding-bottom: var(--space-2xl);
     }
-    .bento-tile {
-      grid-column: span 1;
+    .page-lede h1 {
+        font-family: var(--font-display);
+        font-size: var(--text-hero);
+        font-weight: 600;
+        line-height: var(--leading-tight);
+        letter-spacing: var(--tracking-tight);
+        max-width: 18ch;
+        margin-bottom: var(--space-m);
     }
-    .features-secondary {
-      grid-template-columns: 1fr;
+    .lede-standfirst {
+        font-family: var(--font-body);
+        font-size: var(--text-body-lg);
+        color: var(--color-text);
+        line-height: var(--leading-relaxed);
+        max-width: var(--measure);
+        margin-bottom: var(--space-l);
     }
-  }
+
+    .features-seq-section {
+        padding-block: var(--space-3xl);
+    }
+    .features-seq-section .pw-section-head {
+        margin-bottom: var(--space-l);
+    }
+
+    /* The coda under a `.pw-feature-grid`. Its hairline and the space above it
+     are the sequence's own (`.pw-feature` uses --space-3xl for both), so the
+     row reads as the last beat of that sequence rather than a new device.
+     Three text columns with no border, fill or shadow — not a card matrix. */
+    .feature-coda {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: var(--space-2xl);
+        padding-top: var(--space-3xl);
+        margin-top: var(--space-3xl);
+        border-top: 1px solid var(--color-border);
+    }
+
+    .feature-coda > * {
+        min-width: 0;
+    }
+
+    /* `.pw-feature`'s rhythm rules are scoped to that class, so the same
+     label/heading/problem/answer spacing is restated for the coda. */
+    .feature-coda .pw-label {
+        margin-bottom: var(--space-2xs);
+    }
+    .feature-coda h3 {
+        margin-bottom: var(--space-2xs);
+    }
+    .feature-coda .pw-problem {
+        font-weight: 600;
+    }
+    .feature-coda p + p {
+        margin-top: var(--space-s);
+    }
+
+    /* One column at the width the sequence itself stops being two. */
+    @media (max-width: 768px) {
+        .feature-coda {
+            grid-template-columns: minmax(0, 1fr);
+            gap: var(--space-l);
+            padding-top: var(--space-2xl);
+            margin-top: var(--space-2xl);
+        }
+    }
+    .release-link {
+        margin-top: var(--space-xl);
+        max-width: var(--measure);
+    }
+
+    /* Flow diagram — kept from the previous design, lives inside the
+     Import & Export prose cell. */
+    .flow-diagram {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 4px;
+        margin-top: var(--space-m);
+    }
+    .flow-node {
+        background: var(--color-surface);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-l);
+        padding: 10px 16px;
+        text-align: center;
+    }
+    .flow-node-center {
+        border-color: var(--color-accent);
+    }
+    .flow-label {
+        font-family: var(--font-ui);
+        font-weight: 600;
+        font-size: var(--text-small);
+        display: block;
+    }
+    .flow-formats {
+        font-family: var(--font-ui);
+        font-size: var(--text-eyebrow);
+        color: var(--color-text-muted);
+    }
+    .flow-arrow {
+        font-size: var(--text-body-lg);
+        color: var(--color-text-muted);
+        line-height: 1;
+        text-align: center;
+    }
+
+    /* Spec list — hairline-separated definition list (replaces the emoji grid) */
+    .spec-list {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        column-gap: var(--space-2xl);
+    }
+    .spec-item {
+        padding: var(--space-m) 0;
+        border-top: 1px solid var(--color-border);
+    }
+    .spec-item dt {
+        font-family: var(--font-display);
+        font-size: var(--text-h3);
+        font-weight: 600;
+        margin-bottom: var(--space-3xs);
+    }
+    .spec-item dd {
+        font-family: var(--font-body);
+        font-size: var(--text-body);
+        color: var(--color-text-muted);
+        line-height: var(--leading);
+        margin: 0;
+    }
+    .spec-item dd a {
+        color: var(--color-accent-text);
+        text-decoration: none;
+    }
+    .spec-item dd a:hover {
+        text-decoration: underline;
+    }
+
+    @media (max-width: 768px) {
+        .spec-list {
+            grid-template-columns: 1fr;
+        }
+    }
 </style>

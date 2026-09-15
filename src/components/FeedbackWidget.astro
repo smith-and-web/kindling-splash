@@ -1,0 +1,396 @@
+---
+/*
+  Floating feedback launcher + modal, mounted sitewide by MarketingLayout.
+
+  Posts to the same Lambda as /feedback/, with the same payload contract
+  (honeypot + formOpenedAt are read by the backend's spam scoring, so they are
+  sent here too). Deliberately *not* rendered on /feedback/ itself: that page is
+  the full form, and a second Cloudflare Turnstile widget on the same document
+  would collide with the implicit `.cf-turnstile` auto-scan the page relies on.
+
+  Turnstile is loaded lazily, on first open, via explicit rendering — so the
+  third-party script never touches a page the visitor didn't ask to send
+  feedback from.
+*/
+const isFeedbackPage = Astro.url.pathname.replace(/\/$/, '') === '/feedback';
+---
+
+{!isFeedbackPage && (
+<div class="fw">
+  <button type="button" class="ka-button ka-icon-button fw-launcher" id="fw-launcher" aria-haspopup="dialog" aria-label="Send feedback">
+    <svg class="ka-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M20 15a2 2 0 0 1-2 2H8l-4 4V5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2z"></path>
+    </svg>
+  </button>
+
+  <dialog class="ka-dialog fw-dialog" id="fw-dialog" aria-labelledby="fw-title">
+    <div class="ka-dialog-header fw-header">
+      <h2 id="fw-title">Send feedback</h2>
+      <form method="dialog" class="fw-close-form">
+        <button class="ka-button ka-button--ghost ka-icon-button fw-close" value="cancel" aria-label="Close feedback form">
+          <svg class="ka-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" aria-hidden="true">
+            <path d="M6 6l12 12M18 6L6 18"></path>
+          </svg>
+        </button>
+      </form>
+    </div>
+
+    <div class="ka-dialog-body od-stack fw-body">
+      <p class="fw-intro">Found a bug, or thought of something kindling should do? Tell us here. It's anonymous unless you leave an email.</p>
+
+      <!-- Toggle buttons with aria-pressed rather than a radiogroup: radiogroup
+           semantics promise arrow-key navigation, and two Tab-reachable buttons
+           are simpler than implementing a roving tabindex for two options. The
+           track and selected treatment are the application's segmented control. -->
+      <div class="ka-segment-track fw-types" role="group" aria-label="Feedback type">
+        <button type="button" class="ka-segment fw-type ka-selected" data-type="bug" aria-pressed="true">Bug</button>
+        <button type="button" class="ka-segment fw-type" data-type="feature" aria-pressed="false">Idea</button>
+      </div>
+
+      <div class="ka-field fw-field">
+        <label for="fw-summary">Summary <span class="fw-req" aria-hidden="true">*</span></label>
+        <input type="text" id="fw-summary" maxlength="120" placeholder="One line">
+      </div>
+
+      <div class="ka-field fw-field">
+        <label for="fw-message">Details <span class="fw-req" aria-hidden="true">*</span></label>
+        <textarea id="fw-message" maxlength="2000" rows="4" placeholder="What happened, or what should it do?"></textarea>
+      </div>
+
+      <fieldset class="ka-segments fw-field" id="fw-severity-field">
+        <legend class="ka-label">How severe is it? <span class="fw-req" aria-hidden="true">*</span></legend>
+        <div class="fw-severity">
+          <div class="ka-check od-row"><input type="radio" id="fw-sev-minor" name="fw-severity" value="minor"><label for="fw-sev-minor">Minor</label></div>
+          <div class="ka-check od-row"><input type="radio" id="fw-sev-broken" name="fw-severity" value="broken"><label for="fw-sev-broken">Broken</label></div>
+          <div class="ka-check od-row"><input type="radio" id="fw-sev-crash" name="fw-severity" value="crash"><label for="fw-sev-crash">Crash or data loss</label></div>
+        </div>
+      </fieldset>
+
+      <div class="ka-field fw-field">
+        <label for="fw-email">Email <span class="fw-optional">optional, for follow-up</span></label>
+        <input type="email" id="fw-email" placeholder="your@email.com">
+      </div>
+
+      <div class="fw-honeypot" aria-hidden="true">
+        <input type="text" id="fw-honeypot" tabindex="-1" autocomplete="off">
+      </div>
+
+      <div class="fw-turnstile" id="fw-turnstile"></div>
+
+      <p class="ka-help fw-privacy">
+        We store your message and OS, nothing else. Please don't include personal
+        information. <a href="/privacy/">Privacy policy &rarr;</a>
+      </p>
+    </div>
+
+    <div class="ka-dialog-footer fw-footer">
+      <div class="ka-notice fw-status" id="fw-status" role="status" aria-live="polite"></div>
+      <button type="button" class="ka-button fw-submit" id="fw-submit">Send feedback</button>
+    </div>
+  </dialog>
+</div>
+)}
+
+<script is:inline>
+  (function () {
+    const launcher = document.getElementById('fw-launcher');
+    if (!launcher) return;
+
+    const API_URL = 'https://2gcszmyn325n5yaey2poh72qbe0tkmre.lambda-url.ca-central-1.on.aws/';
+    const SITEKEY = '0x4AAAAAACkqRWHDozaF1dmj';
+
+    const dialog = document.getElementById('fw-dialog');
+    const statusEl = document.getElementById('fw-status');
+    const submitBtn = document.getElementById('fw-submit');
+    const severityField = document.getElementById('fw-severity-field');
+
+    let currentType = 'bug';
+    let formOpenedAt = new Date().toISOString();
+    let turnstileWidgetId = null;
+    let turnstileRequested = false;
+
+    // Detected once; the modal has no OS picker, unlike the full /feedback/ form.
+    const ua = navigator.userAgent.toLowerCase();
+    const os = ua.includes('mac') ? 'macos'
+      : ua.includes('win') ? 'windows'
+      : ua.includes('linux') ? 'linux'
+      : 'unknown';
+
+    function showStatus(message, kind) {
+      statusEl.textContent = message;
+      // ka-notice--error / ka-notice--success are the application's own status
+      // treatments; `visible` is local, because an empty notice must not draw
+      // its surface and border.
+      statusEl.className = 'ka-notice fw-status visible ka-notice--' + kind;
+    }
+
+    function clearStatus() {
+      statusEl.textContent = '';
+      statusEl.className = 'ka-notice fw-status';
+    }
+
+    /* Turnstile is fetched on first open, not on page load. Explicit rendering
+       (render=explicit) so we own the widget id and can reset just ours. */
+    function loadTurnstile() {
+      if (turnstileRequested) return;
+      turnstileRequested = true;
+      window.__kindlingTurnstileReady = function () {
+        turnstileWidgetId = window.turnstile.render('#fw-turnstile', {
+          sitekey: SITEKEY,
+          theme: 'light',
+        });
+      };
+      const s = document.createElement('script');
+      s.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=__kindlingTurnstileReady';
+      s.async = true;
+      s.defer = true;
+      document.head.appendChild(s);
+    }
+
+    launcher.addEventListener('click', () => {
+      clearStatus();
+      formOpenedAt = new Date().toISOString();
+      loadTurnstile();
+      dialog.showModal();
+      document.documentElement.style.overflow = 'hidden';
+      if (typeof gtag === 'function') {
+        gtag('event', 'feedback_widget_open', { page_path: location.pathname });
+      }
+    });
+
+    // Covers the close button, Esc, and backdrop dismissal in one place.
+    dialog.addEventListener('close', () => {
+      document.documentElement.style.overflow = '';
+      launcher.focus();
+    });
+
+    // Native <dialog> treats the whole viewport as the element, so a click is
+    // "on the backdrop" when it lands outside the dialog's own box.
+    dialog.addEventListener('click', (e) => {
+      if (e.target !== dialog) return;
+      const r = dialog.getBoundingClientRect();
+      const outside = e.clientX < r.left || e.clientX > r.right ||
+                      e.clientY < r.top || e.clientY > r.bottom;
+      if (outside) dialog.close();
+    });
+
+    document.querySelectorAll('.fw-type').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.fw-type').forEach((b) => {
+          b.classList.remove('ka-selected');
+          b.setAttribute('aria-pressed', 'false');
+        });
+        btn.classList.add('ka-selected');
+        btn.setAttribute('aria-pressed', 'true');
+        currentType = btn.dataset.type;
+        severityField.hidden = currentType !== 'bug';
+        clearStatus();
+      });
+    });
+
+    submitBtn.addEventListener('click', async () => {
+      const summary = document.getElementById('fw-summary').value.trim();
+      const message = document.getElementById('fw-message').value.trim();
+      const email = document.getElementById('fw-email').value.trim();
+      const severity = document.querySelector('input[name="fw-severity"]:checked')?.value;
+
+      if (!summary || !message) {
+        showStatus('Please fill in all required fields.', 'error');
+        return;
+      }
+      if (currentType === 'bug' && !severity) {
+        showStatus('Please choose how severe it is.', 'error');
+        return;
+      }
+
+      const payload = {
+        type: currentType,
+        source: 'website',
+        os: os,
+        appVersion: 'website',
+        locale: navigator.language,
+        website: document.getElementById('fw-honeypot').value,
+        formOpenedAt: formOpenedAt,
+        summary: summary,
+        message: message,
+      };
+      if (email) payload.email = email;
+      if (currentType === 'bug') payload.severity = severity;
+
+      const token = document.querySelector('#fw-turnstile [name="cf-turnstile-response"]')?.value;
+      if (token) payload.turnstileToken = token;
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending...';
+
+      try {
+        const response = await fetch(API_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+
+        if (response.ok) {
+          showStatus('Thank you! Your feedback has been received.', 'success');
+          resetForm();
+          if (typeof gtag === 'function') {
+            gtag('event', 'feedback_widget_submit', { feedback_type: currentType });
+          }
+        } else if (response.status === 429) {
+          showStatus('Too many submissions. Please try again later.', 'error');
+        } else {
+          const data = await response.json().catch(() => ({}));
+          showStatus(data.error || 'Something went wrong. Please try again.', 'error');
+        }
+      } catch (err) {
+        showStatus('Network error. Please check your connection and try again.', 'error');
+      }
+
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Send feedback';
+
+      if (window.turnstile && turnstileWidgetId !== null) {
+        window.turnstile.reset(turnstileWidgetId);
+      }
+    });
+
+    function resetForm() {
+      document.getElementById('fw-summary').value = '';
+      document.getElementById('fw-message').value = '';
+      document.getElementById('fw-email').value = '';
+      document.querySelectorAll('input[name="fw-severity"]').forEach((el) => {
+        el.checked = false;
+      });
+      formOpenedAt = new Date().toISOString();
+    }
+  })();
+</script>
+
+<style>
+  /* Arrangement and placement only. Every surface, control, field, status and
+     focus treatment below belongs to `application.css` — the same `.ka-dialog`,
+     `.ka-field`, `.ka-check`, `.ka-segment`, `.ka-notice` and `.ka-button` a
+     writer operates inside kindling. This file used to reimplement all of them
+     (its own dialog chrome, its own field borders, its own submit button, its
+     own status colours), which is the duplicate control system this adoption
+     removes. What remains is where the panel sits and how its rows stack. */
+
+  /* ===== Launcher =====
+     A floating overlay, so it earns its shadow. Resting state is paper with a
+     hairline, not terracotta: this button is on every page, and a permanent
+     terracotta circle would spend the guide's two-accents-per-viewport budget
+     before the page itself gets a moment. */
+  button.fw-launcher {
+    position: fixed;
+    bottom: var(--space-m);
+    right: var(--space-m);
+    z-index: var(--z-overlay);
+    width: 56px;
+    height: 56px;
+    border-radius: var(--radius-pill);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    box-shadow: var(--shadow-md);
+    color: var(--color-text);
+    transition: border-color var(--transition), color var(--transition),
+                transform var(--transition-fast);
+  }
+
+  button.fw-launcher:hover {
+    background: var(--color-surface);
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    button.fw-launcher { transition: none; }
+    button.fw-launcher:hover { transform: none; }
+  }
+
+  /* ===== Dialog placement =====
+     `.ka-dialog` centres itself; this one is anchored to the launcher's corner
+     so the panel opens from the control that summoned it. A modal <dialog> is
+     laid out with inset:0 and margin:auto, so overriding the margins anchors
+     it. The height cap keeps it clear of the 56px launcher below. */
+  dialog.fw-dialog {
+    /* Column layout so the body scrolls and the send action stays in view;
+       `.ka-dialog` scrolls the whole panel, which on a short viewport pushes
+       the submit below the fold of an already-capped panel. */
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    width: min(420px, calc(100vw - var(--space-l)));
+    max-height: min(720px, calc(100vh - var(--space-m) - 56px - var(--space-2xs) - var(--space-m)));
+    margin-block-start: auto;
+    margin-block-end: calc(var(--space-m) + 56px + var(--space-2xs));
+    margin-inline-start: auto;
+    margin-inline-end: var(--space-m);
+  }
+
+  /* Anchoring on desktop, centred on phones where a corner-anchored panel
+     would be nearly full-bleed anyway. */
+  @media (max-width: 600px) {
+    dialog.fw-dialog {
+      margin: auto;
+      width: calc(100vw - var(--space-m));
+    }
+  }
+
+  div.fw-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-s);
+  }
+
+  div.fw-body { --od-gap: var(--space-s); overflow-y: auto; }
+
+  .fw-intro {
+    font-family: var(--font-body);
+    font-size: var(--text-body);
+    line-height: var(--leading);
+    color: var(--color-text);
+    max-width: var(--measure);
+  }
+
+  .fw-types { margin-bottom: var(--space-2xs); }
+
+  .fw-field[hidden] { display: none; }
+
+  /* A required marker and an optional qualifier, both inside a field label. */
+  .fw-req { color: var(--color-accent-text); }
+  .fw-optional { font-weight: 400; color: var(--color-text-muted); }
+
+  .fw-severity {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-s);
+  }
+
+  /* Offscreen, not display:none: a hidden input is not submitted by some
+     autofill agents, which is the whole point of the honeypot. */
+  .fw-honeypot { position: absolute; left: -9999px; }
+
+  .fw-turnstile { margin-block: var(--space-2xs); }
+
+  p.fw-privacy { font-family: var(--font-body); }
+
+  div.fw-footer {
+    display: grid;
+    gap: var(--space-xs);
+    justify-content: stretch;
+  }
+
+  button.fw-submit { width: 100%; }
+
+  /* An empty status must not draw a notice surface. */
+  div.fw-status { display: none; }
+  div.fw-status.visible { display: block; }
+
+  /* Print: a fixed launcher over printed copy is noise. */
+  @media print {
+    button.fw-launcher { display: none; }
+  }
+</style>

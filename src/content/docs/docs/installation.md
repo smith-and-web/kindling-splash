@@ -1,13 +1,13 @@
 ---
 title: Installation
-description: Download and install Kindling on macOS, Windows, or Linux.
+description: Download and install kindling on macOS, Windows, or Linux.
 ---
 
-Download and install Kindling on your platform. All downloads are free.
+Download and install kindling on your platform. All downloads are free.
 
 ## Download
 
-Get the latest release from the [Kindling download page](/download/) or directly from [GitHub Releases](https://github.com/smith-and-web/kindling/releases).
+Get the latest release from the [kindling download page](/download/) or directly from [GitHub Releases](https://github.com/smith-and-web/kindling/releases).
 
 ### Available Downloads
 
@@ -22,7 +22,7 @@ Get the latest release from the [Kindling download page](/download/) or directly
 
 ## Verify Your Download
 
-To ensure you downloaded the authentic Kindling release:
+To ensure you downloaded the authentic kindling release:
 
 1. **Download only from official sources**: [kindlingwriter.com/download/](/download/) or [GitHub Releases](https://github.com/smith-and-web/kindling/releases)
 2. **Verify checksums (optional but recommended)**:
@@ -43,17 +43,17 @@ If your checksum doesn't match, delete the file and re-download from the officia
 
 ## macOS Installation
 
-Kindling is code-signed and notarized by Apple. It should open without Gatekeeper warnings.
+kindling is code-signed and notarized by Apple. It should open without Gatekeeper warnings.
 
 1. Double-click the `.dmg` file to mount it
-2. Drag **Kindling** to your **Applications** folder
-3. Double-click **Kindling** in your Applications folder to launch it
+2. Drag **kindling** to your **Applications** folder
+3. Double-click **kindling** in your Applications folder to launch it
 
 ---
 
 ## Windows Installation
 
-Kindling is not yet signed with a Windows code signing certificate. Windows SmartScreen may show a warning when you first run the installer.
+kindling is not yet signed with a Windows code signing certificate. Windows SmartScreen may show a warning when you first run the installer.
 
 ### Bypassing SmartScreen
 
@@ -63,13 +63,13 @@ Kindling is not yet signed with a Windows code signing certificate. Windows Smar
    - Click **More info**
    - Click **Run anyway**
 4. Follow the installation wizard
-5. Launch Kindling from the Start menu
+5. Launch kindling from the Start menu
 
-After installation, Kindling will run without warnings.
+After installation, kindling will run without warnings.
 
 ### Why This Warning Appears
 
-SmartScreen warns about apps that don't have an established reputation with Microsoft. As more users download and run Kindling, this warning will eventually disappear. Code signing certificates are expensive, so we've opted to ship unsigned for now. Kindling is fully open source — you can [inspect the source code](https://github.com/smith-and-web/kindling) and the [CI build process](https://github.com/smith-and-web/kindling/actions) at any time.
+SmartScreen warns about apps that don't have an established reputation with Microsoft. As more users download and run kindling, this warning will eventually disappear. Code signing certificates are expensive, so we've opted to ship unsigned for now. kindling is fully open source — you can [inspect the source code](https://github.com/smith-and-web/kindling) and the [CI build process](https://github.com/smith-and-web/kindling/actions) at any time.
 
 ---
 
@@ -89,7 +89,7 @@ chmod +x Kindling_*.AppImage
 
 #### Optional: Desktop Integration
 
-To add Kindling to your application menu:
+To add kindling to your application menu:
 
 ```bash
 # Move AppImage to a permanent location
@@ -99,7 +99,7 @@ mv Kindling_*.AppImage ~/Applications/
 # Create desktop entry
 cat > ~/.local/share/applications/kindling.desktop << EOF
 [Desktop Entry]
-Name=Kindling
+Name=kindling
 Exec=$HOME/Applications/Kindling_*.AppImage
 Icon=kindling
 Type=Application
@@ -119,7 +119,7 @@ sudo dpkg -i kindling_*.deb
 sudo apt-get install -f
 ```
 
-Launch Kindling from your application menu or run `kindling` in the terminal.
+Launch kindling from your application menu or run `kindling` in the terminal.
 
 #### Uninstalling
 
@@ -160,11 +160,11 @@ AppImages don't always integrate with desktop environments automatically. Use Ap
 
 ---
 
-## Updating Kindling
+## Updating kindling
 
-As of v1.1, Kindling checks for updates automatically on launch. When a new version is available, it downloads silently in the background and shows a banner at the bottom of the window:
+As of v1.1, kindling checks for updates automatically on launch. When a new version is available, it downloads silently in the background and shows a banner at the bottom of the window:
 
-> *"Kindling vX.Y.Z is ready — Restart to update."*
+> *"kindling vX.Y.Z is ready — Restart to update."*
 
 Click **Restart** to apply the update immediately, or dismiss the banner and restart later. You'll be prompted again on the next launch.
 
@@ -174,4 +174,4 @@ If you prefer to update manually, download the latest release from [kindlingwrit
 
 ## Building from Source
 
-If you prefer to build Kindling yourself, see the [README](https://github.com/smith-and-web/kindling#from-source) for instructions.
+If you prefer to build kindling yourself, see the [README](https://github.com/smith-and-web/kindling#from-source) for instructions.

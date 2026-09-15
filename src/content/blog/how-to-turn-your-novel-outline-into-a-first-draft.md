@@ -3,7 +3,7 @@ title: "How to Turn Your Novel Outline Into a First Draft -- A Plotter's Guide"
 description: "Step-by-step guide for plotters on turning a finished outline into a first draft. Set up scenes, draft beat by beat, and push through to a complete manuscript."
 publishedDate: "2026-03-11"
 modifiedDate: "2026-03-11"
-author: "Kindling"
+author: "kindling"
 tags: ["writing"]
 ---
 
@@ -42,7 +42,7 @@ Some writers pin their outline to a split screen. Some use Scrivener's inspector
 
 If your outline lives in a tool like Plottr, consider exporting it to whatever you draft in. If you use a beat sheet, find a way to keep each scene's beats visible while you write into that scene. The fewer clicks between "what happens next" and "where I'm typing," the better.
 
-> This is exactly the problem we built [Kindling](/features/) to solve. Your outline structure lives in the sidebar. Each scene's beats are visible right above your prose. You write *into* the outline rather than beside it. But even if you don't use Kindling, the principle is the same: close the gap between plan and page.
+> This is exactly the problem we built [kindling](/features/) to solve. Your outline structure lives in the sidebar. Each scene's beats are visible right above your prose. You write *into* the outline rather than beside it. But even if you don't use kindling, the principle is the same: close the gap between plan and page.
 
 ## Step 3: Draft one scene at a time, not one chapter at a time
 
@@ -148,4 +148,4 @@ The full process, from finished outline to finished first draft, looks like this
 
 None of these steps require a specific tool. You can do this with Scrivener, with Word and a printed outline, with index cards and a legal pad. The method works because it respects both sides of the plotter's brain: the one that plans and the one that writes.
 
-That said, if you want a tool that was specifically designed for this workflow--one that keeps your beats visible while you draft, lets you write into your outline structure, and keeps your plan and your prose in sync--that's exactly [what Kindling was built to do](/compare/).
+That said, if you want a tool that was specifically designed for this workflow--one that keeps your beats visible while you draft, lets you write into your outline structure, and keeps your plan and your prose in sync--that's exactly [what kindling was built to do](/compare/).

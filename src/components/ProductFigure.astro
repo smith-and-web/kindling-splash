@@ -1,0 +1,47 @@
+---
+/*
+ * A product screenshot in the shared full-frame treatment.
+ *
+ * `.pw-image-frame` letterboxes inside `--pw-reference-ratio` instead of
+ * cropping, and this sets that ratio from the capture's own intrinsic
+ * dimensions — so the frame matches the image exactly: nothing cropped, nothing
+ * letterboxed, at every width.
+ *
+ * It replaces the mounted print (`.feature-figure img`, `object-fit: cover` at
+ * `max-height: 440px`), which decided how much of an interface a visitor saw
+ * from the capture's aspect ratio. That coupling is why the screenshot script
+ * carries a `minAspect` per target and why a stacked layout once cut 127px off
+ * three of four figures. A figure that cannot crop needs no ratio contract.
+ */
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+  src: ImageMetadata;
+  alt: string;
+  width?: number;
+  loading?: 'eager' | 'lazy';
+  class?: string;
+}
+
+const { src, alt, width = 560, loading = 'lazy', class: className } = Astro.props;
+---
+
+<figure class:list={['product-figure', className]}>
+  <div class="pw-image-frame" style={`--pw-reference-ratio: ${src.width} / ${src.height}`}>
+    <Image src={src} alt={alt} width={width} loading={loading} />
+  </div>
+  {Astro.slots.has('default') && <figcaption><slot /></figcaption>}
+</figure>
+
+<style>
+  .product-figure { margin: 0; min-width: 0; }
+
+  figcaption {
+    margin-top: var(--space-2xs);
+    font-family: var(--font-body);
+    font-size: var(--text-small);
+    color: var(--color-text-muted);
+    max-width: var(--measure);
+  }
+</style>

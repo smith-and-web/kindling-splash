@@ -2,8 +2,18 @@
 import Navbar from '../components/Navbar.astro';
 import Footer from '../components/Footer.astro';
 import Analytics from '../components/Analytics.astro';
+import FeedbackWidget from '../components/FeedbackWidget.astro';
 import '../styles/global.css';
 import '../styles/animations.css';
+
+// Preload the two faces the first paint needs: Fraunces sets every heading and
+// Inter sets all chrome and product copy. Newsreader is reading prose further
+// down the page and its italic is rarer still, so both are left to `swap`.
+// Resolved through the bundler rather than written by hand — the files are
+// content-hashed on build, so a literal /fonts/... path would preload nothing
+// and quietly cost a round trip.
+import fraunces from '../vendor/press/assets/fonts/web/Fraunces-Variable.woff2?url';
+import inter from '../vendor/press/assets/fonts/web/Inter-Variable.woff2?url';
 
 interface Props {
   title: string;
@@ -14,6 +24,7 @@ interface Props {
   structuredData?: Record<string, unknown>;
   bodyClass?: string;
   downloadContext?: string;
+  noindex?: boolean;
 }
 
 const {
@@ -25,6 +36,7 @@ const {
   structuredData,
   bodyClass,
   downloadContext,
+  noindex = false,
 } = Astro.props;
 
 const canonicalURL = canonicalPath
@@ -41,6 +53,8 @@ const ogImageURL = new URL(ogImage, Astro.site);
   <title>{title}</title>
   <meta name="description" content={description}>
   <link rel="canonical" href={canonicalURL}>
+  {noindex && <meta name="robots" content="noindex, follow">}
+  <slot name="head" />
 
   <!-- Open Graph -->
   <meta property="og:title" content={title}>
@@ -50,21 +64,27 @@ const ogImageURL = new URL(ogImage, Astro.site);
   <meta property="og:image" content={ogImageURL}>
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:site_name" content="Kindling">
+  <meta property="og:site_name" content="kindling">
 
-  <!-- Twitter Card -->
+  <!-- Twitter Card. @KindlingWriter is the account handle, not the brand name:
+       it is case-sensitive and stays as registered. -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:site" content="@KindlingWriter">
   <meta name="twitter:title" content={title}>
   <meta name="twitter:description" content={description}>
   <meta name="twitter:image" content={ogImageURL}>
 
-  <!-- Favicon -->
+  <!-- Favicon / brand marks. Synced from Press; see src/vendor/press/MANIFEST.json. -->
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta name="theme-color" content="#B5532E">
 
-  <!-- Preload critical fonts -->
-  <link rel="preload" href="/fonts/SpaceGrotesk-SemiBold-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="/fonts/Inter-Regular-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href={fraunces} as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href={inter} as="font" type="font/woff2" crossorigin>
 
   <!-- GA4 -->
   <Analytics />
@@ -75,10 +95,25 @@ const ogImageURL = new URL(ogImage, Astro.site);
   )}
 </head>
 <body class={bodyClass} data-download-context={downloadContext}>
-  <Navbar />
-  <main>
-    <slot />
-  </main>
-  <Footer />
+  <a href="#main" class="skip-link">Skip to main content</a>
+  <!--
+    The Press website boundary. It establishes the light theme, the Inter
+    product-copy variant and the named inline-size container every `pw-*`
+    responsive rule queries, so the header, main content and footer all sit
+    inside it. It is not on <body>: `container-type: inline-size` applies
+    layout containment, which would make this element the containing block for
+    fixed-position descendants and trap the paper grain that body::before
+    paints behind the page. FeedbackWidget is deliberately outside it for the
+    same reason — it is floating chrome, and it draws its dialog, fields and
+    buttons from application.css, which is not scoped to this boundary.
+  -->
+  <div class="press-web">
+    <Navbar />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+  </div>
+  <FeedbackWidget />
 </body>
 </html>

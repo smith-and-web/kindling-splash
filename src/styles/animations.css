@@ -1,23 +1,22 @@
 /* ===== Scroll-Driven Animations ===== */
-/* Progressive enhancement: browsers without support show elements immediately */
+/* Progressive enhancement: browsers without support show elements immediately.
+   Reading content is never blurred or scaled. A scroll-driven timeline has no
+   wall-clock completion — pausing mid-range parks the element at a partial
+   keyframe — so any effect that degrades legibility can be left on screen
+   indefinitely. The reveal is therefore a small opaque rise, nothing more. */
 
 @media (prefers-reduced-motion: no-preference) {
   .fade-in-on-scroll {
-    opacity: 0;
-    transform: translateY(100px) scale(0.92);
-    filter: blur(4px);
+    opacity: 1;
+    transform: translateY(16px);
     animation: fadeSlideIn 0.7s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
     animation-timeline: view();
-    /* Widened range so the reveal plays over ~half the viewport of scroll,
-       not a tight sliver. Combined with the blur+scale+translate it reads
-       as a clear "settle into place" rather than a flicker. */
     animation-range: entry 15% cover 35%;
   }
 
   .fade-in-on-scroll-delayed {
-    opacity: 0;
-    transform: translateY(100px) scale(0.92);
-    filter: blur(4px);
+    opacity: 1;
+    transform: translateY(16px);
     animation: fadeSlideIn 0.7s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
     animation-timeline: view();
     animation-range: entry 25% cover 45%;
@@ -25,44 +24,20 @@
 
   @keyframes fadeSlideIn {
     to {
-      opacity: 1;
-      transform: translateY(0) scale(1);
-      filter: blur(0);
+      transform: translateY(0);
     }
   }
 }
 
-/* Fallback: if animation-timeline not supported, show immediately */
+/* Fallback: if animation-timeline is unsupported, show the settled state.
+   `filter` is reset too — an earlier version set blur(4px) here and omitted it
+   from this block, so an unsupported path could strand blurred text. */
 @supports not (animation-timeline: view()) {
   .fade-in-on-scroll,
   .fade-in-on-scroll-delayed {
     opacity: 1;
     transform: none;
-  }
-}
-
-/* ===== Hero Typing Cursor ===== */
-/* Always visible after hydration, blinks forever. Hidden only if the
-   no-JS/reduced-motion path leaves no .typing or .type-complete class. */
-.type-cursor {
-  display: inline-block;
-  width: 3px;
-  height: 0.8em;
-  background: var(--ember-orange);
-  margin-left: 4px;
-  vertical-align: -0.05em;
-  opacity: 0;
-  border-radius: 1px;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .typing .type-cursor,
-  .type-complete .type-cursor {
-    animation: cursor-blink 0.85s steps(2, jump-none) infinite;
-  }
-
-  @keyframes cursor-blink {
-    0%, 49% { opacity: 1; }
-    50%, 100% { opacity: 0; }
+    filter: none;
+    animation: none;
   }
 }

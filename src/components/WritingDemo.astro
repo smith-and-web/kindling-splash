@@ -1,0 +1,160 @@
+---
+/*
+ * A read-only demonstration of drafting into beats, in the shared Press
+ * pattern: `.pw-writing` with `.pw-writing--app`, which gives the scene column
+ * the application's own manuscript treatment — `--color-prose-*` paper and ink,
+ * 17px Newsreader at `--leading-relaxed`, held to `--measure`. Those are
+ * NovelEditor's values; the previous local composition read at 18px on the
+ * website's raised surface and was a website approximation of the workspace
+ * rather than a picture of it.
+ *
+ * Behaviour is unchanged: native radios, one passage visible, and no editable
+ * engine. The ids and the radio group name are load-bearing — analytics.js
+ * reports a changed beat by matching `name="sample-scene-beat"`, and
+ * scripts/check-launch.mjs drives `label[for="sample-beat-2"]`.
+ */
+const beats = [
+  {
+    title: 'Eleanor reads the mysterious letter on the cliff',
+    paragraphs: [
+      'Eleanor Blackwood had always known this day would come.',
+      "The letter in her pocket—crumpled now from being read a dozen times—confirmed what she’d long suspected: her father was not who he claimed to be.",
+    ],
+  },
+  {
+    title: 'Thomas arrives and Eleanor confronts him',
+    paragraphs: [
+      'It was only Thomas, the relief keeper, with his coat buttoned wrong and his hair full of weather. He stopped when he saw her face.',
+      '“You’ve found it, then,” he said.',
+    ],
+  },
+  {
+    title: 'She counts the stairs on the way up and the number is wrong',
+    paragraphs: [
+      'There were eighty-seven steps to the lamp room. Eleanor counted them twice.',
+      'She had climbed eighty-eight every night since she was old enough to carry the oil. She stood very still, one hand against the cold wall.',
+    ],
+  },
+];
+---
+
+<figure class="writing-demo" aria-labelledby="demo-caption">
+  <div class="pw-writing pw-writing--app">
+    <div class="pw-scene">
+      <p class="pw-label">The Letter <span aria-hidden="true">/</span> Chapter 1</p>
+      <h2 class="pw-scene-title">On the Cliff</h2>
+      <p class="scene-synopsis">Eleanor discovers a letter revealing her father may not be who he claims.</p>
+
+      <fieldset class="pw-beats" data-pw-beats>
+        <legend>
+          <span class="beats-heading">
+            <span class="beats-heading-label">Scene beats</span>
+            <span class="pw-note">Choose a beat to see its draft</span>
+          </span>
+        </legend>
+        {beats.map((beat, index) => (
+          <div class="pw-beat">
+            <label class="pw-beat-choice" for={`sample-beat-${index + 1}`}>
+              <input
+                id={`sample-beat-${index + 1}`}
+                type="radio"
+                name="sample-scene-beat"
+                value={String(index + 1)}
+                data-pw-beat
+                checked={index === 0}
+                aria-controls={`sample-draft-${index + 1}`}
+              />
+              <span class="beat-number" aria-hidden="true">{index + 1}</span>
+              <span>{beat.title}</span>
+            </label>
+            <div
+              class="pw-draft"
+              id={`sample-draft-${index + 1}`}
+              data-pw-draft={String(index + 1)}
+              role="region"
+              aria-label={`Draft for beat ${index + 1}`}
+            >
+              {beat.paragraphs.map(paragraph => <p>{paragraph}</p>)}
+              <p class="pw-note draft-meta">{beat.paragraphs.join(' ').split(/\s+/).length} words <span aria-hidden="true">·</span> First draft</p>
+            </div>
+          </div>
+        ))}
+      </fieldset>
+    </div>
+
+    <aside class="pw-references" aria-label="Sample scene references">
+      <h3>References</h3>
+      <p class="pw-note">Linked to this scene</p>
+      <div class="pw-reference">
+        <p class="pw-label">Character</p>
+        <h4>Eleanor Blackwood</h4>
+        <p>Raised at Kestrel Point. Reads the sea better than she reads people.</p>
+      </div>
+      <div class="pw-reference">
+        <p class="pw-label">Item</p>
+        <h4>The Sealed Letter</h4>
+        <p>Cream laid paper, elegant hand, no postmark. Signed M.W.</p>
+      </div>
+    </aside>
+  </div>
+  <figcaption class="demo-caption" id="demo-caption">
+    <p>A sample scene from <em>The Letter</em>. Your outline stays with the words it becomes.</p>
+  </figcaption>
+</figure>
+
+<style>
+  /* Content arrangement only. Surfaces, hairlines, beat rows, reading size and
+     the manuscript paper all come from `.pw-writing--app`. */
+  .writing-demo { margin: 0; min-width: 0; }
+
+  .scene-synopsis {
+    margin-top: var(--space-2xs);
+    max-width: var(--measure);
+    font-family: var(--font-body);
+    font-size: var(--text-body);
+    line-height: var(--leading);
+  }
+
+  .beats-heading {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: var(--space-2xs);
+    width: 100%;
+  }
+
+  .beats-heading-label {
+    font-family: var(--font-ui);
+    font-size: var(--text-small);
+    font-weight: 500;
+    color: var(--color-text);
+  }
+
+  /* The beat's position in the scene, as the app numbers them. */
+  .beat-number {
+    flex: none;
+    color: var(--color-text-muted);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .draft-meta { margin-top: var(--space-xs); }
+
+  /* Without JavaScript the shared controller never hides a panel, so every
+     draft would be open at once. `:has()` keeps exactly one visible, matching
+     the enhanced state. When the controller does run it sets `hidden`, which
+     `.press-web [hidden]` enforces with !important, so the two agree. */
+  .pw-beat:not(:has(input:checked)) .pw-draft { display: none; }
+
+  .demo-caption {
+    display: block;
+    margin-top: var(--space-s);
+    max-width: var(--measure);
+  }
+
+  .demo-caption p {
+    line-height: var(--leading);
+    font-family: var(--font-body);
+    font-size: var(--text-small);
+    color: var(--color-text-muted);
+  }
+</style>

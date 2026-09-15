@@ -1,15 +1,17 @@
 ---
 title: "The Best Story Outlining Software for Fiction Writers in 2026"
-description: "Scrivener, Plottr, Novelcrafter, Dabble, Story Architect, and Kindling compared for fiction writers who outline. Pricing, strengths, and honest limitations."
+description: "Scrivener, Plottr, Novelcrafter, Dabble, Story Architect, and kindling compared for fiction writers who outline. Pricing, strengths, and honest limitations."
 publishedDate: "2026-03-30"
-modifiedDate: "2026-03-30"
-author: "Kindling"
+modifiedDate: "2026-09-12"
+author: "kindling"
 tags: ["comparison"]
 ---
 
 Some writers think in visual timelines. Others want everything in one app. Some just want to outline and get out of the way so they can draft. The best tool depends on which of those writers you are.
 
 Here's what's actually worth your time in 2026, what each one costs, and where each one falls short.
+
+Plottr, Scrivener, and Dabble prices checked 12 September 2026 in USD before tax: [Plottr plans](https://plottr.com/pricing/), [Scrivener desktop licences](https://www.literatureandlatte.com/crossgrading), and [Dabble plans](https://www.dabblewriter.com/pricing).
 
 ## Quick Comparison
 
@@ -18,9 +20,9 @@ Here's what's actually worth your time in 2026, what each one costs, and where e
 | **Scrivener** | $59.99 | One-time | All-in-one manuscript management |
 | **Plottr** | $60--129/yr | Subscription (lifetime available) | Visual plotters and series writers |
 | **Novelcrafter** | $4--20/mo | Subscription | AI-forward authors and worldbuilders |
-| **Dabble** | $9--29/mo | Subscription (lifetime available) | Writers who want simplicity and sync |
+| **Dabble** | $19--49/mo | Subscription (lifetime available) | Writers who want simplicity and sync |
 | **Story Architect** | Free--$8.34/mo | Freemium open-core | Multi-format and budget-conscious writers |
-| **Kindling** | Free | Open source | Plotters who want outlines visible while drafting |
+| **kindling** | Free | Open source | Plotters who want outlines visible while drafting |
 
 ## Scrivener -- $59.99, one-time
 
@@ -52,13 +54,13 @@ Where it struggles: Novelcrafter is browser-only with no offline mode, which is 
 
 **Best for:** Writers who want deep worldbuilding tools and optional AI assistance, especially fantasy and sci-fi authors managing complex series.
 
-## Dabble -- $9--29/month (or $699 lifetime)
+## Dabble -- $19--49/month (or $699 lifetime Author access)
 
 Dabble has the broadest platform support of any tool on this list: web, desktop (Windows, macOS, Linux), and mobile (iOS and Android), all with seamless offline sync. The interface is clean and intuitive--reviewers consistently describe it as "Scrivener without the learning curve."
 
-The Plot Grid (available on the $19/month Standard tier and above) is Dabble's signature planning feature, letting you visually organize plotlines, character arcs, and chapter structure. Story Notes provide dedicated sections for character profiles and worldbuilding. Built-in word count goals with NaNoWriMo integration help with accountability.
+The Plot Grid (included in the $19/month Writer tier) is Dabble's signature planning feature, letting you visually organize plotlines, character arcs, and chapter structure. Story Notes provide dedicated sections for character profiles and worldbuilding. Built-in word count goals with NaNoWriMo integration help with accountability.
 
-The downside is price. Dabble's best features--the Plot Grid and Story Notes--are locked behind the Standard tier at $19/month ($228/year). The $9/month Basic plan is fairly limited. At the Premium tier ($29/month), you're paying $348/year for a writing tool, which is a tough sell when Scrivener costs $59.99 once. There's no AI, limited export options, and no ePub output.
+Dabble's [current plans](https://www.dabblewriter.com/pricing) are Writer at $19/month, Author at $29/month, and Bestseller at $49/month. Plot Grid and story organization are included in Writer; Author adds editing and review features. Lifetime Author access is $699. Compare the recurring expense and cloud workflow with the desktop alternatives before choosing.
 
 **Best for:** Writers who prioritize cross-device access and a gentle learning curve, especially if you write on both desktop and mobile.
 
@@ -72,15 +74,15 @@ The tradeoff is maturity. STARC is still at version 0.8.x and hasn't reached a 1
 
 **Best for:** Writers working across formats (screenwriters who also write novels), Linux users, and anyone who wants capable planning tools without spending anything.
 
-## Kindling -- Free, open source
+## kindling -- Free, open source
 
 Full disclosure: this is our tool. But here's the honest case for it.
 
-Kindling solves a specific problem that none of the tools above fully address: what happens *after* you finish your outline. You've built a detailed plan in Plottr or your notes app, you open a blank document to draft, and none of that planning context is there with you. Your character details are in one app, your scene beats in another, and you're writing blind.
+kindling solves a specific problem that none of the tools above fully address: what happens *after* you finish your outline. You've built a detailed plan in Plottr or your notes app, you open a blank document to draft, and none of that planning context is there with you. Your character details are in one app, your scene beats in another, and you're writing blind.
 
-Kindling imports outlines from Plottr, yWriter, Obsidian Longform, and Markdown, then presents them in a scaffolded writing view where scene beats appear as expandable prompts. Characters and locations referenced in a scene automatically surface in a side panel. You write directly into the structure you already built.
+kindling imports outlines from Plottr, yWriter, Obsidian Longform, and Markdown, then presents them in a scaffolded writing view where scene beats appear as expandable prompts. Characters and locations referenced in a scene automatically surface in a side panel. You write directly into the structure you already built.
 
-It's MIT-licensed, runs locally on your computer (~10MB install), and stores everything in SQLite files on your machine. No accounts, no cloud, no subscriptions, no AI. It's currently in open beta, so it doesn't have the feature depth of Scrivener's Compile system or Novelcrafter's Codex. But for the specific workflow of outline-aware drafting, nothing else does what Kindling does--and it costs nothing.
+It's MIT-licensed, runs locally on your computer (~10MB install), and stores everything in SQLite files on your machine. No accounts, no cloud, no subscriptions, no AI. It's currently in open beta, so it doesn't have the feature depth of Scrivener's Compile system or Novelcrafter's Codex. But for the specific workflow of outline-aware drafting, nothing else does what kindling does--and it costs nothing.
 
 Available on macOS, Windows, and Linux at [kindlingwriter.com](/).
 
@@ -98,8 +100,8 @@ There's no single right answer. The best tool is the one that disappears while y
 
 **If you write across multiple devices** and value simplicity: Dabble.
 
-**If budget matters most** and you want capable, no-cost tools: Story Architect or Kindling--both have generous free tiers that aren't crippled trial versions.
+**If budget matters most** and you want capable, no-cost tools: Story Architect or kindling--both have generous free tiers that aren't crippled trial versions.
 
-**If you already have an outline** and want to draft with your plan visible: [Kindling](/).
+**If you already have an outline** and want to draft with your plan visible: [kindling](/).
 
 Try a couple. Most offer free trials or free tiers. Use them on a real project for a week, not just a test document. If a tool makes the words come easier, you've found the right one.

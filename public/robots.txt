@@ -30,4 +30,4 @@ Allow: /
 # See https://kindlingwriter.com/llms-full.txt
 
 # Sitemap location
-Sitemap: https://kindlingwriter.com/sitemap.xml
+Sitemap: https://kindlingwriter.com/sitemap-index.xml
