@@ -18,7 +18,7 @@ Use semantic variables from `design-system/tokens.css`. Dark application chrome 
 
 - Use the 1120px frame, 32px default gutter and 36rem reading measure. Keep reading prose left-aligned and in full ink.
 - One dominant display heading per page. A persistent header action is secondary when the page's main invitation is visible.
-- At most two deliberate terracotta moments in an editorial viewport, excluding inline links and original brand artwork. Application state has no numeric accent budget.
+- At most two deliberate terracotta moments in an editorial viewport, excluding inline links and original brand artwork. Application state has no numeric accent budget, including inside an interactive `.press-app` workspace embedded in an editorial page; decoration and calls to action inside that workspace still count against the page.
 - Prefer figure-and-prose sequences to repeated decorative card grids. Bands span the available surface; cards group actual content.
 - Use 80px editorial bands and 120–140px opening space when appropriate; reduce gutters before shrinking type on narrow screens.
 

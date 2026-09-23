@@ -84,14 +84,49 @@ try {
 
   await go('/');
   assert.equal(state.tags.length, 1);
+  /* Every beat starts closed, as the application rests. Nothing counts on load. */
   assert.equal(count('demo_interaction'), 0);
-  await page.locator('label[for="sample-beat-2"]').click();
+  const beat = (n) => page.locator(`#sample-beat-${n}`);
+  assert.equal(await beat(1).evaluate((el) => el.open), false, 'beats must start closed');
+  await beat(2).locator('> summary').click();
   await page.waitForTimeout(50);
+  assert.equal(await beat(2).evaluate((el) => el.open), true, 'clicking a beat summary must open it');
   assert.equal(count('demo_interaction'), 1);
-  await page.locator('label[for="sample-beat-2"]').click();
+  const opened = state.events.find((e) => e[1] === 'demo_interaction')[2];
+  assert.equal(opened.interaction_type, 'open_beat');
+  assert.equal(opened.beat_id, 'sample-beat-2');
+  await beat(2).locator('> summary').click();
   await page.waitForTimeout(50);
+  assert.equal(await beat(2).evaluate((el) => el.open), false, 'clicking an open beat summary must close it');
+  assert.equal(count('demo_interaction'), 1, 'closing a beat must not count');
+  /* The preview strip is inside the summary, so choosing it opens the beat. */
+  await beat(1).locator('.ka-beat-preview').click();
+  await page.waitForTimeout(50);
+  assert.equal(await beat(1).evaluate((el) => el.open), true, 'clicking a beat preview must open the beat');
+  assert.equal(count('demo_interaction'), 2);
+  pass('demo records a visitor opening a beat, from its row or its preview, never a close');
+
+  /* Scenes switch from the outline: a native radio group, no script needed.
+     The chosen scene's column replaces the first's, and the choice is
+     recorded once. The Seventh Step is in the chapter that starts open. */
+  state.events.length = 0;
+  const visibleSceneTitle = () => page.evaluate(() =>
+    [...document.querySelectorAll('.ka-scene-header h3')].find((h) => h.getClientRects().length)?.textContent.trim());
+  assert.equal(await visibleSceneTitle(), 'On the Cliff');
+  await page.locator('.ka-tree label:has(input[value="seventh-step"])').click();
+  await page.waitForTimeout(50);
+  assert.equal(await visibleSceneTitle(), 'The Seventh Step', 'choosing a scene in the outline must show it');
   assert.equal(count('demo_interaction'), 1);
-  pass('demo records a changed beat once, never its initial selection');
+  const chosen = state.events.find((e) => e[1] === 'demo_interaction')[2];
+  assert.equal(chosen.interaction_type, 'select_scene');
+  assert.equal(chosen.scene_id, 'seventh-step');
+  /* A closed chapter expands to its own scenes. */
+  await page.locator('.ka-tree details:has(input[value="low-tide"]) > summary').click();
+  await page.locator('.ka-tree label:has(input[value="low-tide"])').click();
+  await page.waitForTimeout(50);
+  assert.equal(await visibleSceneTitle(), 'Low Tide', 'a scene in another chapter must be reachable');
+  assert.equal(count('demo_interaction'), 2);
+  pass('demo switches scenes and expands chapters from the outline, recording each choice once');
 
   state.events.length = 0;
   await page.locator('.navbar-cta').click();

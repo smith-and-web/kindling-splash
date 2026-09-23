@@ -248,19 +248,23 @@ const structuredData = {
      a two-word middle line with room to spare.
 
      `--pw-hero-columns` aligns the hero's narrow track with the references
-     panel of the `.pw-writing` specimen directly below it, so the specimen's
-     column divider reads as one line running the height of the page rather
-     than as a second vertical a few dozen pixels off the hero's.
+     inspector of the workspace specimen directly below it, so the inspector's
+     divider reads as one line running the height of the page rather than as a
+     second vertical a few pixels off the hero's.
 
-     The arithmetic is the specimen's: `.pw-writing` is `2fr 1fr` with no gap,
-     so its right column opens at two thirds of the frame, and `.pw-references`
-     then insets its content by `--pw-gutter`. The hero's first track is that
-     sum, with no gap, which puts the aside's text on the references heading's
-     left edge exactly. Press's narrow-width rules set `grid-template-columns`
-     directly, so both still stack below 600px without restating them here. */
+     The arithmetic is the demo's: WritingDemo.astro sets the inspector to
+     `clamp(15rem, 27cqi, 21rem)` of the workspace, flush with the frame's
+     right edge, and `.ka-workspace-body` insets its content by `--space-s`.
+     The hero spans the same frame, so its first track is the frame minus that
+     inspector plus the inset, with no gap — the aside's text lands on the
+     references content edge. (27% of the hero stands in for 27cqi of the
+     workspace; the two differ by the workspace's 2px of border, under a pixel
+     after the percentage.) Change the two together. Below a 900px workspace the specimen shows
+     one region, so there is no inspector to align with; Press's narrow-width
+     rules stack the hero below 600px without restating them here. */
   .hero {
     --pw-hero-measure: 18ch;
-    --pw-hero-columns: calc(100% * 2 / 3 + var(--pw-gutter)) minmax(0, 1fr);
+    --pw-hero-columns: calc(100% - clamp(15rem, 27%, 21rem) + var(--space-s)) minmax(0, 1fr);
     --pw-hero-gap: 0;
   }
 

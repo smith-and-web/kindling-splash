@@ -27,11 +27,24 @@
 }
 .press-web *, .press-web *::before, .press-web *::after { box-sizing: border-box; }
 .press-web :where(h1,h2,h3,h4,p,figure,blockquote,ul,ol,fieldset) { margin: 0; }
-.press-web :where(h1,h2,h3,h4) { font-family: var(--font-display); line-height: var(--leading-tight); font-weight: 500; color: var(--color-text); letter-spacing: var(--tracking-tight); }
-.press-web :where(h1,h2) { font-size: var(--pw-title); }
-.press-web h3 { font-size: var(--pw-feature); }
-.press-web h4 { font-size: var(--text-h3); }
-.press-web p { max-width: 65ch; overflow-wrap: break-word; }
+/* The website's element defaults stop at an application surface nested in
+   it. Through 0.12.0 they did not: `.press-web h3` and `.press-app h3` tie at
+   (0,1,1), and this file loads after application.css, so a `.press-app`
+   inside `.press-web` silently took website type — its h3 measured 24px
+   against 32px, a `.ka-manuscript` heading 24px against 48px, h3/h4 lost the
+   application's 550 weight and line height, and application paragraphs were
+   capped at 65ch. A wrapper class could not fix that; ownership had to move.
+   The guard is inside `:where()`, so every rule keeps its 0.12.0 specificity
+   and no consumer override changes weight. It excludes only an application
+   *inside* a website (`.press-web .press-app *`), so a website specimen
+   nested in an application — the reverse — keeps website type. The margin
+   reset above and the code/link/control defaults below agree with the
+   application's own and are left to reach it. */
+.press-web :where(h1,h2,h3,h4):where(:not(.press-web .press-app *)) { font-family: var(--font-display); line-height: var(--leading-tight); font-weight: 500; color: var(--color-text); letter-spacing: var(--tracking-tight); }
+.press-web :where(h1,h2):where(:not(.press-web .press-app *)) { font-size: var(--pw-title); }
+.press-web h3:where(:not(.press-web .press-app *)) { font-size: var(--pw-feature); }
+.press-web h4:where(:not(.press-web .press-app *)) { font-size: var(--text-h3); }
+.press-web p:where(:not(.press-web .press-app *)) { max-width: 65ch; overflow-wrap: break-word; }
 .press-web :where(a,button,input,select,summary) { -webkit-tap-highlight-color: transparent; }
 .press-web a { color: var(--color-accent-text); text-underline-offset: 4px; }
 .press-web :where(a,button,input,select,summary):focus-visible { outline: 2px solid var(--color-accent-text); outline-offset: 3px; box-shadow: none; }
@@ -192,6 +205,9 @@
 /* The container cap is not enough: `.press-web p` caps paragraphs at 65ch,
    which at 17px Newsreader is ~617px and wider than --measure. */
 .press-web .pw-writing--app .pw-draft p { max-width: var(--measure); }
+/* The editor indents paragraphs rather than spacing them (NovelEditor's
+   --kp-line-indent); a sample claiming to be the workspace does the same. */
+.press-web .pw-writing--app .pw-draft p + p { margin-top: 0; text-indent: 1.5em; }
 .press-web .pw-writing--app .pw-references { background: var(--color-surface); }
 .press-web .pw-references { border-left: var(--pw-line); padding: var(--pw-gutter); background: var(--color-bg); }
 .press-web .pw-references h4 { margin-bottom: var(--space-2xs); }

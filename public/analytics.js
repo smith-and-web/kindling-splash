@@ -30,13 +30,32 @@
     window.gtag('event', 'download_cta_click', { cta_location: location });
   });
 
-  document.addEventListener('change', (event) => {
-    const choice = event.target;
-    if (!(choice instanceof HTMLInputElement) || choice.name !== 'sample-scene-beat' || !choice.checked) return;
+  // The home-page demo's beats are native <details>. Record a visitor opening
+  // one, from the click on its summary: `toggle` does not bubble, and it also
+  // fires for a beat that starts open, which would count the initial state.
+  // A click on a closed beat's summary is always the visitor opening it
+  // (Enter and Space on a summary dispatch the same click).
+  document.addEventListener('click', (event) => {
+    const summary = event.target instanceof Element ? event.target.closest('summary') : null;
+    const beat = summary?.parentElement;
+    if (!(beat instanceof HTMLDetailsElement) || !/^sample-beat-\d+$/.test(beat.id) || beat.open) return;
     window.gtag('event', 'demo_interaction', {
       demo_id: 'outline_to_draft',
-      interaction_type: 'select_beat',
-      beat_id: choice.id,
+      interaction_type: 'open_beat',
+      beat_id: beat.id,
+    });
+  });
+
+  // The demo's scenes are one native radio group in its outline. `change`
+  // fires only when the visitor picks a different scene, never for the
+  // scene checked on load.
+  document.addEventListener('change', (event) => {
+    const choice = event.target;
+    if (!(choice instanceof HTMLInputElement) || choice.name !== 'sample-scene' || !choice.checked) return;
+    window.gtag('event', 'demo_interaction', {
+      demo_id: 'outline_to_draft',
+      interaction_type: 'select_scene',
+      scene_id: choice.value,
     });
   });
 

@@ -111,6 +111,8 @@ try {
   for (const [path] of ROUTES) {
     await go(path);
     const roles = await page.evaluate(() => {
+      /* The demo's beats rest closed; open one so its draft is measurable. */
+      document.querySelector('#sample-beat-1')?.setAttribute('open', '');
       const family = (el) => el && getComputedStyle(el).fontFamily.split(',')[0].replace(/['"]/g, '');
       const visible = (el) => el && el.getClientRects().length > 0;
       const pick = (selector) => [...document.querySelectorAll(selector)].find(visible);
@@ -120,7 +122,7 @@ try {
         articleProse: family(pick('.article-content p')),
         navLink: family(pick('.pw-nav-links a, .sidebar-content a')),
         action: family(pick('.pw-button, .ka-button, .download-btn')),
-        manuscript: family(pick('.pw-writing--app .pw-draft p')),
+        manuscript: family(pick('.ka-workspace .ka-manuscript-prose p')),
         code: family(pick('code')),
       };
     });
@@ -175,7 +177,10 @@ try {
     const body = getComputedStyle(document.body);
     /* The hero's own action, not the header's secondary copy of it. */
     const cta = cs('main .pw-button:not(.pw-button--secondary)');
-    const prose = cs('.pw-writing--app .pw-draft p');
+    /* The demo's beats rest closed; open one and measure its draft. */
+    document.querySelector('#sample-beat-1')?.setAttribute('open', '');
+    const proseEl = [...document.querySelectorAll('.ka-workspace .ka-manuscript-prose p')].find((el) => el.getClientRects().length);
+    const prose = proseEl && getComputedStyle(proseEl);
     return {
       bg: body.backgroundColor,
       text: body.color,
@@ -184,7 +189,7 @@ try {
       proseColour: prose?.color,
       proseSize: prose?.fontSize,
       proseLeading: prose?.lineHeight,
-      proseMeasure: prose?.maxWidth,
+      proseMeasure: proseEl?.getBoundingClientRect().width,
     };
   });
   check(colours.bg === PAPER, `Home background is ${colours.bg}, not paper ${PAPER}`);
@@ -195,8 +200,46 @@ try {
      website's larger editorial one: 17px Newsreader at 1.7 over --measure. */
   check(colours.proseSize === '17px', `The writing sample reads at ${colours.proseSize}, not the application's 17px`);
   check(colours.proseLeading === '28.9px', `The writing sample's leading is ${colours.proseLeading}, not 1.7`);
-  check(parseFloat(colours.proseMeasure) <= 576, `The writing sample runs to ${colours.proseMeasure}, past the 36rem measure`);
+  /* Rendered width, not `max-width`: the measure is set on
+     `.ka-manuscript-prose`, so the paragraph's own max-width is `none`. */
+  check(colours.proseMeasure > 0 && colours.proseMeasure <= 576, `The writing sample runs to ${colours.proseMeasure}px, past the 36rem measure`);
   pass('paper, ink, one accent fill, and an application-fidelity manuscript sample');
+
+  /* ---- 3b. The embedded workspace keeps application type ---------------- */
+  /* Press 0.13.0 stops `.press-web`'s element defaults at a nested
+     `.press-app`. Before it, `.press-web h3` tied `.press-app h3` and won on
+     load order, so the demo's manuscript heading rendered at half size. The
+     property is structural, so it is tested structurally: the same
+     application markup, once inside the page's website boundary and once
+     outside it, must compute identically. No expected value is typed in. */
+  await go('/');
+  const embed = await page.evaluate(() => {
+    const markup = '<h3>H</h3><h4>H</h4><p>P</p><article class="ka-manuscript"><h3>M</h3>'
+      + '<div class="ka-manuscript-prose"><p>P</p></div></article>'
+      + '<details class="ka-beat" open><summary>S</summary><div class="ka-beat-body">'
+      + '<article class="ka-manuscript"><div class="ka-manuscript-prose"><p>P</p></div></article></div></details>';
+    const host = document.querySelector('.ka-workspace-main .ka-workspace-body');
+    if (!host || !host.closest('.press-web')) return { missing: true };
+    const inside = document.createElement('div');
+    inside.className = 'press-app';
+    inside.innerHTML = markup;
+    host.append(inside);
+    const outside = inside.cloneNode(true);
+    document.body.append(outside);
+    const props = ['fontFamily', 'fontSize', 'fontWeight', 'lineHeight', 'letterSpacing', 'maxWidth'];
+    const a = [...inside.querySelectorAll('*')], b = [...outside.querySelectorAll('*')];
+    const diffs = [];
+    a.forEach((el, i) => {
+      if (!/^(H3|H4|P)$/.test(el.tagName)) return;
+      const x = getComputedStyle(el), y = getComputedStyle(b[i]);
+      for (const prop of props) if (x[prop] !== y[prop]) diffs.push(`${el.tagName.toLowerCase()} #${i} ${prop}: ${x[prop]} nested vs ${y[prop]} standalone`);
+    });
+    inside.remove(); outside.remove();
+    return { diffs };
+  });
+  check(!embed.missing, 'Home: the workspace demo is missing, or no longer inside the .press-web boundary');
+  check(!embed.diffs?.length, `Home: an application surface inside .press-web took website type — ${embed.diffs?.join('; ')}`);
+  pass('an application surface inside the website boundary computes as it does standalone');
 
   /* ---- 4. Brand case ----------------------------------------------------- */
   for (const [path] of ROUTES) {

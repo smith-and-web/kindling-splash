@@ -82,6 +82,15 @@ manuscript's own treatment — `--color-prose-*` paper and ink, `--text-body`
 NovelEditor uses, not a website approximation of them. Beat labels and metadata
 stay Inter, as they are in the application.
 
+`.pw-writing` pictures the workspace; it does not operate like it. When a page
+needs the workspace itself — a project tree with a selected scene, beats that
+open, references beside the draft, a status strip — embed the application
+layer instead: a `.press-app .ka-workspace` inside `.press-web`, documented in
+`APPLICATION_COMPONENTS.md` under *The workspace shell*. As of 0.13.0 the
+website's heading and paragraph defaults stop at a nested `.press-app`, so the
+embedded workspace keeps application type with no local reset. Through 0.12.0
+it did not, which is why `.pw-writing--app` existed at all.
+
 ### Navigation
 
 Give the menu button `type="button"`, `aria-expanded="false"`, and `aria-controls` pointing to its own unique link-region ID. The script adds `data-pw-ready`. At container widths at or below 820px, enhanced navigation collapses behind the menu. Where container queries are unavailable the same collapse is repeated against the viewport under `@supports not (container-type: inline-size)`, so the menu still works rather than staying permanently expanded. Opening moves focus to the first link. Escape closes and returns focus to the button. Selecting a link, moving focus outside or clicking outside closes it. It is an in-flow disclosure, not a modal: it does not trap focus or lock body scrolling. Without JavaScript all links remain visible.

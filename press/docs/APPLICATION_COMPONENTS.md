@@ -89,9 +89,112 @@ It is not `.ka-stats`, which is the figure display — `dd` reordered above `dt`
 
 Pair the copy control with `.ka-button--secondary`, **not** `--ghost`. Ghost's only hover feedback is a `--color-surface-sunken` background, which is this block's own background, so its hover state would be exactly invisible.
 
-## Notes on two existing controls
+## The workspace shell
+
+CSS-only, added in 0.13.0. Press has owned every control a writing workspace holds — `.ka-tree`, `.ka-beat`, `.ka-manuscript`, `.ka-panel`, `.ka-segment` — and no layout to seat them in, so the shell was composed locally three times: the application kit (`.kit-layout`), the reference catalog (`.ac-workspace`) and the kindling-splash home-page specimen. The regions and their default widths are the application's: a 304px project outline, the scene column, a 288px references inspector.
+
+```html
+<section class="press-app ka-workspace ka-workspace--embedded" aria-label="Sample writing workspace">
+  <header class="ka-workspace-bar">…project name, status badge…</header>
+  <div class="ka-workspace-panes">
+    <fieldset class="ka-segments">
+      <legend class="ka-sr">Workspace region</legend>
+      <div class="ka-segment-track">
+        <label class="ka-segment"><input type="radio" name="region" value="outline">Project</label>
+        <label class="ka-segment"><input type="radio" name="region" value="main" checked>Writing</label>
+        <label class="ka-segment"><input type="radio" name="region" value="inspector">References</label>
+      </div>
+    </fieldset>
+  </div>
+  <div class="ka-workspace-grid">
+    <aside class="ka-workspace-outline" aria-label="Project">
+      <div class="ka-workspace-body"><nav class="ka-tree">…</nav></div>
+    </aside>
+    <div class="ka-workspace-main">
+      <div class="ka-workspace-body">…scene heading, beats, manuscript…</div>
+      <footer class="ka-statusbar"><span>Scene: 212 words</span><span>Project: 1,480 words</span></footer>
+    </div>
+    <aside class="ka-workspace-inspector" aria-label="References">
+      <div class="ka-workspace-body">…</div>
+    </aside>
+  </div>
+</section>
+```
+
+| Class | Contract |
+| --- | --- |
+| `.ka-workspace` | The container, and the named `ka-workspace` inline-size container every rule below queries. Holds an optional title bar, an optional pane switcher and the grid. |
+| `.ka-workspace-grid` | The three regions. A separate element because a container query cannot restyle its own container. Tracks are `auto`, so an absent outline or inspector takes no space; only main is required. |
+| `.ka-workspace-outline`, `-main`, `-inspector` | Region columns. Outline and inspector sit on `--color-surface` with a hairline toward the scene; main sits on `--color-bg`. Each holds an optional `.ka-workspace-bar`, a `.ka-workspace-body`, and in main an optional `.ka-statusbar`. |
+| `.ka-workspace-bar` | A region's header row, or placed directly in `.ka-workspace`, a title bar across it. Owns layout only — put `.ka-button`, `.ka-badge` and `.ka-icon-button` inside. Every bar is at least a 44px control tall plus its padding, so a text-only bar matches one holding an icon button and adjacent regions' header rules meet in one line. |
+| `.ka-workspace-body` | A region's content, padded. Scrolls when the workspace is bounded; give it `tabindex="0"` then so the scroll is keyboard-reachable, and it shows the control focus pair. |
+| `.ka-statusbar` | The persistent strip of counts at the foot of the scene column, as `WritingStatusBar` draws it: small muted Inter, tabular figures, one `span` per count, wrapping. `.ka-stats` is the figure display for the same numbers and the wrong scale here. |
+| `.ka-workspace-panes` | Below a 900px workspace, one region shows at a time and this row switches. Radios carry `value="outline"`, `"main"` or `"inspector"`; with none checked, main shows. Hidden at wider workspaces, where every region shows regardless of the choice. |
+| `.ka-workspace--embedded` | A bounded specimen on another surface: hairline, `--ka-radius`, clipped corners. No shadow — the workspace is not a floating overlay. |
+| `.ka-disclosure-icon` | The plain-HTML chevron for a `details` summary. Draw one right-pointing chevron; it turns down when its own `details` opens. `BeatItem` and `NavigationTree` swap two icons in script; static markup cannot. |
+
+### The scene column, beats and references
+
+The regions' contents, as the application draws them in 0.13.0.
+
+```html
+<div class="ka-scene-column">
+  <header class="ka-scene-header">
+    <p>Chapter · The Letter</p>
+    <h3>On the Cliff</h3>
+  </header>
+  <section class="ka-scene-section">
+    <header><h4>Synopsis</h4></header>
+    <p class="ka-scene-synopsis">Eleanor discovers a letter…</p>
+  </section>
+  <section class="ka-scene-section">
+    <header><h4>Beats</h4></header>
+    <details class="ka-beat">
+      <summary>
+        <svg class="ka-icon ka-disclosure-icon" …>…right chevron…</svg>
+        <span class="ka-beat-number">1</span>
+        <span class="ka-beat-title">Eleanor reads the mysterious letter</span>
+        <span class="ka-beat-count">34 words</span>
+        <span class="ka-beat-preview" aria-hidden="true"><span>Eleanor Blackwood had always known…</span></span>
+      </summary>
+      <div class="ka-beat-body">
+        <article class="ka-manuscript"><div class="ka-manuscript-prose"><p>…</p><p>…</p></div></article>
+      </div>
+    </details>
+  </section>
+</div>
+```
+
+| Class | Contract |
+| --- | --- |
+| `.ka-tree-label` | A tree row's label held to one line with an ellipsis, as the application's sidebar truncates titles; it fills the row, so a trailing `small` count stays right-aligned. A disabled tree button is inert — no pointer, no hover fill — and keeps its ink. |
+| `.ka-tree` radio rows | The plain-HTML form of `NavigationTree`'s selection: a `label` holding a visually hidden radio renders as a tree row, and the checked row takes the selected accent fill. One radio group across the tree lets a static surface switch scenes with `:has()`; the row shows keyboard focus, and arrow keys move through the group. |
+| `.ka-scene-column` | The scene panel's centred column, held to 720px. |
+| `.ka-scene-header` | A small muted eyebrow `p` over the scene title (`h1`–`h3`) at `--ka-heading`. |
+| `.ka-scene-section` | A hairline-headed section. Its `header` holds the heading (`h2`–`h4`, set at `--text-h3`) and an optional action, and is a 44px row so a heading with and without an action align. |
+| `.ka-scene-synopsis` | The synopsis: italic Newsreader at `--text-body-lg`, held to `--measure`. |
+| `.ka-beat` closed | Only the open beat carries the accent. A closed beat's `.ka-beat-number` is an outlined circle in muted ink; an open beat's summary takes a hairline above its draft. |
+| `.ka-beat-title`, `.ka-beat-count` | The title truncates to one line; the word count trails it, small, muted and tabular. |
+| `.ka-beat-preview` | A closed beat's draft as a strip of light paper three lines deep. It sits inside the `summary` — a closed `details` shows nothing else — as a block `span` around one inline element, so the whole strip opens the beat. Mark it `aria-hidden="true"`: it would otherwise join the summary's accessible name, and the body holds the full draft. Hidden while open. |
+| `.ka-reference` | A story reference in the inspector: `summary` > `.ka-reference-avatar`, `.ka-reference-text` (`.ka-reference-name`, `.ka-reference-description`), and a down-pointing `.ka-disclosure-icon` that turns up when open. `.ka-reference-body` holds the description as a `p` in Newsreader and a `.ka-facts` at label scale. The one-line description hides once open, because the body repeats it. |
+
+**Manuscript paragraphs indent, as the editor's do.** `.ka-manuscript-prose` sets every paragraph but its container's first at a 1.5em first-line indent with no space between — so the paragraph after a quotation indents too — matching `NovelEditor`'s `--kp-line-indent`; through 0.12.0 it spaced them 16px apart. A `blockquote` is the editor's callout: italic, `--color-prose-callout-bg`, a 4px `--color-prose-blockquote-border` rule. `--ka-line-indent` holds the value and `system:check` asserts it matches the editor's.
+
+**Height is the consumer's.** Set `--ka-workspace-block` to bound the workspace — the window, in the application — and bodies scroll; give each scrolling body `tabindex="0"`. Unset, the workspace takes its content's height. On a website, bound it to the screen whenever its content would run past one: kindling-splash's specimen measured 783px on a laptop and over 1,000px on a phone unbounded, so no common device showed it whole, and it now uses `clamp(24rem, calc(100svh - 8rem), 40rem)`. The cost is a scroll area inside a scrolling page, which a phone visitor can catch with a swipe; keep the chrome inside a narrow bounded workspace to one row per bar so the box spends its height on content.
+
+**Region widths clamp against the workspace** (defaults `clamp(12rem, 24cqi, 19rem)` and `clamp(12rem, 22cqi, 18rem)`). A specimen narrower than an application window keeps a readable scene column, and at a full window both settle at the application's own widths. Set `--ka-workspace-outline` and `--ka-workspace-inspector` on the workspace or any ancestor rather than overriding the tracks; the defaults are `var()` fallbacks, so an inherited value wins.
+
+**A manuscript inside the workspace pads like the application's beat view** — 16px × 24px, and 16px below a 900px workspace — rather than `.ka-manuscript`'s viewport-scaled 24–48px, which inside a scene column spent a quarter of the width and most of a bounded region's height on margin.
+
+**Nesting in a website surface needs nothing.** As of 0.13.0 the `.press-web` element defaults — heading family, size, weight and line height, and the 65ch paragraph cap — stop at a nested `.press-app`, so a workspace inside a website page renders with application type. Through 0.12.0 it did not: a `.ka-manuscript` heading measured 24px instead of 48px. Do not add a local reset.
+
+**Accent inside an embedded workspace.** A bounded, interactive `.press-app` specimen is an application surface even on an editorial page, so its real selection, beat numbers, focus and status are exempt from the editorial accent budget, as they are in the application. Decoration and calls to action inside it are not exempt merely for being inside it. See `DESIGN.md`.
+
+## Notes on existing controls
 
 **`.ka-segment` works without JavaScript as of 0.11.0.** Its selected rule was `.ka-segment.ka-selected` alone — a class the Svelte component toggles — while the radio inside is visually hidden. On a plain-HTML surface, clicking a segment checked the input and nothing moved, so the control reported the wrong choice. `.ka-segment:has(input:checked)` is now matched alongside the class; `.ka-selected` stays for the component. If you use `.ka-segment` outside Svelte, the native markup is a `<fieldset>`, a radio group, and one `<label class="ka-segment">` per choice inside a `.ka-segment-track`.
+
+**A manuscript can sit inside a `.ka-beat-body` as of 0.13.0.** `.ka-beat-body p` sets the beat's own note paragraphs at `--text-body-lg` and named the `p` directly, which beat the `--text-body` / `--leading-relaxed` that `.ka-manuscript-prose` sets on itself — so a draft seated in a beat read at 18px/1.7 instead of the editor's 17px. The rule now excludes paragraphs inside a `.ka-manuscript`, at unchanged specificity.
 
 **`.ka-notice` sets its own `display: grid`.** It previously declared `gap: 12px` with no display, so the gap was inert. Unlike `.ka-field` — a layout-agnostic wrapper the consumer pairs with `od-field` to say "stack" — a notice already styles its own `p` and does not leave its internal arrangement to the consumer.
 
