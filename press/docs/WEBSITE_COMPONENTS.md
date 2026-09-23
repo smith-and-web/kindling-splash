@@ -175,7 +175,7 @@ Use `type="email"`, `required`, an explicit label, and `aria-describedby` linkin
 - **Navigation:** the source's modal-like fixed mobile menu is adapted to an in-flow disclosure with the same clear open/close affordances. This avoids embedding viewport-fixed chrome in a catalog specimen.
 - **Trust copy:** the catalog uses descriptive labels grounded in its writing-space content and identifies them as example copy, because catalog copy is illustrative. **Corrected in 0.12.0:** earlier revisions of this line described the consumer's writer-count claim as *unverified* and declined to promote it. That was wrong, and it caused the claim to be deleted from a live page more than once by people reading this file as an instruction. The figure is sourced from GitHub release analytics filtered to binary assets only, and is conservative. A consumer may state it. It measures download events rather than unique people, so whoever maintains it should record the value, the source and the date last checked alongside it.
 - **Theme:** website specimens stay light, matching the existing website policy. The surrounding reference and Application section still support light/dark.
-- **Icons and motion:** consistent outline arrows; small state feedback only, with reduced-motion support.
+- **Icons and motion:** consistent outline arrows; small state feedback only, with reduced-motion support. The single exception is the home-page workspace tour, bounded by the terms in `DESIGN.md`; it is not a precedent for any other surface.
 
 ## Copying and integration
 

@@ -48,7 +48,7 @@ The manuscript is a light paper sheet in both themes. Newsreader prose uses the 
 
 Use real product screenshots and supplied logos. Keep intrinsic proportions. Use reversed artwork on dark surfaces and the flame below emblem size. See [the asset guide](../assets/README.md).
 
-Website outline icons use 16px/1px stroke; application icons default to 20px/1.75px stroke. Preserve Lucide geometry and accessible control names. Foundation motion is 100/200ms and application motion is 160ms; respect reduced motion. Hover preserves contrast and focus stays visible. Avoid gradients, glow, emoji controls, per-character typing and looping promotional animation.
+Website outline icons use 16px/1px stroke; application icons default to 20px/1.75px stroke. Preserve Lucide geometry and accessible control names. Foundation motion is 100/200ms and application motion is 160ms; respect reduced motion. Hover preserves contrast and focus stays visible. Avoid gradients, glow, emoji controls, per-character typing and looping promotional animation. The one exception — the home-page workspace tour — and the terms it must keep are in `DESIGN.md`, under *Interaction, motion and accessibility*.
 
 ## Implementation and maintenance
 

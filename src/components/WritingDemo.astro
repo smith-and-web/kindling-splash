@@ -22,10 +22,11 @@
  *
  * No JavaScript is needed. Scenes are one native radio group in the tree;
  * chapters, beats and references are native `<details>`; the view switch and
- * the narrow region switcher are radio groups. One script only improves the
- * phone case (below). The ids are load-bearing: analytics.js records
- * `#sample-beat-N > summary` opens and `name="sample-scene"` changes, and
- * scripts/check-launch.mjs drives both.
+ * the narrow region switcher are radio groups. src/scripts/writing-demo.ts
+ * layers on the tour and the motion — see its header — and nothing depends on
+ * it. The ids are load-bearing: analytics.js records `#sample-beat-N >
+ * summary` opens and `name="sample-scene"` changes, and scripts/check-launch.mjs
+ * drives both and the tour.
  */
 import project from '../data/sample-project.json';
 
@@ -78,6 +79,7 @@ const icon = (paths: string, size = 20, extra = '') =>
   `<svg class="ka-icon${extra}" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${paths}</svg>`;
 const chevronRight = icon('<path d="m9 18 6-6-6-6"/>', 20, ' ka-disclosure-icon');
 const chevronDown = icon('<path d="m6 9 6 6 6-6"/>', 16, ' ka-disclosure-icon');
+const pauseIcon = icon('<rect x="14" y="4" width="4" height="16" rx="1"/><rect x="6" y="4" width="4" height="16" rx="1"/>', 16);
 const listIcon = icon('<path d="M3 12h.01M3 18h.01M3 6h.01M8 12h13M8 18h13M8 6h13"/>', 16);
 const pageIcon = icon('<path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8M16 13H8M16 17H8"/>', 16);
 const kindIcon = {
@@ -241,24 +243,20 @@ const kindIcon = {
       </aside>
     </div>
   </section>
-  <figcaption id="demo-caption">A sample scene from <em>The Letter</em>. Your outline stays with the words it becomes.</figcaption>
+  <figcaption class="demo-caption">
+    <span id="demo-caption">A sample scene from <em>The Letter</em>. Your outline stays with the words it becomes.</span>
+    <!-- The tour's control. Hidden until the script runs, since without it
+         there is no tour to pause. -->
+    <button type="button" class="ka-button ka-button--ghost demo-tour-toggle" aria-controls="workspace" hidden>
+      <span class="od-row"><Fragment set:html={pauseIcon} /><span data-tour-label>Pause tour</span></span>
+    </button>
+  </figcaption>
 </figure>
 
 <script>
-  /* The one enhancement. At a narrow workspace one region shows at a time, so
-     choosing a scene in the Outline would change nothing on screen; with
-     script, it also switches to Writing. Without script the visitor taps
-     Writing themselves — every behaviour still works. */
+  import { initWritingDemo } from '../scripts/writing-demo';
   const workspace = document.getElementById('workspace');
-  workspace?.addEventListener('change', (event) => {
-    const input = event.target;
-    if (!(input instanceof HTMLInputElement) || input.name !== 'sample-scene') return;
-    const panes = workspace.querySelector('.ka-workspace-panes');
-    if (!panes || getComputedStyle(panes).display === 'none') return;
-    const writing = workspace.querySelector<HTMLInputElement>('input[name="sample-workspace-region"][value="main"]');
-    if (writing) writing.checked = true;
-    workspace.querySelector<HTMLElement>('.scene-body')?.scrollTo({ top: 0 });
-  });
+  if (workspace) initWritingDemo(workspace, document.querySelector<HTMLButtonElement>('.demo-tour-toggle'));
 </script>
 
 <style>
@@ -294,6 +292,32 @@ const kindIcon = {
   .ka-workspace:has(input[name="sample-scene-view"][value="page"]:checked) .scene-page { display: block; }
 
   .status-narrow { display: none; }
+
+  /* Motion for the state CSS itself drives — the selected tree row, the
+     segment fills, a beat number filling as its beat opens, a chevron
+     turning — held to the same long, eased timing as the tour in
+     src/scripts/writing-demo.ts. This is the demo's deliberate exception to
+     the application's 160ms `--ka-motion`, recorded in press/DESIGN.md
+     ("Motion"): it is meant to be watched. Press's reduced-motion rule
+     removes every transition inside `.press-app`. */
+  #workspace {
+    --ka-motion: 460ms;
+    --demo-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  #workspace :is(.ka-tree label, .ka-segment, .ka-beat-number, .ka-reference > summary) {
+    transition: background-color 460ms var(--demo-ease), color 460ms var(--demo-ease), box-shadow 460ms var(--demo-ease);
+  }
+  /* A closing disclosure keeps `open` until its height has drawn back, so
+     its chevron turns with the motion rather than after it. */
+  #workspace details.is-closing > summary > .ka-disclosure-icon { transform: none; }
+
+  .demo-caption {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2xs) var(--space-s);
+  }
 
   /* A narrow workspace shows one region in a box bounded to the screen, so
      every row of chrome is a row of draft the visitor cannot see. The scene

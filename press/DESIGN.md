@@ -140,6 +140,18 @@ Standalone controls target at least `--control-target` (44px) in both dimensions
 
 Use restrained state feedback: foundation and website transitions use 100ms/200ms; the application layer uses its existing 160ms motion token. Respect `prefers-reduced-motion`. Avoid decorative entrance choreography, hover-only essential information, and color-only state. Aim for 4.5:1 body contrast and 3:1 essential graphics; evaluate both themes independently when doing QA. Hairlines are separators, not the sole signal identifying a control.
 
+**One exception: the home-page workspace tour.** The interactive `.press-app` workspace specimen on kindlingwriter.com's home page may tour itself: a looping walk through the scene workspace, with transitions of up to 560ms and reading scrolls of up to 1.7s. It exists because a specimen of a calm writing tool is best shown moving calmly, and it is allowed only while it keeps every one of these terms:
+
+- It starts only when at least half the specimen is on screen, and pauses off-screen and in a background tab.
+- Under `prefers-reduced-motion` it never starts on its own, and every transition is instant.
+- The visitor's first click, keypress, keyboard focus or scroll inside the specimen stops it where it is. Nothing resets; a transition already under way completes forwards.
+- A visible Pause/Play control stops and resumes it (WCAG 2.2.2), and Play resumes from the current step.
+- The visitor's own interactions move exactly as the tour does.
+- Motion is opacity, transform, height and scroll, plus colour fades between a control's existing states — no gradient, glow, per-character typing or simulated cursor.
+- It never moves focus, records no analytics, and the specimen works completely without JavaScript.
+
+It is an exception, not a pattern. No other page, specimen or application screen may autoplay, loop, or exceed the motion values above by pointing to it; a second case needs its own entry here.
+
 ## Voice and brand
 
 Write clearly, calmly and concretely. Prefer the writer’s language: scene, beat, manuscript, reference, draft. Explain what an action does and what happens next. No fabricated metrics or unsupported product promises. Sample manuscript content is clearly illustrative; do not imply it is a published work. Show real provided brand assets in their original proportions.

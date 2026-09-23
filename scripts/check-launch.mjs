@@ -82,40 +82,45 @@ try {
   assert.equal(await page.evaluate(() => typeof window.gtag), 'undefined');
   pass('local marketing/docs and preview hosts do not load production analytics');
 
+  /* The demo tours itself when it is on screen. These checks drive it as a
+     visitor would, so they run with reduced motion — which keeps the tour
+     from starting and makes every transition instant — and wait for each
+     state rather than for a fixed interval. The tour has its own checks
+     below, in a context with motion. */
+  await page.emulateMedia({ reducedMotion: 'reduce' });
   await go('/');
   assert.equal(state.tags.length, 1);
   /* Every beat starts closed, as the application rests. Nothing counts on load. */
   assert.equal(count('demo_interaction'), 0);
   const beat = (n) => page.locator(`#sample-beat-${n}`);
+  const isOpen = (n, open) => page.waitForFunction(([id, want]) => document.getElementById(id).open === want, [`sample-beat-${n}`, open], { timeout: 3000 });
   assert.equal(await beat(1).evaluate((el) => el.open), false, 'beats must start closed');
   await beat(2).locator('> summary').click();
-  await page.waitForTimeout(50);
-  assert.equal(await beat(2).evaluate((el) => el.open), true, 'clicking a beat summary must open it');
+  await isOpen(2, true);
   assert.equal(count('demo_interaction'), 1);
   const opened = state.events.find((e) => e[1] === 'demo_interaction')[2];
   assert.equal(opened.interaction_type, 'open_beat');
   assert.equal(opened.beat_id, 'sample-beat-2');
   await beat(2).locator('> summary').click();
-  await page.waitForTimeout(50);
-  assert.equal(await beat(2).evaluate((el) => el.open), false, 'clicking an open beat summary must close it');
+  await isOpen(2, false);
   assert.equal(count('demo_interaction'), 1, 'closing a beat must not count');
   /* The preview strip is inside the summary, so choosing it opens the beat. */
   await beat(1).locator('.ka-beat-preview').click();
-  await page.waitForTimeout(50);
-  assert.equal(await beat(1).evaluate((el) => el.open), true, 'clicking a beat preview must open the beat');
+  await isOpen(1, true);
   assert.equal(count('demo_interaction'), 2);
   pass('demo records a visitor opening a beat, from its row or its preview, never a close');
 
-  /* Scenes switch from the outline: a native radio group, no script needed.
-     The chosen scene's column replaces the first's, and the choice is
-     recorded once. The Seventh Step is in the chapter that starts open. */
+  /* Scenes switch from the outline. The chosen scene's column replaces the
+     first's, and the choice is recorded once. The Seventh Step is in the
+     chapter that starts open. */
   state.events.length = 0;
-  const visibleSceneTitle = () => page.evaluate(() =>
+  const visibleSceneTitle = (p = page) => p.evaluate(() =>
     [...document.querySelectorAll('.ka-scene-header h3')].find((h) => h.getClientRects().length)?.textContent.trim());
+  const showsScene = (title, p = page) => p.waitForFunction((want) =>
+    [...document.querySelectorAll('.ka-scene-header h3')].find((h) => h.getClientRects().length)?.textContent.trim() === want, title, { timeout: 3000 });
   assert.equal(await visibleSceneTitle(), 'On the Cliff');
   await page.locator('.ka-tree label:has(input[value="seventh-step"])').click();
-  await page.waitForTimeout(50);
-  assert.equal(await visibleSceneTitle(), 'The Seventh Step', 'choosing a scene in the outline must show it');
+  await showsScene('The Seventh Step');
   assert.equal(count('demo_interaction'), 1);
   const chosen = state.events.find((e) => e[1] === 'demo_interaction')[2];
   assert.equal(chosen.interaction_type, 'select_scene');
@@ -123,10 +128,68 @@ try {
   /* A closed chapter expands to its own scenes. */
   await page.locator('.ka-tree details:has(input[value="low-tide"]) > summary').click();
   await page.locator('.ka-tree label:has(input[value="low-tide"])').click();
-  await page.waitForTimeout(50);
-  assert.equal(await visibleSceneTitle(), 'Low Tide', 'a scene in another chapter must be reachable');
+  await showsScene('Low Tide');
   assert.equal(count('demo_interaction'), 2);
   pass('demo switches scenes and expands chapters from the outline, recording each choice once');
+
+  /* The tour, with motion. It starts once the demo is on screen and moves
+     the workspace on its own; the tour fires no analytics. */
+  const tour = await context({ viewport: { width: 1440, height: 900 }, reducedMotion: 'no-preference' });
+  const tp = await tour.ctx.newPage();
+  const demoState = () => tp.evaluate(() => {
+    const vis = (sel) => [...document.querySelectorAll(sel)].filter((e) => e.getClientRects().length);
+    return JSON.stringify({
+      scene: document.querySelector('input[name="sample-scene"]:checked').value,
+      view: document.querySelector('input[name="sample-scene-view"]:checked').value,
+      beats: vis('.ka-beat[open]').map((d) => d.id),
+      refs: vis('.ka-reference[open]').length,
+      chapters: [...document.querySelectorAll('.ka-tree > .ka-tree-list > li > details')].map((d) => d.open),
+      scroll: Math.round(document.querySelector('.scene-body').scrollTop),
+    });
+  });
+  await tp.goto(production + '/', { waitUntil: 'networkidle' });
+  const atRest = await demoState();
+  await tp.locator('#workspace').evaluate((el) => el.scrollIntoView({ block: 'center', behavior: 'instant' }));
+  await tp.waitForFunction(() => document.getElementById('workspace').dataset.tour === 'playing', null, { timeout: 5000 });
+  await tp.waitForFunction(() => document.getElementById('sample-beat-1').open, null, { timeout: 10000 });
+  assert.notEqual(await demoState(), atRest, 'the tour must move the workspace on its own');
+  assert.equal(tour.events.filter((e) => e[1] === 'demo_interaction').length, 0, 'the tour must not record analytics');
+  pass('the demo tours itself once on screen, without recording analytics');
+
+  /* A click inside the demo stops the tour where it is: nothing resets to
+     the start, and nothing moves afterwards. The badge is visible and inert,
+     so the click itself changes nothing. */
+  await tp.locator('.scene-bar .ka-badge').click();
+  await tp.waitForFunction(() => document.getElementById('workspace').dataset.tour === 'stopped', null, { timeout: 3000 });
+  await tp.waitForTimeout(600);
+  const stoppedAt = await demoState();
+  assert.notEqual(stoppedAt, atRest, 'stopping must not reset the demo to its start');
+  await tp.waitForTimeout(7000);
+  assert.equal(await demoState(), stoppedAt, 'a stopped tour must not move again');
+  assert.equal((await tp.locator('.demo-tour-toggle').textContent()).trim(), 'Play tour', 'the control must offer to play again');
+  pass('a click stops the tour in place, with no reset and no further motion');
+
+  /* Play resumes from where it stopped, not from the start. */
+  await tp.locator('.demo-tour-toggle').click();
+  await tp.waitForFunction(() => document.getElementById('workspace').dataset.tour === 'playing', null, { timeout: 3000 });
+  await tp.waitForFunction((was) => {
+    const vis = (sel) => [...document.querySelectorAll(sel)].filter((e) => e.getClientRects().length);
+    return JSON.stringify(vis('.ka-beat[open]').map((d) => d.id)) !== JSON.stringify(JSON.parse(was).beats)
+      || document.querySelector('input[name="sample-scene-view"]:checked').value !== JSON.parse(was).view;
+  }, stoppedAt, { timeout: 15000 });
+  pass('Play resumes the tour from where it stopped');
+
+  /* Reduced motion: the tour never starts on its own. */
+  await tp.emulateMedia({ reducedMotion: 'reduce' });
+  await tp.goto(production + '/', { waitUntil: 'networkidle' });
+  await tp.locator('#workspace').evaluate((el) => el.scrollIntoView({ block: 'center', behavior: 'instant' }));
+  const reducedStart = await demoState();
+  await tp.waitForTimeout(5000);
+  assert.equal(await demoState(), reducedStart, 'with reduced motion the tour must not start on its own');
+  assert.notEqual(await tp.evaluate(() => document.getElementById('workspace').dataset.tour), 'playing');
+  pass('with reduced motion the tour waits for the visitor');
+  assert.deepEqual(tour.errors, [], `tour: ${tour.errors.join('; ')}`);
+  await tour.ctx.close();
 
   state.events.length = 0;
   await page.locator('.navbar-cta').click();
@@ -242,6 +305,19 @@ try {
     assert.equal(noJS.binaries.length, 1, `no-JS ${os} must reach a binary`);
   }
   pass('downloads work without JavaScript, for every platform the visitor can choose');
+
+  /* The demo is native radios and `<details>`; the tour is an enhancement.
+     Without JavaScript every part still works, and the tour control — which
+     would pause nothing — stays hidden. */
+  await np.goto(production + '/');
+  await np.locator('.ka-tree label:has(input[value="seventh-step"])').click();
+  assert.equal(await visibleSceneTitle(np), 'The Seventh Step', 'no-JS: a scene must switch from the outline');
+  await np.locator('#sample-beat-4 > summary').click();
+  assert.equal(await np.locator('#sample-beat-4').evaluate((el) => el.open), true, 'no-JS: a beat must open');
+  await np.locator('label.ka-segment:has(input[value="page"])').click();
+  assert.equal(await np.locator('[data-scene="seventh-step"] .scene-page').isVisible(), true, 'no-JS: the Page view must show');
+  assert.equal(await np.locator('.demo-tour-toggle').isVisible(), false, 'no-JS: there is no tour to pause');
+  pass('the demo works without JavaScript: scenes, beats and the Page view');
 
   async function htmlFiles(dir) {
     const files = [];

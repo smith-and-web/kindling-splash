@@ -91,7 +91,10 @@ try {
   /* Nothing here should reach the network. A missing local asset must fail;
      a third-party request is a finding in its own right. */
   const external = [];
-  const context = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
+  /* Reduced motion keeps the home-page demo's tour from moving the workspace
+     while its type, colour and layout are measured. The tour itself is
+     checked in scripts/check-launch.mjs. */
+  const context = await browser.newContext({ viewport: { width: 1440, height: 1000 }, reducedMotion: 'reduce' });
   await context.route('**/*', async (route) => {
     const url = new URL(route.request().url());
     /* Turnstile is the one deliberate third party, and only on /feedback/ and

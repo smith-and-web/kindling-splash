@@ -34,6 +34,10 @@ full set:
 - Sequence, not grid: `.pw-feature-grid` over card matrices.
 - No emoji as icons. No gradients or glows. No typewriter effects. No autoplay
   looping product video.
+  **One recorded exception:** the home-page demo's workspace tour
+  (`src/scripts/writing-demo.ts`), whose terms are in `press/DESIGN.md` under
+  *Interaction, motion and accessibility*. It is not a precedent — nothing else
+  on the site may autoplay or loop by pointing to it.
 - Fraunces for headings, Newsreader for reading, Inter for controls and website
   product copy. Never a system sans.
 
