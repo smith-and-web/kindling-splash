@@ -282,34 +282,3 @@ const faqStructuredData = {
     <SmartDownloadButton client:visible location="free-scrivener-alternative-cta" />
   </section>
 </MarketingLayout>
-
-<style>
-  /* Hero arrangement only, as the homepage hero does it.
-
-     Spacing: `.press-web :where(h1, …, p, …) { margin: 0 }` ties with
-     `components.css`'s `.page-hero-subtext { margin-bottom: 32px }` (0,1,0
-     each) and wins on source order, so inside the website boundary the action
-     sat flush against the stand-first. (`.page-hero h1` is 0,1,1 and keeps its
-     16px.) The action carries Press's intended 32px instead.
-
-     Action: the `compact` button on the page's left edge, stacked — one fill,
-     its micro-copy, then the platforms link, which beside the button reads as
-     a second action. The default variant centres itself in the column, which
-     left the fill 319px right of the text it follows. Element-qualified to beat
-     the component's own `.smart-download.compact` (0,3,0); see CLAUDE.md on
-     scoped-style specificity. */
-  section.page-hero :global(div.smart-download) {
-    margin-top: var(--space-l);
-  }
-
-  section.page-hero :global(div.smart-download.compact) {
-    grid-template-columns: minmax(0, 1fr);
-    justify-items: start;
-    gap: var(--space-2xs);
-  }
-
-  section.page-hero :global(div.smart-download.compact .alt-platforms) {
-    grid-column: 1;
-    grid-row: 3;
-  }
-</style>

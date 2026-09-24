@@ -220,7 +220,7 @@ Each parser returns a `ParsedProject` struct that gets inserted into the databas
 
 ## Resources
 
-- [Tauri Documentation](https://tauri.app/v2/start/)
+- [Tauri Documentation](https://tauri.app/start/)
 - [Svelte 5 Runes](https://svelte.dev/docs/svelte/what-are-runes)
 - [rusqlite](https://docs.rs/rusqlite/latest/rusqlite/)
 - [GitHub Repository](https://github.com/smith-and-web/kindling)

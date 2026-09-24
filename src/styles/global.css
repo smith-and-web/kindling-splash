@@ -112,6 +112,36 @@ a {
   text-decoration: underline;
 }
 
+/* ===== Download action in an editorial hero =====
+   `.page-hero` pages (the Scrivener and story-outlining landing pages) put the
+   download action under a left-aligned stand-first. Arrangement only:
+
+   - Spacing. `.press-web :where(h1, …, p, …) { margin: 0 }` ties with
+     `components.css`'s `.page-hero-subtext { margin-bottom: 32px }` and wins on
+     source order, so the action sat flush against the stand-first. The action
+     carries Press's intended 32px instead. The real fix is in ../press, where
+     the website reset cancels the editorial layer's margins.
+   - Alignment. The `compact` button, stacked on the page's left edge: one fill,
+     its micro-copy, then the platforms link, which beside the button reads as
+     a second action. The default variant centres itself in the column.
+
+   Element-qualified (0,3,2) to beat the component's own
+   `.smart-download.compact` (0,3,0). */
+section.page-hero div.smart-download {
+  margin-top: var(--space-l);
+}
+
+section.page-hero div.smart-download.compact {
+  grid-template-columns: minmax(0, 1fr);
+  justify-items: start;
+  gap: var(--space-2xs);
+}
+
+section.page-hero div.smart-download.compact .alt-platforms {
+  grid-column: 1;
+  grid-row: 3;
+}
+
 /* ===== Download Note ===== */
 .download-note {
   font-size: var(--text-small);

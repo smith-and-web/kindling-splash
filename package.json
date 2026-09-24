@@ -26,6 +26,7 @@
   },
   "homepage": "https://github.com/smith-and-web/kindling-splash#readme",
   "dependencies": {
+    "@astrojs/rss": "4.0.19",
     "@astrojs/sitemap": "^3.7.2",
     "@astrojs/starlight": "^0.38.2",
     "@astrojs/svelte": "^8.0.4",

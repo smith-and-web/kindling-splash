@@ -130,11 +130,18 @@ export default defineConfig({
           tag: 'script',
           content: analyticsScript,
         },
+        // Starlight declares a large-image Twitter card but ships no image, so
+        // shared docs links rendered blank. The marketing pages' card, absolute.
+        { tag: 'meta', attrs: { property: 'og:image', content: 'https://kindlingwriter.com/og-image.png' } },
+        { tag: 'meta', attrs: { property: 'og:image:width', content: '1200' } },
+        { tag: 'meta', attrs: { property: 'og:image:height', content: '630' } },
+        { tag: 'meta', attrs: { name: 'twitter:image', content: 'https://kindlingwriter.com/og-image.png' } },
       ],
     }),
     svelte(),
     sitemap({
-      filter: (page) => !['/download/thanks/', '/welcome/'].includes(new URL(page).pathname),
+      // Every noindex page stays out: a sitemap URL marked noindex is a contradiction.
+      filter: (page) => !['/download/thanks/', '/welcome/', '/feedback/'].includes(new URL(page).pathname),
       serialize(item) {
         const lastmod = lastModified(new URL(item.url).pathname);
         return lastmod ? { ...item, lastmod } : item;
