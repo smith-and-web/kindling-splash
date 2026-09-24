@@ -291,9 +291,61 @@ try {
   assert.equal(mobile.events.filter((e) => e[1] === 'mobile_share').length, 1);
   pass('mobile copy and native-share success are tracked; cancelled shares are not');
 
+  /* The phone layout is decided before first paint (platform-detect.js). The
+     /download/ notice used to be revealed by a module script after paint,
+     pushing the platform picker down: PageSpeed measured CLS up to 0.15. The
+     page's module scripts and web fonts are slowed here so it paints before
+     they arrive, as on a slow phone. Measured against that old code under
+     these conditions: CLS 0.268. Slowing only the fonts gives 0.018 either
+     way, so both must be slowed for this to catch a regression. */
+  const shifting = await context({ ...devices['iPhone 13'] });
+  const slow = async (route) => { await new Promise((r) => setTimeout(r, 800)); return route.fallback(); };
+  await shifting.ctx.route('**/*.woff2', slow);
+  await shifting.ctx.route('**/_astro/*.js', slow);
+  await shifting.ctx.addInitScript(() => {
+    window.__cls = 0;
+    new PerformanceObserver((list) => { for (const e of list.getEntries()) if (!e.hadRecentInput) window.__cls += e.value; })
+      .observe({ type: 'layout-shift', buffered: true });
+  });
+  const sp = await shifting.ctx.newPage();
+  await sp.goto(production + '/download/', { waitUntil: 'networkidle' });
+  await sp.evaluate(() => document.fonts.ready); await sp.waitForTimeout(300);
+  const phone = await sp.evaluate(() => {
+    const notice = document.querySelector('[data-mobile-notice]');
+    return { device: document.documentElement.dataset.device, shown: getComputedStyle(notice).display !== 'none',
+      first: notice.parentElement.firstElementChild === notice || getComputedStyle(notice).order === '-1', cls: window.__cls };
+  });
+  assert.equal(phone.device, 'mobile');
+  assert.ok(phone.shown && phone.first, 'phone: the desktop-app notice must lead the download stack');
+  assert.ok(phone.cls < 0.05, `phone /download/ layout shift ${phone.cls.toFixed(3)} (budget 0.05)`);
+  /* The collapsed nav's button works before website.js arrives (Press's
+     website-early.js): with the page bundle held back, Menu still opens. */
+  const early = await context({ ...devices['iPhone 13'] });
+  await early.ctx.route('**/_astro/*.js', async (route) => { await new Promise((r) => setTimeout(r, 4000)); return route.fallback(); });
+  const ep = await early.ctx.newPage();
+  await ep.goto(production + '/download/', { waitUntil: 'commit' });
+  await ep.locator('[data-pw-menu]').waitFor({ state: 'visible', timeout: 3000 });
+  assert.equal(await ep.locator('[data-pw-nav]').getAttribute('data-pw-ready'), null, 'website.js should not have bound yet');
+  assert.equal(await ep.locator('[data-pw-links]').isVisible(), false, 'phone: the nav must be collapsed in the first frame');
+  await ep.locator('[data-pw-menu]').click();
+  assert.equal(await ep.locator('[data-pw-links]').isVisible(), true, 'phone: Menu must open before website.js binds');
+  assert.equal(await ep.locator('[data-pw-menu]').getAttribute('aria-expanded'), 'true');
+  await early.ctx.close();
+  await page.goto(production + '/download/', { waitUntil: 'networkidle' });
+  const desktop = await page.evaluate(() => ({
+    device: document.documentElement.dataset.device, os: document.documentElement.dataset.os,
+    shown: getComputedStyle(document.querySelector('[data-mobile-notice]')).display !== 'none',
+    checked: document.querySelector('input[name="platform"]:checked')?.value,
+  }));
+  assert.equal(desktop.device, 'desktop');
+  assert.equal(desktop.shown, false, 'desktop: the mobile notice must not render');
+  assert.equal(desktop.checked, desktop.os ?? 'mac', 'desktop: the detected OS is pre-selected');
+  pass(`phone layout is decided before first paint: /download/ CLS ${phone.cls.toFixed(3)} with slow scripts and fonts; Menu works before website.js; desktop pre-selects ${desktop.checked}`);
+
   const noJS = await context({ javaScriptEnabled: false });
   const np = await noJS.ctx.newPage();
   await np.goto(production + '/download/');
+  assert.equal(await np.locator('[data-mobile-notice]').isVisible(), false, 'no-JS: the mobile notice must stay hidden');
   /* The platform choice is CSS-driven precisely so it survives here: check the
      radio, and the matching installer — a real anchor to a real binary — is
      what becomes visible. Every platform, not just the one checked in markup. */
@@ -410,7 +462,7 @@ try {
   assert.match(robots, /Sitemap: https:\/\/kindlingwriter\.com\/sitemap-index\.xml/);
   assert.equal((await fetch(local + '/sitemap-index.xml')).status, 200);
   pass(`${pages.length} HTML files: internal targets, article metadata, completion noindex, sitemap lastmod, guide and related-post links, contextual inlinks, llms.txt coverage`);
-  assert.deepEqual([...state.errors, ...mobile.errors, ...noJS.errors], []);
+  assert.deepEqual([...state.errors, ...mobile.errors, ...shifting.errors, ...noJS.errors], []);
   pass('no browser JavaScript errors');
   console.log(`\n${checks} launch checks passed. No analytics collection, real downloads, or external form submissions.`);
 } finally {

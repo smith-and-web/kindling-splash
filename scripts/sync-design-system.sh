@@ -48,7 +48,9 @@ mkdir -p "$VENDOR/design-system" "$VENDOR/assets/fonts/web" "$VENDOR/assets/svg"
 # application owns every operational control (buttons, fields, dialogs) on every
 # surface including this one. website is the opt-in .press-web marketing layer,
 # which since Press 0.10.0 styles exactly one control, the marketing CTA.
-for f in tokens.css components.css application.css website.css fonts-web.css website.js; do
+# website-early.js (0.15.0) is inlined in <head> so the mobile nav is collapsed
+# in the first frame rather than when website.js arrives.
+for f in tokens.css components.css application.css website.css fonts-web.css website.js website-early.js; do
   cp "$SRC/design-system/$f" "$VENDOR/design-system/$f"
 done
 

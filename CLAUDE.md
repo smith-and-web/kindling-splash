@@ -84,6 +84,21 @@ into the app meets a different button, it isn't finished.
   them in `public/`. The hand-kept copies drifted to v1.1 with wrong prices and
   privacy claims. `test:launch` fails if a sitemap URL is missing from
   `llms.txt` or a listed URL doesn't resolve.
+- **Two classic scripts are inlined at the top of `<head>`** in
+  `MarketingLayout.astro`, so the first frame is laid out for the visitor's
+  device:
+  - `src/scripts/platform-detect.js`, the one platform detection, records
+    `data-device` and `data-os` on `<html>`. `detectPlatform()` in
+    `platform.ts` only reads them. `/download/` shows its mobile notice from
+    CSS on `data-device`, and pre-selects the OS in an inline script right after
+    the fieldset.
+  - Press's `website-early.js` sets `data-pw-js`, so the mobile nav is collapsed
+    before paint, and keeps the Menu button working until `website.js` binds.
+
+  Before these, a late page bundle revealed the notice and collapsed the nav
+  after paint: CLS 0.268 on `/download/`. `test:launch` fails over 0.05 with
+  slowed scripts and fonts. Don't move either script into a module or the
+  page bundle.
 - Download sizes live in `src/data/downloads.ts` alone. Re-measure them from the
   release assets (`gh release view`) when a release changes the bundle.
 
@@ -490,7 +505,7 @@ The editorial restructure and the Press adoption shipped to `main` in
 kindling-splash#1 and deployed on 24 Sep 2026 alongside kindling v1.3.
 
 **The vendored snapshot is a commit snapshot of merged Press.**
-`src/vendor/press/MANIFEST.json` points at Press 0.14.0 @ `5c3b4df` (press#8,
+`src/vendor/press/MANIFEST.json` points at Press 0.15.0 @ `59ebd80` (press#9,
 on Press `main`) with a clean working tree. Keep it that way: re-sync only from
 a commit that is on Press `main`.
 

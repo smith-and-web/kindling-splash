@@ -183,11 +183,25 @@ const GLYPHS: Record<string, string> = {
                         ))}
                     </div>
                 </fieldset>
+                <!-- Pre-select the visitor's desktop OS while the page is still
+                     parsing, so the first frame already shows their installer.
+                     It never decides: markup checks macOS without script, and a
+                     choice the browser restores on back-navigation still wins,
+                     because restoration happens after this runs. -->
+                <script is:inline>
+                    (function () {
+                        var d = document.documentElement.dataset;
+                        var radio = d.device === "desktop" && d.os && document.getElementById("platform-" + d.os);
+                        if (radio) radio.checked = true;
+                    })();
+                </script>
 
                 <!-- Mobile state. An operational notice, not a bespoke panel:
                      the same .ka-notice and .ka-button a writer meets in the
-                     app. Revealed by script, so it never flashes on desktop. -->
-                <div class="ka-notice" data-mobile-notice hidden>
+                     app. Shown by CSS from `data-device`, which platform-detect.js
+                     records before first paint — so it is in the first frame on a
+                     phone, never on a desktop, and hidden without script. -->
+                <div class="ka-notice" data-mobile-notice>
                     <p>
                         <strong>kindling is a desktop app.</strong> It runs on
                         macOS, Windows and Linux — there is no mobile version
@@ -560,8 +574,18 @@ const GLYPHS: Record<string, string> = {
 
     /* A phone visitor should meet "this is a desktop app" before the platform
        choice, not after it. The notice is authored after the fieldset so a
-       no-JS desktop visitor never sees it above the download. */
-    .pw-stack > [data-mobile-notice]:not([hidden]) {
+       no-JS desktop visitor never sees it above the download.
+
+       It used to be revealed by a module script after first paint, which
+       pushed the platform picker down on every phone: PageSpeed measured the
+       layout shift at up to 0.15. `data-device` is recorded before paint, so
+       the notice is laid out in the first frame. Without script the attribute
+       is never set and the notice stays hidden, as before. */
+    :global(html:not([data-device="mobile"])) .pw-stack > [data-mobile-notice] {
+        display: none;
+    }
+
+    :global(html[data-device="mobile"]) .pw-stack > [data-mobile-notice] {
         order: -1;
     }
 
@@ -580,29 +604,21 @@ const GLYPHS: Record<string, string> = {
     import { detectPlatform } from "../../scripts/platform";
     import { requestDownload, isPlatform } from "../../scripts/download-flow";
 
-    const { os, isMobile } = detectPlatform();
+    const { isMobile } = detectPlatform();
 
     if (isMobile) {
         /*
-         * Lead with "this is a desktop app" rather than silently offering a
-         * .dmg, and demote the installer to the secondary treatment. Without
-         * the demotion the first mobile viewport carries three terracotta
-         * moments — the hero `em`, the copy action and the installer —
-         * against a budget of two.
+         * The notice itself is shown by CSS before first paint (see the
+         * `data-device` rules above); the desktop pre-selection runs inline
+         * after the fieldset. What remains here is demoting the installer to
+         * the secondary treatment. Without it the first mobile viewport
+         * carries three terracotta moments — the hero `em`, the copy action
+         * and the installer — against a budget of two. Same dimensions, so
+         * this changes colour, never layout.
          */
-        document
-            .querySelector("[data-mobile-notice]")
-            ?.removeAttribute("hidden");
         document
             .querySelectorAll<HTMLAnchorElement>("a[data-platform]")
             .forEach((a) => a.classList.add("pw-button--secondary"));
-    } else if (os) {
-        // Detection pre-selects. It never decides: the visitor's explicit
-        // choice wins, and the page is correct before this runs at all.
-        const radio = document.querySelector<HTMLInputElement>(
-            `#platform-${os}`,
-        );
-        if (radio) radio.checked = true;
     }
 
     /*

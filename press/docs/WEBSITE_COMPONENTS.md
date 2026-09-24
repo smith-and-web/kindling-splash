@@ -4,7 +4,7 @@ The website catalog extends the portable package. Open `../index.html#website-co
 
 ## Install and scope
 
-Load `fonts-web.css` (WOFF2 for network delivery; `fonts.css` serves the same faces as TTF for a bundling application), `tokens.css`, `application.css` for operational controls, then opt-in `website.css`. Include `website.js` only for navigation, beat selection, platform selection or the local signup example. All specimen markup is shown in the reference's **Markup & usage** disclosures. The editable specimen source is `reference/website-snippets.json`.
+Load `fonts-web.css` (WOFF2 for network delivery; `fonts.css` serves the same faces as TTF for a bundling application), `tokens.css`, `application.css` for operational controls, then opt-in `website.css`. Include `website.js` only for navigation, beat selection, platform selection or the local signup example. Inline `website-early.js` in `<head>` wherever the navigation is used (see Navigation below). All specimen markup is shown in the reference's **Markup & usage** disclosures. The editable specimen source is `reference/website-snippets.json`.
 
 ```html
 <link rel="stylesheet" href="./design-system/fonts-web.css">
@@ -93,7 +93,7 @@ it did not, which is why `.pw-writing--app` existed at all.
 
 ### Navigation
 
-Give the menu button `type="button"`, `aria-expanded="false"`, and `aria-controls` pointing to its own unique link-region ID. The script adds `data-pw-ready`. At container widths at or below 820px, enhanced navigation collapses behind the menu. Where container queries are unavailable the same collapse is repeated against the viewport under `@supports not (container-type: inline-size)`, so the menu still works rather than staying permanently expanded. Opening moves focus to the first link. Escape closes and returns focus to the button. Selecting a link, moving focus outside or clicking outside closes it. It is an in-flow disclosure, not a modal: it does not trap focus or lock body scrolling. Without JavaScript all links remain visible.
+Give the menu button `type="button"`, `aria-expanded="false"`, and `aria-controls` pointing to its own unique link-region ID. The script adds `data-pw-ready`. At container widths at or below 820px, enhanced navigation collapses behind the menu. Inline `design-system/website-early.js` in `<head>` so it collapses before first paint instead: it marks `<html>` with `data-pw-js` and keeps the menu button working until `website.js` binds it. Without it, a `website.js` that arrives after first paint repaints the page with every link expanded and then collapses it, a layout shift kindlingwriter.com measured at 0.165. Where container queries are unavailable the same collapse is repeated against the viewport under `@supports not (container-type: inline-size)`, so the menu still works rather than staying permanently expanded. Opening moves focus to the first link. Escape closes and returns focus to the button. Selecting a link, moving focus outside or clicking outside closes it. It is an in-flow disclosure, not a modal: it does not trap focus or lock body scrolling. Without JavaScript all links remain visible.
 
 ### Beats
 
