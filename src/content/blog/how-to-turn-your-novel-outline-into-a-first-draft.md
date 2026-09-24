@@ -15,7 +15,7 @@ But then the outline is done, and the cursor blinks on an empty page.
 
 This is where many plotters stall. Not because they lack a plan, but because the gap between a tidy outline and a messy first draft feels enormous. The outline is structured, logical, complete. The draft has to be emotional, embodied, alive. And the jump between those two things is genuinely hard.
 
-Most [writing advice skips this step entirely](/blog/why-plotters-need-better-writing-software.html). It assumes that if you have an outline, drafting is just a matter of sitting down and typing. But any plotter who has stared at a scene summary and tried to turn that into three pages of dialogue, subtext, and emotional weight knows it's not that simple.
+Most [writing advice skips this step entirely](/blog/why-plotters-need-better-writing-software/). It assumes that if you have an outline, drafting is just a matter of sitting down and typing. But any plotter who has stared at a scene summary and tried to turn that into three pages of dialogue, subtext, and emotional weight knows it's not that simple.
 
 This guide is for that moment. We'll walk through a process that bridges the gap between outline and draft--step by step, scene by scene, beat by beat.
 

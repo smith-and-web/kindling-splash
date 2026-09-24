@@ -17,12 +17,26 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    outputs:
+      indexnow-urls: ${{ steps.indexnow.outputs.urls }}
+      indexnow-key: ${{ steps.indexnow.outputs.key }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          # Full history: the sitemap's <lastmod> is each page's last commit
+          # date (astro.config.mjs). A shallow clone would date every page today.
+          fetch-depth: 0
 
       - name: Install, build, and upload
         uses: withastro/action@v6
+
+      # Before the deploy, so the live site is still the previous release and
+      # the difference is exactly what this deploy changes. See the script.
+      - name: Find URLs this deploy changes (IndexNow)
+        id: indexnow
+        continue-on-error: true
+        run: node scripts/indexnow.mjs
 
   deploy:
     needs: build
@@ -34,3 +48,19 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+      # Tell IndexNow (Bing, and the engines sharing its index) which pages
+      # changed, now that they are live. Best effort: a failed ping never fails
+      # a deploy. The key is public by design; its one source is the key file
+      # in public/, which the build step reads.
+      - name: Notify IndexNow
+        if: needs.build.outputs.indexnow-urls != '' && needs.build.outputs.indexnow-urls != '[]' && needs.build.outputs.indexnow-key != ''
+        continue-on-error: true
+        env:
+          URLS: ${{ needs.build.outputs.indexnow-urls }}
+          KEY: ${{ needs.build.outputs.indexnow-key }}
+        run: |
+          jq -n --argjson urls "$URLS" --arg key "$KEY" \
+            '{host: "kindlingwriter.com", key: $key, keyLocation: "https://kindlingwriter.com/\($key).txt", urlList: $urls}' \
+            | curl --fail-with-body -sS -X POST https://api.indexnow.org/indexnow \
+                -H 'Content-Type: application/json; charset=utf-8' --data-binary @-

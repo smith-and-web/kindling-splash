@@ -2,9 +2,53 @@ import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 import svelte from '@astrojs/svelte';
 import sitemap from '@astrojs/sitemap';
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync } from 'node:fs';
+import { execFileSync } from 'node:child_process';
 
 const analyticsScript = readFileSync(new URL('./public/analytics.js', import.meta.url), 'utf8');
+
+/*
+ * Sitemap <lastmod>. Without it Google has no freshness signal for any URL,
+ * and on a small site that leaves new pages sitting in "Discovered – currently
+ * not indexed".
+ *
+ * Blog posts use their own frontmatter (`modifiedDate`, else `publishedDate`),
+ * the dates the post already shows. Every other page uses the last commit that
+ * touched its source file. That needs full history in CI: a shallow checkout
+ * would give every page the deploy date, which is worse than no lastmod at
+ * all. See `fetch-depth: 0` in `.github/workflows/deploy.yml`.
+ */
+const blogDir = new URL('./src/content/blog/', import.meta.url);
+const blogDates = new Map(
+  readdirSync(blogDir)
+    .filter((name) => name.endsWith('.md'))
+    .map((name) => [name, readFileSync(new URL(name, blogDir), 'utf8')])
+    .filter(([, source]) => !/^draft:\s*true\b/m.test(source))
+    .map(([name, source]) => {
+      const field = (key) => source.match(new RegExp(`^${key}:\\s*"?([\\d-]+)"?`, 'm'))?.[1];
+      return [name.replace(/\.md$/, ''), field('modifiedDate') ?? field('publishedDate')];
+    }),
+);
+
+function lastCommitDate(file) {
+  try {
+    return execFileSync('git', ['log', '-1', '--format=%cI', '--', file], { encoding: 'utf8' }).trim() || undefined;
+  } catch {
+    return undefined;
+  }
+}
+
+function lastModified(pathname) {
+  const route = pathname.replace(/^\/|\/$/g, '');
+  const post = route.match(/^blog\/([^/]+)$/);
+  if (post) return blogDates.get(post[1]);
+  if (route === 'blog') return [...blogDates.values()].sort().at(-1);
+  const candidates = route.startsWith('docs')
+    ? [`src/content/docs/${route === 'docs' ? 'docs/index' : route}.md`, `src/content/docs/${route}.mdx`]
+    : [route ? `src/pages/${route}/index.astro` : 'src/pages/index.astro', `src/pages/${route}.astro`];
+  const source = candidates.find((file) => existsSync(file));
+  return source ? lastCommitDate(source) : undefined;
+}
 
 export default defineConfig({
   site: 'https://kindlingwriter.com',
@@ -91,6 +135,10 @@ export default defineConfig({
     svelte(),
     sitemap({
       filter: (page) => !['/download/thanks/', '/welcome/'].includes(new URL(page).pathname),
+      serialize(item) {
+        const lastmod = lastModified(new URL(item.url).pathname);
+        return lastmod ? { ...item, lastmod } : item;
+      },
     }),
   ],
 });

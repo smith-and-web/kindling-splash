@@ -1,6 +1,6 @@
 <script lang="ts">
   import { requestDownload, isPlatform } from '../scripts/download-flow';
-  import { APP_VERSION } from '../data/downloads';
+  import { DOWNLOADS, type Platform } from '../data/downloads';
   import { detectPlatform } from '../scripts/platform';
 
   function gtagSafe(...args: unknown[]): void {
@@ -9,25 +9,10 @@
     }
   }
 
-  /* ---- Download config. APP_VERSION comes from data/downloads.ts so the
-     version has a single source of truth. ---- */
-  const DOWNLOADS: Record<string, { label: string; url: string; size: string }> = {
-    mac: {
-      label: 'macOS',
-      url: `https://github.com/smith-and-web/kindling/releases/latest/download/Kindling_${APP_VERSION}_universal.dmg`,
-      size: '~10 MB',
-    },
-    windows: {
-      label: 'Windows',
-      url: `https://github.com/smith-and-web/kindling/releases/latest/download/Kindling_${APP_VERSION}_x64-setup.exe`,
-      size: '~10 MB',
-    },
-    linux: {
-      label: 'Linux',
-      url: `https://github.com/smith-and-web/kindling/releases/latest/download/Kindling_${APP_VERSION}_amd64.AppImage`,
-      size: '~10 MB',
-    },
-  };
+  /* ---- Download config. Platforms, URLs and sizes come from
+     data/downloads.ts, the site's one source of truth for them. This component
+     used to keep its own copy, which is how every size here stayed "~10 MB"
+     after the bundles grew. ---- */
 
   /* ---- Props ---- */
   let { location = 'hero', compact = false }: { location?: string; compact?: boolean } = $props();
@@ -46,7 +31,7 @@
   });
 
   /* ---- Derived values ---- */
-  let download = $derived(detectedOS ? DOWNLOADS[detectedOS] : null);
+  let download = $derived(isPlatform(detectedOS) ? DOWNLOADS[detectedOS as Platform] : null);
 
   /* ---- Handlers ---- */
   function handleDownloadClick(event: MouseEvent): void {
@@ -129,7 +114,7 @@
     >
       {compact ? 'Download' : 'Download kindling'} for {download.label}
     </a>
-    <p class="micro-copy">Free &amp; open source · No account required{compact ? ' · AI-free' : ` · ${download.size}`}</p>
+    <p class="micro-copy">Free &amp; open source · No account required{compact ? ' · AI‑free' : ` · ${download.size}`}</p>
     <a href="/download/" class="alt-platforms" data-cta-location={`${location}_all_platforms`}>{compact ? 'All platforms' : 'Also available for other platforms'} &rarr;</a>
 
   {:else}
@@ -137,7 +122,7 @@
     <a href="/download/" class="pw-button download-btn" data-cta-location={location}>
       Download kindling &mdash; free
     </a>
-    <p class="micro-copy">Free &amp; open source · No account required{compact ? ' · AI-free' : ' · ~10 MB'}</p>
+    <p class="micro-copy">Free &amp; open source · No account required{compact ? ' · AI‑free' : ''}</p>
     <a href="/download/" class="alt-platforms" data-cta-location={`${location}_all_platforms`}>{compact ? 'All platforms' : 'See all platforms'} &rarr;</a>
   {/if}
 </div>

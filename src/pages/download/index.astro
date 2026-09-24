@@ -52,7 +52,7 @@ const faqStructuredData = {
             name: "What are the system requirements?",
             acceptedAnswer: {
                 "@type": "Answer",
-                text: "macOS 12 or later, Windows 10 or later, or x86_64 Linux. Approximately 50 MB disk space. No internet connection required after download.",
+                text: "macOS 12 or later, Windows 10 or later, or x86_64 Linux. Under 100 MB of disk space. No internet connection required after download.",
             },
         },
     ],
@@ -78,9 +78,9 @@ const platforms = Object.entries(DOWNLOADS) as [
 ][];
 
 const DESCRIPTIONS: Record<string, string> = {
-    mac: "Intel & Apple Silicon, ~10 MB. Requires macOS 12 (Monterey) or later.",
-    windows: "64-bit installer, ~10 MB. Requires Windows 10 or later.",
-    linux: "x86_64 AppImage, ~10 MB. Mark it executable and run it.",
+    mac: `Intel & Apple Silicon, ${DOWNLOADS.mac.size}. Requires macOS 12 (Monterey) or later.`,
+    windows: `64-bit installer, ${DOWNLOADS.windows.size}. Requires Windows 10 or later.`,
+    linux: `x86_64 AppImage, ${DOWNLOADS.linux.size}. Mark it executable and run it.`,
 };
 
 const FILENAMES: Record<string, string> = {
@@ -251,8 +251,8 @@ const GLYPHS: Record<string, string> = {
                 <div class="ka-panel-body panel-stack">
                     <dl class="ka-facts">
                         <div><dt>Type</dt><dd>Desktop application</dd></div>
-                        <div><dt>Size</dt><dd>~10 MB</dd></div>
-                        <div><dt>Disk</dt><dd>~50 MB installed</dd></div>
+                        <div><dt>Download</dt><dd>{DOWNLOADS.windows.size} to {DOWNLOADS.linux.size}, by platform</dd></div>
+                        <div><dt>Disk</dt><dd>Under 100 MB installed</dd></div>
                         <div><dt>Licence</dt><dd>MIT</dd></div>
                         <div>
                             <dt>Source</dt>
@@ -347,7 +347,7 @@ const GLYPHS: Record<string, string> = {
                                 <dd>{platform.sysReq}</dd>
                             </div>
                         ))}
-                        <div><dt>Disk</dt><dd>~50 MB</dd></div>
+                        <div><dt>Disk</dt><dd>Under 100 MB</dd></div>
                         <div>
                             <dt>Network</dt>
                             <dd>Needed to download. Not needed to write.</dd>

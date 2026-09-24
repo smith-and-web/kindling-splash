@@ -14,6 +14,24 @@ export async function getStaticPaths() {
 const { post } = Astro.props;
 const { Content } = await render(post);
 
+/*
+ * Related reading: three other posts. Most posts were reachable from `/blog/`
+ * alone, and on 24 Sep 2026 seven of nine were not indexed. A release post
+ * leads with the release before it; then come posts that share a tag, then the
+ * newest of the rest.
+ */
+const byNewest = (a, b) => new Date(b.data.publishedDate).getTime() - new Date(a.data.publishedDate).getTime();
+const others = (await getCollection('blog'))
+  .filter((p) => !p.data.draft && p.id !== post.id)
+  .sort(byNewest);
+const tags = post.data.tags ?? [];
+const sharesTag = (p) => (p.data.tags ?? []).some((tag) => tags.includes(tag));
+const previousRelease = tags.includes('announcement')
+  ? others.find((p) => p.data.tags?.includes('announcement') &&
+      new Date(p.data.publishedDate) < new Date(post.data.publishedDate))
+  : undefined;
+const related = [...new Set([previousRelease, ...others.filter(sharesTag), ...others].filter(Boolean))].slice(0, 3);
+
 const publishedDate = new Date(post.data.publishedDate);
 const formattedDate = publishedDate.toLocaleDateString('en-US', {
   timeZone: 'UTC',
@@ -95,6 +113,22 @@ const structuredData = {
       <p>Your outline, visible while you write. No account required.</p>
       <SmartDownloadButton client:visible location="blog_post" />
     </div>
+
+    {related.length > 0 && (
+      <aside class="related-reading" aria-labelledby="related-reading-title">
+        <h2 class="related-reading-title" id="related-reading-title">Related reading</h2>
+        <ul class="related-list">
+          {related.map((item) => (
+            <li>
+              <a href={`/blog/${item.id}/`} class="related-link">
+                <span class="related-name">{item.data.title}</span>
+                <span class="related-excerpt">{item.data.description}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </aside>
+    )}
 
     <footer class="post-footer">
       <a href="/blog/" class="back-link">&larr; Back to Blog</a>
@@ -338,6 +372,67 @@ const structuredData = {
     color: var(--color-text-muted);
     margin-bottom: 16px;
     font-family: var(--font-body);
+  }
+
+  /* Related reading. The same hairline-row list as `/blog/`, in text colour
+     rather than the accent: it sits directly under the CTA, and three accent
+     links there would break the two-terracotta-per-viewport rule.
+     The element-qualified selectors are needed: `.press-web :where(h1, h2)`
+     sizes every h2 as a website title and `.press-web a` colours every link,
+     and a bare scoped class only ties with them, then loses on source order.
+     See CLAUDE.md on scoped-style specificity. */
+  .related-reading {
+    margin-top: var(--space-2xl);
+  }
+
+  h2.related-reading-title {
+    font-family: var(--font-display);
+    font-size: var(--text-h3);
+    font-weight: 600;
+    line-height: var(--leading-tight);
+    margin-bottom: var(--space-s);
+  }
+
+  ul.related-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  ul.related-list li {
+    border-top: var(--pw-line);
+  }
+
+  ul.related-list li:last-child {
+    border-bottom: var(--pw-line);
+  }
+
+  ul.related-list a.related-link {
+    display: block;
+    padding: var(--space-s) 0;
+    color: var(--color-text);
+    text-decoration: none;
+  }
+
+  ul.related-list a.related-link:hover .related-name {
+    text-decoration: underline;
+  }
+
+  .related-name {
+    display: block;
+    font-family: var(--font-display);
+    font-size: var(--text-body-lg);
+    font-weight: 600;
+    line-height: var(--leading-tight);
+  }
+
+  .related-excerpt {
+    display: block;
+    margin-top: var(--space-2xs);
+    font-family: var(--font-body);
+    font-size: var(--text-small);
+    line-height: var(--leading);
+    color: var(--color-text-muted);
   }
 
   /* Post footer */
