@@ -1,0 +1,34 @@
+---
+/*
+ * Starlight's head, plus per-page structured data for the docs: a TechArticle
+ * and a breadcrumb (Home › Docs › page), built from the page's own title and
+ * description through src/data/schema.ts, like the marketing pages. The
+ * default head is rendered unchanged.
+ */
+import Default from '@astrojs/starlight/components/Head.astro';
+import { SITE, breadcrumb, graph, organizationRef } from '../../data/schema';
+
+// Starlight calls the page slug `id` on the route ("docs", "docs/getting-started").
+const { entry, id: slug } = Astro.locals.starlightRoute;
+const path = `/${slug.replace(/\/index$/, '')}/`;
+const url = `${SITE}${path}`;
+const isIndex = slug === 'docs';
+
+const structuredData = graph(
+  {
+    '@type': 'TechArticle',
+    '@id': `${url}#article`,
+    headline: entry.data.title,
+    ...(entry.data.description ? { description: entry.data.description } : {}),
+    url,
+    inLanguage: 'en',
+    author: organizationRef,
+    publisher: organizationRef,
+    isPartOf: { '@type': 'WebSite', '@id': `${SITE}/#website`, name: 'kindling', url: `${SITE}/` },
+  },
+  breadcrumb(isIndex ? [['Home', '/'], ['Docs', '/docs/']] : [['Home', '/'], ['Docs', '/docs/'], [entry.data.title, path]]),
+);
+---
+
+<Default />
+<script type="application/ld+json" set:html={JSON.stringify(structuredData)} />

@@ -1,31 +1,11 @@
 ---
 import MarketingLayout from "../../layouts/MarketingLayout.astro";
+import { graph, softwareApplication } from '../../data/schema';
 import { APP_VERSION, DOWNLOADS } from "../../data/downloads";
 
-const structuredData = {
-    "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    name: "kindling Writer",
-    description:
-        "Free open-source fiction writing software that keeps your outline visible while you draft. Import from Plottr, Scrivener, yWriter, or Obsidian.",
-    url: "https://kindlingwriter.com/",
-    applicationCategory: "DesktopApplication",
-    operatingSystem: "Windows, macOS, Linux",
-    offers: {
-        "@type": "Offer",
-        price: "0",
-        priceCurrency: "USD",
-    },
-    downloadUrl: "https://kindlingwriter.com/download/",
-    screenshot: "https://kindlingwriter.com/og-image.png",
-    softwareVersion: APP_VERSION,
-    license: "https://opensource.org/licenses/MIT",
-    author: {
-        "@type": "Organization",
-        name: "kindling",
-        url: "https://kindlingwriter.com",
-    },
-};
+const structuredData = graph(softwareApplication({
+  description: "Free open-source fiction writing software that keeps your outline visible while you draft. Import from Plottr, Scrivener, yWriter, or Obsidian.",
+}));
 
 const faqStructuredData = {
     "@context": "https://schema.org",

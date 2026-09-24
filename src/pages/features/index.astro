@@ -1,5 +1,6 @@
 ---
 import ProductFigure from "../../components/ProductFigure.astro";
+import { graph, softwareApplication } from '../../data/schema';
 import SectionLead from "../../components/SectionLead.astro";
 import MarketingLayout from "../../layouts/MarketingLayout.astro";
 import { APP_VERSION, DOWNLOADS } from "../../data/downloads";
@@ -9,30 +10,9 @@ import pageView from "../../assets/page-view.png";
 import screenplay from "../../assets/screenplay.png";
 import importFormats from "../../assets/import-formats.png";
 
-const structuredData = {
-    "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    name: "kindling Writer",
-    description:
-        "Free, open-source fiction writing software that keeps your outline visible while you draft. Built for plotters, pantsers, and every kind of fiction writer.",
-    url: "https://kindlingwriter.com/",
-    applicationCategory: "DesktopApplication",
-    operatingSystem: "Windows, macOS, Linux",
-    offers: {
-        "@type": "Offer",
-        price: "0",
-        priceCurrency: "USD",
-    },
-    softwareVersion: APP_VERSION,
-    license: "https://opensource.org/licenses/MIT",
-    downloadUrl: "https://kindlingwriter.com/download/",
-    screenshot: "https://kindlingwriter.com/og-image.png",
-    author: {
-        "@type": "Organization",
-        name: "kindling",
-        url: "https://kindlingwriter.com",
-    },
-    featureList: [
+const structuredData = graph(softwareApplication({
+  description: "Free, open-source fiction writing software that keeps your outline visible while you draft. Built for plotters, pantsers, and every kind of fiction writer.",
+  featureList: [
         "Rolling Outline Mode — progressive structure for plotters and plantsers",
         "Blank projects — start from scratch without importing",
         "Import outlines from Plottr, Scrivener, yWriter, Obsidian Longform, novelWriter, and Markdown",
@@ -55,7 +35,7 @@ const structuredData = {
         "Copy references, custom fields, and tags between projects",
         "Free and open source under MIT license",
     ],
-};
+}));
 
 const faqStructuredData = {
     "@context": "https://schema.org",

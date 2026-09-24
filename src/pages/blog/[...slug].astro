@@ -2,6 +2,7 @@
 import MarketingLayout from '../../layouts/MarketingLayout.astro';
 import SmartDownloadButton from '../../components/SmartDownloadButton.svelte';
 import { getCollection, render } from 'astro:content';
+import { SITE, absoluteUrl, breadcrumb, graph, organizationRef } from '../../data/schema';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog');
@@ -40,35 +41,27 @@ const formattedDate = publishedDate.toLocaleDateString('en-US', {
   day: 'numeric',
 });
 
-const structuredData = {
-  "@context": "https://schema.org",
-  "@type": "BlogPosting",
-  "headline": post.data.title,
-  "description": post.data.description,
-  "datePublished": post.data.publishedDate,
-  "dateModified": post.data.modifiedDate || post.data.publishedDate,
-  "author": {
-    "@type": "Organization",
-    "name": post.data.author,
-    "url": "https://kindlingwriter.com"
+const postUrl = `${SITE}/blog/${post.id}/`;
+const structuredData = graph(
+  {
+    "@type": "BlogPosting",
+    "@id": `${postUrl}#article`,
+    "headline": post.data.title,
+    "description": post.data.description,
+    "datePublished": post.data.publishedDate,
+    "dateModified": post.data.modifiedDate || post.data.publishedDate,
+    // Article rich results want an image. Posts have no art of their own yet,
+    // so they fall back to the site's 1200x630 social card.
+    "image": absoluteUrl(post.data.ogImage ?? '/og-image.png'),
+    "author": organizationRef,
+    "publisher": organizationRef,
+    "mainEntityOfPage": { "@type": "WebPage", "@id": postUrl },
+    "url": postUrl,
+    "inLanguage": "en",
+    ...(post.data.tags ? { "keywords": post.data.tags.join(', ') } : {}),
   },
-  "publisher": {
-    "@type": "Organization",
-    "name": "kindling",
-    "url": "https://kindlingwriter.com",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "https://kindlingwriter.com/favicon.svg"
-    }
-  },
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": `https://kindlingwriter.com/blog/${post.id}/`
-  },
-  "url": `https://kindlingwriter.com/blog/${post.id}/`,
-  ...(post.data.ogImage ? { "image": `https://kindlingwriter.com${post.data.ogImage}` } : {}),
-  ...(post.data.tags ? { "keywords": post.data.tags.join(', ') } : {}),
-};
+  breadcrumb([["Home", "/"], ["Blog", "/blog/"], [post.data.title, `/blog/${post.id}/`]]),
+);
 ---
 
 <MarketingLayout
