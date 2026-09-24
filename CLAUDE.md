@@ -99,6 +99,14 @@ into the app meets a different button, it isn't finished.
   after paint: CLS 0.268 on `/download/`. `test:launch` fails over 0.05 with
   slowed scripts and fonts. Don't move either script into a module or the
   page bundle.
+- **Structured data comes from `src/data/schema.ts`.** Pages pass only their
+  own description (and `/features/` its feature list) to
+  `softwareApplication()`; the home page adds `organization()` and `website()`;
+  blog posts get `BlogPosting` plus a breadcrumb; docs get `TechArticle` plus a
+  breadcrumb through the Starlight `Head` override
+  (`src/components/docs/Head.astro`). Don't hand-write a `SoftwareApplication`
+  on a page again. The copies drifted. `test:launch` validates every page's
+  JSON-LD.
 - Download sizes live in `src/data/downloads.ts` alone. Re-measure them from the
   release assets (`gh release view`) when a release changes the bundle.
 

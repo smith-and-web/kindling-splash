@@ -462,6 +462,43 @@ try {
     const loc = body.match(/<loc>([^<]+)<\/loc>/)[1];
     assert.ok(llms.includes(`](${loc})`), `llms.txt does not list ${loc}`);
   }
+  // Structured data (src/data/schema.ts): valid JSON, typed nodes, absolute
+  // URLs, the organisation on the home page, and an article plus a breadcrumb
+  // ending at the page itself on every blog post and docs page.
+  const typesOn = new Map();
+  for (const filename of files) {
+    const pathname = '/' + path.relative(path.join(root, 'dist'), filename).split(path.sep).join('/').replace(/index\.html$/, '');
+    if (!pathname.endsWith('/')) continue;
+    const blocks = [...(await readFile(filename, 'utf8')).matchAll(/<script type="application\/ld\+json">(.*?)<\/script>/gs)];
+    const nodes = blocks.flatMap(([, json]) => {
+      let doc; try { doc = JSON.parse(json); } catch { assert.fail(`${pathname}: invalid JSON-LD`); }
+      return doc['@graph'] ?? [doc];
+    });
+    for (const node of nodes) assert.ok(node['@type'], `${pathname}: JSON-LD node without @type`);
+    const urls = JSON.stringify(nodes).match(/"(?:url|item|@id)":"[^"]*"/g) ?? [];
+    for (const u of urls) assert.match(u, /:"https:\/\//, `${pathname}: relative URL in JSON-LD ${u}`);
+    const types = nodes.map((n) => n['@type']);
+    typesOn.set(pathname, types);
+    assert.ok(types.filter((t) => t === 'SoftwareApplication').length <= 1, `${pathname}: more than one SoftwareApplication`);
+    const app = nodes.find((n) => n['@type'] === 'SoftwareApplication');
+    if (app) {
+      const shot = new URL(app.screenshot.url).pathname;
+      await access(path.join(root, 'dist', shot)).catch(() => assert.fail(`${pathname}: screenshot ${shot} is not in the build`));
+    }
+    const article = /^\/blog\/[^/]+\/$/.test(pathname) ? 'BlogPosting' : pathname.startsWith('/docs/') ? 'TechArticle' : null;
+    if (article) {
+      const node = nodes.find((n) => n['@type'] === article);
+      assert.ok(node, `${pathname}: no ${article}`);
+      if (article === 'BlogPosting') assert.ok(node.image, `${pathname}: BlogPosting without an image`);
+      const crumbs = nodes.find((n) => n['@type'] === 'BreadcrumbList')?.itemListElement;
+      assert.ok(crumbs?.length >= 2, `${pathname}: no breadcrumb`);
+      assert.equal(crumbs.at(-1).item, production + pathname, `${pathname}: breadcrumb must end at the page`);
+    }
+  }
+  for (const type of ['Organization', 'WebSite', 'SoftwareApplication']) {
+    assert.ok(typesOn.get('/').includes(type), `home page JSON-LD has no ${type}`);
+  }
+
   // The blog feed lists every published post, each linking a built page, and
   // every marketing page advertises it.
   const feed = await readFile('dist/blog/rss.xml', 'utf8');
@@ -472,7 +509,7 @@ try {
   const robots = await readFile('dist/robots.txt', 'utf8');
   assert.match(robots, /Sitemap: https:\/\/kindlingwriter\.com\/sitemap-index\.xml/);
   assert.equal((await fetch(local + '/sitemap-index.xml')).status, 200);
-  pass(`${pages.length} HTML files: internal targets, article metadata, completion noindex, sitemap lastmod, guide and related-post links, contextual inlinks, llms.txt coverage`);
+  pass(`${pages.length} HTML files: internal targets, article metadata, completion noindex, sitemap lastmod, guide and related-post links, contextual inlinks, llms.txt coverage, structured data`);
   assert.deepEqual([...state.errors, ...mobile.errors, ...shifting.errors, ...noJS.errors], []);
   pass('no browser JavaScript errors');
   console.log(`\n${checks} launch checks passed. No analytics collection, real downloads, or external form submissions.`);

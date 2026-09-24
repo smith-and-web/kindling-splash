@@ -1,32 +1,14 @@
 ---
 import ProductFigure from '../../components/ProductFigure.astro';
+import { graph, softwareApplication } from '../../data/schema';
 import MarketingLayout from '../../layouts/MarketingLayout.astro';
 import SmartDownloadButton from '../../components/SmartDownloadButton.svelte';
 import { APP_VERSION } from '../../data/downloads';
 import planningStates from '../../assets/planning-states.png';
 
-const structuredData = {
-  "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
-  "name": "kindling Writer",
-  "description": "Free, open-source story outlining software that keeps your outline visible while you draft. Built for fiction writers who plan.",
-  "url": "https://kindlingwriter.com/",
-  "applicationCategory": "DesktopApplication",
-  "operatingSystem": "Windows, macOS, Linux",
-  "offers": {
-    "@type": "Offer",
-    "price": "0",
-    "priceCurrency": "USD"
-  },
-  "softwareVersion": APP_VERSION,
-  "license": "https://opensource.org/licenses/MIT",
-  "downloadUrl": "https://kindlingwriter.com/download/",
-  "author": {
-    "@type": "Organization",
-    "name": "kindling",
-    "url": "https://kindlingwriter.com"
-  }
-};
+const structuredData = graph(softwareApplication({
+  description: "Free, open-source story outlining software that keeps your outline visible while you draft. Built for fiction writers who plan.",
+}));
 
 const faqStructuredData = {
   "@context": "https://schema.org",

@@ -76,6 +76,8 @@ export default defineConfig({
       components: {
         // Docs are light-only; see the component for why.
         ThemeSelect: './src/components/docs/ThemeSelect.astro',
+        // Starlight's head plus per-page TechArticle and breadcrumb JSON-LD.
+        Head: './src/components/docs/Head.astro',
       },
       sidebar: [
         {

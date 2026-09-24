@@ -1,24 +1,25 @@
 ---
 import MarketingLayout from '../../layouts/MarketingLayout.astro';
 import { getCollection } from 'astro:content';
+import { breadcrumb, graph, organizationRef } from '../../data/schema';
 
 const allPosts = await getCollection('blog');
 const posts = allPosts
   .filter((post) => !post.data.draft)
   .sort((a, b) => new Date(b.data.publishedDate).getTime() - new Date(a.data.publishedDate).getTime());
 
-const structuredData = {
-  "@context": "https://schema.org",
-  "@type": "Blog",
-  "name": "kindling Blog",
-  "description": "News, updates, and writing tips from the kindling team.",
-  "url": "https://kindlingwriter.com/blog/",
-  "publisher": {
-    "@type": "Organization",
-    "name": "kindling",
-    "url": "https://kindlingwriter.com"
-  }
-};
+const structuredData = graph(
+  {
+    "@type": "Blog",
+    "@id": "https://kindlingwriter.com/blog/#blog",
+    "name": "kindling Blog",
+    "description": "News, updates, and writing tips from the kindling team.",
+    "url": "https://kindlingwriter.com/blog/",
+    "inLanguage": "en",
+    "publisher": organizationRef,
+  },
+  breadcrumb([["Home", "/"], ["Blog", "/blog/"]]),
+);
 ---
 
 <MarketingLayout

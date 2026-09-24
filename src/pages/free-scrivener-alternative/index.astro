@@ -1,30 +1,12 @@
 ---
 import MarketingLayout from '../../layouts/MarketingLayout.astro';
+import { graph, softwareApplication } from '../../data/schema';
 import SmartDownloadButton from '../../components/SmartDownloadButton.svelte';
 import { APP_VERSION } from '../../data/downloads';
 
-const structuredData = {
-  "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
-  "name": "kindling Writer",
-  "description": "kindling Writer is a free, open-source Scrivener alternative for fiction writers. Outline and draft in one desktop app. Imports Scrivener projects. No subscription, no account, works offline.",
-  "url": "https://kindlingwriter.com/",
-  "applicationCategory": "DesktopApplication",
-  "operatingSystem": "Windows, macOS, Linux",
-  "offers": {
-    "@type": "Offer",
-    "price": "0",
-    "priceCurrency": "USD"
-  },
-  "softwareVersion": APP_VERSION,
-  "license": "https://opensource.org/licenses/MIT",
-  "downloadUrl": "https://kindlingwriter.com/download/",
-  "author": {
-    "@type": "Organization",
-    "name": "kindling",
-    "url": "https://kindlingwriter.com"
-  }
-};
+const structuredData = graph(softwareApplication({
+  description: "kindling Writer is a free, open-source Scrivener alternative for fiction writers. Outline and draft in one desktop app. Imports Scrivener projects. No subscription, no account, works offline.",
+}));
 
 const faqStructuredData = {
   "@context": "https://schema.org",

@@ -1,5 +1,6 @@
 ---
 import MarketingLayout from '../layouts/MarketingLayout.astro';
+import { graph, organization, softwareApplication, website } from '../data/schema';
 import SmartDownloadButton from '../components/SmartDownloadButton.svelte';
 import { APP_VERSION } from '../data/downloads';
 import emblem from '../vendor/press/assets/svg/kindling-mark.svg?raw';
@@ -65,29 +66,9 @@ const emblemBox = emblem.match(/viewBox="0 0 ([\d.]+) ([\d.]+)"/);
 const emblemWidth = Number(emblemBox?.[1] ?? 740.5);
 const emblemHeight = Number(emblemBox?.[2] ?? 419.5);
 
-const structuredData = {
-  "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
-  "name": "kindling Writer",
-  "description": "Free open-source fiction writing software that keeps your outline visible while you draft. Import from Plottr, Scrivener, yWriter, or Obsidian.",
-  "url": "https://kindlingwriter.com/",
-  "applicationCategory": "DesktopApplication",
-  "operatingSystem": "Windows, macOS, Linux",
-  "offers": {
-    "@type": "Offer",
-    "price": "0",
-    "priceCurrency": "USD"
-  },
-  "author": {
-    "@type": "Organization",
-    "name": "kindling",
-    "url": "https://kindlingwriter.com"
-  },
-  "softwareVersion": APP_VERSION,
-  "license": "https://opensource.org/licenses/MIT",
-  "downloadUrl": "https://kindlingwriter.com/download/",
-  "screenshot": "https://kindlingwriter.com/og-image.png"
-};
+const structuredData = graph(organization(), website(), softwareApplication({
+  description: "Free open-source fiction writing software that keeps your outline visible while you draft. Import from Plottr, Scrivener, yWriter, or Obsidian.",
+}));
 ---
 
 <MarketingLayout
