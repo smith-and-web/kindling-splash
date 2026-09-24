@@ -386,10 +386,16 @@
    centred, so start alignment set the notice beside them ~11px high. Baseline
    lines the notice up with the first row of links and holds when they wrap. */
 .press-web .pw-footer-bottom { align-items: baseline; border-top: var(--pw-line); padding-top: var(--space-m); margin-top: var(--space-m); font-size: var(--pw-small); color: var(--color-text-muted); }
+/* The nav collapses once website.js has bound its button (data-pw-ready), or
+   before first paint when the page inlines website-early.js (:root[data-pw-js]),
+   which keeps the button working until website.js arrives. Collapsing only on
+   data-pw-ready let a late script repaint the page with every link expanded
+   and then snap shut: kindlingwriter.com measured a 0.165 layout shift. Without
+   JavaScript neither attribute is set and every link stays visible. */
 @container press-website (max-width: 820px) {
-  .press-web .pw-nav[data-pw-ready] .pw-menu { display: inline-flex; align-items: center; }
-  .press-web .pw-nav[data-pw-ready] .pw-nav-links { display: none; flex-basis: 100%; }
-  .press-web .pw-nav[data-pw-ready][data-open] .pw-nav-links { display: flex; }
+  :root[data-pw-js] .press-web .pw-nav .pw-menu, .press-web .pw-nav[data-pw-ready] .pw-menu { display: inline-flex; align-items: center; }
+  :root[data-pw-js] .press-web .pw-nav .pw-nav-links, .press-web .pw-nav[data-pw-ready] .pw-nav-links { display: none; flex-basis: 100%; }
+  :root[data-pw-js] .press-web .pw-nav[data-open] .pw-nav-links, .press-web .pw-nav[data-pw-ready][data-open] .pw-nav-links { display: flex; }
   /* Four columns held down to 600, which at 768 is four 158px tracks: a
      four-word fact sets as four lines beside one- and two-line neighbours.
      Two columns from the same breakpoint the nav already collapses at. */
@@ -400,9 +406,9 @@
    still collapses. Scoped to `@supports not` so it cannot double-apply. */
 @supports not (container-type: inline-size) {
   @media (max-width: 820px) {
-    .press-web .pw-nav[data-pw-ready] .pw-menu { display: inline-flex; align-items: center; }
-    .press-web .pw-nav[data-pw-ready] .pw-nav-links { display: none; flex-basis: 100%; }
-    .press-web .pw-nav[data-pw-ready][data-open] .pw-nav-links { display: flex; }
+    :root[data-pw-js] .press-web .pw-nav .pw-menu, .press-web .pw-nav[data-pw-ready] .pw-menu { display: inline-flex; align-items: center; }
+    :root[data-pw-js] .press-web .pw-nav .pw-nav-links, .press-web .pw-nav[data-pw-ready] .pw-nav-links { display: none; flex-basis: 100%; }
+    :root[data-pw-js] .press-web .pw-nav[data-open] .pw-nav-links, .press-web .pw-nav[data-pw-ready][data-open] .pw-nav-links { display: flex; }
   }
 }
 @container press-website (max-width: 600px) {

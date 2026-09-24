@@ -15,6 +15,12 @@ import '../styles/animations.css';
 // Rest files by unicode-range; a Latin page only ever uses the Latin files, so
 // those are what is preloaded.
 import fraunces from '../vendor/press/assets/fonts/web/Fraunces-Latin.woff2?url';
+// Platform detection, inlined so it runs before first paint and CSS can lay the
+// page out for the visitor's device in the first frame. See the script.
+import platformDetect from '../scripts/platform-detect.js?raw';
+// Press's early nav behaviour: collapses the mobile menu before first paint and
+// keeps its button working until website.js binds it (Press 0.15.0).
+import pressEarly from '../vendor/press/design-system/website-early.js?raw';
 import inter from '../vendor/press/assets/fonts/web/Inter-Latin.woff2?url';
 
 interface Props {
@@ -52,6 +58,8 @@ const ogImageURL = new URL(ogImage, Astro.site);
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script is:inline set:html={platformDetect} />
+  <script is:inline set:html={pressEarly} />
   <title>{title}</title>
   <meta name="description" content={description}>
   <link rel="canonical" href={canonicalURL}>
