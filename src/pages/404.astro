@@ -4,9 +4,14 @@ import MarketingLayout from '../layouts/MarketingLayout.astro';
 export const prerender = true;
 ---
 
+<!-- Not indexable and no canonical. GitHub Pages serves this with a 404 for a
+     missing path, but /404 and /404.html also answer 200, and the canonical it
+     used to carry pointed at /404/, which does not exist. -->
 <MarketingLayout
   title="Page Not Found - kindling"
   description="The page you're looking for doesn't exist or has been moved."
+  canonicalPath={false}
+  noindex
 >
   <main class="page-padding page-main">
     <div class="container">

@@ -26,7 +26,8 @@ import inter from '../vendor/press/assets/fonts/web/Inter-Latin.woff2?url';
 interface Props {
   title: string;
   description: string;
-  canonicalPath?: string;
+  /** `false` omits the canonical link and og:url: the not-found page has no canonical URL. */
+  canonicalPath?: string | false;
   ogImage?: string;
   ogType?: string;
   structuredData?: Record<string, unknown>;
@@ -47,9 +48,9 @@ const {
   noindex = false,
 } = Astro.props;
 
-const canonicalURL = canonicalPath
-  ? new URL(canonicalPath, Astro.site)
-  : new URL(Astro.url.pathname, Astro.site);
+const canonicalURL = canonicalPath === false
+  ? null
+  : new URL(canonicalPath || Astro.url.pathname, Astro.site);
 const ogImageURL = new URL(ogImage, Astro.site);
 ---
 
@@ -62,7 +63,7 @@ const ogImageURL = new URL(ogImage, Astro.site);
   <script is:inline set:html={pressEarly} />
   <title>{title}</title>
   <meta name="description" content={description}>
-  <link rel="canonical" href={canonicalURL}>
+  {canonicalURL && <link rel="canonical" href={canonicalURL}>}
   {noindex && <meta name="robots" content="noindex, follow">}
   <slot name="head" />
 
@@ -70,7 +71,7 @@ const ogImageURL = new URL(ogImage, Astro.site);
   <meta property="og:title" content={title}>
   <meta property="og:description" content={description}>
   <meta property="og:type" content={ogType}>
-  <meta property="og:url" content={canonicalURL}>
+  {canonicalURL && <meta property="og:url" content={canonicalURL}>}
   <meta property="og:image" content={ogImageURL}>
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
@@ -91,6 +92,7 @@ const ogImageURL = new URL(ogImage, Astro.site);
   <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="manifest" href="/site.webmanifest">
+  <link rel="alternate" type="application/rss+xml" title="kindling Blog" href="/blog/rss.xml">
   <meta name="theme-color" content="#B5532E">
 
   <link rel="preload" href={fraunces} as="font" type="font/woff2" crossorigin>

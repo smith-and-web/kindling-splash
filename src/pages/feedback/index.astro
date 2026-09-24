@@ -2,7 +2,10 @@
 import MarketingLayout from '../../layouts/MarketingLayout.astro';
 ---
 
-<MarketingLayout title="Send Feedback — kindling | Free Writing Software for Plotters" description="Help make kindling better. Report a bug, request a feature, or rate the app. Your feedback is anonymous.">
+<!-- noindex: a form, not a page anyone searches for (230 words; Google had
+     never crawled it). Out of the sitemap for the same reason; the footer still
+     links it. -->
+<MarketingLayout title="Send Feedback — kindling | Free Writing Software for Plotters" description="Help make kindling better. Report a bug, request a feature, or rate the app. Your feedback is anonymous." noindex>
 
   <!-- Cloudflare Turnstile (anti-spam) -->
   <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>

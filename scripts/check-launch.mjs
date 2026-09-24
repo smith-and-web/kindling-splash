@@ -415,6 +415,10 @@ try {
   assert.ok(incoming.length >= 3, 'Scrivener landing page needs contextual referring pages');
   const sitemap = await readFile('dist/sitemap-0.xml', 'utf8');
   assert.ok(!sitemap.includes('/download/thanks/') && !sitemap.includes('/welcome/'));
+  // No page marked noindex may be listed in the sitemap: that is a contradiction.
+  for (const p of pages.filter((p) => /noindex/.test(p.robots ?? '') && p.pathname.endsWith('/'))) {
+    assert.ok(!sitemap.includes(`<loc>${production}${p.pathname}</loc>`), `${p.pathname} is noindex but listed in the sitemap`);
+  }
   assert.ok(sitemap.includes('/free-scrivener-alternative/'));
   // Every URL carries a freshness date, and they are not all one date: a
   // shallow checkout would stamp every page with the build day.
@@ -458,6 +462,13 @@ try {
     const loc = body.match(/<loc>([^<]+)<\/loc>/)[1];
     assert.ok(llms.includes(`](${loc})`), `llms.txt does not list ${loc}`);
   }
+  // The blog feed lists every published post, each linking a built page, and
+  // every marketing page advertises it.
+  const feed = await readFile('dist/blog/rss.xml', 'utf8');
+  const feedLinks = [...feed.matchAll(/<item>.*?<link>([^<]+)<\/link>/g)].map(([, url]) => new URL(url).pathname);
+  const postPages = pages.filter((p) => /^\/blog\/[^/]+\/$/.test(p.pathname)).map((p) => p.pathname);
+  assert.deepEqual([...feedLinks].sort(), [...postPages].sort(), 'blog/rss.xml must list exactly the published posts');
+  assert.match(await readFile('dist/index.html', 'utf8'), /<link rel="alternate" type="application\/rss\+xml"[^>]*href="\/blog\/rss\.xml"/);
   const robots = await readFile('dist/robots.txt', 'utf8');
   assert.match(robots, /Sitemap: https:\/\/kindlingwriter\.com\/sitemap-index\.xml/);
   assert.equal((await fetch(local + '/sitemap-index.xml')).status, 200);
