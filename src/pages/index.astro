@@ -2,6 +2,7 @@
 import MarketingLayout from '../layouts/MarketingLayout.astro';
 import SmartDownloadButton from '../components/SmartDownloadButton.svelte';
 import { APP_VERSION } from '../data/downloads';
+import emblem from '../vendor/press/assets/svg/kindling-mark.svg?raw';
 import WritingDemo from '../components/WritingDemo.astro';
 import ProductFigure from '../components/ProductFigure.astro';
 import beatWithProse from '../assets/beat-with-prose.png';
@@ -55,6 +56,12 @@ const features = [
   },
 ];
 
+// The emblem's intrinsic size, read from the asset as the Navbar does for the
+// wordmark, so the <img> reserves the right box before the SVG arrives.
+const emblemBox = emblem.match(/viewBox="0 0 ([\d.]+) ([\d.]+)"/);
+const emblemWidth = Number(emblemBox?.[1] ?? 740.5);
+const emblemHeight = Number(emblemBox?.[2] ?? 419.5);
+
 const structuredData = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
@@ -98,16 +105,31 @@ const structuredData = {
         <SmartDownloadButton client:load location="hero" compact />
       </div>
 
-      <!-- `.pw-version` is the released-artifact label: a hairline and tabular
-           figures, no fill and no accent, so it costs nothing from the budget.
-           `.ka-facts` carries only what the trust strip below does not. -->
-      <div class="hero-aside">
-        <span class="pw-version">v{APP_VERSION}</span>
-        <dl class="ka-facts">
-          <div><dt>Requires</dt><dd>macOS 11+, Windows 10+, Linux</dd></div>
-          <div><dt>Download</dt><dd>~10&nbsp;MB</dd></div>
-        </dl>
-      </div>
+      <!-- The download page's release card, turned toward the visitor: the same
+           `.ka-panel` / `.ka-facts` / `.pw-version` pieces, with what kindling
+           gives a writer where that card lists what the file is. The facts
+           carry only what the trust strip below does not.
+           The book-and-flame emblem is the supplied asset, unaltered; its ember
+           is the original logo, exempt from the terracotta budget. Decorative —
+           the masthead wordmark already names kindling — so it has an empty
+           alt. The release link is an inline link, also exempt. -->
+      <aside class="hero-aside" aria-label={`About kindling ${APP_VERSION}`}>
+        <div class="ka-panel">
+          <header class="ka-between hero-card-head">
+            <img class="hero-mark" src="/brand/kindling-mark.svg" width={emblemWidth} height={emblemHeight} alt="" />
+            <span class="pw-version">v{APP_VERSION}</span>
+          </header>
+          <div class="ka-panel-body hero-card-body">
+            <p class="pw-prose">From first outline to finished draft. Free, and yours to keep.</p>
+            <dl class="ka-facts">
+              <div><dt>Works</dt><dd>Fully offline</dd></div>
+              <div><dt>Your files</dt><dd>Stay yours</dd></div>
+              <div><dt>Imports</dt><dd>Plottr, Scrivener and more</dd></div>
+            </dl>
+            <a class="pw-link" href="/blog/kindling-v1-3-writing-and-review/">See what&rsquo;s new in {APP_VERSION.replace(/\.0$/, '')} &rarr;</a>
+          </div>
+        </div>
+      </aside>
     </div>
   </section>
 
@@ -289,29 +311,31 @@ const structuredData = {
     grid-row: 3;
   }
 
-  /* The aside drops to the stand-first's top edge, so the hero's right column
-     starts where its reading copy does rather than beside the headline.
-
-     Derived, not a magic number: the headline is two lines of `--text-hero` at
-     Press's `.pw-hero-title` line-height of 1.06, and `.hero-stack` puts
-     `--space-m` under it. `--text-hero` is a clamp, so this tracks the headline
-     as it scales instead of holding one width's offset everywhere.
-
-     It does assume the headline stays at two lines, which it does from 601px
-     up with this copy. A third line would leave the aside one line high — it is
-     ancillary matter, so that degrades quietly rather than breaking, but a
-     longer headline wants this re-checked. Reset wherever the grid stacks and
-     the aside follows the stack in flow. */
+  /* The card starts on the headline's top edge and runs the height of the
+     opening, so the hero reads as two stacks side by side rather than a
+     headline with a footnote. Reset wherever the grid stacks and the card
+     follows the stack in flow. */
   .hero-aside {
+    align-self: start;
+    min-width: 0;
+  }
+
+  /* The emblem at 40px, DESIGN.md's preferred floor for the book-and-flame.
+     The header's own 16px padding clears the quarter-height clear space. */
+  img.hero-mark {
+    block-size: var(--space-xl);
+    inline-size: auto;
+  }
+
+  header.hero-card-head { align-items: center; }
+
+  div.hero-card-body {
     display: grid;
     gap: var(--space-s);
-    justify-items: start;
-    padding-top: calc(var(--text-hero) * 1.06 * 2 + var(--space-m));
   }
 
-  @media (max-width: 767px) {
-    .hero-aside { padding-top: 0; }
-  }
+  /* The link closes the card; the panel body's padding already sits under it. */
+  div.hero-card-body a.pw-link { justify-self: start; }
 
   .specimen { padding-bottom: var(--space-3xl); }
 
@@ -343,7 +367,6 @@ const structuredData = {
   .pw-closing-actions :global(.micro-copy) { text-align: left; }
 
   @container press-website (max-width: 600px) {
-    .hero-aside { padding-top: 0; }
     .specimen { padding-bottom: var(--space-2xl); }
     .trust-band { margin-top: var(--space-2xl); }
     .features-section { padding-block: var(--space-2xl); }
