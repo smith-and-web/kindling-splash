@@ -1,10 +1,10 @@
 {
   "package": "@kindling/design-system",
-  "version": "0.13.1",
-  "commit": "e1dd0fccf2cb506467e2f3e28c6a86bd884de16a",
+  "version": "0.13.2",
+  "commit": "9d0a58c9edda70b4791e8ef79cc885384967ddf8",
   "snapshot": "commit",
-  "note": "Taken from ../press at e1dd0fccf2cb506467e2f3e28c6a86bd884de16a with a clean working tree.",
-  "syncedAt": "2026-09-23T23:35:46Z",
+  "note": "Taken from ../press at 9d0a58c9edda70b4791e8ef79cc885384967ddf8 with a clean working tree.",
+  "syncedAt": "2026-09-24T16:28:19Z",
   "generator": "scripts/sync-design-system.sh -> scripts/check-design-system.mjs --write",
   "verify": "npm run check:design-system",
   "exclusions": {
@@ -25,8 +25,8 @@
     {
       "path": "src/vendor/press/design-system/components.css",
       "from": "../press/design-system/components.css",
-      "bytes": 33257,
-      "sha256": "c8527980578ad9e3a7f5609f9092ec4eff6d0e994484c6eb93fd46ac5f89b304"
+      "bytes": 33525,
+      "sha256": "7cd5415d68b94204cb2b97cf2a17c327140e9a272388dbf2c346857f33bc4f47"
     },
     {
       "path": "src/vendor/press/design-system/fonts-web.css",
@@ -43,8 +43,8 @@
     {
       "path": "src/vendor/press/design-system/website.css",
       "from": "../press/design-system/website.css",
-      "bytes": 37363,
-      "sha256": "7d58a247af164afa073898a66bcaeb8885813758ca3f28e52734e0b10c20e6b1"
+      "bytes": 37619,
+      "sha256": "e5d7e3f909fe9451d369aec202f7f622f325a964ab6338ef5ff1c0c3719e5e37"
     },
     {
       "path": "src/vendor/press/design-system/website.js",

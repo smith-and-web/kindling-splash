@@ -402,7 +402,11 @@ body::before {
 /* ---- CTA section ---- */
 .cta-section { padding:80px 24px; background:var(--color-surface-sunken); text-align:center; }
 .cta-section h2 { font-size:var(--text-h2); margin-bottom:12px; }
-.cta-section p { font-family:var(--font-body); font-size:var(--text-body); color:var(--color-text-muted); margin-bottom:24px; }
+/* The panel centres its text, but inside `.press-web` a paragraph is also capped
+   at 65ch with no margin, so the capped block sat on the panel's left padding
+   while the heading and action centred across the full width. Centre the
+   block as well as the text. */
+.cta-section p { font-family:var(--font-body); font-size:var(--text-body); color:var(--color-text-muted); margin:0 auto 24px; }
 
 /* ---- Buttons ---- */
 .download-buttons { display:grid; grid-template-columns:repeat(2,1fr); gap:12px; margin-bottom:16px; }

@@ -382,7 +382,10 @@
 .press-web .pw-footer-top,.press-web .pw-footer-bottom { display: flex; justify-content: space-between; align-items: start; flex-wrap: wrap; gap: var(--space-m); }
 .press-web .pw-footer-links { display: flex; flex-wrap: wrap; gap: var(--space-s); }
 .press-web .pw-footer-links a { display: inline-flex; min-height: var(--pw-touch); align-items: center; color: var(--color-text); font-size: var(--pw-small); text-decoration: none; }
-.press-web .pw-footer-bottom { border-top: var(--pw-line); padding-top: var(--space-m); margin-top: var(--space-m); font-size: var(--pw-small); color: var(--color-text-muted); }
+/* Baseline, not start: the legal links are 44px targets with their label
+   centred, so start alignment set the notice beside them ~11px high. Baseline
+   lines the notice up with the first row of links and holds when they wrap. */
+.press-web .pw-footer-bottom { align-items: baseline; border-top: var(--pw-line); padding-top: var(--space-m); margin-top: var(--space-m); font-size: var(--pw-small); color: var(--color-text-muted); }
 @container press-website (max-width: 820px) {
   .press-web .pw-nav[data-pw-ready] .pw-menu { display: inline-flex; align-items: center; }
   .press-web .pw-nav[data-pw-ready] .pw-nav-links { display: none; flex-basis: 100%; }
