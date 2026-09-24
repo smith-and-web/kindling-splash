@@ -1,10 +1,10 @@
 {
   "package": "@kindling/design-system",
-  "version": "0.13.2",
-  "commit": "9d0a58c9edda70b4791e8ef79cc885384967ddf8",
+  "version": "0.14.0",
+  "commit": "5c3b4df61bd5127185933e821752ebbfeab23ac2",
   "snapshot": "commit",
-  "note": "Taken from ../press at 9d0a58c9edda70b4791e8ef79cc885384967ddf8 with a clean working tree.",
-  "syncedAt": "2026-09-24T16:28:19Z",
+  "note": "Taken from ../press at 5c3b4df61bd5127185933e821752ebbfeab23ac2 with a clean working tree.",
+  "syncedAt": "2026-09-24T20:37:33Z",
   "generator": "scripts/sync-design-system.sh -> scripts/check-design-system.mjs --write",
   "verify": "npm run check:design-system",
   "exclusions": {
@@ -31,8 +31,8 @@
     {
       "path": "src/vendor/press/design-system/fonts-web.css",
       "from": "../press/design-system/fonts-web.css",
-      "bytes": 1186,
-      "sha256": "a81409a29fd8ef90762dd360446f8da4f8f38faafe650e03ebe24ce0169a4e84"
+      "bytes": 9336,
+      "sha256": "33779d3bf9baabf05f835283fbefe2e7ebd17d81e66cf991096ebcb1cf4c50c7"
     },
     {
       "path": "src/vendor/press/design-system/tokens.css",
@@ -53,40 +53,70 @@
       "sha256": "bf5437290ea03c89685af00374a9bdbc8050ab6f78187dead4487f01669b2ca3"
     },
     {
-      "path": "src/vendor/press/assets/fonts/web/Fraunces-Variable.woff2",
-      "from": "../press/assets/fonts/web/Fraunces-Variable.woff2",
-      "bytes": 205888,
-      "sha256": "da722bdda0bd373890add1433edef8596aa1c5fab39baaf15284ca52f6e3edbd"
+      "path": "src/vendor/press/assets/fonts/web/Fraunces-Latin.woff2",
+      "from": "../press/assets/fonts/web/Fraunces-Latin.woff2",
+      "bytes": 72044,
+      "sha256": "d90eb382d9f6cafdbf0b6cb1afded8d7d597c13e941c9ea6a1e7731f2af76c62"
     },
     {
-      "path": "src/vendor/press/assets/fonts/web/Inter-Variable-Italic.woff2",
-      "from": "../press/assets/fonts/web/Inter-Variable-Italic.woff2",
-      "bytes": 386108,
-      "sha256": "c7c5944376e0d1cf070d5bc17d0eac8f47f05b42a3d2fb94700a5cfb758b424e"
+      "path": "src/vendor/press/assets/fonts/web/Fraunces-Rest.woff2",
+      "from": "../press/assets/fonts/web/Fraunces-Rest.woff2",
+      "bytes": 48460,
+      "sha256": "8527caf420315250397cdc61a97eab89c9036f87493e1980b95c4cf36d820f34"
     },
     {
-      "path": "src/vendor/press/assets/fonts/web/Inter-Variable.woff2",
-      "from": "../press/assets/fonts/web/Inter-Variable.woff2",
-      "bytes": 350348,
-      "sha256": "42426531a64068352acf2295ca6efc4dca331a60cbecbae56101f623f2e6ed31"
+      "path": "src/vendor/press/assets/fonts/web/Inter-Italic-Latin.woff2",
+      "from": "../press/assets/fonts/web/Inter-Italic-Latin.woff2",
+      "bytes": 96028,
+      "sha256": "7aa834edcd68757f53677a00d5fd66541ce0d41a9784159b287725cf263843c4"
+    },
+    {
+      "path": "src/vendor/press/assets/fonts/web/Inter-Italic-Rest.woff2",
+      "from": "../press/assets/fonts/web/Inter-Italic-Rest.woff2",
+      "bytes": 230992,
+      "sha256": "fa2db3032f0c0fdaaa574b7bc8f4f8ca59678e372bcc60e57c3ec98dbc0ba988"
+    },
+    {
+      "path": "src/vendor/press/assets/fonts/web/Inter-Latin.woff2",
+      "from": "../press/assets/fonts/web/Inter-Latin.woff2",
+      "bytes": 88996,
+      "sha256": "a8ddc076a0126915795153fe52ab708a9a5fc43bc3fd0c07e43cf4d687efb67d"
+    },
+    {
+      "path": "src/vendor/press/assets/fonts/web/Inter-Rest.woff2",
+      "from": "../press/assets/fonts/web/Inter-Rest.woff2",
+      "bytes": 212712,
+      "sha256": "0357ebc1aab05e6f9d6ba938bfbd4c9ef8a583180570be541c9cabaf36391ed1"
     },
     {
       "path": "src/vendor/press/assets/fonts/web/MANIFEST.json",
       "from": "../press/assets/fonts/web/MANIFEST.json",
-      "bytes": 2498,
-      "sha256": "b4074d93b7d90c7610b31a2b348cbb6f34e6e2d94817b9475673a7a7a8d8bb25"
+      "bytes": 6228,
+      "sha256": "69f492e32d06ea5f82e24ca9d224b8e0af5c1214bbdbb96b92623df15656ceb3"
     },
     {
-      "path": "src/vendor/press/assets/fonts/web/Newsreader-Variable-Italic.woff2",
-      "from": "../press/assets/fonts/web/Newsreader-Variable-Italic.woff2",
-      "bytes": 239268,
-      "sha256": "0e23efb5db59cfe8eb3e8bc36580d45e1a5a18ee93306d0318fee022eb050ab6"
+      "path": "src/vendor/press/assets/fonts/web/Newsreader-Italic-Latin.woff2",
+      "from": "../press/assets/fonts/web/Newsreader-Italic-Latin.woff2",
+      "bytes": 136652,
+      "sha256": "eda84f7338130a011dabbff0c4e0b675b1af9963fc56e769aa797df3d80b90d8"
     },
     {
-      "path": "src/vendor/press/assets/fonts/web/Newsreader-Variable.woff2",
-      "from": "../press/assets/fonts/web/Newsreader-Variable.woff2",
-      "bytes": 215060,
-      "sha256": "d55bdae1b13430cbb23b9c1f76af762da5aa86993643fafa0f589c4043cc5809"
+      "path": "src/vendor/press/assets/fonts/web/Newsreader-Italic-Rest.woff2",
+      "from": "../press/assets/fonts/web/Newsreader-Italic-Rest.woff2",
+      "bytes": 58732,
+      "sha256": "3159726faa1ebe145f948edfca5a6639da643e0adc26d4119cf5885274ad98b4"
+    },
+    {
+      "path": "src/vendor/press/assets/fonts/web/Newsreader-Latin.woff2",
+      "from": "../press/assets/fonts/web/Newsreader-Latin.woff2",
+      "bytes": 120596,
+      "sha256": "5e0f7970060a6a58af407e29b67fcb3e02fbe174f55b21fa9762ac0038680da0"
+    },
+    {
+      "path": "src/vendor/press/assets/fonts/web/Newsreader-Rest.woff2",
+      "from": "../press/assets/fonts/web/Newsreader-Rest.woff2",
+      "bytes": 54032,
+      "sha256": "fb8e346fa69640eff2aca2a72c1dfd1da5c18f9d15759b678e18e2e45ce12a0b"
     },
     {
       "path": "src/vendor/press/assets/svg/kindling-favicon-reversed.svg",
@@ -265,8 +295,8 @@
     {
       "path": "press/DESIGN.md",
       "from": "../press/DESIGN.md",
-      "bytes": 17035,
-      "sha256": "f9e6ac95d921db91b6731bdd55e4a03be5c23b0597cff8487f638d6e939fa71e"
+      "bytes": 17367,
+      "sha256": "fd90207eb75f0b8e85c2eac1a0662b2bfceb35499c260a274d4e84a98c33d96e"
     },
     {
       "path": "press/docs/APPLICATION_COMPONENTS.md",

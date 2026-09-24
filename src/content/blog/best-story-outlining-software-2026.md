@@ -82,7 +82,7 @@ kindling solves a specific problem that none of the tools above fully address: w
 
 kindling imports outlines from Plottr, yWriter, Obsidian Longform, and Markdown, then presents them in a scaffolded writing view where scene beats appear as expandable prompts. Characters and locations referenced in a scene automatically surface in a side panel. You write directly into the structure you already built.
 
-It's MIT-licensed, runs locally on your computer (~10MB install), and stores everything in SQLite files on your machine. No accounts, no cloud, no subscriptions, no AI. It's currently in open beta, so it doesn't have the feature depth of Scrivener's Compile system or Novelcrafter's Codex. But for the specific workflow of outline-aware drafting, nothing else does what kindling does--and it costs nothing.
+It's MIT-licensed, runs locally on your computer (under 100 MB installed), and stores everything in SQLite files on your machine. No accounts, no cloud, no subscriptions, no AI. It's currently in open beta, so it doesn't have the feature depth of Scrivener's Compile system or Novelcrafter's Codex. But for the specific workflow of outline-aware drafting, nothing else does what kindling does--and it costs nothing.
 
 Available on macOS, Windows, and Linux at [kindlingwriter.com](/).
 

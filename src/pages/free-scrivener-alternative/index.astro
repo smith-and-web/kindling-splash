@@ -69,13 +69,21 @@ const faqStructuredData = {
         "@type": "Answer",
         "text": "Yes. kindling exports to Scrivener 3 .scriv bundles. You can create a new Scrivener project from your kindling draft, or update an existing Scrivener project with a match preview that shows exactly how scenes will map back."
       }
+    },
+    {
+      "@type": "Question",
+      "name": "Is there a Scrivener for Linux?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. Literature & Latte makes Scrivener for macOS, Windows, and iOS. kindling runs natively on Linux and imports and exports Scrivener 3 .scriv projects, so you can outline and draft a Scrivener novel on Linux and send it back."
+      }
     }
   ]
 };
 ---
 
 <MarketingLayout
-  title="Free Scrivener Alternative for Fiction Writers — kindling Writer"
+  title="Free Scrivener Alternative for Mac, Windows & Linux"
   description="kindling Writer is a free, open-source Scrivener alternative for fiction writers. Outline and draft in one desktop app. Imports Scrivener projects. No subscription, no account, works offline."
   structuredData={structuredData}
 >
@@ -85,7 +93,7 @@ const faqStructuredData = {
   <section class="page-hero">
     <h1>The free Scrivener alternative for fiction writers</h1>
     <p class="page-hero-subtext">Scrivener offers a broad set of manuscript, research, and compilation tools. If your priority is outlining and drafting, you may prefer a more focused workspace. kindling Writer is the free, open-source alternative built around the one thing most novelists actually need: an outline that stays visible while you draft.</p>
-    <SmartDownloadButton client:load location="free-scrivener-alternative-hero" />
+    <SmartDownloadButton client:load location="free-scrivener-alternative-hero" compact />
   </section>
 
   <!-- ===== What you get for free ===== -->
@@ -183,9 +191,27 @@ const faqStructuredData = {
     <p>Scrivener desktop pricing checked 12 September 2026, in USD before tax. Crossgrades and iOS licences have different terms.</p>
   </section>
 
-  <!-- ===== Who it's for ===== -->
+  <!-- ===== Scrivener on Linux =====
+       Keyword Planner, 24 Sep 2026 (US/UK/CA/AU): "scrivener for linux" 590
+       searches a month, "scrivener linux alternative" and "scrivener
+       alternative linux" 50 each. Scrivener has no Linux build; kindling's
+       Scrivener import, export and sync have no platform gating, the import
+       dialog opens a folder picker off macOS (`../kindling/src/lib/utils/import.ts`),
+       and the Scrivener tests run on Linux in the app's CI. -->
   <section class="content-section">
-    <p class="pw-label">04 / Who it’s for</p>
+    <p class="pw-label">04 / Linux</p>
+    <h2>Scrivener on Linux</h2>
+    <p>Literature &amp; Latte makes Scrivener for macOS, Windows, and iOS. There is no Linux version. kindling runs natively on Linux and reads and writes Scrivener 3 projects, so a novel you started in Scrivener can be outlined and drafted on Linux, then sent back.</p>
+    <ul>
+      <li><strong>Import.</strong> On Linux a <code>.scriv</code> project is an ordinary folder. Choose <strong>File &rarr; Import &rarr; Scrivener</strong> and select that folder. Your chapters, scenes, synopses, and prose come across as an outline.</li>
+      <li><strong>Export.</strong> Send the draft back as a new <code>.scriv</code> project, or update the original with a match preview, then open it in Scrivener on a Mac or Windows machine.</li>
+      <li><strong>Install.</strong> <a href="/download/">Download the AppImage</a>, mark it executable, and run it. No account, and nothing to configure.</li>
+    </ul>
+  </section>
+
+  <!-- ===== Who it's for ===== -->
+  <section class="content-section alt">
+    <p class="pw-label">05 / Who it’s for</p>
     <h2>Who this is for</h2>
     <ul style="list-style: none; padding: 0;">
       <li style="margin-bottom: 12px;"><strong>You tried Scrivener and found it overwhelming.</strong> The binder, the inspector, the compile dialog — it's a lot of surface area for what you actually want to do: outline a novel and write it.</li>
@@ -197,8 +223,8 @@ const faqStructuredData = {
   </section>
 
   <!-- ===== Who Scrivener is still better for ===== -->
-  <section class="content-section alt">
-    <p class="pw-label">05 / When to stay</p>
+  <section class="content-section">
+    <p class="pw-label">06 / When to stay</p>
     <h2>Who Scrivener is still better for</h2>
     <p>kindling isn't trying to be Scrivener. There are writers for whom Scrivener is the right tool, and we'd rather you know that upfront than switch and regret it:</p>
     <ul>
@@ -210,8 +236,8 @@ const faqStructuredData = {
   </section>
 
   <!-- ===== How to switch ===== -->
-  <section class="content-section">
-    <p class="pw-label">06 / Switching</p>
+  <section class="content-section alt">
+    <p class="pw-label">07 / Switching</p>
     <h2>How to switch from Scrivener to kindling</h2>
     <ol>
       <li><strong>Download kindling</strong> — <a href="/download/">free for Mac, Windows, or Linux</a>.</li>
@@ -223,8 +249,8 @@ const faqStructuredData = {
   </section>
 
   <!-- ===== FAQ ===== -->
-  <section class="content-section alt">
-    <p class="pw-label">07 / Questions</p>
+  <section class="content-section">
+    <p class="pw-label">08 / Questions</p>
     <h2>Frequently asked questions</h2>
 
     <h3>Is kindling really a free Scrivener alternative?</h3>
@@ -242,6 +268,9 @@ const faqStructuredData = {
     <h3>Can I export back to Scrivener?</h3>
     <p>Yes. kindling exports to Scrivener 3 <code>.scriv</code> bundles. You can create a new Scrivener project from your kindling draft, or update an existing Scrivener project with a match preview that shows exactly how scenes will map back.</p>
 
+    <h3>Is there a Scrivener for Linux?</h3>
+    <p>No. Literature &amp; Latte makes Scrivener for macOS, Windows, and iOS. kindling runs natively on Linux and imports and exports Scrivener 3 <code>.scriv</code> projects, so you can outline and draft a Scrivener novel on Linux and send it back.</p>
+
     <h3>Where can I read more?</h3>
     <p>See the <a href="/compare/">full comparison of fiction writing software</a>, read the blog post on <a href="/blog/best-scrivener-alternatives-for-plotters/">the best Scrivener alternatives for plotters</a>, or compare <a href="/plottr-vs-scrivener/">Plottr vs Scrivener</a>.</p>
   </section>
@@ -253,3 +282,34 @@ const faqStructuredData = {
     <SmartDownloadButton client:visible location="free-scrivener-alternative-cta" />
   </section>
 </MarketingLayout>
+
+<style>
+  /* Hero arrangement only, as the homepage hero does it.
+
+     Spacing: `.press-web :where(h1, …, p, …) { margin: 0 }` ties with
+     `components.css`'s `.page-hero-subtext { margin-bottom: 32px }` (0,1,0
+     each) and wins on source order, so inside the website boundary the action
+     sat flush against the stand-first. (`.page-hero h1` is 0,1,1 and keeps its
+     16px.) The action carries Press's intended 32px instead.
+
+     Action: the `compact` button on the page's left edge, stacked — one fill,
+     its micro-copy, then the platforms link, which beside the button reads as
+     a second action. The default variant centres itself in the column, which
+     left the fill 319px right of the text it follows. Element-qualified to beat
+     the component's own `.smart-download.compact` (0,3,0); see CLAUDE.md on
+     scoped-style specificity. */
+  section.page-hero :global(div.smart-download) {
+    margin-top: var(--space-l);
+  }
+
+  section.page-hero :global(div.smart-download.compact) {
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: start;
+    gap: var(--space-2xs);
+  }
+
+  section.page-hero :global(div.smart-download.compact .alt-platforms) {
+    grid-column: 1;
+    grid-row: 3;
+  }
+</style>

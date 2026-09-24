@@ -1,63 +1,202 @@
 {
   "generator": "scripts/build-web-fonts.mjs",
-  "encoder": "wawoff2@2.0.1",
-  "note": "Lossless container conversion of the canonical TTFs. No subsetting; axes, weights, italics and glyph coverage are unchanged.",
+  "encoder": "subset-font@2.9.0 (harfbuzzjs@1.6.2)",
+  "note": "WOFF2 of the canonical TTFs, instanced to the website weight contract and split into Latin and Rest files by unicode-range. Every glyph in the canonical fonts is in exactly one file.",
   "stylesheet": "design-system/fonts-web.css",
   "faces": [
     {
       "family": "Fraunces",
       "style": "normal",
-      "weight": "100 900",
+      "weight": "500 600",
+      "part": "Latin",
+      "axes": {
+        "SOFT": 0,
+        "WONK": 1,
+        "wght": {
+          "min": 500,
+          "max": 600
+        }
+      },
+      "glyphs": 349,
       "source": "assets/fonts/Fraunces[SOFT,WONK,opsz,wght].ttf",
       "sourceSha256": "0776a870a0856b296e11639505ac0cf9be5e7800bb1849dfa21a1bd182455fc0",
       "sourceBytes": 384052,
-      "published": "assets/fonts/web/Fraunces-Variable.woff2",
-      "sha256": "da722bdda0bd373890add1433edef8596aa1c5fab39baaf15284ca52f6e3edbd",
-      "bytes": 205888
+      "published": "assets/fonts/web/Fraunces-Latin.woff2",
+      "sha256": "d90eb382d9f6cafdbf0b6cb1afded8d7d597c13e941c9ea6a1e7731f2af76c62",
+      "bytes": 72044
+    },
+    {
+      "family": "Fraunces",
+      "style": "normal",
+      "weight": "500 600",
+      "part": "Rest",
+      "axes": {
+        "SOFT": 0,
+        "WONK": 1,
+        "wght": {
+          "min": 500,
+          "max": 600
+        }
+      },
+      "glyphs": 288,
+      "source": "assets/fonts/Fraunces[SOFT,WONK,opsz,wght].ttf",
+      "sourceSha256": "0776a870a0856b296e11639505ac0cf9be5e7800bb1849dfa21a1bd182455fc0",
+      "sourceBytes": 384052,
+      "published": "assets/fonts/web/Fraunces-Rest.woff2",
+      "sha256": "8527caf420315250397cdc61a97eab89c9036f87493e1980b95c4cf36d820f34",
+      "bytes": 48460
     },
     {
       "family": "Newsreader",
       "style": "normal",
-      "weight": "200 800",
+      "weight": "400 700",
+      "part": "Latin",
+      "axes": {
+        "wght": {
+          "min": 400,
+          "max": 700
+        }
+      },
+      "glyphs": 347,
       "source": "assets/fonts/Newsreader[opsz,wght].ttf",
       "sourceSha256": "8a08d13f8a6c0d51be379a60af84f945f65369a67e509ee3c3bdcc421254d7c1",
       "sourceBytes": 451664,
-      "published": "assets/fonts/web/Newsreader-Variable.woff2",
-      "sha256": "d55bdae1b13430cbb23b9c1f76af762da5aa86993643fafa0f589c4043cc5809",
-      "bytes": 215060
+      "published": "assets/fonts/web/Newsreader-Latin.woff2",
+      "sha256": "5e0f7970060a6a58af407e29b67fcb3e02fbe174f55b21fa9762ac0038680da0",
+      "bytes": 120596
+    },
+    {
+      "family": "Newsreader",
+      "style": "normal",
+      "weight": "400 700",
+      "part": "Rest",
+      "axes": {
+        "wght": {
+          "min": 400,
+          "max": 700
+        }
+      },
+      "glyphs": 217,
+      "source": "assets/fonts/Newsreader[opsz,wght].ttf",
+      "sourceSha256": "8a08d13f8a6c0d51be379a60af84f945f65369a67e509ee3c3bdcc421254d7c1",
+      "sourceBytes": 451664,
+      "published": "assets/fonts/web/Newsreader-Rest.woff2",
+      "sha256": "fb8e346fa69640eff2aca2a72c1dfd1da5c18f9d15759b678e18e2e45ce12a0b",
+      "bytes": 54032
     },
     {
       "family": "Newsreader",
       "style": "italic",
-      "weight": "200 800",
+      "weight": "400 700",
+      "part": "Latin",
+      "axes": {
+        "wght": {
+          "min": 400,
+          "max": 700
+        }
+      },
+      "glyphs": 347,
       "source": "assets/fonts/Newsreader-Italic[opsz,wght].ttf",
       "sourceSha256": "796668611f80b64d5adf182fde3b6f29ed83b4e7cbec7b96937e84ac01364792",
       "sourceBytes": 495684,
-      "published": "assets/fonts/web/Newsreader-Variable-Italic.woff2",
-      "sha256": "0e23efb5db59cfe8eb3e8bc36580d45e1a5a18ee93306d0318fee022eb050ab6",
-      "bytes": 239268
+      "published": "assets/fonts/web/Newsreader-Italic-Latin.woff2",
+      "sha256": "eda84f7338130a011dabbff0c4e0b675b1af9963fc56e769aa797df3d80b90d8",
+      "bytes": 136652
+    },
+    {
+      "family": "Newsreader",
+      "style": "italic",
+      "weight": "400 700",
+      "part": "Rest",
+      "axes": {
+        "wght": {
+          "min": 400,
+          "max": 700
+        }
+      },
+      "glyphs": 217,
+      "source": "assets/fonts/Newsreader-Italic[opsz,wght].ttf",
+      "sourceSha256": "796668611f80b64d5adf182fde3b6f29ed83b4e7cbec7b96937e84ac01364792",
+      "sourceBytes": 495684,
+      "published": "assets/fonts/web/Newsreader-Italic-Rest.woff2",
+      "sha256": "3159726faa1ebe145f948edfca5a6639da643e0adc26d4119cf5885274ad98b4",
+      "bytes": 58732
     },
     {
       "family": "Inter",
       "style": "normal",
-      "weight": "100 900",
+      "weight": "400 700",
+      "part": "Latin",
+      "axes": {
+        "wght": {
+          "min": 400,
+          "max": 700
+        }
+      },
+      "glyphs": 446,
       "source": "assets/fonts/Inter[opsz,wght].ttf",
       "sourceSha256": "29160a80ff49ddcab2c97711247e08b1fab27a484a329ce8b813d820dc559031",
       "sourceBytes": 876576,
-      "published": "assets/fonts/web/Inter-Variable.woff2",
-      "sha256": "42426531a64068352acf2295ca6efc4dca331a60cbecbae56101f623f2e6ed31",
-      "bytes": 350348
+      "published": "assets/fonts/web/Inter-Latin.woff2",
+      "sha256": "a8ddc076a0126915795153fe52ab708a9a5fc43bc3fd0c07e43cf4d687efb67d",
+      "bytes": 88996
+    },
+    {
+      "family": "Inter",
+      "style": "normal",
+      "weight": "400 700",
+      "part": "Rest",
+      "axes": {
+        "wght": {
+          "min": 400,
+          "max": 700
+        }
+      },
+      "glyphs": 2403,
+      "source": "assets/fonts/Inter[opsz,wght].ttf",
+      "sourceSha256": "29160a80ff49ddcab2c97711247e08b1fab27a484a329ce8b813d820dc559031",
+      "sourceBytes": 876576,
+      "published": "assets/fonts/web/Inter-Rest.woff2",
+      "sha256": "0357ebc1aab05e6f9d6ba938bfbd4c9ef8a583180570be541c9cabaf36391ed1",
+      "bytes": 212712
     },
     {
       "family": "Inter",
       "style": "italic",
-      "weight": "100 900",
+      "weight": "400 700",
+      "part": "Latin",
+      "axes": {
+        "wght": {
+          "min": 400,
+          "max": 700
+        }
+      },
+      "glyphs": 446,
       "source": "assets/fonts/Inter-Italic[opsz,wght].ttf",
       "sourceSha256": "acd98e64795781b2058f07b18475e0ecee2a0fe2b42a49e2f9e37d0d6bf66ce6",
       "sourceBytes": 906596,
-      "published": "assets/fonts/web/Inter-Variable-Italic.woff2",
-      "sha256": "c7c5944376e0d1cf070d5bc17d0eac8f47f05b42a3d2fb94700a5cfb758b424e",
-      "bytes": 386108
+      "published": "assets/fonts/web/Inter-Italic-Latin.woff2",
+      "sha256": "7aa834edcd68757f53677a00d5fd66541ce0d41a9784159b287725cf263843c4",
+      "bytes": 96028
+    },
+    {
+      "family": "Inter",
+      "style": "italic",
+      "weight": "400 700",
+      "part": "Rest",
+      "axes": {
+        "wght": {
+          "min": 400,
+          "max": 700
+        }
+      },
+      "glyphs": 2367,
+      "source": "assets/fonts/Inter-Italic[opsz,wght].ttf",
+      "sourceSha256": "acd98e64795781b2058f07b18475e0ecee2a0fe2b42a49e2f9e37d0d6bf66ce6",
+      "sourceBytes": 906596,
+      "published": "assets/fonts/web/Inter-Italic-Rest.woff2",
+      "sha256": "fa2db3032f0c0fdaaa574b7bc8f4f8ca59678e372bcc60e57c3ec98dbc0ba988",
+      "bytes": 230992
     }
   ]
 }

@@ -2,7 +2,7 @@
 import ProductFigure from "../../components/ProductFigure.astro";
 import SectionLead from "../../components/SectionLead.astro";
 import MarketingLayout from "../../layouts/MarketingLayout.astro";
-import { APP_VERSION } from "../../data/downloads";
+import { APP_VERSION, DOWNLOADS } from "../../data/downloads";
 import referencesPanel from "../../assets/references-panel.png";
 import beatWithProse from "../../assets/beat-with-prose.png";
 import pageView from "../../assets/page-view.png";
@@ -90,7 +90,7 @@ const faqStructuredData = {
             name: "What is kindling built with?",
             acceptedAnswer: {
                 "@type": "Answer",
-                text: "kindling is built with Rust and Tauri 2.x for the backend, providing fast performance and a small ~10MB application size. The user interface is built with Svelte 5. Project data is stored in SQLite databases. It launches in under a second and uses a fraction of the memory of Electron-based writing tools.",
+                text: `kindling is built with Rust and Tauri 2.x for the backend, providing fast performance in a small native app: a ${DOWNLOADS.windows.size} installer on Windows, ${DOWNLOADS.mac.size} on macOS, and under 100 MB installed. The user interface is built with Svelte 5. Project data is stored in SQLite databases. It launches in under a second and uses a fraction of the memory of Electron-based writing tools.`,
             },
         },
     ],
@@ -567,7 +567,7 @@ const faqStructuredData = {
                 <dt>Built with Rust</dt>
                 <dd>
                     Sub-second launch. Fraction of the memory of Electron apps.
-                    ~10 MB download.
+                    Under 100 MB installed.
                 </dd>
             </div>
             <div class="spec-item">

@@ -1,5 +1,6 @@
 ---
 import MarketingLayout from '../../layouts/MarketingLayout.astro';
+import { DOWNLOADS } from '../../data/downloads';
 
 const structuredData = {
   "@context": "https://schema.org",
@@ -98,7 +99,7 @@ const structuredData = {
       "name": "What is kindling built with?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "kindling is built with Rust and Tauri 2.x for the backend, providing fast performance and a small ~10MB application size. The user interface is built with Svelte 5. Project data is stored in SQLite databases. It launches in under a second and uses a fraction of the memory of Electron-based writing tools."
+        "text": `kindling is built with Rust and Tauri 2.x for the backend, providing fast performance in a small native app: a ${DOWNLOADS.windows.size} installer on Windows, ${DOWNLOADS.mac.size} on macOS, and under 100 MB installed. The user interface is built with Svelte 5. Project data is stored in SQLite databases. It launches in under a second and uses a fraction of the memory of Electron-based writing tools.`
       }
     }
   ]
@@ -122,7 +123,7 @@ const structuredData = {
 
   <section class="content-section alt">
     <h2>What platforms does kindling run on?</h2>
-    <p>kindling is available for <strong>Windows 10+</strong>, <strong>macOS 12+</strong> (universal binary — Apple Silicon and Intel), and <strong>Linux</strong> (x86_64 AppImage). It's a native desktop application built with Rust and Tauri — about 10MB total. The macOS build is signed and notarized by Apple.</p>
+    <p>kindling is available for <strong>Windows 10+</strong>, <strong>macOS 12+</strong> (universal binary — Apple Silicon and Intel), and <strong>Linux</strong> (x86_64 AppImage). It's a native desktop application built with Rust and Tauri: a {DOWNLOADS.windows.size} installer on Windows, {DOWNLOADS.mac.size} on macOS, and under 100 MB installed. The macOS build is signed and notarized by Apple.</p>
     <p><a href="/download/">Download kindling for your platform &rarr;</a></p>
   </section>
 
@@ -181,7 +182,7 @@ const structuredData = {
 
   <section class="content-section alt">
     <h2>What is kindling built with?</h2>
-    <p><strong>Rust</strong> and <strong>Tauri 2.x</strong> for the backend, providing fast performance and a small ~10MB application size. The user interface is built with <strong>Svelte 5</strong>. Project data is stored in <strong>SQLite</strong> databases. It launches in under a second and uses a fraction of the memory of Electron-based writing tools.</p>
+    <p><strong>Rust</strong> and <strong>Tauri 2.x</strong> for the backend, providing fast performance in a small native app: a {DOWNLOADS.windows.size} installer on Windows, {DOWNLOADS.mac.size} on macOS, and under 100 MB installed. The user interface is built with <strong>Svelte 5</strong>. Project data is stored in <strong>SQLite</strong> databases. It launches in under a second and uses a fraction of the memory of Electron-based writing tools.</p>
   </section>
 
   <section class="cta-section">

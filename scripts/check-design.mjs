@@ -127,8 +127,22 @@ try {
         action: family(pick('.pw-button, .ka-button, .download-btn')),
         manuscript: family(pick('.ka-workspace .ka-manuscript-prose p')),
         code: family(pick('code')),
+        /* Every family/weight a text node on this route asks for. */
+        weights: [...new Set([...document.querySelectorAll('body *')]
+          .filter((el) => [...el.childNodes].some((n) => n.nodeType === 3 && n.textContent.trim()) && visible(el))
+          .map((el) => `${family(el)}|${getComputedStyle(el).fontWeight}`))],
       };
     });
+    /* Press 0.14.0's website weight contract: the web fonts are instanced to
+       these ranges, so a weight outside them is clamped or synthesized, not
+       rendered. A page that needs another weight changes the contract in
+       ../press first. */
+    const CONTRACT = { Fraunces: [500, 600], Newsreader: [400, 700], Inter: [400, 700] };
+    for (const [fam, weight] of roles.weights.map((w) => w.split('|'))) {
+      const range = CONTRACT[fam];
+      check(!range || (Number(weight) >= range[0] && Number(weight) <= range[1]),
+        `${path}: ${fam} set at weight ${weight}, outside Press's web contract ${range?.join('–')}`);
+    }
     check(roles.heading === 'Fraunces', `${path}: headings are ${roles.heading}, not Fraunces`);
     check(!roles.navLink || roles.navLink === 'Inter', `${path}: navigation is ${roles.navLink}, not Inter`);
     check(!roles.action || roles.action === 'Inter', `${path}: actions are ${roles.action}, not Inter`);
@@ -137,7 +151,7 @@ try {
     check(!roles.manuscript || roles.manuscript === 'Newsreader', `${path}: manuscript sample is ${roles.manuscript}, not Newsreader`);
     check(!roles.code || roles.code === 'Monaco', `${path}: code is ${roles.code}, not the mono role`);
   }
-  pass(`${ROUTES.length} routes: Fraunces headings, Inter controls, Newsreader reading, mono code`);
+  pass(`${ROUTES.length} routes: Fraunces headings, Inter controls, Newsreader reading, mono code, weights within Press's web contract`);
 
   /* `/404/` is a real built route; an unknown path is what visitors actually
      hit, and it must serve that page rather than the server's own default. */
@@ -155,8 +169,13 @@ try {
     const preloads = [...document.querySelectorAll('link[rel=preload][as=font]')].map((l) => l.href);
     const faces = [...document.styleSheets].flatMap((sheet) => {
       try { return [...sheet.cssRules]; } catch { return []; }
-    }).filter((r) => r.constructor.name === 'CSSFontFaceRule').map((r) => r.style.getPropertyValue('src'));
-    return { loaded, preloads, faces, used: [...document.fonts].filter((f) => f.status === 'loaded').map((f) => f.family) };
+    }).filter((r) => r.constructor.name === 'CSSFontFaceRule');
+    return {
+      loaded, preloads,
+      faces: faces.map((r) => r.style.getPropertyValue('src')),
+      ranged: faces.filter((r) => r.style.getPropertyValue('unicode-range')).length,
+      used: [...document.fonts].filter((f) => f.status === 'loaded').map((f) => f.family),
+    };
   });
   for (const family of ['Fraunces', 'Newsreader', 'Inter']) {
     check(fonts.used.includes(family), `Home: ${family} did not load; the page fell back to a system face`);
@@ -168,9 +187,11 @@ try {
     check(fonts.faces.some((src) => src.includes(new URL(href).pathname.split('/').pop())),
       `Preloaded ${href} is not the file any @font-face uses — a wasted round trip`);
   }
-  /* One authority per family: Press's fonts-web.css and nothing else. */
+  /* One authority per family: Press's fonts-web.css and nothing else — five
+     faces, each split into a Latin and a Rest file by unicode-range. */
   const families = fonts.faces.length;
-  check(families === 5, `Expected Press's five @font-face rules, found ${families} — a second font authority is present`);
+  check(families === 10, `Expected Press's ten @font-face rules (five faces × Latin/Rest), found ${families} — a second font authority is present`);
+  check(fonts.ranged === families, `${families - fonts.ranged} @font-face rule(s) carry no unicode-range; a page would download every file`);
   pass('fonts load from one authority, and both preloads are files the page uses');
 
   /* ---- 3. Semantic colour ------------------------------------------------ */

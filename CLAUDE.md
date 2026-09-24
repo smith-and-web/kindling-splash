@@ -75,6 +75,17 @@ into the app meets a different button, it isn't finished.
 - **GA4** via `src/components/Analytics.astro` and a Starlight `head` entry.
 - **Sitemap** via `@astrojs/sitemap`.
 - Deploy: `.github/workflows/deploy.yml`, `withastro/action@v6`, on push to `main`.
+  Full-history checkout, because sitemap `<lastmod>` is each page's last commit
+  date (`astro.config.mjs`). After each deploy it submits changed URLs to
+  IndexNow (`scripts/indexnow.mjs`; key file `public/adada06e….txt`).
+- **`/llms.txt` and `/llms-full.txt` are generated** from `src/data/llms.ts`
+  (endpoints in `src/pages/`). Docs and blog listings come from the
+  collections; version and sizes from `src/data/downloads.ts`. Never recreate
+  them in `public/`. The hand-kept copies drifted to v1.1 with wrong prices and
+  privacy claims. `test:launch` fails if a sitemap URL is missing from
+  `llms.txt` or a listed URL doesn't resolve.
+- Download sizes live in `src/data/downloads.ts` alone. Re-measure them from the
+  release assets (`gh release view`) when a release changes the bundle.
 
 ```bash
 npm run dev                  # local dev
@@ -265,9 +276,23 @@ npm run check:design-system    # verify the committed copies against it
 **Press owns the font files and their `@font-face` declarations.** The site
 serves `src/vendor/press/design-system/fonts-web.css` and nothing else; there is
 exactly one authority per family name, and `npm run test:design` asserts the
-count. The five faces are lossless WOFF2 encodings of Press's canonical variable
-TTFs, produced by Press's own `npm run fonts:build` — same axes, weights,
-italics and glyph coverage.
+count: five faces, each split into a Latin and a Rest file by `unicode-range`,
+ten rules in all. They are produced by Press's own `npm run fonts:build` from
+its canonical variable TTFs (Press 0.14.0):
+
+- **Website weight contract.** Fraunces 500–600; Newsreader and Inter 400–700,
+  roman and italic. The web files are instanced to those ranges, so a weight
+  outside them is clamped or synthesized, never rendered. `npm run test:design`
+  fails any rendered text outside the contract. It caught the 404 numeral at
+  Fraunces 700. A page that needs another weight changes the contract in
+  `../press` first.
+- **Latin and Rest files.** Every glyph ships; a page downloads Rest only if it
+  sets a character outside Latin. The Latin set includes arrows and keyboard
+  keys, because one "→" or Starlight's "⌘" hint would otherwise pull a Rest
+  file. Preload the `-Latin` files, never `-Rest`.
+
+This is what took mobile lab LCP down 2–3 s on every template (24 Sep 2026):
+blocking the web fonts entirely had taken it from 5–7 s to 1.5 s.
 
 The previous `npm run sync:fonts` step, which vendored narrower latin subsets
 from `@fontsource-variable/*` under the same family names, is **retired**. The
@@ -461,18 +486,29 @@ wherever "no tracking" appears.
 
 ## Current state
 
-The editorial restructure, and the Press 0.10.0 adoption on top of it, live on
-**`press/adopt-press-0.9.0`**, branched from `press/editorial-restructure`
-(kindling-splash#1) on 14 Sep 2026 with that branch's uncommitted work carried
-forward. `PRESS_ADOPTION.md` records what changed here, what was resolved
-upstream in `../press`, and the open items.
+The editorial restructure and the Press adoption shipped to `main` in
+kindling-splash#1 and deployed on 24 Sep 2026 alongside kindling v1.3.
 
-**The vendored snapshot is a working-tree snapshot, not a release.** `../press`
-had uncommitted 0.9.0 consolidation work when this pass started, and the 0.10.0
-changes were made on top of it on branch `press/website-control-consolidation`.
-`src/vendor/press/MANIFEST.json` says so, and the SHA-256 values are the only
-identity that snapshot has. **Re-sync from a committed Press release before
-merging.**
+**The vendored snapshot is a commit snapshot of merged Press.**
+`src/vendor/press/MANIFEST.json` points at Press 0.14.0 @ `5c3b4df` (press#8,
+on Press `main`) with a clean working tree. Keep it that way: re-sync only from
+a commit that is on Press `main`.
+
+### Local-only notes
+
+Working notes live in **`local-only/`**, which is gitignored. They are the
+operator's own record and are not part of the site. Read them for context, but
+never commit them or link them from tracked files. Moved there from the repo
+root on 24 Sep 2026:
+
+- `PRESS_ADOPTION.md`: what the Press adoption changed here, what was resolved
+  upstream in `../press`, and the open items at the time
+- `LAUNCH_NOTES.md`: launch-fix notes from 12 Sep 2026
+- `SEO_PLAN.md`: the April 2026 SEO plan, superseded by
+  `local-only/SEO_LAUNCH_PLAN.md` (the post-launch audit and plan, 24 Sep 2026)
+
+Other files there include `RELEASE-v1.3-followups.md`, `v1.3-copy.draft.md`,
+`website-ux-review.md` and the dated `seo-audit-*` / `launch-fixes-*` folders.
 
 ### Screenshots
 

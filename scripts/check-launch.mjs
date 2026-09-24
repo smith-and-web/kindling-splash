@@ -364,10 +364,52 @@ try {
   const sitemap = await readFile('dist/sitemap-0.xml', 'utf8');
   assert.ok(!sitemap.includes('/download/thanks/') && !sitemap.includes('/welcome/'));
   assert.ok(sitemap.includes('/free-scrivener-alternative/'));
+  // Every URL carries a freshness date, and they are not all one date: a
+  // shallow checkout would stamp every page with the build day.
+  const entries = [...sitemap.matchAll(/<url>(.*?)<\/url>/g)].map(([, body]) => body);
+  for (const body of entries) {
+    const lastmod = body.match(/<lastmod>([^<]+)<\/lastmod>/)?.[1];
+    assert.ok(lastmod && !Number.isNaN(Date.parse(lastmod)), `sitemap entry without a valid <lastmod>: ${body.slice(0, 80)}`);
+  }
+  const days = new Set(entries.map((body) => body.match(/<lastmod>(\d{4}-\d{2}-\d{2})/)?.[1]));
+  assert.ok(days.size > 1, 'every sitemap <lastmod> is the same day; is the checkout shallow?');
+  // The comparison and landing pages are one click from everywhere (Footer.astro `guides`).
+  const guides = ['/plottr-vs-scrivener/', '/free-scrivener-alternative/', '/story-outlining-software/',
+    '/blog/best-plottr-alternatives-for-fiction-writers/', '/blog/best-scrivener-alternatives-for-plotters/',
+    '/blog/best-story-outlining-software-2026/'];
+  for (const p of pages.filter((p) => p.pathname.endsWith('/') && !p.pathname.startsWith('/docs/') && !/noindex/.test(p.robots ?? ''))) {
+    for (const guide of guides) assert.ok(p.links.includes(guide), `${p.pathname} does not link ${guide}`);
+  }
+  for (const p of pages.filter((p) => p.pathname.startsWith('/blog/') && p.pathname.endsWith('/') && p.pathname !== '/blog/')) {
+    const related = p.links.filter((href) => href.startsWith('/blog/') && href !== '/blog/' && href !== p.pathname);
+    assert.ok(new Set(related).size >= 3, `${p.pathname} links fewer than 3 other posts`);
+  }
+  assert.ok(pages.find((p) => p.pathname === '/').links.includes('/plottr-vs-scrivener/'));
+  // llms.txt and llms-full.txt are generated (src/data/llms.ts). Every page
+  // the site wants found is listed, every listed URL resolves to a built page,
+  // and none is a `.html` redirect stub — the state the hand-kept files drifted into.
+  const llms = await readFile('dist/llms.txt', 'utf8');
+  const llmsFull = await readFile('dist/llms-full.txt', 'utf8');
+  for (const [name, text] of [['llms.txt', llms], ['llms-full.txt', llmsFull]]) {
+    const listed = [...text.matchAll(/\]\((https:\/\/kindlingwriter\.com[^)\s]*)\)/g)].map(([, url]) => new URL(url).pathname);
+    assert.ok(listed.length > 0, `${name} lists no site URLs`);
+    for (const pathname of listed) {
+      assert.ok(!pathname.endsWith('.html'), `${name} links a .html stub: ${pathname}`);
+      const disk = path.join(root, 'dist', decodeURIComponent(pathname));
+      try { await access(disk); } catch {
+        try { await access(path.join(disk, 'index.html')); } catch { assert.fail(`${name} links a missing page: ${pathname}`); }
+      }
+    }
+    assert.ok(!/\]\(\/[^)]/.test(text), `${name} contains a root-relative link`);
+  }
+  for (const body of entries) {
+    const loc = body.match(/<loc>([^<]+)<\/loc>/)[1];
+    assert.ok(llms.includes(`](${loc})`), `llms.txt does not list ${loc}`);
+  }
   const robots = await readFile('dist/robots.txt', 'utf8');
   assert.match(robots, /Sitemap: https:\/\/kindlingwriter\.com\/sitemap-index\.xml/);
   assert.equal((await fetch(local + '/sitemap-index.xml')).status, 200);
-  pass(`${pages.length} HTML files: internal targets, article metadata, completion noindex, sitemap and contextual inlinks`);
+  pass(`${pages.length} HTML files: internal targets, article metadata, completion noindex, sitemap lastmod, guide and related-post links, contextual inlinks, llms.txt coverage`);
   assert.deepEqual([...state.errors, ...mobile.errors, ...noJS.errors], []);
   pass('no browser JavaScript errors');
   console.log(`\n${checks} launch checks passed. No analytics collection, real downloads, or external form submissions.`);

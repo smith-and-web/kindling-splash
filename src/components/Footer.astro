@@ -21,10 +21,8 @@ const wordmarkHeight = Number(viewBox?.[2] ?? 1972);
  *
  * Restructuring the footer dropped no destination: the primary routes are in
  * the row, the off-site and legal ones in the closing line. The legal routes
- * should stay reachable from every page, and `/story-outlining-software/` and
- * `/plottr-vs-scrivener/` are landing pages that depend on internal links
- * (`check-launch.mjs` asserts contextual inlinks). The four social profiles
- * removed below went separately and deliberately — see the note on `secondary`.
+ * should stay reachable from every page. The four social profiles removed
+ * below went separately and deliberately — see the note on `secondary`.
  */
 const primary = [
   { href: '/features/', label: 'Features' },
@@ -34,9 +32,26 @@ const primary = [
   { href: '/docs/getting-started/', label: 'Docs' },
   { href: '/blog/', label: 'Blog' },
   { href: '/faq/', label: 'FAQ' },
-  { href: '/story-outlining-software/', label: 'Story outlining' },
-  { href: '/plottr-vs-scrivener/', label: 'Plottr vs Scrivener' },
   { href: '/feedback/', label: 'Send feedback' },
+];
+
+/*
+ * The comparison and landing pages, one click from every page on the site.
+ *
+ * On 24 Sep 2026, 22 of the 37 sitemap URLs were not indexed, and the "best …"
+ * posts were linked from `/blog/` and nowhere else; nothing in the header or
+ * footer reached them. These are the pages that answer the searches the site
+ * exists for, so every page links them. One labelled line, not a column: the
+ * footer stays the compact Press shape described above.
+ * `check-launch.mjs` asserts that each of these is linked from every page.
+ */
+const guides = [
+  { href: '/plottr-vs-scrivener/', label: 'Plottr vs Scrivener' },
+  { href: '/free-scrivener-alternative/', label: 'Free Scrivener alternative' },
+  { href: '/story-outlining-software/', label: 'Story outlining software' },
+  { href: '/blog/best-plottr-alternatives-for-fiction-writers/', label: 'Best Plottr alternatives' },
+  { href: '/blog/best-scrivener-alternatives-for-plotters/', label: 'Best Scrivener alternatives' },
+  { href: '/blog/best-story-outlining-software-2026/', label: 'Best story outlining software' },
 ];
 
 /*
@@ -70,6 +85,14 @@ const secondary = [
       </div>
       <ul class="pw-footer-links footer-primary">
         {primary.map(link => (
+          <li><a href={link.href}>{link.label}</a></li>
+        ))}
+      </ul>
+    </div>
+    <div class="footer-guides">
+      <p class="pw-label" id="footer-guides-label">Guides</p>
+      <ul class="pw-footer-links footer-guides-links" aria-labelledby="footer-guides-label">
+        {guides.map(link => (
           <li><a href={link.href}>{link.label}</a></li>
         ))}
       </ul>
@@ -108,12 +131,29 @@ const secondary = [
      alone only ties with `.press-web .pw-footer-links` and loses on source
      order. See CLAUDE.md. */
   ul.footer-primary,
-  ul.footer-secondary {
+  ul.footer-secondary,
+  ul.footer-guides-links {
     list-style: none;
     margin: 0;
     padding: 0;
     justify-content: flex-end;
     column-gap: var(--space-m);
+  }
+
+  /* The guides line: its label on the signature's edge, its routes on the
+     primary row's right edge, so the footer keeps two alignment lines. */
+  .footer-guides {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    column-gap: var(--space-m);
+    margin-top: var(--space-s);
+  }
+
+  ul.footer-guides-links {
+    flex: 1 1 28rem;
+    min-width: 0;
   }
 
   ul.footer-primary {
@@ -130,7 +170,8 @@ const secondary = [
 
   @media (max-width: 767px) {
     ul.footer-primary,
-    ul.footer-secondary {
+    ul.footer-secondary,
+    ul.footer-guides-links {
       justify-content: flex-start;
     }
   }

@@ -11,9 +11,11 @@ import '../styles/animations.css';
 // down the page and its italic is rarer still, so both are left to `swap`.
 // Resolved through the bundler rather than written by hand — the files are
 // content-hashed on build, so a literal /fonts/... path would preload nothing
-// and quietly cost a round trip.
-import fraunces from '../vendor/press/assets/fonts/web/Fraunces-Variable.woff2?url';
-import inter from '../vendor/press/assets/fonts/web/Inter-Variable.woff2?url';
+// and quietly cost a round trip. Press 0.14.0 splits each face into Latin and
+// Rest files by unicode-range; a Latin page only ever uses the Latin files, so
+// those are what is preloaded.
+import fraunces from '../vendor/press/assets/fonts/web/Fraunces-Latin.woff2?url';
+import inter from '../vendor/press/assets/fonts/web/Inter-Latin.woff2?url';
 
 interface Props {
   title: string;

@@ -53,6 +53,9 @@ const features = [
     problem: 'Your outline lives in Plottr. Your manuscript in Word. Your notes in Obsidian.',
     answer:
       'Import from Plottr, yWriter, Obsidian Longform, Scrivener, novelWriter, or Markdown. Export to DOCX, Markdown, Longform, Scrivener, novelWriter, or EPUB.',
+    // The homepage's in-content route to the Scrivener page, the largest
+    // reachable search demand the site has (see local-only/SEO_LAUNCH_PLAN.md #3).
+    link: { href: '/free-scrivener-alternative/', label: 'kindling as a free Scrivener alternative' },
   },
 ];
 
@@ -153,7 +156,9 @@ const structuredData = {
   </section>
 
   <!-- 02 — the problem. The strongest section on the page before this pass and
-       kept intact, minus the hard <br>, so `.pw-heading` can balance at width. -->
+       kept intact, minus the hard <br>, so `.pw-heading` can balance at width.
+       The foot line is the homepage's only link to the comparison pages; the
+       Plottr vs Scrivener page carries 41% of the site's search impressions. -->
   <section class="pw-band--sunken has-grain" aria-labelledby="problem-title">
     <div class="pw-frame">
       <div class="pw-section-head">
@@ -162,6 +167,7 @@ const structuredData = {
           <h2 class="pw-heading" id="problem-title">You planned every beat. Then you opened a blank document.</h2>
           <p class="pw-prose">Writing apps make you choose: outline <em>or</em> draft. Your beats live in Plottr, your manuscript in Scrivener, your notes in Obsidian. kindling puts them all in one focused space — so your outline stays visible while you write.</p>
           <p class="pw-quote">An outline you can’t see while you write is just a document you wrote once.</p>
+          <p class="section-foot">Still weighing your tools? Read <a href="/plottr-vs-scrivener/">Plottr vs Scrivener, compared honestly</a>, or browse the <a href="/blog/best-plottr-alternatives-for-fiction-writers/">free Plottr alternatives</a>.</p>
         </div>
       </div>
     </div>
@@ -187,7 +193,7 @@ const structuredData = {
           <div>
             <h3 class="pw-feature-title">{feature.title}</h3>
             <p class="pw-problem">{feature.problem}</p>
-            {feature.answer && <p>{feature.answer}</p>}
+            {feature.answer && <p>{feature.answer}{feature.link && <> <a href={feature.link.href}>{feature.link.label} &rarr;</a></>}</p>}
             {index === 2 && (
               <p>Three planning states — Fixed, Flexible, Undefined — let you add structure at your own pace. <a href="/story-outlining-software/">Learn more &rarr;</a></p>
             )}
