@@ -31,7 +31,7 @@ Whether you outline every beat before you write, discover your story as you go, 
 
 **Opening an editorial package:** Choose **Open Review Package** on the start screen to open a `.kindling-review` or returned `.kindling-feedback` file. Follow the [Editorial Review guide](/docs/editorial-review/) for the next steps.
 
-![Start-screen actions: New Project, Sample Project, and Open Review Package](/docs/start-screen.png)
+<img src="/docs/start-screen.png" alt="Start-screen actions: New Project, Sample Project, and Open Review Package" width="332" height="249" loading="lazy" decoding="async" />
 
 ## Key Concepts
 
@@ -56,7 +56,7 @@ The shortcuts below are defaults. [Customize them in Settings](/docs/settings/#k
 
 Press `Cmd+K` / `Ctrl+K` by default to open the **command palette** — fuzzy search across actions including import, export, navigation, and settings.
 
-![Command palette with fuzzy search results](/docs/command-palette.png)
+<img src="/docs/command-palette.png" alt="Command palette with fuzzy search results" width="728" height="582" loading="lazy" decoding="async" />
 
 ## Themes
 

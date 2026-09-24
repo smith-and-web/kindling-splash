@@ -476,9 +476,20 @@ merging.**
 
 ### Screenshots
 
-The twenty-eight product screenshots were regenerated 6 Sep 2026 against the
-reskinned app and are current. Every file in `public/docs/` is referenced by at
-least one docs page; keep it that way.
+All thirty-seven product screenshots were regenerated 24 Sep 2026 against the
+Press reskin of the app (kindling#343, v1.3): the twenty-eight `npm run shots`
+targets and the nine export-workspace crops from the app's QA runner, whose
+source run and coordinates are in `scripts/SCREENSHOTS.md`. None shows the
+pre-Press interface. The unreferenced pre-Press demo videos and
+`hero-poster.jpg` that still shipped from `public/` were removed then.
+Every file in `public/docs/` is referenced by at least one docs page; keep it
+that way. `src/assets/scene-panel.png` is captured but no page uses it.
+
+Docs and blog references to `/docs/*.png` are `<img>` tags sized at half the
+PNG's pixels, so a 2× capture displays at the interface's real size. Run
+`node scripts/size-docs-images.mjs` after any recapture; `--check` fails if a
+size is stale. A bare Markdown `![]()` would render the interface at double
+scale.
 
 The old per-figure ratio table is gone along with the cropping it tracked — see
 *Screenshots and figures* above. Marketing figures are now contained at their

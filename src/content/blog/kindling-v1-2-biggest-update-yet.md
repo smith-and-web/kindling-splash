@@ -66,7 +66,7 @@ References now support **typed custom field definitions**. Instead of plain key-
 
 On top of that, a new **hierarchical tagging system** with up to three levels of nesting, colours, descriptions, and a dedicated Tag Manager. Apply tags to scenes, characters, locations, and other entities. Create **saved filters** to quickly surface references matching specific criteria.
 
-![Typed custom field definitions for characters — Role as a select, Age as a number, Wants as text and Traits as multi-select](/docs/custom-fields.png)
+<img src="/docs/custom-fields.png" alt="Typed custom field definitions for characters — Role as a select, Age as a number, Wants as text and Traits as multi-select" width="992" height="752" loading="lazy" decoding="async" />
 
 ## Smart reference detection
 
@@ -74,7 +74,7 @@ A non-AI detection engine that scans your prose for character, location, and ite
 
 No AI, no cloud, no magic. Just pattern matching against your own reference names. It reinforces our core philosophy: kindling helps you write — it doesn't write for you.
 
-![Detected references surfacing in the panel with a confidence level and the matched text, ready to link in one click](/docs/reference-suggestions.png)
+<img src="/docs/reference-suggestions.png" alt="Detected references surfacing in the panel with a confidence level and the matched text, ready to link in one click" width="600" height="300" loading="lazy" decoding="async" />
 
 ## EPUB export hardening
 

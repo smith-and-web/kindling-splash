@@ -11,7 +11,7 @@ Send your manuscript to an editor as a file and bring their feedback back into k
 2. Name the round, add an optional brief, and choose the whole manuscript or selected chapters.
 3. Choose **Export review package** and share the `.kindling-review` file with your editor.
 
-![Review package setup with a round name, editor brief, manuscript scope, and export button](/docs/editorial-package.png)
+<img src="/docs/editorial-package.png" alt="Review package setup with a round name, editor brief, manuscript scope, and export button" width="627" height="672" loading="lazy" decoding="async" />
 
 You can keep writing while the review is out. kindling keeps the version you sent so you can compare feedback with your later changes. Export a new round when you want the editor to read an updated draft.
 
@@ -23,7 +23,7 @@ Choose **Open Review Package** on the start screen, then enter the name to show 
 - **Add a comment:** select a passage and choose **Comment**, or use the default **Cmd+Option+M** / **Ctrl+Alt+M**. [Shortcuts are customizable](/docs/settings/#keyboard-shortcuts). Threads support replies, resolution, and reopening.
 - **Choose your view:** **Simple markup** shows changes in the margin; **All markup** shows insertions and deletions in the prose.
 
-![The review workspace with manuscript markup beside a feedback thread](/docs/editorial-review.png)
+<img src="/docs/editorial-review.png" alt="The review workspace with manuscript markup beside a feedback thread" width="1144" height="740" loading="lazy" decoding="async" />
 
 Work saves locally. When ready, choose **Manuscript actions (⋯) → Export feedback** and return the `.kindling-feedback` file to the writer.
 

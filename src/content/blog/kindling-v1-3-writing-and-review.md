@@ -31,7 +31,7 @@ The start screen’s **Open Review Package** action opens review and feedback fi
 
 You can also use **Revisions** for your own editing pass, without exchanging files. Suggest changes, discuss a passage, or compare saved drafts while your outline remains beside the manuscript.
 
-![Manuscript markup and a conversation beside the passage under review](/docs/editorial-review.png)
+<img src="/docs/editorial-review.png" alt="Manuscript markup and a conversation beside the passage under review" width="1144" height="740" loading="lazy" decoding="async" />
 
 [Read the editorial review guide](/docs/editorial-review/).
 
@@ -46,7 +46,7 @@ or **Website chapters**. Adjust settings beside a manuscript preview, then reuse
 profile next time. Word offers page layout and running headers; EPUB includes book
 metadata and an optional cover. HTML and plain-text manuscript exports are new, too.
 
-<img src="/docs/export-typography.png" alt="Custom export controls for font, size, line spacing, and paragraph indentation" width="522" height="319" loading="lazy" decoding="async" />
+<img src="/docs/export-typography.png" alt="Custom export controls for font, size, line spacing, and paragraph indentation" width="592" height="328" loading="lazy" decoding="async" />
 
 **The simple exports are still there.** Choose Word, ePub, Markdown, or another
 standard format directly when you just need a file. Custom is optional, and changing
@@ -62,7 +62,7 @@ Set a daily goal for each project and follow your progress in the sidebar. The d
 
 Daily and session totals count net words added through saved edits. Add 300 words and cut 100, and your total is 200. Imports, duplicated scenes, restored drafts, and accepted editorial suggestions do not earn writing credit. Your manuscript can get better on a day when the number goes down.
 
-![Writing statistics with manuscript totals and a chapter breakdown](/docs/writing-statistics.png)
+<img src="/docs/writing-statistics.png" alt="Writing statistics with manuscript totals and a chapter breakdown" width="1088" height="322" loading="lazy" decoding="async" />
 
 [Learn about goals, sessions, and statistics](/docs/writing-progress/).
 
@@ -102,7 +102,7 @@ The new **Settings** window gathers appearance, shortcuts, author details, proje
 
 Draft changes stay with you as you move between settings areas. Before switching projects or closing the window with unsaved changes, kindling asks whether to discard them or keep editing.
 
-![The unified Settings window with Appearance & Guidance selected](/docs/app-settings.png)
+<img src="/docs/app-settings.png" alt="The unified Settings window with Appearance &amp; Guidance selected" width="992" height="752" loading="lazy" decoding="async" />
 
 [Explore Settings](/docs/settings/).
 
@@ -114,7 +114,7 @@ Conflicts tell you which command already uses the keys. Clear a binding to free 
 
 [Customize your shortcuts](/docs/settings/#keyboard-shortcuts).
 
-![Keyboard Shortcuts filtered to Find commands, with their bindings, Clear, and Reset all to defaults](/docs/keyboard-shortcuts.png)
+<img src="/docs/keyboard-shortcuts.png" alt="Keyboard Shortcuts filtered to Find commands, with their bindings, Clear, and Reset all to defaults" width="552" height="315" loading="lazy" decoding="async" />
 
 ## More care around saving
 

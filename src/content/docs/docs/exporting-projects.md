@@ -13,7 +13,7 @@ Exporting leaves your writing in kindling unchanged.
 2. Select a format, such as **Word**, **ePub**, or **Markdown**.
 3. Adjust its options, choose a destination, and select **Export**.
 
-<img src="/docs/export-simple-formats.png" alt="Standard export choices: novelWriter, Word, Markdown, Longform, ePub, and Treatment" width="488" height="301" loading="lazy" decoding="async" />
+<img src="/docs/export-simple-formats.png" alt="Export formats in two groups: Word, ePub and Treatment to share a document; Scrivener, novelWriter, Longform and Markdown to continue in another app" width="575" height="275" loading="lazy" decoding="async" />
 
 Word, ePub, Markdown, Longform, novelWriter, Scrivener, and Treatment all have
 direct export options. No saved profile is required.
@@ -92,7 +92,7 @@ Treatment export is available from **Export → Treatment** in the project menu.
 In Custom, choose **Treatment** as the output format, then open **Files & format**
 to set the detail level and file type.
 
-<img src="/docs/export-treatment-options.png" alt="Custom treatment settings with Full scenes and beats, Plain text (.txt), and whole-project scope" width="413" height="274" loading="lazy" decoding="async" />
+<img src="/docs/export-treatment-options.png" alt="Custom treatment settings with Full scenes and beats, Plain text (.txt), and whole-project scope" width="438" height="338" loading="lazy" decoding="async" />
 
 ---
 
@@ -191,7 +191,7 @@ My Project/
 
 In the standard dialog, choose an **empty destination folder**. In Custom, choose the parent folder; kindling creates a new named project folder inside it. Screenplay projects cannot be exported to this format.
 
-<img src="/docs/export-project-options.png" alt="Custom novelWriter export with Reference notes and Beat comments enabled, whole-project scope, and a reminder to use a new destination name" width="413" height="334" loading="lazy" decoding="async" />
+<img src="/docs/export-project-options.png" alt="Custom novelWriter export with Reference notes and Beat comments enabled, whole-project scope, and a reminder to use a new destination name" width="438" height="312" loading="lazy" decoding="async" />
 
 Exporting does not change the project's existing sync connection. To work in novelWriter and bring changes back, export to an empty folder, then use **Import → novelWriter** on that folder — the imported project is linked to it, and [Sync](/docs/sync-and-reimport/) will read later edits.
 

@@ -327,7 +327,7 @@ Keep **Include beat comments** enabled to preserve beat boundaries for later syn
 
 After editing the source project in novelWriter, open the linked kindling project and choose **Sync**. Review the full current and incoming prose, select the changes you want, then choose **Apply Sync**. Prose changes are unselected by default, and locked chapters and scenes are skipped.
 
-![The Sync from Source dialog listing new items beside a prose diff, with each change unselected until you choose it](/docs/sync-preview.png)
+<img src="/docs/sync-preview.png" alt="The Sync with outline dialog listing a new scene and beat from the source, each with its own checkbox before you apply" width="628" height="788" loading="lazy" decoding="async" />
 
 - With beat comments, Beat-mode prose can be reviewed and accepted for individual beats.
 - Without beat comments, or in Page mode, prose is reviewed as one scene-level change.

@@ -18,7 +18,7 @@ Choose **Writing statistics** in the status bar to see:
 
 Manuscript counts use saved prose from each scene's active Beat or Page view. Outline prompts and synopses do not count as manuscript words. Archived scenes and chapters are excluded.
 
-![Writing statistics showing manuscript totals, scenes with prose, and chapter word counts](/docs/writing-statistics.png)
+<img src="/docs/writing-statistics.png" alt="Writing statistics showing manuscript totals, scenes with prose, and chapter word counts" width="1088" height="322" loading="lazy" decoding="async" />
 
 ## Set a daily goal
 

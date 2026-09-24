@@ -13,7 +13,7 @@ format, content selection, and layout. Your writing in kindling stays unchanged.
 **Markdown**, or another standard format, adjust its options, and export.
 You don't need to create a profile or open the workspace.
 
-<img src="/docs/export-simple-formats.png" alt="Standard export choices: novelWriter, Word, Markdown, Longform, ePub, and Treatment" width="488" height="301" loading="lazy" decoding="async" />
+<img src="/docs/export-simple-formats.png" alt="Export formats in two groups: Word, ePub and Treatment to share a document; Scrivener, novelWriter, Longform and Markdown to continue in another app" width="575" height="275" loading="lazy" decoding="async" />
 
 See [Exporting Projects](/docs/exporting-projects/#export-dialog) for the simple
 route. Continue below when you want saved profiles or more control. If you're
@@ -31,7 +31,7 @@ already in the workspace, **Back to export** returns to those format choices.
 The starting profiles are editable. Check your recipient's requirements before
 using one for a submission.
 
-<img src="/docs/export-profile.png" alt="Export profile dropdown with Agent submission selected and the Duplicate profile button beside it" width="323" height="68" loading="lazy" decoding="async" />
+<img src="/docs/export-profile.png" alt="Export profile dropdown with Agent submission selected and the Duplicate profile button beside it" width="452" height="89" loading="lazy" decoding="async" />
 
 kindling remembers Custom and your last profile for this project. You can choose
 a standard format for any individual export without losing that preference.
@@ -81,7 +81,7 @@ For Word, EPUB, and HTML, preview one chapter or choose **Whole selection** to s
 the title page and contents. This dropdown changes the preview only; **Content**
 still determines what you export.
 
-<img src="/docs/export-manuscript-preview.png" alt="Live Word preview with a chapter selector, refresh button, running header, chapter title, and scene separator" width="725" height="540" loading="lazy" decoding="async" />
+<img src="/docs/export-manuscript-preview.png" alt="Live Word preview with a chapter selector, refresh button, running header, chapter title, and scene separator" width="670" height="710" loading="lazy" decoding="async" />
 
 Word previews approximate layout. Open the exported document in your word
 processor to check pagination and repeating headers. Ebook readers may apply
@@ -104,7 +104,7 @@ breaks. In **Book details**, set your title and pen name, choose whether to
 include a title page and word count, and configure the running header. Word
 omits the running header from the title page.
 
-<img src="/docs/export-typography.png" alt="Text and page controls for font, size, line spacing, paragraph indentation, and spacing after paragraphs" width="522" height="319" loading="lazy" decoding="async" />
+<img src="/docs/export-typography.png" alt="Text and page controls for font, size, line spacing, paragraph indentation, and spacing after paragraphs" width="592" height="328" loading="lazy" decoding="async" />
 
 These are example settings; save each recipient's requirements in their own profile.
 
@@ -118,7 +118,7 @@ In **Book details**, enter the title, author, description, and language. Use
 **Choose cover** to select a PNG or JPEG image. The cover is included in the
 EPUB but is not shown in the manuscript preview.
 
-<img src="/docs/export-ebook-details.png" alt="Ebook metadata settings with a description and an optional PNG or JPEG cover image field" width="413" height="264" loading="lazy" decoding="async" />
+<img src="/docs/export-ebook-details.png" alt="Ebook metadata settings with a description and an optional PNG or JPEG cover image field" width="438" height="318" loading="lazy" decoding="async" />
 
 ## Export HTML for a website
 
@@ -130,7 +130,7 @@ Start with **Website chapters** and choose **Web / HTML**. In **Files & format**
 - Keep **Include built-in styling** enabled to use your typography settings, or
   turn it off to let your website supply the styling.
 
-<img src="/docs/export-html-options.png" alt="HTML options with Body fragment for pasting, Heading 1, and built-in styling enabled" width="522" height="239" loading="lazy" decoding="async" />
+<img src="/docs/export-html-options.png" alt="HTML options with Body fragment for pasting, Heading 1, and built-in styling enabled" width="592" height="276" loading="lazy" decoding="async" />
 
 Inspect the **HTML** tab before exporting. Both options produce one `.html`
 file containing your selected chapters. Embedded images and unsupported
@@ -158,7 +158,7 @@ page count depends on your material.
 In **Files & format**, build a **Filename pattern** with `{title}`, `{profile}`,
 and `{date}`. The example updates as you type; kindling adds the extension.
 
-<img src="/docs/export-filename.png" alt="Filename pattern using title and profile, token insertion buttons, and the resulting Simple Story-Agent submission.html filename" width="522" height="151" loading="lazy" decoding="async" />
+<img src="/docs/export-filename.png" alt="Filename pattern using title and profile, token insertion buttons, and the resulting Simple Story-Agent submission.html filename" width="592" height="164" loading="lazy" decoding="async" />
 
 Choose a destination each time you export. Workspace exports preserve existing
 files and folders, so use a new name for each copy. For Longform and novelWriter,

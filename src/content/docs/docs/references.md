@@ -30,7 +30,7 @@ When a scene is selected:
 - Drag references to set per-scene ordering
 - Expand/collapse state is saved per scene
 
-![The References panel beside the editor, with a character expanded to show its description, typed fields and tags](/docs/reference-detail.png)
+<img src="/docs/reference-detail.png" alt="The References panel beside the editor, with a character expanded to show its description, typed fields and tags" width="600" height="780" loading="lazy" decoding="async" />
 
 ## Editing Reference Details
 
@@ -57,7 +57,7 @@ References support **typed custom field definitions**. Instead of plain key/valu
 
 Open **File → Settings → Custom Fields** and choose a project to manage its definitions. Custom field definitions are created per project and apply consistently across all references of that type. This means you can define "Role" once for Characters and all characters will have that field.
 
-![Custom field definitions for Characters — Role as a select, Age as a number, Wants as text and Traits as multi-select](/docs/custom-fields.png)
+<img src="/docs/custom-fields.png" alt="Custom field definitions for Characters — Role as a select, Age as a number, Wants as text and Traits as multi-select" width="992" height="752" loading="lazy" decoding="async" />
 
 ## Hierarchical Tags (v1.2+)
 
@@ -78,7 +78,7 @@ status/
 
 Apply tags to any reference and use **saved filters** to quickly find references matching specific criteria — for example, all active characters with role/protagonist.
 
-![Tags in Settings showing a role hierarchy and a status hierarchy](/docs/tag-manager.png)
+<img src="/docs/tag-manager.png" alt="Tags in Settings showing a role hierarchy and a status hierarchy" width="992" height="752" loading="lazy" decoding="async" />
 
 ## Smart Reference Detection (v1.2+)
 
@@ -86,7 +86,7 @@ kindling's non-AI reference detection engine can scan your prose for character, 
 
 Smart detection runs on demand — it doesn't modify your prose or add anything automatically. It simply surfaces references you may have mentioned but haven't explicitly linked to a scene yet.
 
-![Suggested references detected in the prose, each with a confidence level and the matched text, offering one-click linking](/docs/reference-suggestions.png)
+<img src="/docs/reference-suggestions.png" alt="Suggested references detected in the prose, each with a confidence level and the matched text, offering one-click linking" width="600" height="300" loading="lazy" decoding="async" />
 
 ## Reference Type Settings
 
@@ -101,7 +101,7 @@ Bring your characters, locations, and story notes into another book:
 3. Select the references or categories you want. Everything starts selected; searching does not clear hidden selections.
 4. Review the preview and choose **Copy references**. Possible duplicates are skipped unless you choose **Keep both**.
 
-![The reference-copy preview filtered to Eleanor Blackwood, with one character selected and the fields and tags to include](/docs/copy-references.png)
+<img src="/docs/copy-references.png" alt="The reference-copy preview filtered to Eleanor Blackwood, with one character selected and the fields and tags to include" width="632" height="904" loading="lazy" decoding="async" />
 
 Copies include descriptions, notes, custom fields, and tags. Scene links and manuscript text stay in the source project. Existing references are never overwritten.
 

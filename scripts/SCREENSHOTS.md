@@ -9,46 +9,60 @@ masters, not the smaller JPEG review previews. Check the run report and inspect
 each image before selecting it: validation scenarios may deliberately show
 errors that would misrepresent a normal workflow.
 
-The four images below come from
-`../kindling/qa/visual/results/2026-09-11T17-24-08-968Z-socket/`, app revision
-`2be16a7ee246485f8e85220e7d72a679bae91558`, capture profile
-`wkwebview-snapshot-2x-png-v1`. All sources are 2200×1336 pixels.
-Crop coordinates are source pixels, measured from the top left.
+All nine come from one run on the Press-reskinned app,
+`../kindling/qa/visual/results/2026-09-24T14-45-53-926Z-socket/`, app revision
+`f5a0d28` (`fix/v1.3-rc-qa`), capture profile `wkwebview-snapshot-2x-png-v1`,
+produced with:
+
+```bash
+npm run tauri:qa                                             # in ../kindling
+npm run qa:visual -- --only 19,22,23 --variants light,narrow # in ../kindling
+```
+
+Crop coordinates are source pixels, measured from the top left. The `narrow`
+sources are 2200×1336 pixels:
 
 | Output in `public/docs/` | Source PNG | Left, top, width, height |
 | --- | --- | --- |
-| `export-profile.png` | `22-01-export-epub-narrow-2x.png` | 88, 242, 646, 136 |
-| `export-ebook-details.png` | `22-01-export-epub-narrow-2x.png` | 426, 546, 826, 528 |
-| `export-project-options.png` | `22-02-export-project-narrow-2x.png` | 426, 424, 826, 668 |
-| `export-treatment-options.png` | `22-03-export-treatment-narrow-2x.png` | 426, 416, 826, 548 |
+| `export-profile.png` | `22-01-export-epub-narrow-2x.png` | 30, 164, 904, 178 |
+| `export-ebook-details.png` | `22-01-export-epub-narrow-2x.png` | 494, 526, 876, 636 |
+| `export-project-options.png` | `22-02-export-project-narrow-2x.png` | 494, 506, 876, 624 |
+| `export-treatment-options.png` | `22-03-export-treatment-narrow-2x.png` | 494, 504, 876, 676 |
 
-Five further crops use the earlier run
-`../kindling/qa/visual/results/2026-09-11T17-14-55-198Z-socket/` at the same app
-revision and capture profile. These sources are 3200×1936 pixels.
+The `light` sources are 3200×1936 pixels:
 
 | Output in `public/docs/` | Source PNG | Left, top, width, height |
 | --- | --- | --- |
-| `export-simple-formats.png` | `23-01-custom-profile-default-light-2x.png` | 1112, 394, 976, 602 |
-| `export-manuscript-preview.png` | `19-01-export-overview-light-2x.png` | 1648, 416, 1450, 1080 |
-| `export-typography.png` | `19-02-export-typography-light-2x.png` | 562, 674, 1044, 638 |
-| `export-html-options.png` | `19-03-export-html-light-2x.png` | 562, 980, 1044, 478 |
-| `export-filename.png` | `19-03-export-html-light-2x.png` | 562, 650, 1044, 302 |
+| `export-simple-formats.png` | `23-01-custom-profile-default-light-2x.png` | 1025, 374, 1150, 550 |
+| `export-manuscript-preview.png` | `19-01-export-overview-light-2x.png` | 1860, 360, 1340, 1420 |
+| `export-typography.png` | `19-02-export-typography-light-2x.png` | 616, 630, 1184, 656 |
+| `export-html-options.png` | `19-03-export-html-light-2x.png` | 616, 958, 1184, 552 |
+| `export-filename.png` | `19-03-export-html-light-2x.png` | 616, 618, 1184, 328 |
 
-The simple-format image shows the first two rows of the current format picker;
-Scrivener and Custom are below the crop. It illustrates the direct export
-choices without presenting an older dialog that predates the Custom tile.
-The manuscript preview illustrates layout, not a completed book. Typography
-values are examples, not submission requirements. The source checkpoints have
-no accepted baselines; they were visually inspected for documentation use, not
-approved as a regression baseline. Both source runs cleaned up their fixtures.
+The simple-format image is the Format section of the export dialog: both groups,
+all seven formats. The manuscript preview illustrates layout, not a completed
+book. Typography values are examples, not submission requirements. The source
+checkpoints were visually inspected for documentation use, not approved as a
+regression baseline. The run cleaned up its fixtures.
 
-Crop with Sharp's `extract({ left, top, width, height }).png()` without resizing.
-The docs render each crop at half its pixel dimensions, retaining native 2×
-detail, and shrink it to fit on mobile. These nine crops are separate from the
-28 targets in the legacy capture script below. The Markdown and text scenarios
-from this run intentionally show incomplete-setting errors and are not used.
+Crop with ImageMagick `-crop WxH+X+Y +repage` without resizing, then
+`oxipng -o 2 --strip safe`. These nine crops are separate from the 28 targets
+in the foreground capture script below. The Markdown and text scenarios from
+this run intentionally show incomplete-setting errors and are not used.
 
-## Legacy foreground capture
+## Display size in the docs and blog
+
+A 2× capture referenced as Markdown `![alt](/docs/x.png)` renders at its full
+pixel width, so the interface appears at double size. Every `/docs/*.png`
+reference is instead an `<img>` whose `width` and `height` are half the PNG's
+pixel dimensions. After any recapture or new crop, run:
+
+```bash
+node scripts/size-docs-images.mjs          # rewrite references from the files
+node scripts/size-docs-images.mjs --check  # fail if any reference is stale
+```
+
+## Foreground capture
 
 Run from the website repository, with the Kindling demo app open on the main
 display. See `../CLAUDE.md` for fixture setup and capture targets.
@@ -56,6 +70,7 @@ display. See `../CLAUDE.md` for fixture setup and capture targets.
 ```bash
 npm run shots -- --dry-run                 # inspect display modes; change nothing
 npm run shots                             # capture and install all 28 images
+node scripts/size-docs-images.mjs          # refresh docs display sizes
 npm run shots -- --only keyboard-shortcuts # capture one target
 npm run shots -- --keep                    # capture without replacing site assets
 npm run build                             # rebuild the site afterward

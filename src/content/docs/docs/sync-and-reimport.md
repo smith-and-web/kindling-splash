@@ -36,7 +36,7 @@ Use sync when your outline has changed in Plottr (or another tool) and you want 
 3. Review the list of additions and changes
 4. Select which changes to apply, then confirm
 
-![The Sync from Source dialog listing new items alongside a prose diff, with per-item checkboxes before applying](/docs/sync-preview.png)
+<img src="/docs/sync-preview.png" alt="The Sync with outline dialog listing new items from the source, with per-item checkboxes before applying" width="628" height="788" loading="lazy" decoding="async" />
 
 ## Reimport Workflow
 

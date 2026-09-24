@@ -27,7 +27,7 @@ This is designed for pantsers and plantsers who want to capture the shape of the
 
 When you open a scene, the Scene panel shows its beats, synopsis, and metadata controls in one place.
 
-![The scene panel — view toggle, synopsis, linked references, discovery notes and the beat list in one column](/docs/beats-list.png)
+<img src="/docs/beats-list.png" alt="The scene panel — view toggle, synopsis, linked references, discovery notes and the beat list in one column" width="808" height="867" loading="lazy" decoding="async" />
 
 ---
 
@@ -52,7 +52,7 @@ In addition to beat-by-beat drafting, you can switch to a **full-page prose edit
 
 Toggle between beat view and page view from the scene toolbar.
 
-![The scene toolbar with scene type, status and planning selectors above a Beats and Page view toggle](/docs/view-toggle.png)
+<img src="/docs/view-toggle.png" alt="The scene toolbar's Beats and Page view toggle above the scene type, status and planning selectors" width="808" height="317" loading="lazy" decoding="async" />
 
 ---
 
@@ -64,7 +64,7 @@ The excerpt comes from the preceding scene's active Beat or Page view. Outline p
 
 Click **Previously** to collapse or expand it. kindling remembers that choice across scenes and app restarts.
 
-![Previously showing the preceding scene’s title, synopsis, and closing prose](/docs/previously.png)
+<img src="/docs/previously.png" alt="Previously showing the preceding scene’s title, synopsis, and closing prose" width="696" height="247" loading="lazy" decoding="async" />
 
 ## Resume Your Writing
 
@@ -88,7 +88,7 @@ Use the synopsis field to capture a short summary for the scene. Synopses can be
 
 Scene metadata helps you filter and organize your outline:
 
-![The chapter tree in the sidebar, where scene marks show planning status and scene type at a glance](/docs/scene-sidebar.png)
+<img src="/docs/scene-sidebar.png" alt="The chapter tree in the sidebar, where scene marks show planning status and scene type at a glance" width="256" height="723" loading="lazy" decoding="async" />
 
 | Field | Options | Purpose |
 |-------|---------|---------|
@@ -176,7 +176,7 @@ Switch between **Current scene** and **Entire project** inside the dialog, so yo
 
 Step through hits with **Previous** and **Next**. Each match shows its chapter and scene, and **Open scene** jumps the editor there. **Replace match** changes the current hit; **Replace all** changes every editable match at once and asks for confirmation first. **Undo replacement** reverses the last replacement while the dialog remains open.
 
-![Find and Replace searching the whole project, showing a match in context with its chapter and scene](/docs/find-replace.png)
+<img src="/docs/find-replace.png" alt="Find and Replace searching the whole project, showing a match in context with its chapter and scene" width="632" height="902" loading="lazy" decoding="async" />
 
 ### What gets searched
 
@@ -194,4 +194,4 @@ Matches in scenes with unsaved edits are treated the same way and marked `· Uns
 
 Press `Cmd+K` / `Ctrl+K` to open the command palette from anywhere in the app. Fuzzy search across all available actions — import, export, settings, navigation, and more. Use arrow keys to navigate, Enter to execute.
 
-![Command palette showing fuzzy search results for common actions](/docs/command-palette.png)
+<img src="/docs/command-palette.png" alt="Command palette showing fuzzy search results for common actions" width="728" height="582" loading="lazy" decoding="async" />

@@ -33,7 +33,7 @@ If a combination is already in use, kindling names the command using it. **Clear
 
 Shortcut examples throughout these guides show the defaults. See [shortcut troubleshooting](/docs/troubleshooting/#keyboard-shortcuts) if a binding cannot load or save.
 
-![Keyboard Shortcuts filtered to Find commands, showing their bindings, Clear controls, and Reset all to defaults](/docs/keyboard-shortcuts.png)
+<img src="/docs/keyboard-shortcuts.png" alt="Keyboard Shortcuts filtered to Find commands, showing their bindings, Clear controls, and Reset all to defaults" width="552" height="315" loading="lazy" decoding="async" />
 
 ## Export impact
 
@@ -41,9 +41,9 @@ Author and contact details populate manuscript title pages. Project pen names, g
 
 ## Author and project preferences
 
-![Settings with Appearance & Guidance selected](/docs/app-settings.png)
+<img src="/docs/app-settings.png" alt="Settings with Appearance &amp; Guidance selected" width="992" height="752" loading="lazy" decoding="async" />
 
-![Project Details in Settings, with the project selector and manuscript preferences](/docs/project-settings.png)
+<img src="/docs/project-settings.png" alt="Project Details in Settings, with the project selector and manuscript preferences" width="992" height="752" loading="lazy" decoding="async" />
 
 See [Writing Goals & Statistics](/docs/writing-progress/) for daily goals, session counts, and streaks.
 
@@ -51,11 +51,11 @@ See [Writing Goals & Statistics](/docs/writing-progress/) for daily goals, sessi
 
 Reference Types, Tags, and Custom Fields each have their own Settings area. Choose a project before editing them. Reference types include Characters, Locations, Items, Objectives, Organizations, Timelines, and Notes.
 
-![Reference Types in Settings, with a checkbox for each category](/docs/reference-types.png)
+<img src="/docs/reference-types.png" alt="Reference Types in Settings, with a checkbox for each category" width="992" height="752" loading="lazy" decoding="async" />
 
 Tags can be nested up to three levels. Custom fields support text, number, date, select, and multi-select values. See [References](/docs/references/) for using them and copying references between projects.
 
-![Tags in Settings, with nested project tags](/docs/tag-manager.png)
+<img src="/docs/tag-manager.png" alt="Tags in Settings, with nested project tags" width="992" height="752" loading="lazy" decoding="async" />
 
 See [Exporting Projects](/docs/exporting-projects/) for how author details and project metadata appear in exports.
 

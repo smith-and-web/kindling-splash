@@ -21,11 +21,19 @@
  * display. The plugin's own take_screenshot is deliberately not used: it writes
  * lossy JPEG and has returned stale frames.
  *
- * Aspect ratios matter. Every figure slot on the site is
- * `width:100%; height:auto` with a `max-height` and `object-fit: cover`, so the
- * source ratio alone decides whether the bottom of a shot is silently binned.
- * Each target carries the minimum ratio its slot needs and the run fails if a
- * capture comes in under it.
+ * Figures on the site are contained at their intrinsic ratio (ProductFigure,
+ * and the docs' full-frame rule), so a ratio is no longer a layout
+ * requirement. Where a target still sets `aspect` or `minAspect` it is to frame
+ * the shot or to catch a mis-measured rect, not to fit a slot. Crop to the
+ * content: a forced ratio is how empty bands end up in a figure.
+ *
+ * Selectors follow the Press reskin (kindling 1.3): `aside.sidebar`,
+ * `aside.refs`, `[data-testid="scene-panel"]` and its sticky `.scene-top`
+ * toolbar. `data-testid="scene-title"` is used by both the scene panel's h1 and
+ * every sidebar row, so always scope it to the panel.
+ *
+ * After installing, run `node scripts/size-docs-images.mjs` so each docs
+ * reference displays at the capture's point size rather than its pixel size.
  */
 
 import net from 'node:net';
@@ -320,7 +328,7 @@ class App {
   }
 
   unstyle() {
-    return this.js(`(function(){var s=document.getElementById('__shotstyle'); if(s)s.remove(); return '1'})()`);
+    return this.js(`(function(){['__shotstyle','__shotbase'].forEach(function(id){var s=document.getElementById(id); if(s)s.remove();}); return '1'})()`);
   }
 
   /** Park the pointer off the window so hover state can't alter the layout. */
@@ -354,31 +362,35 @@ const HIDE_EXPAND_TABS = `
 const pinRefs = (px) =>
   px == null
     ? ''
-    : `main > .writing-surface > aside[class*="border-l"]{width:${px}px !important;min-width:${px}px !important;max-width:${px}px !important;flex:0 0 ${px}px !important;}`;
+    : `aside.refs{width:${px}px !important;min-width:${px}px !important;max-width:${px}px !important;flex:0 0 ${px}px !important;}`;
 
-const AT_PICKER = `(document.querySelector('main h1')||{}).textContent.trim()==='kindling'`;
-const PROJECT_TITLE = `(function(){var p=document.querySelector('main > aside[class*="border-r"] p');return p?p.textContent.trim():''})()`;
+const AT_PICKER = `!!document.querySelector('.start [data-testid="new-project-button"]')`;
+const PROJECT_TITLE = `(function(){var p=document.querySelector('aside.sidebar .sb-project-title');return p?p.textContent.trim():''})()`;
+
+/** Return to the start screen from wherever the app is. */
+async function goHome(app) {
+  if (await app.truthy(AT_PICKER)) return;
+  // Home lives in the sidebar header, so it is unclickable while the sidebar is
+  // collapsed by a previous target.
+  await setSidebar(app, true);
+  await app.js(`document.querySelector('[data-testid="sidebar-home"]').click()`);
+  await app.waitFor(AT_PICKER, { what: 'the start screen' });
+}
 
 /**
  * Guarantee `name` is the open project, switching away from another one if
  * needed. The demo fixture ships three projects whose names share a prefix, so
- * the picker row is matched on `<name> (` to avoid opening a sibling.
+ * the recent-projects row is matched on its exact title.
  */
 async function ensureProject(app, name = 'The Letter') {
   if ((await app.js(PROJECT_TITLE)) === name) return;
-  if (!(await app.truthy(AT_PICKER))) {
-    // "All Projects" lives in the sidebar header, so it is unclickable while the
-    // sidebar is collapsed by a previous target.
-    await setSidebar(app, true);
-    await app.clickLabel('All Projects');
-    await app.waitFor(AT_PICKER, { what: 'the project picker' });
-  }
-  const texts = await app.jsJSON(
-    `Array.prototype.map.call(document.querySelectorAll('button'),function(b){return (b.textContent||'').replace(/\\s+/g,' ').trim()})`
-  );
-  const idx = texts.findIndex((t) => t.startsWith(name + ' ('));
-  if (idx < 0) throw new Error(`project "${name}" is not on the picker — run create_demo_fixture in the app`);
-  await app.js(`(function(){document.querySelectorAll('button')[${idx}].click();return '1'})()`);
+  await goHome(app);
+  const opened = await app.js(`(function(){
+    var row=Array.prototype.find.call(document.querySelectorAll('[data-testid="project-card"]'),function(b){
+      var t=b.querySelector('.recent-name'); return t && t.textContent.trim()===${JSON.stringify(name)};});
+    if(!row) return '0'; row.click(); return '1';
+  })()`);
+  if (opened !== '1') throw new Error(`project "${name}" is not on the start screen — run create_demo_fixture in the app`);
   await app.waitFor(`${PROJECT_TITLE} === ${JSON.stringify(name)}`, { what: `project "${name}"` });
   // The sidebar title updates before the saved scene/position finishes restoring.
   // Let that restore settle before a target chooses its own scene.
@@ -388,7 +400,7 @@ async function ensureProject(app, name = 'The Letter') {
 /** Open the demo project and select a scene. Idempotent — survives HMR reloads. */
 async function ensureScene(app, project = 'The Letter', scene = 'On the Cliff') {
   await ensureProject(app, project);
-  const openAlready = `(document.querySelector('main > .writing-surface h1')||{}).textContent.trim()===${JSON.stringify(scene)}`;
+  const openAlready = `(document.querySelector('[data-testid="scene-panel"] [data-testid="scene-title"]')||{}).textContent.trim()===${JSON.stringify(scene)}`;
   if (await app.truthy(openAlready)) return;
   // Scene rows are inside the sidebar and its chapter groups, both of which a
   // previous target may have closed.
@@ -397,15 +409,17 @@ async function ensureScene(app, project = 'The Letter', scene = 'On the Cliff') 
   await app.waitFor(openAlready, { what: `scene "${scene}"` });
 }
 
-// The project sidebar is the border-r aside; the references panel is border-l.
-const SIDEBAR = 'main > aside[class*="border-r"]';
-const REFS = 'main > .writing-surface > aside[class*="border-l"]';
+// Both panels collapse to a 56px rail marked `.is-collapsed` rather than to zero.
+const SIDEBAR = 'aside.sidebar';
+const REFS = 'aside.refs';
+const collapsed = (sel) =>
+  `(function(){var a=document.querySelector(${JSON.stringify(sel)});return !!a && a.classList.contains('is-collapsed')})()`;
 
 const widthOf = (sel) =>
   `(function(){var a=document.querySelector(${JSON.stringify(sel)});return a?Math.round(a.getBoundingClientRect().width):-1})()`;
 
 async function setSidebar(app, open) {
-  const isCollapsed = () => app.truthy(`(function(){var w=${widthOf(SIDEBAR)};return w>=0 && w<10})()`);
+  const isCollapsed = () => app.truthy(collapsed(SIDEBAR));
   for (let i = 0; i < 4; i++) {
     if ((await isCollapsed()) === !open) return;
     await app.clickLabel(open ? 'Expand sidebar' : 'Collapse sidebar', { required: false });
@@ -416,7 +430,7 @@ async function setSidebar(app, open) {
 
 /** `px === null` collapses the references panel; otherwise pin it to that width. */
 async function setRefs(app, px) {
-  const visible = () => app.truthy(`${widthOf(REFS)} > 10`);
+  const visible = () => app.truthy(`!!document.querySelector('aside.refs') && !${collapsed(REFS)}`);
 
   if (px == null) {
     for (let i = 0; i < 4 && (await visible()); i++) {
@@ -439,15 +453,13 @@ async function setRefs(app, px) {
   await sleep(150);
 }
 
-const BEAT_OPEN = `!!document.querySelector('main > .writing-surface .novel-pages-container')`;
+const BEAT_OPEN = `!!document.querySelector('[data-testid="beat-item"].is-open .novel-pages-container')`;
 
 function beatHeaderClick(nth) {
   return `(function(){
-    var arts=document.querySelectorAll('main > .writing-surface section article');
-    var a=arts[${nth}]; if(!a) return '0';
-    var bs=Array.prototype.filter.call(a.querySelectorAll('button'),function(b){return b.getBoundingClientRect().width>120;});
-    if(!bs.length) return '0';
-    bs[0].click(); return '1';
+    var b=document.querySelectorAll('[data-testid="beat-item"] [data-testid="beat-header"]')[${nth}];
+    if(!b) return '0';
+    b.click(); return '1';
   })()`;
 }
 
@@ -458,6 +470,32 @@ async function setBeatOpen(app, open) {
     await sleep(350);
   }
   if ((await app.truthy(BEAT_OPEN)) !== open) throw new Error(`could not ${open ? 'expand' : 'collapse'} beat 1`);
+}
+
+/**
+ * Bottom edge of the scene toolbar (Revisions, Beats/Page). It is sticky, so
+ * anything scrolled to the top of the scene column lands underneath it.
+ */
+function sceneTopBottom(app) {
+  return app.jsJSON(`(function(){
+    var t=document.querySelector('[data-testid="scene-panel"] .scene-top');
+    return t?Math.round(t.getBoundingClientRect().bottom):0;
+  })()`);
+}
+
+const STATS_OPEN = `!!document.querySelector('#writing-statistics-panel')`;
+
+/**
+ * The Writing statistics panel is a persisted toggle in the status bar: left
+ * open by its own target, it overlays the bottom of every later capture.
+ */
+async function setStatistics(app, open) {
+  for (let i = 0; i < 3; i++) {
+    if ((await app.truthy(STATS_OPEN)) === open) return;
+    await app.js(`(function(){var b=document.querySelector('[data-testid="scene-panel"] .statusbar-toggle'); if(b) b.click(); return '1'})()`);
+    await sleep(350);
+  }
+  if ((await app.truthy(STATS_OPEN)) !== open) throw new Error(`could not ${open ? 'open' : 'close'} Writing statistics`);
 }
 
 async function collapseRefRows(app) {
@@ -475,7 +513,7 @@ async function openPalette(app) {
   for (let i = 0; i < 4; i++) {
     await app.chord(['cmd'], 'k');
     try {
-      await app.waitFor(`!!document.querySelector('[role=dialog]')`, { timeout: 1500, what: 'command palette' });
+      await app.waitFor(`!!document.querySelector('dialog[open][data-testid="command-palette"]')`, { timeout: 1500, what: 'command palette' });
       await sleep(250);
       return;
     } catch {
@@ -508,7 +546,7 @@ async function openSettingsArea(app, label) {
 /** Expand one reference row in the panel by name. */
 async function expandRefRow(app, name) {
   const hit = await app.js(`(function(){
-    var a=document.querySelector('main > .writing-surface > aside[class*="border-l"]'); if(!a) return '0';
+    var a=document.querySelector('aside.refs'); if(!a) return '0';
     var b=Array.prototype.find.call(a.querySelectorAll('button'),function(x){
       var t=(x.textContent||''); return t.indexOf(${JSON.stringify(name)})>-1 && t.length>${name.length + 8};});
     if(!b) return '0';
@@ -519,7 +557,7 @@ async function expandRefRow(app, name) {
   await sleep(400);
 }
 
-const SUGGESTION_ROW = `!!document.querySelector('main > .writing-surface > aside[class*="border-l"] button[aria-label^="Dismiss suggestion"]')`;
+const SUGGESTION_ROW = `!!document.querySelector('aside.refs button[aria-label^="Dismiss suggestion"]')`;
 
 /**
  * Show or hide the smart-detection block. Toggles the "Suggested N" header —
@@ -576,7 +614,7 @@ async function selectScene(app, title, chapter) {
   const prefix = title.slice(0, 14);
   const clickRow = `(function(){
     var p=${JSON.stringify(prefix)};
-    var side=document.querySelector('main > aside[class*="border-r"]')||document;
+    var side=document.querySelector('aside.sidebar')||document;
     var b=Array.prototype.find.call(side.querySelectorAll('button'),function(x){
       return (x.textContent||'').replace(/\\s+/g,' ').trim().indexOf(p)===0;});
     if(!b) return '0';
@@ -590,7 +628,7 @@ async function selectScene(app, title, chapter) {
   }
   // No chapter given, or the wrong one — walk the closed chapters.
   const headers = await app.jsJSON(`Array.prototype.map.call(
-    (document.querySelector('main > aside[class*="border-r"]')||document).querySelectorAll('button[aria-expanded]'),
+    (document.querySelector('aside.sidebar')||document).querySelectorAll('button[aria-expanded]'),
     function(b){return (b.textContent||'').replace(/\\s+/g,' ').trim()})`);
   for (const h of headers) {
     if (!(await openChapter(app, h.slice(0, 14)))) continue;
@@ -665,7 +703,7 @@ async function dialogSurface(app) {
 async function openChapter(app, prefix) {
   const ok = await app.js(`(function(){
     var p=${JSON.stringify(prefix)};
-    var side=document.querySelector('main > aside[class*="border-r"]')||document;
+    var side=document.querySelector('aside.sidebar')||document;
     var b=Array.prototype.find.call(side.querySelectorAll('button[aria-expanded]'),function(x){
       return (x.textContent||'').replace(/\\s+/g,' ').trim().indexOf(p)===0;});
     if(!b) return '0';
@@ -754,11 +792,7 @@ const TARGETS = [
     note: 'docs/getting-started — new project, sample, and review entry points',
     win: [1200, 952],
     async setup(app) {
-      if (!(await app.truthy(AT_PICKER))) {
-        await setSidebar(app, true);
-        await app.clickLabel('All Projects');
-        await app.waitFor(AT_PICKER, { what: 'start screen' });
-      }
+      await goHome(app);
       await app.waitFor(`!!document.querySelector('[data-testid="new-project-button"]')`, { what: 'start screen actions' });
       await app.resetScroll();
     },
@@ -781,7 +815,7 @@ const TARGETS = [
       await openSettingsArea(app, 'Keyboard Shortcuts');
       await app.waitFor(`!!document.querySelector('button[aria-label^="Shortcut for "]:not([disabled])')`, { what: 'keyboard bindings loaded' });
       await app.js(`(function(){
-        var input=document.querySelector('[data-testid="settings-dialog"] input[type="search"]');
+        var input=document.querySelector('[data-testid="settings-dialog"] #shortcut-filter');
         input.value='Find'; input.dispatchEvent(new Event('input',{bubbles:true}));
       })()`);
       await app.waitFor(`document.querySelectorAll('button[aria-label^="Shortcut for "]').length===3`, { what: 'filtered search commands' });
@@ -790,9 +824,9 @@ const TARGETS = [
       // Other Settings figures show the navigation. This detail keeps the
       // actual bindings legible on mobile instead of shrinking another window.
       return app.jsJSON(`(function(){
-        var input=document.querySelector('[data-testid="settings-dialog"] input[type="search"]');
-        var controls=input.closest('label').parentElement;
-        var list=controls.parentElement.querySelector('ul');
+        var d=document.querySelector('[data-testid="settings-dialog"]');
+        var controls=d.querySelector('.keys-toolbar');
+        var list=d.querySelector('ul.keys-list');
         var a=controls.getBoundingClientRect(), b=list.getBoundingClientRect();
         return [a.x-12,a.y-12,a.width+24,b.bottom-a.y+24];
       })()`);
@@ -810,7 +844,10 @@ const TARGETS = [
       await app.waitFor(`!!document.querySelector('.package-form')`, { what: 'Review package form' });
     },
     async rect(app) {
-      return pad(await app.rectOf('.package-form'), 16);
+      // The form carries a 1px right border that divides it from the review
+      // rounds; stop short of it rather than print a stray rule on the edge.
+      const [x, y, w, h] = await app.rectOf('.package-form');
+      return [x - 16, y - 16, w + 15, h + 32];
     },
   },
   {
@@ -880,15 +917,14 @@ const TARGETS = [
       await ensureScene(app);
       await setSidebar(app, false);
       await setRefs(app, null);
-      if (!(await app.truthy(`!!document.querySelector('#writing-statistics-panel')`))) {
-        await app.clickLabel('Writing statistics');
-      }
-      await app.waitFor(`!!document.querySelector('#writing-statistics-panel')`, { what: 'Writing statistics' });
+      await setStatistics(app, true);
     },
     async rect(app) {
       const r = await app.rectOf('#writing-statistics-panel');
       if (!r) throw new Error('Statistics panel missing');
-      return pad(r, 12);
+      // The panel is its own bordered surface; padding it pulls in the tail of
+      // the section scrolled above.
+      return r;
     },
   },
   {
@@ -897,9 +933,6 @@ const TARGETS = [
     note: 'docs/scene-workflow — previous scene title, synopsis and closing prose',
     win: [1200, 952],
     async setup(app) {
-      if (await app.truthy(`!!document.querySelector('#writing-statistics-panel')`)) {
-        await app.clickLabel('Hide statistics');
-      }
       await ensureScene(app, 'The Letter', 'The Seventh Step');
       await app.resetScroll();
       if (!(await app.truthy(`!!document.querySelector('[data-testid="previously"]')`))) {
@@ -930,15 +963,14 @@ const TARGETS = [
     // truncate — the same reason beat-with-prose uses 1200.
     //
     // Crop the writing column rather than including the reference panel.
-    win: [1020, 940],
-    aspect: 0.89,
-    minAspect: 0.881, // .hero-figure: max-height 640px at 564px wide
+    win: [920, 952],
     minWidthPx: 1128, // 2x the 564px slot
     async setup(app) {
       await ensureScene(app);
       await setSidebar(app, false);
+      await setRefs(app, null);
       await setBeatOpen(app, true);
-      // Normally applied by setRefs(); this target doesn't call it, so the
+      // Normally applied by setRefs(); it is restated here, so the
       // collapsed sidebar's "»" tab would otherwise sit in the left margin.
       // The scrollbar is hidden for the same reason — the crop is a print, and
       // a scroll position is chrome that dates it.
@@ -955,9 +987,9 @@ const TARGETS = [
       // chapter tree, so a document-wide text lookup finds that copy first and
       // then fails, having walked up an ancestor chain with no scroller in it.
       const scrolled = await app.js(`(function(){
-        var col=document.querySelector('main > div.writing-surface > div');
-        var sc=col&&col.querySelector('.overflow-y-auto');
-        var h1=col&&col.querySelector('h1');
+        var col=document.querySelector('[data-testid="scene-panel"]');
+        var sc=col&&col.querySelector('.scene-scroll');
+        var h1=col&&col.querySelector('[data-testid="scene-title"]');
         if(!sc||!h1) return '0';
         sc.scrollTop += Math.round(
           h1.getBoundingClientRect().top - sc.getBoundingClientRect().top - 24
@@ -968,9 +1000,10 @@ const TARGETS = [
       await sleep(350);
     },
     async rect(app) {
-      const r = await app.rectOf('main > div.writing-surface > div');
-      if (!r) throw new Error('editor column not found');
-      return r;
+      const r = await app.rectOf('[data-testid="scene-panel"]');
+      const bar = await app.rectOf('[data-testid="scene-panel"] .statusbar');
+      if (!r || !bar) throw new Error('editor column not found');
+      return [r[0], r[1], r[2], bar[1] - r[1]];
     },
   },
   {
@@ -991,12 +1024,14 @@ const TARGETS = [
       await setRefs(app, 400);
       await setBeatOpen(app, true);
       await app.resetScroll();
-      await app.scrollTo('main section article', 16);
+      await app.scrollTo('[data-testid="beat-item"]', (await sceneTopBottom(app)) + 16);
     },
     async rect(app) {
-      const r = await app.rectOf('main section article');
+      const r = await app.rectOf('[data-testid="beat-item"]');
       if (!r) throw new Error('no beat article found');
-      return pad(r, 16);
+      const top = await sceneTopBottom(app);
+      const [x, y, w, h] = pad(r, 16);
+      return [x, Math.max(y, top), w, h];
     },
   },
   {
@@ -1021,7 +1056,7 @@ const TARGETS = [
       await app.resetScroll();
     },
     async rect(app) {
-      const r = await app.rectOf('main > .writing-surface > aside[class*="border-l"]');
+      const r = await app.rectOf('aside.refs');
       if (!r) throw new Error('references panel not found');
       return r;
     },
@@ -1030,6 +1065,7 @@ const TARGETS = [
     name: 'command-palette',
     dest: 'public/docs/command-palette.png',
     note: 'docs — palette over the blurred app',
+    keepFocus: true, // the search field is focused whenever the palette is open
     win: [1200, 952],
     aspect: 1.25,
     async setup(app) {
@@ -1039,7 +1075,7 @@ const TARGETS = [
       await openPalette(app);
     },
     async rect(app) {
-      const r = await app.rectOf('[role=dialog]');
+      const r = await app.rectOf('dialog[open][data-testid="command-palette"]');
       if (!r) throw new Error('palette not open');
       return pad(r, 64);
     },
@@ -1077,28 +1113,28 @@ const TARGETS = [
   {
     name: 'view-toggle',
     dest: 'public/docs/view-toggle.png',
-    note: 'docs — scene metadata row + Beats/Page toggle',
+    note: 'docs — Beats/Page toggle in the scene toolbar above the metadata selectors',
     win: [920, 952],
     async setup(app) {
       await ensureScene(app);
       await closeDialog(app);
       await setSidebar(app, false);
-      await setRefs(app, 400);
+      await setRefs(app, null);
       await setBeatOpen(app, false);
       await app.resetScroll();
     },
     async rect(app) {
-      // From the project subtitle down through the Beats/Page control.
+      // From the scene toolbar (Revisions, Beats/Page) down through the scene
+      // type, status and planning selectors.
       const box = await app.jsJSON(`(function(){
-        var h=document.querySelector('main header'); if(!h) return null;
-        var sub=h.children[1]||h.children[0];
-        var beats=Array.prototype.find.call(document.querySelectorAll('button'),function(b){return (b.textContent||'').trim()==='Beats';});
-        if(!beats) return null;
-        var a=sub.getBoundingClientRect(), b=beats.getBoundingClientRect(), hr=h.getBoundingClientRect();
-        return [Math.round(hr.x), Math.round(a.y), Math.round(hr.width), Math.round(b.bottom-a.y)];
+        var p=document.querySelector('[data-testid="scene-panel"]');
+        var top=p&&p.querySelector('.scene-top'), meta=p&&p.querySelector('.scene-meta');
+        if(!top||!meta) return null;
+        var a=top.getBoundingClientRect(), m=meta.getBoundingClientRect();
+        return [Math.round(a.x), Math.round(a.y), Math.round(a.width), Math.round(m.bottom+20-a.y)];
       })()`);
-      if (!box) throw new Error('scene header not found');
-      return pad(box, 12);
+      if (!box) throw new Error('scene toolbar not found');
+      return box;
     },
   },
 
@@ -1120,14 +1156,19 @@ const TARGETS = [
       await setSidebar(app, false);
       await setRefs(app, null);
       await app.resetScroll();
-      // The point of this figure is the prose surface, so bring it up with just
-      // enough of the SCENE PROSE header and toolbar above it for context.
-      await app.scrollTo('.novel-pages-container', 150);
+      // The point of this figure is the prose surface, so bring it up with the
+      // Scene prose heading and toolbar just under the sticky Beats/Page bar,
+      // which stays in frame to show Page selected.
+      await app.scrollTo(
+        '[data-testid="scene-panel"] section:has(.novel-pages-container)',
+        // Tuck the section's top rule under the toolbar's own bottom rule.
+        (await sceneTopBottom(app)) - 2
+      );
     },
     async rect(app) {
-      const h = await app.rectOf('main header');
-      if (!h) throw new Error('scene header not found');
-      return [h[0] - 24, 0, h[2] + 48, 0];
+      const p = await app.rectOf('[data-testid="scene-panel"]');
+      if (!p) throw new Error('scene panel not found');
+      return [p[0], 0, p[2], 0];
     },
   },
   {
@@ -1150,12 +1191,11 @@ const TARGETS = [
       await app.resetScroll();
     },
     async rect(app) {
-      // Run to the right edge of the editor's content column so the slugline row
-      // isn't sliced mid-field.
-      const h = await app.rectOf('main header');
-      const vp = await app.viewport();
-      if (!h) throw new Error('scene header not found');
-      return [0, 0, Math.min(h[0] + h[2] + 28, vp.iw), 0];
+      // Run to the scene panel's right edge so the Beats/Page control in the
+      // toolbar is whole, not sliced at the content column.
+      const p = await app.rectOf('[data-testid="scene-panel"]');
+      if (!p) throw new Error('scene panel not found');
+      return [0, 0, p[0] + p[2], 0];
     },
   },
   {
@@ -1163,13 +1203,11 @@ const TARGETS = [
     dest: 'src/assets/planning-states.png',
     note: 'home + /story-outlining-software — planning marks in the tree beside the Planning control',
     win: [1200, 952],
-    // Wider than the other feature figures on purpose: this one also sits in a
-    // `.content-section` on /story-outlining-software, which is 852px of content
-    // against the same 440px max-height, so that slot needs ratio >= 1.94. One
-    // wide asset clears both slots; a 1.25 crop would lose a third of its height
-    // on the SEO page.
-    aspect: 1.95,
-    minAspect: 1.94,
+    // Figures are contained at their intrinsic ratio now, so this no longer has
+    // to be 1.95 to clear the 852px content section. 1.5 is the widest frame
+    // that still reaches the planning marks in the sidebar's scene rows, below
+    // the writing-progress block.
+    aspect: 1.5,
     minWidthPx: 1704, // 2x the 852px content-section width
     async setup(app) {
       await closeDialog(app);
@@ -1182,43 +1220,39 @@ const TARGETS = [
       await app.resetScroll();
     },
     async rect(app) {
-      const h = await app.rectOf('main header');
-      const vp = await app.viewport();
-      if (!h) throw new Error('scene header not found');
-      return [0, 0, Math.min(h[0] + h[2] + 28, vp.iw), 0];
+      // Run to the scene panel's right edge so the Beats/Page control in the
+      // toolbar is whole, not sliced at the content column.
+      const p = await app.rectOf('[data-testid="scene-panel"]');
+      if (!p) throw new Error('scene panel not found');
+      return [0, 0, p[0] + p[2], 0];
     },
   },
 
   {
     name: 'import-formats',
     dest: 'src/assets/import-formats.png',
-    note: 'home — the import formats offered on the project picker',
+    note: 'home — the import formats offered on the start screen',
     win: [1440, 1000],
-    aspect: 1.25,
-    minAspect: 1.204,
     minWidthPx: 1060,
     async setup(app) {
       await closeDialog(app);
-      if (!(await app.truthy(AT_PICKER))) {
-        await setSidebar(app, true);
-        await app.clickLabel('All Projects');
-        await app.waitFor(AT_PICKER, { what: 'the project picker' });
-      }
+      await goHome(app);
       await app.resetScroll();
-      await app.scrollTo('[data-testid="import-section"]', 16);
     },
     async rect(app) {
-      const c = await app.rectOf('[data-testid="import-section"]');
-      if (!c) throw new Error('import panel not found on the picker');
-      // Include the entire format grid and enough native pixels for its widest
-      // marketing slot. The current picker has six formats in a two-column grid.
-      const w = Math.max(530, c[2] + 32, Math.ceil((c[3] + 32) * 1.25));
-      const h = Math.ceil(w / 1.25);
-      const vp = await app.viewport();
-      // Keep the adjacent Recent Projects column outside the frame.
-      const x = Math.max(0, Math.min(c[0] + c[2] + 16 - w, vp.iw - w));
-      const y = Math.max(0, Math.min(c[1] - 16, vp.ih - h));
-      return [x, y, w, h];
+      // The start screen's right column: recent projects above the import list.
+      // A forced 1.25 frame left the lower half of the image empty below the
+      // six-format grid; the figure is contained at its own ratio, so crop to
+      // the content instead.
+      const r = await app.jsJSON(`(function(){
+        var a=document.querySelector('[data-testid="recent-projects"]');
+        var b=document.querySelector('[data-testid="import-section"]');
+        if(!a||!b) return null;
+        var ra=a.getBoundingClientRect(), rb=b.getBoundingClientRect();
+        return [ra.x, ra.y, Math.max(ra.right,rb.right)-ra.x, rb.bottom-ra.y];
+      })()`);
+      if (!r) throw new Error('import list not found on the start screen');
+      return pad(r, 24);
     },
   },
 
@@ -1267,7 +1301,7 @@ const TARGETS = [
       // Anchor on the suggestion rows themselves: the scene with the most
       // suggestions may have no linked references, so no divider to measure to.
       const bottom = await app.jsJSON(`(function(){
-        var a=document.querySelector('main > .writing-surface > aside[class*="border-l"]'); if(!a) return null;
+        var a=document.querySelector('aside.refs'); if(!a) return null;
         var rows=a.querySelectorAll('button[aria-label^="Dismiss suggestion"]');
         if(!rows.length) return null;
         var max=0;
@@ -1374,8 +1408,8 @@ const TARGETS = [
   {
     name: 'beats-list',
     dest: 'public/docs/beats-list.png',
-    note: 'docs/scene-workflow — beats as collapsible cards with word counts',
-    win: [1200, 952],
+    note: 'docs/scene-workflow — the scene column: toolbar, synopsis, references, discovery notes, beats',
+    win: [920, 1000],
     async setup(app) {
       await closeDialog(app);
       await ensureScene(app);
@@ -1383,23 +1417,32 @@ const TARGETS = [
       await setRefs(app, null);
       await setBeatOpen(app, false);
       await app.resetScroll();
-      // `main section` alone matches the synopsis block, so scroll by the first
-      // beat card and leave room above it for the BEATS heading.
-      await app.scrollTo('main section article', 96);
+      // The figure is the column the docs describe — synopsis, references,
+      // discovery notes, beats — under the toolbar's view toggle. The title and
+      // metadata selectors have their own figure (view-toggle), and leaving them
+      // in pushes the first beat card below the fold.
+      await app.scrollTo(
+        '[data-testid="scene-panel"] .scene-header + .scene-section',
+        // Tuck the section's top rule under the toolbar's own bottom rule.
+        (await sceneTopBottom(app)) - 2
+      );
     },
     async rect(app) {
+      // The whole scene column from its toolbar down, ending under the last beat
+      // card that is fully on screen rather than slicing through the next one.
       const box = await app.jsJSON(`(function(){
-        var sec=Array.prototype.find.call(document.querySelectorAll('main section'),
-          function(x){return !!x.querySelector('article')});
-        if(!sec) return null;
-        var arts=sec.querySelectorAll('article');
-        var last=arts[arts.length-1].getBoundingClientRect();
-        var b=sec.getBoundingClientRect();
-        return [Math.round(b.x),Math.round(b.width),Math.round(Math.min(last.bottom+20,innerHeight))];
+        var p=document.querySelector('[data-testid="scene-panel"]');
+        var bar=p&&p.querySelector('.statusbar');
+        if(!p||!bar) return null;
+        var limit=bar.getBoundingClientRect().top, bottom=0;
+        p.querySelectorAll('[data-testid="beat-item"]').forEach(function(a){
+          var b=a.getBoundingClientRect().bottom; if(b<=limit-16 && b>bottom) bottom=b;
+        });
+        var r=p.getBoundingClientRect();
+        return bottom ? [r.x, r.y, r.width, bottom+16-r.y] : null;
       })()`);
-      if (!box) throw new Error('no beats section with cards');
-      const [x, w, bottom] = box;
-      return [x - 24, 0, w + 48, bottom];
+      if (!box) throw new Error('no beat card fully in view');
+      return box;
     },
   },
   {
@@ -1420,9 +1463,13 @@ const TARGETS = [
     },
     async rect(app) {
       const r = await app.rectOf(SIDEBAR);
-      if (!r) throw new Error('sidebar not open');
-      // Leave room for the session statistics now above the chapter tree.
-      return [r[0], r[1], r[2], Math.min(r[3], 640)];
+      const tree = await app.rectOf('aside.sidebar nav.sb-tree');
+      const scroll = await app.rectOf('aside.sidebar .sb-scroll');
+      if (!r || !tree || !scroll) throw new Error('sidebar not open');
+      // From the brand down through the whole chapter tree, stopping short of
+      // the empty scroll area and the New chapter / Settings footer.
+      const bottom = Math.min(tree[1] + tree[3] + 12, scroll[1] + scroll[3]);
+      return [r[0], r[1], r[2], bottom - r[1]];
     },
   },
 
@@ -1459,7 +1506,23 @@ async function capture(app, t) {
   await closeDialog(app);
   await app.setSize(...t.win);
   await app.raise();
+  if (t.name !== 'writing-statistics' && (await app.truthy(STATS_OPEN))) await setStatistics(app, false);
   await t.setup(app);
+  // Programmatic scrolling wakes macOS overlay scrollbars, which then sit on
+  // the capture's edge. A separate sheet from style(), which targets replace.
+  await app.js(`(function(){
+    var s=document.getElementById('__shotbase')||document.createElement('style');
+    s.id='__shotbase'; s.textContent='*::-webkit-scrollbar{width:0 !important;height:0 !important}';
+    document.head.appendChild(s); return '1';
+  })()`);
+  await sleep(150);
+  // Programmatic clicks and the ⌘K chord leave a :focus-visible ring on
+  // whichever control took focus — a dialog's close button, the first
+  // Settings area. That ring is keyboard chrome, not the state being shown.
+  if (!t.keepFocus) {
+    await app.js(`(function(){var a=document.activeElement; if(a && a!==document.body && a.blur) a.blur(); return '1'})()`);
+    await sleep(150);
+  }
 
   const vp = await app.viewport();
   const rect = fitAspect(await t.rect(app), t.aspect, vp);
