@@ -3,7 +3,7 @@ title: "Why Plotters Need Better Writing Software (And What We Built)"
 description: "Most writing apps are built for pantsers. If you outline first, you know the friction. Here's why plotters need different tools -- and what we built."
 publishedDate: "2026-01-29"
 modifiedDate: "2026-03-11"
-author: "Kindling"
+author: "kindling"
 tags: ["writing"]
 ---
 
@@ -39,24 +39,24 @@ After talking to dozens of outline-first writers, we identified the core frustra
 
 ## A Different Approach
 
-We built [Kindling](/) around a simple premise: **your outline and your prose should live together**.
+We built [kindling](/) around a simple premise: **your outline and your prose should live together**.
 
-When you write in Kindling, your scene outline is always visible. Not in a separate window--right there in your writing environment. You can expand a scene's notes to see exactly what you planned, then collapse them and keep drafting. Your plan informs your prose without interrupting it.
+When you write in kindling, your scene outline is always visible. Not in a separate window--right there in your writing environment. You can expand a scene's notes to see exactly what you planned, then collapse them and keep drafting. Your plan informs your prose without interrupting it.
 
-And because we know plotters often start with existing tools, Kindling imports from Plottr, yWriter, and Obsidian Longform. You don't have to abandon your outlining workflow to get a better drafting experience.
+And because we know plotters often start with existing tools, kindling imports from Plottr, yWriter, and Obsidian Longform. You don't have to abandon your outlining workflow to get a better drafting experience.
 
 ## Structure That Flexes
 
 Even the most meticulous outline changes. A subplot gets cut. Two characters merge. A flashback sequence moves from Act Two to the opening.
 
-In Kindling, restructuring is as simple as dragging scenes and chapters. Your prose moves with your structure. No copy-pasting, no hunting for orphaned text, no version control nightmares.
+In kindling, restructuring is as simple as dragging scenes and chapters. Your prose moves with your structure. No copy-pasting, no hunting for orphaned text, no version control nightmares.
 
 ## Built for the Long Haul
 
 Writing a novel is a commitment. The last thing you need is uncertainty about whether your tools will be around--or affordable--when you're on revision five.
 
-Kindling is open source and free. Your files are saved locally in open formats. If we disappeared tomorrow, your work would be completely intact and accessible. That's a promise most writing software can't make.
+kindling is open source and free. Your files are saved locally in open formats. If we disappeared tomorrow, your work would be completely intact and accessible. That's a promise most writing software can't make.
 
 ## Try It Yourself
 
-If you've ever wished your outline could sit beside your prose--guiding you without getting in the way--give Kindling a try. It's free, it runs on Mac, Windows, and Linux, and it might just be the plotter-friendly writing app you've been waiting for.
+If you've ever wished your outline could sit beside your prose--guiding you without getting in the way--give kindling a try. It's free, it runs on Mac, Windows, and Linux, and it might just be the plotter-friendly writing app you've been waiting for.

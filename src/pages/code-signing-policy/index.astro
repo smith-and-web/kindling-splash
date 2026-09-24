@@ -3,17 +3,17 @@ import MarketingLayout from '../../layouts/MarketingLayout.astro';
 ---
 
 <MarketingLayout
-  title="Code Signing Policy — Kindling"
-  description="Kindling's code signing policy. macOS builds are signed with Apple Developer ID and notarized. Windows signing provided by SignPath.io."
+  title="Code Signing Policy — kindling"
+  description="kindling's code signing policy. macOS builds are signed with Apple Developer ID and notarized. Windows signing provided by SignPath.io."
 >
   <section class="page-hero">
     <h1>Code Signing Policy</h1>
-    <p class="page-hero-subtext">How Kindling's installers are signed to verify authenticity and integrity.</p>
+    <p class="page-hero-subtext">How kindling's installers are signed to verify authenticity and integrity.</p>
   </section>
 
   <article class="content-section policy-content">
     <h2>macOS</h2>
-    <p>Kindling's macOS installer is <strong>signed with an Apple Developer ID</strong> and <strong>notarized by Apple</strong>. This means macOS Gatekeeper will allow the app to open without any security workarounds. The universal DMG works on both Apple Silicon and Intel Macs.</p>
+    <p>kindling's macOS installer is <strong>signed with an Apple Developer ID</strong> and <strong>notarized by Apple</strong>. This means macOS Gatekeeper will allow the app to open without any security workarounds. The universal DMG works on both Apple Silicon and Intel Macs.</p>
   </article>
 
   <section class="content-section alt policy-content">
@@ -37,14 +37,14 @@ import MarketingLayout from '../../layouts/MarketingLayout.astro';
   <section class="content-section alt policy-content">
     <h2>Privacy</h2>
     <p>This program does not transfer any information to other networked systems unless specifically requested by the user or the person installing or operating it.</p>
-    <p>Kindling does not collect, transmit, or store personal data. All project files remain on the user's computer. See our <a href="/privacy/">privacy policy</a> for details.</p>
+    <p>kindling does not collect, transmit, or store personal data. All project files remain on the user's computer. See our <a href="/privacy/">privacy policy</a> for details.</p>
   </section>
 </MarketingLayout>
 
 <style>
-  .policy-content strong { color: var(--text-primary); }
+  .policy-content strong { color: var(--color-text); }
   .policy-content ul { margin: 16px 0; padding-left: 24px; }
-  .policy-content li { margin-bottom: 8px; line-height: 1.6; }
-  .policy-content a { color: var(--ember-orange); text-decoration: underline; }
-  .policy-content a:hover { color: var(--text-primary); }
+  .policy-content li { margin-bottom: 8px; line-height: var(--leading); }
+  .policy-content a { color: var(--color-accent-text); text-decoration: underline; }
+  .policy-content a:hover { color: var(--color-text); }
 </style>

@@ -1,9 +1,9 @@
 ---
-title: "Kindling v1.2: Light Theme, Scrivener Workflow, Screenplays & More"
-description: "The biggest Kindling update yet — light theme, full-page prose editing, typed custom fields, hierarchical tags, screenplay project type, bidirectional Scrivener import/export, smart reference detection, and story structure templates."
+title: "kindling v1.2: Light Theme, Scrivener Workflow, Screenplays & More"
+description: "The biggest kindling update yet — light theme, full-page prose editing, typed custom fields, hierarchical tags, screenplay project type, bidirectional Scrivener import/export, smart reference detection, and story structure templates."
 publishedDate: "2026-04-08"
 modifiedDate: "2026-04-08"
-author: "Kindling"
+author: "kindling"
 tags: ["announcement"]
 ---
 
@@ -15,34 +15,34 @@ Here's what's new, and why we built it.
 
 This was our number one adoption blocker. Every competitor offers a light theme; we were dark-only. Not anymore.
 
-Kindling now supports **light**, **dark**, and **system** themes. System mode follows your OS preference automatically — if your Mac switches to dark mode at sunset, Kindling follows. Switch manually from Settings → Appearance.
+kindling now supports **light**, **dark**, and **system** themes. System mode follows your OS preference automatically — if your Mac switches to dark mode at sunset, kindling follows. Switch manually from Settings → Appearance.
 
 ## Full-page prose editing
 
-Since v1.0, drafting in Kindling has meant writing into individual beats — collapsible cards that act as prompts. That's still there, and many writers love it. But some writers want an uninterrupted writing surface, especially once they've internalized the scene's structure.
+Since v1.0, drafting in kindling has meant writing into individual beats — collapsible cards that act as prompts. That's still there, and many writers love it. But some writers want an uninterrupted writing surface, especially once they've internalized the scene's structure.
 
 Now you can **toggle between beat view and page view** per scene. Page view gives you a full-page prose editor while keeping your beats available for reference in the panel alongside. Switch back and forth as needed — your prose is the same either way.
 
 ## Bidirectional Scrivener workflow
 
-This is the headline feature. Kindling can now **import from and export to Scrivener 3**.
+This is the headline feature. kindling can now **import from and export to Scrivener 3**.
 
-**Import:** Open a .scriv bundle and Kindling parses the binder hierarchy into chapters and scenes, converts RTF content preserving formatting, and extracts synopses and document metadata.
+**Import:** Open a .scriv bundle and kindling parses the binder hierarchy into chapters and scenes, converts RTF content preserving formatting, and extracts synopses and document metadata.
 
-**Export:** Create a new .scriv bundle from your Kindling project, or update an existing one. The match preview dialog shows exactly how your Kindling scenes map to Scrivener documents before any changes are written — so you can review the mapping before committing.
+**Export:** Create a new .scriv bundle from your kindling project, or update an existing one. The match preview dialog shows exactly how your kindling scenes map to Scrivener documents before any changes are written — so you can review the mapping before committing.
 
 The workflow we designed for:
 
 1. **Plan in Plottr** — build your timeline, beats, and character arcs
-2. **Import into Kindling** — your outline becomes interactive writing prompts
-3. **Draft in Kindling** — write with your beats and character context visible
+2. **Import into kindling** — your outline becomes interactive writing prompts
+3. **Draft in kindling** — write with your beats and character context visible
 4. **Export to Scrivener** — hand off to Scrivener for revision and compilation
 
-Plan in Plottr, draft in Kindling, revise in Scrivener. The full round-trip now works.
+Plan in Plottr, draft in kindling, revise in Scrivener. The full round-trip now works.
 
 ## Screenplay projects
 
-Kindling isn't just for novelists anymore. v1.2 introduces a **Screenplay** project type with:
+kindling isn't just for novelists anymore. v1.2 introduces a **Screenplay** project type with:
 
 - **Slugline input** — INT./EXT. with time-of-day parsing
 - **Page count estimator** — based on the industry standard of 250 words per page
@@ -52,7 +52,7 @@ Screenplay projects otherwise work identically to novel projects — beats, refe
 
 ## Story structure templates
 
-When you create a new project, Kindling can pre-populate your outline with a story structure template:
+When you create a new project, kindling can pre-populate your outline with a story structure template:
 
 **Beat sheet templates:** Save the Cat (Blake Snyder), Hero's Journey (Joseph Campbell), Three-Act Structure
 
@@ -66,11 +66,15 @@ References now support **typed custom field definitions**. Instead of plain key-
 
 On top of that, a new **hierarchical tagging system** with up to three levels of nesting, colours, descriptions, and a dedicated Tag Manager. Apply tags to scenes, characters, locations, and other entities. Create **saved filters** to quickly surface references matching specific criteria.
 
+<img src="/docs/custom-fields.png" alt="Typed custom field definitions for characters — Role as a select, Age as a number, Wants as text and Traits as multi-select" width="992" height="752" loading="lazy" decoding="async" />
+
 ## Smart reference detection
 
 A non-AI detection engine that scans your prose for character, location, and item names. When matches are found, suggestions appear in the References panel — link them with one click, or dismiss.
 
-No AI, no cloud, no magic. Just pattern matching against your own reference names. It reinforces our core philosophy: Kindling helps you write — it doesn't write for you.
+No AI, no cloud, no magic. Just pattern matching against your own reference names. It reinforces our core philosophy: kindling helps you write — it doesn't write for you.
+
+<img src="/docs/reference-suggestions.png" alt="Detected references surfacing in the panel with a confidence level and the matched text, ready to link in one click" width="600" height="300" loading="lazy" decoding="async" />
 
 ## EPUB export hardening
 
@@ -80,8 +84,8 @@ Smart quote handling improvements, formatting consistency across Classic, Modern
 
 ## Get it
 
-Kindling updates automatically — if you have v1.1.x, you'll see a banner prompting you to restart. Or download fresh from [kindlingwriter.com/download](/download/).
+kindling updates automatically — if you have v1.1.x, you'll see a banner prompting you to restart. Or download fresh from [kindlingwriter.com/download](/download/).
 
 Full technical changelog: [v1.2.0 release on GitHub](https://github.com/smith-and-web/kindling/releases/tag/v1.2.0)
 
-Every word in your Kindling draft is yours. That's not a limitation — it's the whole point.
+Every word in your kindling draft is yours. That's not a limitation — it's the whole point.

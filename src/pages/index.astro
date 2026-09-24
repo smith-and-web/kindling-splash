@@ -1,46 +1,71 @@
 ---
-import { Image } from 'astro:assets';
 import MarketingLayout from '../layouts/MarketingLayout.astro';
 import SmartDownloadButton from '../components/SmartDownloadButton.svelte';
-import { APP_VERSION, DOWNLOADS } from '../data/downloads';
+import { APP_VERSION } from '../data/downloads';
+import emblem from '../vendor/press/assets/svg/kindling-mark.svg?raw';
+import WritingDemo from '../components/WritingDemo.astro';
+import ProductFigure from '../components/ProductFigure.astro';
 import beatWithProse from '../assets/beat-with-prose.png';
 import referencesPanel from '../assets/references-panel.png';
+import planningStates from '../assets/planning-states.png';
+import importFormats from '../assets/import-formats.png';
 
-// Ember particles — atmospheric sparks rising in the hero. Generated at
-// build time; values are randomized per-ember so the swarm feels organic
-// rather than clocked. Negative delays stagger the start so all N are
-// already animating mid-cycle when the page loads (no initial "fill" gap).
-// Three color variants (ember/flame/gold) simulate how real embers shift hue
-// as they cool — some particles hotter, some dimmer.
-const emberColors = [
-  'rgb(232, 90, 27)',   // ember-orange (base)
-  'rgb(232, 90, 27)',   // weighted toward base
-  'rgb(255, 138, 61)',  // flame — hotter, lighter
-  'rgb(255, 184, 77)',  // gold — coolest/brightest
+/*
+ * Rebuilt on Press 0.12.0 from prototypes/home/. The eight problems it fixes
+ * are recorded in prototypes/home/NOTES.md, measured against the previous
+ * version of this page; the thirteen local overrides that prototype needed were
+ * resolved upstream in Press 0.12.0 rather than carried here.
+ *
+ * The per-row `.pw-label` kickers are deliberately gone. Each row already
+ * carries a folio number from `.pw-feature`'s own counter, inside a section
+ * that already has a running "03 /" label — three labelling systems, and none
+ * of "Core feature" / "Stay in flow" / "Your pace" / "Your tools" said anything
+ * its title did not.
+ */
+const features = [
+  {
+    image: beatWithProse,
+    alt: 'The kindling editor showing scene beats alongside prose',
+    title: 'Outline-aware drafting',
+    problem: 'Other apps make you flip between your outline and a blank page.',
+    answer:
+      'kindling puts your scene beats right inside your writing space. Click a beat, write into it.',
+  },
+  {
+    image: referencesPanel,
+    alt: 'The kindling references panel showing character details',
+    title: 'References panel',
+    problem: 'Was it green eyes or blue? What was the tavern called?',
+    answer:
+      'Characters and locations tagged in your scene auto-surface in a side panel.',
+  },
+  {
+    image: planningStates,
+    alt: "A scene set to Flexible planning, with the chapter tree marking each scene's planning state",
+    title: 'Rolling outline',
+    problem: 'Not every scene needs the same level of planning.',
+    answer: null,
+  },
+  {
+    image: importFormats,
+    alt: "kindling's import options, including novelWriter, Plottr, yWriter, Markdown, Longform and Scrivener",
+    title: 'Import and export',
+    problem: 'Your outline lives in Plottr. Your manuscript in Word. Your notes in Obsidian.',
+    answer:
+      'Import from Plottr, yWriter, Obsidian Longform, Scrivener, novelWriter, or Markdown. Export to DOCX, Markdown, Longform, Scrivener, novelWriter, or EPUB.',
+  },
 ];
 
-const embers = Array.from({ length: 20 }).map(() => {
-  const size = 2 + Math.floor(Math.random() * 7); // 2–8px, keep size variance
-  // Cluster x around the middle (Gaussian-ish via averaging) so embers look
-  // like they're rising from the concentrated fire bed, not scattered edge-to-edge.
-  const x = Math.round(((Math.random() + Math.random()) / 2) * 100);
-  return {
-    x,
-    size,
-    duration: 6 + Math.floor(Math.random() * 9),  // 6–14s
-    delay: -Math.floor(Math.random() * 14),
-    sway: -70 + Math.floor(Math.random() * 140),  // −70 to +70
-    // Brightness reduced: opacity caps lower, glow scaled smaller
-    opacity: (0.22 + Math.random() * 0.45).toFixed(2), // 0.22–0.67
-    color: emberColors[Math.floor(Math.random() * emberColors.length)],
-    glow: Math.round(size * 1.3 + Math.random() * 4),
-  };
-});
+// The emblem's intrinsic size, read from the asset as the Navbar does for the
+// wordmark, so the <img> reserves the right box before the SVG arrives.
+const emblemBox = emblem.match(/viewBox="0 0 ([\d.]+) ([\d.]+)"/);
+const emblemWidth = Number(emblemBox?.[1] ?? 740.5);
+const emblemHeight = Number(emblemBox?.[2] ?? 419.5);
 
 const structuredData = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  "name": "Kindling Writer",
+  "name": "kindling Writer",
   "description": "Free open-source fiction writing software that keeps your outline visible while you draft. Import from Plottr, Scrivener, yWriter, or Obsidian.",
   "url": "https://kindlingwriter.com/",
   "applicationCategory": "DesktopApplication",
@@ -52,7 +77,7 @@ const structuredData = {
   },
   "author": {
     "@type": "Organization",
-    "name": "Kindling",
+    "name": "kindling",
     "url": "https://kindlingwriter.com"
   },
   "softwareVersion": APP_VERSION,
@@ -63,622 +88,287 @@ const structuredData = {
 ---
 
 <MarketingLayout
-  title="Kindling Writer — Free Fiction Writing Software for Plotters & Pantsers"
-  description="Kindling Writer is free fiction writing software that keeps your outline visible while you draft. Import from Plottr, Scrivener, yWriter, or Obsidian. Desktop app for macOS, Windows & Linux."
+  title="kindling Writer — Free Fiction Writing Software for Plotters & Pantsers"
+  description="kindling Writer is free fiction writing software that keeps your outline visible while you draft. Import from Plottr, Scrivener, yWriter, or Obsidian. Desktop app for macOS, Windows & Linux."
   structuredData={structuredData}
 >
-  <!-- Hero typing effect — runs before the hero renders so the final text
-       doesn't flash in before the animation takes over. Fires on every load
-       and skips only when prefers-reduced-motion is set. SEO-safe: the full
-       headline text stays in the DOM inside the .type-text span (the
-       typing script only mutates it client-side). -->
-  <script is:inline>
-    (function () {
-      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
-      var style = document.createElement('style');
-      style.textContent = '.hero h1 .type-text{visibility:hidden}';
-      document.head.appendChild(style);
-
-      function run() {
-        var h1 = document.querySelector('.hero h1');
-        if (!h1) return;
-        var textSpan = h1.querySelector('.type-text');
-        if (!textSpan) return;
-
-        var full = textSpan.textContent;
-        textSpan.textContent = '';
-        textSpan.style.visibility = 'visible';
-        h1.classList.add('typing');
-
-        var i = 0;
-        (function type() {
-          if (i >= full.length) {
-            h1.classList.add('type-complete');
-            return;
-          }
-          textSpan.textContent += full[i];
-          i++;
-          var ch = full[i - 1];
-          var delay = ch === ' ' ? 55 : 25 + Math.random() * 35;
-          setTimeout(type, delay);
-        })();
-      }
-
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', run);
-      } else {
-        run();
-      }
-    })();
-  </script>
-
-  <!-- Hero Section -->
-  <section class="hero">
-    <div class="hero-content">
-      <h1 aria-label="From outline to first draft"><span class="type-text">From outline to first draft</span><span class="type-cursor" aria-hidden="true"></span></h1>
-      <p class="tagline">Your outline, visible while you write</p>
-      <p class="open-source-badge">v{APP_VERSION} · Free & Open Source · AI-free</p>
-
-      <!-- Smart Download CTA (hydrated client-side) -->
-      <SmartDownloadButton client:load location="hero" />
-    </div>
-
-    <!-- Ember source line: zero-height wrapper sitting between hero-content
-         and hero-visual so its embers are anchored at the top edge of the video. -->
-    <div class="ember-source" aria-hidden="true">
-      <div class="ember-container">
-        {embers.map((e) => (
-          <span
-            class="ember"
-            style={`--ember-x:${e.x}%;--ember-size:${e.size}px;--ember-duration:${e.duration}s;--ember-delay:${e.delay}s;--ember-sway:${e.sway}px;--ember-opacity:${e.opacity};--ember-color:${e.color};--ember-glow:${e.glow}px;`}
-          />
-        ))}
+  <!-- 01 — the opener carries no running label, as on every other page.
+       The explaining sentence sits under the headline it explains, at reading
+       measure, on the page's one left edge; the narrow track carries ancillary
+       matter only. Two terracotta moments in this viewport: the accent clause
+       and the one filled action. The masthead's Download is secondary. -->
+  <section class="pw-hero pw-frame hero" aria-labelledby="hero-title">
+    <div class="pw-hero-grid pw-hero-grid--top">
+      <div class="hero-stack">
+        <h1 class="pw-hero-title" id="hero-title">Keep your outline close. <em>Keep writing.</em></h1>
+        <p class="pw-prose">Draft one scene at a time, with your beats, characters, and notes close at hand. kindling is a desktop writing app that keeps the plan you made beside the page you are writing.</p>
+        <SmartDownloadButton client:load location="hero" compact />
       </div>
-    </div>
 
-    <!-- Product visual inside hero — CTA flows directly into screenshot -->
-    <div class="hero-visual">
-      <video autoplay loop muted playsinline preload="metadata" poster="/hero-poster.jpg" width="804" height="556" aria-label="Kindling scaffolded writing view with scene beats">
-        <source src="/demo-2.webm" type="video/webm">
-        <source src="/demo-2.mp4" type="video/mp4">
-      </video>
+      <!-- The download page's release card, turned toward the visitor: the same
+           `.ka-panel` / `.ka-facts` / `.pw-version` pieces, with what kindling
+           gives a writer where that card lists what the file is. The facts
+           carry only what the trust strip below does not.
+           The book-and-flame emblem is the supplied asset, unaltered; its ember
+           is the original logo, exempt from the terracotta budget. Decorative —
+           the masthead wordmark already names kindling — so it has an empty
+           alt. The release link is an inline link, also exempt. -->
+      <aside class="hero-aside" aria-label={`About kindling ${APP_VERSION}`}>
+        <div class="ka-panel">
+          <header class="ka-between hero-card-head">
+            <img class="hero-mark" src="/brand/kindling-mark.svg" width={emblemWidth} height={emblemHeight} alt="" />
+            <span class="pw-version">v{APP_VERSION}</span>
+          </header>
+          <div class="ka-panel-body hero-card-body">
+            <p class="pw-prose">From first outline to finished draft. Free, and yours to keep.</p>
+            <dl class="ka-facts">
+              <div><dt>Works</dt><dd>Fully offline</dd></div>
+              <div><dt>Your files</dt><dd>Stay yours</dd></div>
+              <div><dt>Imports</dt><dd>Plottr, Scrivener and more</dd></div>
+            </dl>
+            <a class="pw-link" href="/blog/kindling-v1-3-writing-and-review/">See what&rsquo;s new in {APP_VERSION.replace(/\.0$/, '')} &rarr;</a>
+          </div>
+        </div>
+      </aside>
     </div>
   </section>
 
-  <!-- Social Proof Bar -->
-  <section class="social-proof fade-in-on-scroll">
-    <div class="social-proof-container">
-      <div class="proof-item">
-        <span class="proof-icon">&#9997;</span>
-        <span class="proof-text">Trusted by 500+ writers</span>
-      </div>
-      <div class="proof-divider"></div>
-      <div class="proof-item">
-        <span class="proof-icon">&#128274;</span>
-        <span class="proof-text">MIT Licensed</span>
-      </div>
-      <div class="proof-divider"></div>
-      <div class="proof-item">
-        <span class="proof-icon">&#128640;</span>
-        <span class="proof-text">Built with Rust & Tauri</span>
-      </div>
-      <div class="proof-divider"></div>
-      <div class="proof-item">
-        <span class="proof-icon">&#128187;</span>
-        <span class="proof-text">macOS · Windows · Linux</span>
-      </div>
-    </div>
+  <!-- The specimen, below the action rather than above it. It keeps its
+       behaviour and loses its rank: a visitor is told what kindling is before
+       being handed something to operate. -->
+  <section class="pw-frame specimen" aria-label="A scene in kindling">
+    <WritingDemo />
   </section>
 
-  <!-- Problem Statement -->
-  <section class="problem-section fade-in-on-scroll">
-    <div class="problem-container">
-      <h2>You planned every beat.<br>Then you opened a blank document.</h2>
-      <p>Writing apps make you choose: outline <em>or</em> draft. Your beats live in Plottr, your manuscript in Scrivener, your notes in Obsidian. Kindling puts them all in one focused space — so your outline stays visible while you write.</p>
-    </div>
+  <!-- The fact strip. Left-aligned per `.pw-trust--inline`; the writer count is
+       sourced from GitHub release analytics filtered to binary assets and is
+       conservative — see press/docs/WEBSITE_COMPONENTS.md, corrected in 0.12.0. -->
+  <section class="pw-band trust-band" aria-label="About kindling">
+    <ul class="pw-trust pw-trust--inline pw-frame">
+      <li>Trusted by 2000+ writers</li>
+      <li>MIT licensed, open source</li>
+      <li>macOS · Windows · Linux</li>
+      <li>No account, no subscription, no AI</li>
+    </ul>
   </section>
 
-  <!-- Feature Bento Grid -->
-  <section class="features-section">
-    <div class="features-header fade-in-on-scroll">
-      <h2>Fiction writing software built for outline-driven novelists</h2>
-      <p class="features-intro">Stop switching between apps. Kindling brings your planning and drafting into one focused space — where outlines become novels.</p>
-    </div>
-
-    <div class="bento-grid">
-      <div class="bento-tile bento-tile--large fade-in-on-scroll">
-        <div class="bento-label">Core Feature</div>
-        <h3>Outline-Aware Drafting</h3>
-        <p class="bento-problem">Other apps make you flip between your outline and a blank page.</p>
-        <p class="bento-solution">Kindling puts your scene beats right inside your writing space. Click a beat, write into it.</p>
-        <Image src={beatWithProse} alt="Kindling editor showing scene beats alongside prose" width={560} loading="eager" class="bento-image" />
-      </div>
-
-      <div class="bento-tile fade-in-on-scroll">
-        <div class="bento-label">Stay in Flow</div>
-        <h3>References Panel</h3>
-        <p class="bento-problem">Was it green eyes or blue? What was the tavern called?</p>
-        <p class="bento-solution">Characters and locations tagged in your scene auto-surface in a side panel.</p>
-        <Image src={referencesPanel} alt="Kindling references panel showing character details" width={560} loading="lazy" class="bento-image" />
-      </div>
-
-      <div class="bento-tile fade-in-on-scroll">
-        <div class="bento-label">Your Pace</div>
-        <h3>Rolling Outline</h3>
-        <p class="bento-problem">Not every scene needs the same level of planning.</p>
-        <p class="bento-solution">Three planning states — Fixed, Flexible, Undefined — let you add structure at your own pace. <a href="/story-outlining-software/" style="color: var(--ember-orange);">Learn more &rarr;</a></p>
-      </div>
-
-      <div class="bento-tile fade-in-on-scroll">
-        <div class="bento-label">Your Tools</div>
-        <h3>Import & Export</h3>
-        <p class="bento-problem">Your outline lives in Plottr. Your manuscript in Word. Your notes in Obsidian.</p>
-        <p class="bento-solution">Import from Plottr, yWriter, Obsidian Longform, Scrivener, or Markdown. Export to DOCX, Markdown, Scrivener, or EPUB.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- v1.2 Spotlight -->
-  <section class="spotlight">
-    <div class="spotlight-container">
-      <div class="fade-in-on-scroll">
-        <span class="version-badge">New in v{APP_VERSION}</span>
-        <h2>The biggest update yet</h2>
-      </div>
-      <div class="spotlight-grid">
-        <div class="spotlight-feature fade-in-on-scroll">
-          <div class="spotlight-icon">🌙</div>
-          <div class="spotlight-label">Theme</div>
-          <h3>Light Theme</h3>
-          <p>Automatic light/dark switching based on your OS preference, with manual override.</p>
-        </div>
-        <div class="spotlight-feature fade-in-on-scroll">
-          <div class="spotlight-icon">📝</div>
-          <div class="spotlight-label">Writing</div>
-          <h3>Full-Page Prose Editing</h3>
-          <p>Draft in a full-page editor — not just beat-by-beat. Toggle between page view and beat view per scene.</p>
-        </div>
-        <div class="spotlight-feature fade-in-on-scroll">
-          <div class="spotlight-icon">🏷️</div>
-          <div class="spotlight-label">Organization</div>
-          <h3>Custom Fields & Tags</h3>
-          <p>Create typed fields on characters and locations. Organize with hierarchical tags and saved filters.</p>
-        </div>
-        <div class="spotlight-feature fade-in-on-scroll">
-          <div class="spotlight-icon">🎬</div>
-          <div class="spotlight-label">New Project Type</div>
-          <h3>Screenplay Support</h3>
-          <p>New screenplay project type with page count estimator, slugline input, and Save the Cat / Hero's Journey templates.</p>
-        </div>
-        <div class="spotlight-feature fade-in-on-scroll">
-          <div class="spotlight-icon">📦</div>
-          <div class="spotlight-label">Interoperability</div>
-          <h3>Scrivener Import & Export</h3>
-          <p>Bidirectional Scrivener workflow. Create new .scriv bundles or update existing ones with a match preview dialog.</p>
-        </div>
-        <div class="spotlight-feature fade-in-on-scroll">
-          <div class="spotlight-icon">🔍</div>
-          <div class="spotlight-label">Intelligence</div>
-          <h3>Smart Reference Detection</h3>
-          <p>Non-AI engine scans your prose for character, location, and item mentions. Suggestions surface automatically.</p>
+  <!-- 02 — the problem. The strongest section on the page before this pass and
+       kept intact, minus the hard <br>, so `.pw-heading` can balance at width. -->
+  <section class="pw-band--sunken has-grain" aria-labelledby="problem-title">
+    <div class="pw-frame">
+      <div class="pw-section-head">
+        <p class="pw-label">02 / From plan to page</p>
+        <div>
+          <h2 class="pw-heading" id="problem-title">You planned every beat. Then you opened a blank document.</h2>
+          <p class="pw-prose">Writing apps make you choose: outline <em>or</em> draft. Your beats live in Plottr, your manuscript in Scrivener, your notes in Obsidian. kindling puts them all in one focused space — so your outline stays visible while you write.</p>
+          <p class="pw-quote">An outline you can’t see while you write is just a document you wrote once.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Bottom CTA -->
-  <section class="bottom-cta fade-in-on-scroll">
-    <div class="bottom-cta-container">
-      <h2>Your outline is ready. Start writing.</h2>
+  <!-- 03 — the sequence. One ratio for the whole run: four captures at their
+       own ratios stand 424/424/272/424px tall in one column, and a run of rows
+       each individually correct reads as ragged. `.pw-image-frame` contains
+       rather than crops, so nothing is lost to the even frame. -->
+  <section class="pw-frame features-section" id="how-it-works" aria-labelledby="features-title">
+    <div class="pw-section-head">
+      <p class="pw-label">03 / Close at hand</p>
+      <div>
+        <h2 class="pw-heading" id="features-title">Fiction writing software built for outline-driven novelists</h2>
+        <p class="pw-prose">Stop switching between apps. kindling brings your planning and drafting into one focused space — where outlines become novels.</p>
+      </div>
+    </div>
+
+    <div class="pw-feature-grid feature-run">
+      {features.map((feature, index) => (
+        <article class:list={['pw-feature', { 'pw-feature--reverse': index % 2 === 1 }]}>
+          <ProductFigure src={feature.image} alt={feature.alt} ratio="inherit" />
+          <div>
+            <h3 class="pw-feature-title">{feature.title}</h3>
+            <p class="pw-problem">{feature.problem}</p>
+            {feature.answer && <p>{feature.answer}</p>}
+            {index === 2 && (
+              <p>Three planning states — Fixed, Flexible, Undefined — let you add structure at your own pace. <a href="/story-outlining-software/">Learn more &rarr;</a></p>
+            )}
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <!-- 04 — the trailer for the release story, not the changelog. This ran to
+       eight items, each with its own terracotta link: about as tall as the
+       whole feature sequence above it, and the release story has its own page. -->
+  <section class="pw-band--sunken has-grain" aria-labelledby="whats-new-title">
+    <div class="pw-frame">
+      <div class="pw-section-head">
+        <p class="pw-label">04 / New in v{APP_VERSION}</p>
+        <div>
+          <h2 class="pw-heading" id="whats-new-title">Keep writing. Bring your editor along.</h2>
+          <p class="pw-prose">Manuscript review, writing goals, and a new editorial design that carries the same care into every surface.</p>
+        </div>
+      </div>
+
+      <div class="pw-release-grid">
+        <div class="pw-release-item">
+          <h3>Editorial review without accounts</h3>
+          <p>Send your manuscript as a local file. Exchange tracked suggestions and comments, then decide what belongs in your story.</p>
+          <a class="pw-link" href="/docs/editorial-review/">Explore editorial review &rarr;</a>
+        </div>
+        <div class="pw-release-item">
+          <h3>Writing goals and statistics</h3>
+          <p>Set a daily goal, follow your session totals, and see how your manuscript is taking shape, scene by scene.</p>
+          <a class="pw-link" href="/docs/writing-progress/">See how progress is counted &rarr;</a>
+        </div>
+        <div class="pw-release-item">
+          <h3>Pick up the thread</h3>
+          <p>Read the previous scene’s synopsis and closing sentences. Reopen a project at your last scene, cursor, and scroll position.</p>
+          <a class="pw-link" href="/docs/scene-workflow/#previous-scene-context">Return to your draft &rarr;</a>
+        </div>
+        <div class="pw-release-item">
+          <h3>Meet Press</h3>
+          <p>A new design for kindling and its website: warm paper, bookish type, and clear, quiet controls that read the same in the app and out of it.</p>
+          <a class="pw-link" href="/blog/kindling-v1-3-writing-and-review/#meet-press">Take a first look &rarr;</a>
+        </div>
+      </div>
+
+      <p class="section-foot">Custom export profiles, reference copying between projects, a novelWriter workflow, and one place for settings also landed in v{APP_VERSION}. <a href="/blog/kindling-v1-3-writing-and-review/">Read the release story &rarr;</a></p>
+    </div>
+  </section>
+
+  <!-- 05 — closing. One primary fill, on the page's one left edge. -->
+  <section class="pw-closing pw-frame" aria-labelledby="closing-title">
+    <div>
+      <h2 class="pw-section-title" id="closing-title">Your outline is ready. Start writing.</h2>
+    </div>
+    <div class="pw-closing-actions">
       <SmartDownloadButton client:visible location="bottom" />
     </div>
   </section>
 </MarketingLayout>
 
 <style>
-  /* Hero */
+  /* Page arrangement only. Band rhythm, the hero's two stacks and the
+     sequence's shared figure ratio — every surface, hairline, type role and
+     control comes from Press 0.12.0.
+
+     DO NOT prefix these with `.press-web`. Astro stamps its scope hash only on
+     elements in THIS component's template, and `.press-web` is in
+     MarketingLayout — so `.press-web .hero-stack` compiles to
+     `.press-web:where(.astro-hash) .hero-stack:where(.astro-hash)` and matches
+     nothing at all. A whole block of arrangement silently did nothing while the
+     page still looked plausible.
+
+     Where a rule must beat a Press rule, qualify with the element name instead:
+     Astro's `:where()` adds no specificity, so a bare class only ties with
+     `.press-web .pw-thing` (0,2,0) and loses on source order. See CLAUDE.md,
+     "Astro scoped styles have zero specificity". */
+
+  /* `--pw-hero-measure` replaces Press's 15ch default, which breaks this
+     37-character headline as "Keep your outline / close. / Keep writing." —
+     a two-word middle line with room to spare.
+
+     `--pw-hero-columns` aligns the hero's narrow track with the references
+     inspector of the workspace specimen directly below it, so the inspector's
+     divider reads as one line running the height of the page rather than as a
+     second vertical a few pixels off the hero's.
+
+     The arithmetic is the demo's: WritingDemo.astro sets the inspector to
+     `clamp(15rem, 27cqi, 21rem)` of the workspace, flush with the frame's
+     right edge, and `.ka-workspace-body` insets its content by `--space-s`.
+     The hero spans the same frame, so its first track is the frame minus that
+     inspector plus the inset, with no gap — the aside's text lands on the
+     references content edge. (27% of the hero stands in for 27cqi of the
+     workspace; the two differ by the workspace's 2px of border, under a pixel
+     after the percentage.) Change the two together. Below a 900px workspace the specimen shows
+     one region, so there is no inspector to align with; Press's narrow-width
+     rules stack the hero below 600px without restating them here. */
   .hero {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    padding: 72px 24px 0;
-    position: relative;
-    overflow: hidden;
+    --pw-hero-measure: 18ch;
+    --pw-hero-columns: calc(100% - clamp(15rem, 27%, 21rem) + var(--space-s)) minmax(0, 1fr);
+    --pw-hero-gap: 0;
   }
 
-  .hero::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 150%;
-    height: 60%;
-    background: radial-gradient(ellipse at center top, rgba(232, 90, 27, 0.08) 0%, transparent 60%);
-    pointer-events: none;
-  }
-
-  .hero-content {
-    position: relative;
-    z-index: 1;
-    max-width: 760px;
-    width: 100%;
-  }
-
-  /* ===== Ember source =====
-     Zero-height flex item between hero-content and hero-visual. Exists
-     purely to position .ember-container so embers rise from the top edge
-     of the demo video. */
-  .ember-source {
-    position: relative;
-    width: 100%;
-    max-width: 960px;
-    height: 0;
-    margin-top: 40px; /* mirrors the old hero-visual margin-top — seam stays put */
-    pointer-events: none;
-  }
-
-  /* ===== Ember particles =====
-     Anchored at the ember-source line (bottom: 0) and rise upward. Each .ember
-     reads its randomized values from CSS custom properties set inline, so
-     one set of keyframes drives N unique trajectories. */
-  .ember-container {
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;        /* anchored at the ember-source line */
-    height: 520px;    /* vertical travel range; .hero's overflow:hidden clips anything escaping */
-    pointer-events: none;
-    z-index: 2;       /* sits above .hero-visual (z-index: 1) so rising embers stay visible */
-  }
-
-  .ember {
-    position: absolute;
-    bottom: 0;
-    left: var(--ember-x);
-    width: var(--ember-size);
-    height: var(--ember-size);
-    background: var(--ember-color, var(--ember-orange));
-    border-radius: 50%;
-    /* Glow radius scales with size — larger embers are visibly brighter.
-       Softer tint (30% not 45%) to reduce overall brightness. */
-    box-shadow: 0 0 var(--ember-glow, 8px) 0 color-mix(in srgb, var(--ember-color, var(--ember-orange)) 30%, transparent);
-    opacity: 0;
-    animation:
-      ember-rise var(--ember-duration) linear var(--ember-delay) infinite,
-      ember-flicker calc(var(--ember-duration) / 5) ease-in-out var(--ember-delay) infinite alternate;
-    will-change: transform, opacity, filter;
-  }
-
-  @keyframes ember-rise {
-    0%   { transform: translate3d(0, 0, 0) scale(1); opacity: 0; }
-    12%  { opacity: var(--ember-opacity); }
-    75%  { opacity: var(--ember-opacity); }
-    100% { transform: translate3d(var(--ember-sway), -480px, 0) scale(0.3); opacity: 0; }
-  }
-
-  /* Gentle brightness waver — dimmer range than before per design feedback. */
-  @keyframes ember-flicker {
-    from { filter: brightness(0.65); }
-    to   { filter: brightness(1.0); }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .ember-container { display: none; }
-  }
-
-  @media (max-width: 768px) {
-    /* Thin out the swarm on mobile so it stays atmosphere, not noise. */
-    .ember:nth-child(n+13) { display: none; }
-  }
-
-  .hero h1 {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: clamp(36px, 7vw, 60px);
-    font-weight: 600;
-    margin-bottom: 10px;
-    letter-spacing: -0.02em;
-  }
-
-  .tagline {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: clamp(20px, 3.5vw, 30px);
-    font-weight: 500;
-    color: var(--ember-orange);
-    margin-bottom: 12px;
-  }
-
-  .open-source-badge {
-    display: inline-block;
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--success);
-    background: rgba(45, 156, 107, 0.15);
-    border: 1px solid rgba(45, 156, 107, 0.3);
-    padding: 5px 14px;
-    border-radius: 100px;
-    margin-bottom: 24px;
-    letter-spacing: 0.02em;
-  }
-
-  /* Hero visual — product screenshot/video directly below CTA.
-     Spacing above is now owned by the .ember-source element so the seam stays aligned. */
-  .hero-visual {
-    position: relative;
-    z-index: 1;
-    width: 100%;
-    max-width: 960px;
-    margin-top: 0;
-    /* Clip so the bottom edge bleeds into the next section, enticing scroll */
-    mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
-    -webkit-mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
-  }
-
-  .hero-visual video {
-    width: 100%;
-    height: auto;
-    border-radius: 12px 12px 0 0;
-    display: block;
-  }
-
-  /* Social Proof Bar */
-  .social-proof {
-    padding: 32px 24px;
-    border-top: 1px solid var(--surface-light);
-    border-bottom: 1px solid var(--surface-light);
-  }
-
-  .social-proof-container {
-    max-width: 800px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 24px;
-    flex-wrap: wrap;
-  }
-
-  .proof-item {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 15px;
-    font-weight: 500;
-    color: var(--text-secondary);
-  }
-
-  .proof-icon {
-    font-size: 18px;
-  }
-
-  .proof-divider {
-    width: 1px;
-    height: 20px;
-    background: var(--surface-light);
-  }
-
-  @media (max-width: 600px) {
-    .proof-divider { display: none; }
-    .social-proof-container { gap: 16px; }
-  }
-
-  /* Problem Statement */
-  .problem-section {
-    padding: 56px 24px;
-    text-align: center;
-  }
-
-  .problem-container {
-    max-width: 700px;
-    margin: 0 auto;
-  }
-
-  .problem-container h2 {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: clamp(24px, 4vw, 36px);
-    font-weight: 600;
-    margin-bottom: 20px;
-    line-height: 1.3;
-  }
-
-  .problem-container p {
-    font-size: 18px;
-    color: var(--text-secondary);
-    line-height: 1.7;
-  }
-
-  /* Features Bento Grid */
-  .features-section {
-    padding: 56px 24px;
-    background: var(--surface);
-  }
-
-  .features-header {
-    text-align: center;
-    margin-bottom: 40px;
-  }
-
-  .features-header h2 {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: clamp(28px, 5vw, 36px);
-    font-weight: 600;
-    margin-bottom: 12px;
-  }
-
-  .features-intro {
-    font-size: 18px;
-    color: var(--text-secondary);
-    max-width: 600px;
-    margin: 0 auto;
-  }
-
-  .bento-grid {
+  .hero-stack {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
-    max-width: 1100px;
-    margin: 0 auto;
+    gap: var(--space-m);
+    justify-items: start;
   }
 
-  .bento-tile {
-    background: var(--deep-charcoal);
-    border: 1px solid var(--surface-light);
-    border-radius: 16px;
-    padding: 28px;
-    grid-column: span 2;
-    overflow: hidden;
+  /* The hero's action stacks: one button, then its micro-copy, then the
+     platforms link. The compact default is a two-column grid with the link
+     beside the button — right in a tight column, wrong here, where it reads as
+     a second action competing with the primary fill. Element-qualified to beat
+     the Svelte component's own `.smart-download.compact` (0,3,0). */
+  div.hero-stack :global(div.smart-download.compact) {
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: start;
+    gap: var(--space-2xs);
+  }
+  div.hero-stack :global(div.smart-download.compact .alt-platforms) {
+    grid-column: 1;
+    grid-row: 3;
   }
 
-  .bento-tile--large {
-    grid-column: span 2;
-    grid-row: span 1;
+  /* The card starts on the headline's top edge and runs the height of the
+     opening, so the hero reads as two stacks side by side rather than a
+     headline with a footnote. Reset wherever the grid stacks and the card
+     follows the stack in flow. */
+  .hero-aside {
+    align-self: start;
+    min-width: 0;
   }
 
-  .bento-label {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 12px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--ember-orange);
-    margin-bottom: 8px;
+  /* The emblem at 40px, DESIGN.md's preferred floor for the book-and-flame.
+     The header's own 16px padding clears the quarter-height clear space. */
+  img.hero-mark {
+    block-size: var(--space-xl);
+    inline-size: auto;
   }
 
-  .bento-tile h3 {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 20px;
-    font-weight: 600;
-    margin-bottom: 8px;
-  }
+  header.hero-card-head { align-items: center; }
 
-  .bento-problem {
-    font-size: 15px;
-    color: var(--text-secondary);
-    font-style: italic;
-    margin-bottom: 6px;
-  }
-
-  .bento-solution {
-    font-size: 15px;
-    color: var(--text-primary);
-    line-height: 1.6;
-    margin-bottom: 16px;
-  }
-
-  .bento-image {
-    width: 100%;
-    height: auto;
-    border-radius: 8px;
-    margin-top: 8px;
-  }
-
-  @media (max-width: 768px) {
-    .bento-grid {
-      grid-template-columns: 1fr;
-    }
-    .bento-tile,
-    .bento-tile--large {
-      grid-column: span 1;
-    }
-  }
-
-  /* v1.2 Spotlight */
-  .spotlight {
-    padding: 56px 24px;
-  }
-
-  .spotlight-container {
-    max-width: 1000px;
-    margin: 0 auto;
-    text-align: center;
-  }
-
-  .version-badge {
-    display: inline-block;
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--ember-orange);
-    background: rgba(232, 90, 27, 0.12);
-    border: 1px solid rgba(232, 90, 27, 0.3);
-    padding: 6px 16px;
-    border-radius: 100px;
-    margin-bottom: 16px;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
-
-  .spotlight-container h2 {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: clamp(28px, 5vw, 36px);
-    font-weight: 600;
-    margin-bottom: 40px;
-  }
-
-  .spotlight-grid {
+  div.hero-card-body {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 20px;
+    gap: var(--space-s);
+  }
+
+  /* The link closes the card; the panel body's padding already sits under it. */
+  div.hero-card-body a.pw-link { justify-self: start; }
+
+  .specimen { padding-bottom: var(--space-3xl); }
+
+  /* The strip sits directly on top of the 02 band, not below the specimen with
+     a gap after it. It is a set of claims about the product, so it reads as the
+     lead-in to the section that argues for them. */
+  .trust-band { margin-top: var(--space-3xl); }
+
+  .features-section { padding-block: var(--space-3xl); }
+
+  /* One ratio for the run — see the section comment and ProductFigure's
+     `ratio` prop. `.pw-feature-grid` sets this variable at (0,2,0), so the
+     element qualifier is load-bearing, not decoration. */
+  div.pw-feature-grid.feature-run { --pw-reference-ratio: 3 / 2; }
+
+  .section-foot {
+    margin-top: var(--space-2xl);
+    padding-top: var(--space-m);
+    border-top: var(--pw-line);
+    max-width: var(--measure);
+  }
+
+  /* `.pw-closing` puts the action beside the heading, so the download stack
+     reads from the same left edge as its column rather than centring in it. */
+  .pw-closing-actions :global(.smart-download) {
+    align-items: flex-start;
     text-align: left;
   }
+  .pw-closing-actions :global(.micro-copy) { text-align: left; }
 
-  .spotlight-feature {
-    background: var(--surface);
-    border: 1px solid var(--surface-light);
-    border-radius: 12px;
-    padding: 24px;
-  }
-
-  .spotlight-icon {
-    font-size: 28px;
-    margin-bottom: 6px;
-    line-height: 1;
-  }
-
-  .spotlight-label {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 11px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--ember-orange);
-    margin-bottom: 6px;
-  }
-
-  .spotlight-feature h3 {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 17px;
-    font-weight: 600;
-    margin-bottom: 8px;
-  }
-
-  .spotlight-feature p {
-    font-size: 15px;
-    color: var(--text-secondary);
-    line-height: 1.6;
-  }
-
-  /* Bottom CTA */
-  .bottom-cta {
-    padding: 72px 24px 80px;
-    background: linear-gradient(180deg, var(--surface) 0%, var(--deep-charcoal) 100%);
-    text-align: center;
-  }
-
-  .bottom-cta-container {
-    max-width: 560px;
-    margin: 0 auto;
-  }
-
-  .bottom-cta h2 {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: clamp(28px, 5vw, 36px);
-    font-weight: 600;
-    margin-bottom: 24px;
+  @container press-website (max-width: 600px) {
+    .specimen { padding-bottom: var(--space-2xl); }
+    .trust-band { margin-top: var(--space-2xl); }
+    .features-section { padding-block: var(--space-2xl); }
   }
 </style>
-

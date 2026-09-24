@@ -1,34 +1,163 @@
 /* ============================================================
-   Kindling brand overrides for Starlight
+   Starlight -> Press adapter.
+
+   This file is a mapping layer and nothing else. It declares no colour, no
+   font file and no type scale of its own: every value resolves to a Press
+   semantic token. If a role is missing, add it in ../press and re-sync rather
+   than inventing a literal here.
+
+   Starlight does not load global.css, so the fonts and tokens are imported
+   directly from the vendored snapshot. The relative font URLs inside
+   fonts-web.css resolve from its own location, which is why design-system/ and
+   assets/ must stay siblings. components.css is deliberately NOT imported:
+   its global reset would fight Starlight's own layout, and the docs need none
+   of its page compositions.
    ============================================================ */
+@import '../vendor/press/design-system/fonts-web.css';
+@import '../vendor/press/design-system/tokens.css';
 
-/* Font + accent overrides — apply to BOTH light and dark themes */
-:root {
-  --sl-font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  --sl-font-mono: 'JetBrains Mono', 'Monaco', 'Menlo', monospace;
-  --sl-color-accent: #E85A1B;
-  --sl-color-text-accent: #E85A1B;
-}
-
-/* Dark theme — full Kindling brand palette */
+/* ===== Type and colour roles, both themes =====
+   The docs are light-only (see src/components/docs/ThemeSelect.astro), but
+   Starlight resolves some variables at :root before a theme attribute exists.
+   Mapping both keeps the first paint correct under a dark OS preference. */
+:root,
+:root[data-theme='light'],
 :root[data-theme='dark'] {
-  --sl-color-accent-low: #2a1508;
-  --sl-color-accent-high: #f5c4a8;
-  --sl-color-bg: #0F0F0F;
-  --sl-color-bg-nav: #1A1817;
-  --sl-color-bg-sidebar: #1A1817;
-  --sl-color-text: #F5F2EF;
+  --sl-font: var(--font-ui);
+  --sl-font-mono: var(--font-mono);
+
+  /* Surfaces: one sheet of paper, separated by hairlines rather than fills. */
+  --sl-color-bg: var(--color-bg);
+  --sl-color-bg-nav: var(--color-bg);
+  --sl-color-bg-sidebar: var(--color-bg);
+  --sl-color-bg-accent: var(--color-accent-wash);
+  --sl-color-bg-inline-code: var(--color-surface-sunken);
+  --sl-color-backdrop-overlay: var(--color-overlay-scrim);
+
+  /* Ink. --sl-color-text-accent drives links, active nav and anchor marks, so
+     it takes the small-text accent that clears AA — never the fill accent. */
+  --sl-color-text: var(--color-text);
+  --sl-color-text-accent: var(--color-accent-text);
+  --sl-color-text-invert: var(--color-on-accent);
+  --sl-color-accent: var(--color-accent);
+  --sl-color-accent-low: var(--color-accent-wash);
+  --sl-color-accent-high: var(--color-accent-text);
+  --sl-color-white: var(--color-text);
+  --sl-color-black: var(--color-bg);
+
+  /* Starlight's grey ramp runs 1 (nearest the text colour) to 7 (nearest the
+     background). Press has two ink roles and three paper roles, so the ramp
+     is mapped onto them rather than interpolated into new values. */
+  --sl-color-gray-1: var(--color-text);
+  --sl-color-gray-2: var(--color-text-muted);
+  --sl-color-gray-3: var(--color-text-muted);
+  --sl-color-gray-4: var(--color-border);
+  --sl-color-gray-5: var(--color-border);
+  --sl-color-gray-6: var(--color-surface);
+  --sl-color-gray-7: var(--color-surface-sunken);
+
+  --sl-color-hairline: var(--color-border);
+  --sl-color-hairline-light: var(--color-border);
+  --sl-color-hairline-shade: var(--color-border);
+  --sl-color-details-border: var(--color-border);
+  --sl-details-border-color: var(--color-border);
+  --sl-details-border-color--hover: var(--color-accent-text);
+
+  /* Asides. Starlight colours note/tip/caution/danger from these four ramps;
+     Press has one semantic colour and one wash per status. */
+  --sl-color-asides-text-accent: var(--color-accent-text);
+  --sl-color-asides-border: var(--color-border);
+  --sl-color-blue: var(--color-info);
+  --sl-color-blue-high: var(--color-info);
+  --sl-color-blue-low: var(--color-info-wash);
+  --sl-color-green: var(--color-success);
+  --sl-color-green-high: var(--color-success);
+  --sl-color-green-low: var(--color-success-wash);
+  --sl-color-orange: var(--color-warning);
+  --sl-color-orange-high: var(--color-warning);
+  --sl-color-orange-low: var(--color-warning-wash);
+  --sl-color-purple: var(--color-accent-text);
+  --sl-color-purple-high: var(--color-accent-text);
+  --sl-color-purple-low: var(--color-accent-wash);
+  --sl-color-red: var(--color-error);
+  --sl-color-red-high: var(--color-error);
+  --sl-color-red-low: var(--color-error-wash);
+  --sl-color-banner-text: var(--color-text);
 }
 
-/* Light theme — Starlight's default backgrounds/text, brand-adapted accent */
-:root[data-theme='light'] {
-  --sl-color-accent-low: #fde8d9;
-  --sl-color-accent-high: #7d2e0a;
+/* ===== Type roles =====
+   Read with Newsreader, operate with Inter, title with Fraunces. This replaces
+   a blanket `h1,h2,h3,h4,h5,h6,summary,.group-label { Fraunces }` rule, which
+   put a display serif on every operated disclosure and sidebar group label —
+   controls, not editorial headings. */
+
+/* Editorial headings: the page title and the headings inside prose. */
+.content-panel h1,
+.sl-markdown-content :is(h1, h2, h3, h4, h5, h6) {
+  font-family: var(--font-display);
+  font-optical-sizing: auto;
+  letter-spacing: var(--tracking-tight);
 }
 
-/* Space Grotesk for all headings — page title, content, sidebar groups */
-h1, h2, h3, h4, h5, h6,
-summary,
-.group-label {
-  font-family: 'Space Grotesk', var(--sl-font);
+/* Reading prose, at the application's manuscript size. */
+.sl-markdown-content :is(p, li, blockquote, dd) {
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  line-height: var(--leading-relaxed);
+}
+
+/* Operated chrome stays Inter, including where it is nested inside prose:
+   a summary is a control, and a table heading labels a column. */
+.sl-markdown-content :is(summary, th, figcaption, label, button, input, select),
+.sl-markdown-content :is(summary, label) :is(p, li),
+.sidebar-content .group-label,
+.sidebar-content a,
+starlight-toc,
+site-search {
+  font-family: var(--font-ui);
+}
+
+.sl-markdown-content :is(summary, th, figcaption) {
+  font-size: var(--text-ui);
+  line-height: var(--leading);
+}
+
+/* Code keeps the mono role in prose and in operated chrome alike. */
+.sl-markdown-content :is(code, kbd, pre) {
+  font-family: var(--font-mono);
+}
+
+/* Standalone controls reach the target contract. Starlight sizes its sidebar
+   group disclosures and its search launcher from their labels, which lands
+   them at 29px and 40px. Inline prose links stay exempt. */
+.sl-markdown-content summary,
+.sidebar-content summary,
+.sidebar-content summary > *,
+site-search button {
+  min-block-size: var(--control-target);
+  display: flex;
+  align-items: center;
+}
+
+/* Screenshots keep their full frame. The docs figures are interface captures;
+   a height cap or a cover crop would remove the controls they exist to show. */
+.sl-markdown-content img {
+  height: auto;
+  max-inline-size: 100%;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-m);
+  background: var(--color-surface);
+}
+
+/* The masthead signature is the brand name, not a link: ink and the display
+   face, like the wordmark on the marketing header. Starlight colours it with
+   --sl-color-text-accent, which put a 24px terracotta word in the corner of
+   every docs page and spent the editorial accent budget before the content
+   got a moment. The current-page item in the sidebar keeps the fill — that is
+   the same selected-navigation treatment `.ka-tree-selected` uses in the app. */
+.site-title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: var(--tracking-tight);
+  color: var(--color-text);
 }

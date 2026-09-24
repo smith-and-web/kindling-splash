@@ -1,0 +1,455 @@
+/* kindling Press website layer, v0.2.0. Opt in after fonts.css and tokens.css.
+   .press-web is a light-theme boundary. No canonical tokens are changed outside it. */
+.press-web {
+  --color-bg: var(--paper); --color-surface: var(--raised); --color-surface-sunken: var(--sunken);
+  --color-text: var(--ink); --color-text-muted: var(--ink-2);
+  --color-accent: var(--terracotta); --color-accent-text: var(--accent-text);
+  --color-on-accent: var(--raised); --color-border: var(--hair);
+  --color-error: var(--red); --color-success: var(--green); --color-info: var(--blue);
+  --pw-body: var(--font-ui); --pw-reading: var(--font-body);
+  --pw-line: 1px solid var(--color-border); --pw-control-line: 1px solid var(--color-text-muted);
+  /* `--pw-section` was --space-2xl (60px) through 0.11.0, while DESIGN.md asks
+     for "the existing 80px editorial bands and 120–140px opening space". The
+     layer contradicted the document it implements, and every consumer reset it
+     by hand. `--pw-opening` is new: a page's first section carries more air
+     than the ones after it, and there was no way to say so. */
+  --pw-gutter: var(--space-l); --pw-gap: var(--space-m);
+  --pw-section: var(--space-3xl); --pw-opening: var(--space-4xl);
+  --pw-title: clamp(2rem, 5cqi, 3rem); --pw-feature: clamp(1.5rem, 3cqi, 2rem);
+  --pw-label: var(--text-eyebrow); --pw-small: var(--text-small);
+  --pw-touch: var(--control-target); --pw-reading-size: var(--text-body-lg);
+  --pw-radius: var(--radius-xs); --pw-form-width: 32rem;
+  --pw-brand-width: 112px; --pw-wordmark-width: 88px;
+  container: press-website / inline-size;
+  color-scheme: light; color: var(--color-text); background: var(--color-bg);
+  font: var(--text-base)/var(--leading) var(--pw-body);
+  text-align: left; isolation: isolate; min-width: 0;
+}
+.press-web *, .press-web *::before, .press-web *::after { box-sizing: border-box; }
+.press-web :where(h1,h2,h3,h4,p,figure,blockquote,ul,ol,fieldset) { margin: 0; }
+/* The website's element defaults stop at an application surface nested in
+   it. Through 0.12.0 they did not: `.press-web h3` and `.press-app h3` tie at
+   (0,1,1), and this file loads after application.css, so a `.press-app`
+   inside `.press-web` silently took website type — its h3 measured 24px
+   against 32px, a `.ka-manuscript` heading 24px against 48px, h3/h4 lost the
+   application's 550 weight and line height, and application paragraphs were
+   capped at 65ch. A wrapper class could not fix that; ownership had to move.
+   The guard is inside `:where()`, so every rule keeps its 0.12.0 specificity
+   and no consumer override changes weight. It excludes only an application
+   *inside* a website (`.press-web .press-app *`), so a website specimen
+   nested in an application — the reverse — keeps website type. The margin
+   reset above and the code/link/control defaults below agree with the
+   application's own and are left to reach it. */
+.press-web :where(h1,h2,h3,h4):where(:not(.press-web .press-app *)) { font-family: var(--font-display); line-height: var(--leading-tight); font-weight: 500; color: var(--color-text); letter-spacing: var(--tracking-tight); }
+.press-web :where(h1,h2):where(:not(.press-web .press-app *)) { font-size: var(--pw-title); }
+.press-web h3:where(:not(.press-web .press-app *)) { font-size: var(--pw-feature); }
+.press-web h4:where(:not(.press-web .press-app *)) { font-size: var(--text-h3); }
+.press-web p:where(:not(.press-web .press-app *)) { max-width: 65ch; overflow-wrap: break-word; }
+.press-web :where(a,button,input,select,summary) { -webkit-tap-highlight-color: transparent; }
+.press-web a { color: var(--color-accent-text); text-underline-offset: 4px; }
+.press-web :where(a,button,input,select,summary):focus-visible { outline: 2px solid var(--color-accent-text); outline-offset: 3px; box-shadow: none; }
+.press-web :where(button,summary) { cursor: pointer; }
+.press-web button { font-family: var(--pw-body); }
+.press-web img { display: block; max-width: 100%; height: auto; }
+/* Code inside website copy. Without this a <code> in a feature paragraph falls
+   back to the UA's generic monospace rather than the system's mono role. */
+.press-web :where(code,kbd,samp,pre) { font-family: var(--font-mono); font-size: 0.9375em; }
+.press-web [hidden] { display: none !important; }
+.press-web :where(.pw-row,.pw-stack,.pw-grid,.pw-nav,.pw-section-head,.pw-hero-grid,.pw-writing,.pw-feature-grid,.pw-release-grid,.pw-closing) > * { min-width: 0; }
+.press-web .pw-stack { display: grid; gap: var(--pw-gap); }
+.press-web .pw-row { display: flex; align-items: center; flex-wrap: wrap; gap: var(--space-s); }
+.press-web .pw-label { display: block; font: 500 var(--pw-label)/var(--leading) var(--pw-body); letter-spacing: var(--tracking-eyebrow); text-transform: uppercase; color: var(--color-text-muted); }
+.press-web .pw-note { font: var(--pw-small)/var(--leading) var(--pw-body); color: var(--color-text-muted); }
+.press-web .pw-pad { padding: var(--pw-gutter); }
+.press-web .pw-heading { max-width: 22ch; text-wrap: balance; }
+.press-web .pw-prose { font-family: var(--pw-reading); font-size: var(--pw-reading-size); max-width: var(--measure); line-height: var(--leading-relaxed); }
+.press-web .pw-link { display: inline-flex; align-items: center; gap: var(--space-2xs); min-height: var(--pw-touch); font-weight: 500; }
+/* `break-word`, not `anywhere`. Both wrap a label that cannot fit, but
+   `anywhere` also counts as a break opportunity when the browser computes
+   min-content width — so a button in a grid track sized from its content
+   collapses and splits its label mid-word ("ma / cO / S"). Found on a real
+   consumer's three-platform download card. `break-word` wraps only when it
+   has to and leaves intrinsic sizing alone. */
+/* `.pw-button` is the prominent marketing call to action, and it is the ONLY
+   control this layer styles. Operational controls on a website — a feedback
+   dialog's submit, a form field, a copy/share action, a toggle — are the same
+   role a writer meets inside the application, so they use `.ka-button`,
+   `.ka-field` and the rest of `application.css`. One implementation per role.
+
+   The CTA is a documented larger size of that same family, and nothing else:
+   same Inter label, same 4px radius, same accent-text fill, same inset-ring
+   hover, same disabled tokens, same 44px target. It steps up to 16px type and
+   12/24px padding because a hero action carries a page, where an operational
+   control sits in a dense group. Before 0.10.0 it also differed in fill
+   (--color-accent), hover (a colour swap) and disabled colours; that read as
+   two different button systems on the two surfaces. */
+.press-web .pw-button { display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2xs); min-height: var(--pw-touch); width: fit-content; padding: var(--space-xs) var(--space-m); border: 1px solid transparent; border-radius: var(--pw-radius); font: 500 var(--text-base)/var(--leading) var(--pw-body); color: var(--color-on-accent); background: var(--color-accent-text); text-decoration: none; white-space: normal; overflow-wrap: break-word; max-width: 100%; text-align: center; cursor: pointer; transition: transform var(--transition-fast); }
+.press-web .pw-button--secondary { background: var(--color-surface-sunken); color: var(--color-text); border-color: var(--color-border); }
+.press-web .pw-button--ghost { background: transparent; color: var(--color-text); border-color: transparent; }
+/* A platform glyph or arrow beside the label. An inline <svg> with only a
+   viewBox has no intrinsic size inside a flex container and collapses to
+   nothing; `.download-btn svg` in the foundation has always sized it, and this
+   layer did not. `.pw-icon` is for the 16px outline set and sets stroke/fill,
+   so it is not a substitute for a filled brand glyph. */
+.press-web .pw-button svg { width: 18px; height: 18px; flex: none; }
+.press-web .pw-button:active:not(:disabled) { transform: scale(.98); }
+.press-web .pw-button:disabled,.press-web .pw-button[aria-disabled="true"] { background: var(--color-disabled-bg); color: var(--color-disabled-text); border-color: var(--color-disabled-border); cursor: not-allowed; opacity: 1; }
+.press-web .pw-icon { display: block; flex: none; width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1; stroke-linecap: round; stroke-linejoin: round; }
+/* 00. Page scaffolding. The website layer has no equivalent of components.css's
+   `.editorial`, so a website-only consumer had to hand-write a frame. */
+.press-web .pw-frame { width: min(var(--page-frame), 100% - var(--pw-gutter) * 2); margin-inline: auto; }
+/* A full-bleed band. The surface and hairlines belong to the band; a component
+   placed inside drops its own so the two do not double up. */
+.press-web .pw-band { background: var(--color-surface); border-block: var(--pw-line); }
+/* A sunken band. Alternating paper and sunken planes down a long page is how
+   DESIGN.md's "asymmetric columns, hairlines and whitespace" reads at section
+   scale — sections become planes rather than an undivided scroll of copy.
+   Every consumer was writing `background: var(--color-surface-sunken)` by hand
+   on a page-local class. The band owns its own vertical rhythm here, because a
+   full-bleed plane with no block padding is just a coloured rule. */
+.press-web .pw-band--sunken { background: var(--color-surface-sunken); border-block: 0; padding-block: var(--pw-section); }
+.press-web .pw-band > .pw-trust { border: 0; background: transparent; padding-inline: 0; }
+/* A real site masthead. `.pw-nav` alone is a standalone specimen: it carries its
+   own gutter and bottom rule, which fight a sticky full-bleed header. */
+.press-web .pw-header { position: sticky; top: 0; z-index: var(--z-sticky); background: var(--color-bg); border-bottom: var(--pw-line); }
+.press-web .pw-header > .pw-nav { border-bottom: 0; padding-inline: 0; }
+/* ONE CONTENT EDGE. `.pw-hero`, `.pw-closing` and `.pw-footer` each carry their
+   own `padding-inline`, which is right when they sit full-bleed and wrong the
+   moment a consumer also gives them `.pw-frame` to hold them to the page width
+   — their content then starts one gutter right of the masthead, the section
+   labels and every other framed region. `.pw-header > .pw-nav` has always
+   solved this for the nav; these three had to be corrected by hand.
+
+   It hides at wide widths: `.pw-frame` caps at `--page-frame`, so both paths
+   land on the same offset and only separate once the percentage term binds —
+   below roughly 1184px. A consumer checking its layout at 1440 alone will not
+   see it. Found by kindling-splash building a home page at five widths.
+
+   Both compositions count. A consumer either puts `.pw-frame` ON the component
+   (`<section class="pw-hero pw-frame">`) or nests one INSIDE it, which is what
+   a full-bleed footer with a held-in content row looks like:
+   `<footer class="pw-footer"><div class="pw-frame">`. The second is not a
+   variant to be tolerated — it is the only way to get a full-bleed rule above
+   content that lines up with the page — and it double-gutters exactly the
+   same way. */
+.press-web :is(.pw-hero, .pw-closing, .pw-footer).pw-frame,
+.press-web :is(.pw-hero, .pw-closing, .pw-footer):has(> .pw-frame) { padding-inline: 0; }
+
+/* 01. Navigation: the menu expands in flow, so nothing covers page content. */
+.press-web .pw-nav { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: var(--space-s); padding: var(--space-s) var(--pw-gutter); border-bottom: var(--pw-line); }
+.press-web .pw-brand { display: inline-flex; align-items: center; min-height: var(--pw-touch); width: var(--pw-brand-width); flex: none; }
+.press-web .pw-brand img { width: 100%; }
+.press-web .pw-nav-links { display: flex; align-items: center; flex-wrap: wrap; gap: var(--space-s); }
+.press-web .pw-nav-links a:not(.pw-button) { display: inline-flex; align-items: center; min-height: var(--pw-touch); font-size: var(--pw-small); color: var(--color-text); text-decoration: none; }
+.press-web .pw-nav-links a[aria-current="page"] { text-decoration: underline; text-decoration-thickness: 2px; }
+.press-web .pw-menu { display: none; min-height: var(--pw-touch); padding: var(--space-2xs) var(--space-s); border: var(--pw-control-line); border-radius: var(--pw-radius); color: var(--color-text); background: transparent; font-size: var(--text-base); }
+/* 02. Hero: one dominant heading and one primary action. */
+.press-web .pw-hero { padding: var(--pw-opening) var(--pw-gutter) var(--pw-section); }
+.press-web .pw-hero > .pw-label { margin-bottom: var(--space-m); }
+/* The split is a variable, not a literal. 1.25fr/1fr is a good default for a
+   hero standing on its own, and wrong whenever the hero sits above a composition
+   with its own columns — a `.pw-writing` specimen, a two-column band — because
+   the hero's narrow track then lands a few dozen pixels off that composition's
+   divider and the page grows a second, nearly-aligned vertical. Aligning them
+   lets one line run the height of the page. Consumers were restating the
+   responsive rules to do it; the narrow-width stacking below sets
+   `grid-template-columns` directly, so it still wins over any value set here. */
+.press-web .pw-hero-grid { display: grid; grid-template-columns: var(--pw-hero-columns, 1.25fr 1fr); gap: var(--pw-hero-gap, var(--space-xl)); align-items: end; }
+/* `end` is right when both tracks are short — a headline beside an action
+   stack, meeting on a baseline. It is wrong as soon as the wide track carries a
+   headline AND its stand-first AND the action: the whole composition is pushed
+   to the bottom of the hero and opens with a void. Opt in to top alignment
+   rather than changing the default under existing consumers.
+
+   The narrow track is ancillary matter — a version, a short fact list, a
+   secondary link. It is NOT where the sentence explaining the product goes:
+   top-aligned against a bottom-aligned headline, that sentence shares no edge
+   with anything and reads as a caption on the button. */
+.press-web .pw-hero-grid--top { align-items: start; }
+/* The headline measure is a variable, not a literal: 15ch suits a five-word
+   hero and forces a two-word orphan line out of a longer one. Consumers were
+   overriding `max-width` on the class itself to fix that, which is a local
+   design-system edit. Set `--pw-hero-measure` instead. */
+.press-web .pw-hero-title { font-size: var(--text-hero); line-height: 1.06; letter-spacing: var(--tracking-tight); max-width: var(--pw-hero-measure, 15ch); }
+/* The accent clause is the hero's one deliberate colour moment, and a line
+   break through the middle of it reads as an accident rather than emphasis.
+   Held at every width: at the narrow step `.pw-hero-title` drops to
+   `--text-h1`, whose 32px floor puts a three-word clause well inside even a
+   320px viewport's column. */
+.press-web .pw-hero-title em { font-style: normal; color: var(--color-accent-text); white-space: nowrap; }
+.press-web .pw-hero-grid .pw-stack { --pw-gap: var(--space-s); }
+/* 03. Interactive story sample. */
+.press-web .pw-writing { display: grid; grid-template-columns: minmax(0,2fr) minmax(0,1fr); background: var(--color-surface); border: var(--pw-line); }
+.press-web .pw-scene { padding: var(--pw-gutter); }
+.press-web .pw-scene > .pw-label { margin-bottom: var(--space-2xs); }
+.press-web .pw-scene h3 { margin-bottom: var(--space-m); }
+.press-web .pw-beats { border: 0; min-width: 0; padding: 0; margin-top: var(--space-m); }
+.press-web .pw-beats legend { display: block; width: 100%; padding: 0 0 var(--space-xs); }
+.press-web .pw-beat { border-top: var(--pw-line); }
+.press-web .pw-beat-choice { display: flex; gap: var(--space-xs); align-items: baseline; padding: var(--space-s) 0; font-size: var(--text-base); font-weight: 500; min-height: var(--pw-touch); cursor: pointer; }
+.press-web .pw-beat-choice input { display: inline-block; flex: none; margin: 0; width: 16px; min-height: 0; height: 16px; accent-color: var(--color-accent); }
+.press-web .pw-beat-choice span { display: block; }
+.press-web .pw-beat:has(input:checked) .pw-beat-choice { color: var(--color-accent-text); }
+.press-web .pw-draft { padding: 0 0 var(--space-m) var(--space-m); }
+.press-web .pw-draft p + p { margin-top: var(--space-s); }
+/* App-fidelity writing sample. The default demo is an editorial specimen and
+   reads at `--text-body-lg` on the website's raised surface. Add
+   `.pw-writing--app` when the sample is claiming to show the writing workspace:
+   the scene column becomes the manuscript a writer actually sees — the paper
+   and ink of `--color-prose-*`, `--text-body` (17px) at `--leading-relaxed`,
+   held to `--measure`. Those are NovelEditor's own values, not a website
+   approximation of them. Beat labels and metadata stay Inter, as in the app. */
+.press-web .pw-writing--app { --pw-reading-size: var(--text-body); }
+.press-web .pw-writing--app .pw-scene { background: var(--color-prose-bg); color: var(--color-prose-text); }
+.press-web .pw-writing--app .pw-draft { font-family: var(--pw-reading); font-size: var(--text-body); line-height: var(--leading-relaxed); max-width: var(--measure); color: var(--color-prose-text); }
+/* The container cap is not enough: `.press-web p` caps paragraphs at 65ch,
+   which at 17px Newsreader is ~617px and wider than --measure. */
+.press-web .pw-writing--app .pw-draft p { max-width: var(--measure); }
+/* The editor indents paragraphs rather than spacing them (NovelEditor's
+   --kp-line-indent); a sample claiming to be the workspace does the same. */
+.press-web .pw-writing--app .pw-draft p + p { margin-top: 0; text-indent: 1.5em; }
+.press-web .pw-writing--app .pw-references { background: var(--color-surface); }
+.press-web .pw-references { border-left: var(--pw-line); padding: var(--pw-gutter); background: var(--color-bg); }
+.press-web .pw-references h4 { margin-bottom: var(--space-2xs); }
+.press-web .pw-reference { border-top: var(--pw-line); padding-top: var(--space-m); margin-top: var(--space-m); }
+.press-web .pw-reference h4 { margin-top: var(--space-2xs); }
+.press-web .pw-reference p { font-size: var(--pw-small); }
+/* 04–05. Trust strip and editorial section heading. */
+.press-web .pw-trust { list-style: none; display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: var(--space-m); padding: var(--space-m) var(--pw-gutter); border-block: var(--pw-line); background: var(--color-surface); }
+.press-web .pw-trust li { display: block; text-align: center; font-size: var(--pw-small); text-wrap: balance; }
+/* Left-aligned variant. Centring is the only thing on a Press website page that
+   centres, and DESIGN.md's layout section says to "avoid repeated centered
+   marketing bands" while its composition table asks the product website for
+   "aligned section labels". Four centred fragments at the fold is the pattern
+   the contract warns about, so a consumer wanting the strip to share the page's
+   left edge had to override the component. */
+.press-web .pw-trust--inline li { text-align: left; }
+/* The running section label sits in the narrow track and the heading block in
+   the wide one — placed explicitly, not by source order. With implicit
+   placement a head written without a label put its <h2> in the 1fr track,
+   where a three-word title wraps to three lines while the standfirst beside it
+   keeps the full 2fr. That is a silent degradation, and every consumer hit it:
+   the label is optional furniture, the alignment is the device. */
+/* `margin-bottom` is the component's, not the page's: a section head is always
+   followed by the section it heads, so every consumer was adding the same rule
+   by hand. */
+.press-web .pw-section-head { display: grid; grid-template-columns: 1fr 2fr; gap: var(--space-l); align-items: start; margin-bottom: var(--space-l); }
+.press-web .pw-section-head > * { grid-column: 2; }
+.press-web .pw-section-head > .pw-label { grid-column: 1; grid-row: 1; margin-top: 0; }
+.press-web .pw-section-head p { margin-top: var(--space-m); }
+.press-web .pw-quote { font: 500 var(--pw-feature)/1.4 var(--font-display); border-top: var(--pw-line); padding-top: var(--space-m); margin-top: var(--space-l); max-width: 32ch; }
+/* 06. Feature sequence: full-width alternating rows, never a tile matrix.
+   DESIGN_GUIDE.md "Sequence, not grid" is a hard rule — a grid of equal feature
+   tiles produces ragged heights and dead space beside a text-only entry. Each
+   row is one spread divided from the next by a hairline, carrying a print folio.
+   This mirrors components.css `.feature-seq`; the two must not diverge. */
+.press-web .pw-feature-grid { counter-reset: pw-folio; }
+.press-web .pw-feature {
+  counter-increment: pw-folio; position: relative;
+  display: grid; grid-template-columns: repeat(2,minmax(0,1fr));
+  gap: var(--space-2xl);
+  /* Centred, not top-aligned: prose is usually far shorter than the figure
+     beside it, and top-aligning leaves a void under the text. */
+  align-items: center;
+  padding-top: var(--space-3xl); margin-top: var(--space-3xl);
+  border-top: var(--pw-line);
+}
+.press-web .pw-feature::before {
+  content: counter(pw-folio, decimal-leading-zero);
+  position: absolute; top: var(--space-2xs); left: 0;
+  font: 600 var(--pw-small)/1 var(--pw-body);
+  letter-spacing: var(--tracking-eyebrow); color: var(--color-text-muted);
+}
+/* Room for the "01" folio, but no dividing hairline above the first row. */
+.press-web .pw-feature-grid > :first-child { border-top: 0; margin-top: 0; padding-top: var(--space-l); }
+.press-web .pw-feature--reverse > figure { order: 1; }
+.press-web .pw-feature > * { min-width: 0; }
+.press-web .pw-feature h3 { font-size: var(--pw-feature); }
+/* Vertical rhythm inside a row's prose track. Every element in this layer
+   starts at margin 0, which is right for a composition class and wrong for a
+   run of copy: the label, heading, problem and answer ran together as one
+   block. Found by a consumer (kindling-splash) building real feature rows. */
+.press-web .pw-feature > * > .pw-label { margin-bottom: var(--space-2xs); }
+.press-web .pw-feature :is(h3,h4,.pw-feature-title) { margin-bottom: var(--space-2xs); }
+.press-web .pw-feature p + p { margin-top: var(--space-s); }
+.press-web .pw-feature .pw-problem { font-weight: 600; }
+.press-web .pw-feature figure { margin: 0; }
+/* Mounted print (DESIGN_GUIDE named device): a raised-surface mat, a hairline
+   ring and --shadow-md, so a screenshot reads as a print on board rather than
+   an image flush to the page. One of the three places shadow is licensed. */
+.press-web .pw-feature img {
+  display: block; width: 100%; height: auto; max-height: 440px;
+  object-fit: cover; object-position: top center;
+  border: 10px solid var(--color-surface); border-radius: var(--radius-l);
+  box-shadow: 0 0 0 1px var(--color-border), var(--shadow-md);
+}
+.press-web .pw-image-link { display: block; }
+/* Optional full-frame media. Opt in with .pw-image-frame when the whole image
+   must stay visible (a catalog specimen, a diagram). It letterboxes rather than
+   crops, so it is NOT the default product-figure treatment — that is the
+   mounted print above, whose `cover` crop the consumer's capture ratios assume. */
+.press-web .pw-feature-grid,.press-web .pw-image-frame { --pw-reference-ratio: 4 / 3; }
+.press-web .pw-image-frame { display: flex; align-items: center; justify-content: center; width: 100%; aspect-ratio: var(--pw-reference-ratio); padding: var(--space-s); border: var(--pw-line); border-radius: var(--pw-radius); background: var(--color-surface-sunken); }
+/* The contained treatment belongs to the frame, not to the row that happens to
+   hold it. Scoped to `.pw-feature` it silently did nothing anywhere else — a
+   consumer putting a full-frame specimen in a page hero or a docs figure got
+   the frame's mat and ratio with an unconstrained image inside it. It still
+   outranks `.pw-feature img` on source order, so the mounted print's mat, ring
+   and lift are reset exactly as before when the two are combined. */
+.press-web .pw-image-frame img { display: block; width: 100%; height: 100%; min-height: 0; max-width: 100%; max-height: none; object-fit: contain; border: 0; border-radius: 0; box-shadow: none; }
+/* A captioned specimen. The layer framed a capture but named no caption role,
+   so a `<figcaption>` fell through to the UA — and two consumers in a row hand
+   rolled the same treatment. Newsreader rather than Inter: a caption is read,
+   not operated, and it is the one piece of website copy that is unambiguously
+   editorial. Held to `--measure` so it does not run the full width of the
+   figure above it. A caption describes; it does not instruct — an imperative
+   ("Choose a beat to see…") labels a specimen as a toy to operate rather than
+   as evidence of the product. */
+.press-web .pw-figure { margin: 0; }
+.press-web .pw-figure > figcaption, .press-web .pw-caption { display: block; max-width: var(--measure); margin-top: var(--space-s); font: var(--pw-small)/var(--leading) var(--pw-reading); color: var(--color-text-muted); }
+
+/* 07. Release notes: actions follow a consistent reading edge. */
+.press-web .pw-release-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 0 var(--space-l); }
+.press-web .pw-release-item { display: flex; flex-direction: column; align-items: start; gap: var(--space-s); padding-block: var(--space-m); border-top: var(--pw-line); }
+.press-web .pw-release-item h3 { font-size: var(--text-h3); }
+.press-web .pw-release-item .pw-link { margin-top: auto; }
+/* 08. Platform selector: selection is explicit, not inferred from a user agent. */
+.press-web .pw-platforms { margin: 0; padding: 0; border: 0; min-width: 0; }
+.press-web .pw-platforms legend { padding: 0; margin-bottom: var(--space-s); font-weight: 500; }
+/* The choice itself is `.ka-segment-track` / `.ka-segment` from
+   `application.css`. This layer styles one control, `.pw-button`, and a
+   pick-one-of-three is not a marketing call to action — it is the same
+   decision a writer makes with the app's view toggle, so it is the same
+   control. The removed `.pw-platform-option` bordered each of three chips
+   with `--pw-control-line`; the segment puts one sunken track behind all
+   three, which reads as a single object with a position in it. What survives
+   here is the *pattern*: fieldset, legend, live result, explicit choice, no
+   silent detection. `website.js` is unaffected — it queries
+   `input[type="radio"][data-pw-platform-choice]`, never a class. */
+.press-web .pw-platform-result { display: grid; gap: var(--space-s); margin-top: var(--space-m); border-top: var(--pw-line); padding-top: var(--space-m); }
+/* 09. Signup example: strictly local until a consumer supplies submission logic. */
+.press-web .pw-signup { max-width: var(--pw-form-width); }
+.press-web .pw-signup label { display: block; margin-bottom: var(--space-2xs); font-size: var(--text-base); font-weight: 500; }
+.press-web .pw-form-row { display: flex; align-items: start; gap: var(--space-xs); }
+/* Field visuals follow `.ka-field` so a website form and an application field
+   read as the same control: sunken fill, 12px padding, 8px radius, a hover-
+   weight border. Real site forms should use `.ka-field` itself. */
+.press-web .pw-form-row input { display: block; min-width: 0; width: 100%; flex: 1; min-height: var(--pw-touch); padding: var(--space-xs); font: var(--text-base)/1.5 var(--pw-body); color: var(--color-text); background: var(--color-surface-sunken); border: 1px solid var(--color-control-border-hover); border-radius: var(--radius-m); }
+.press-web .pw-form-row input::placeholder { color: var(--color-text-muted); }
+.press-web .pw-signup .pw-note { margin-top: var(--space-xs); }
+.press-web .pw-error { display: block; color: var(--color-error); margin-top: var(--space-2xs); font-size: var(--pw-small); }
+.press-web .pw-signup [aria-invalid="true"] { border-color: var(--color-error); }
+.press-web .pw-form-status { min-height: 32px; margin-top: var(--space-xs); font-size: var(--pw-small); }
+/* 10. Numbered procedure: the feature sequence without the figure track.
+   `.pw-feature` is a prose/figure spread, so a four-step install procedure
+   either invents a figure for every step or leaves half of every row empty.
+   This is the same device — sequence not grid, a hairline between rows, a
+   print folio in the gutter — carrying prose alone. Its counter is its own,
+   so a page may run a feature sequence and a procedure without the two
+   sharing a number. */
+.press-web .pw-steps { --pw-folio: var(--space-xl); counter-reset: pw-step; list-style: none; margin: 0; padding: 0; }
+.press-web .pw-step { counter-increment: pw-step; display: grid; grid-template-columns: var(--pw-folio) minmax(0,1fr); gap: var(--space-m); padding-block: var(--space-m); border-top: var(--pw-line); }
+/* Room for the "01" folio, but no dividing hairline above the first step —
+   the same opening as `.pw-feature-grid > :first-child`. */
+.press-web .pw-steps > :first-child { border-top: 0; }
+.press-web .pw-step::before { content: counter(pw-step, decimal-leading-zero); font: 600 var(--pw-small)/var(--leading) var(--pw-body); letter-spacing: var(--tracking-eyebrow); color: var(--color-text-muted); }
+.press-web .pw-step h3 { font-size: var(--text-h3); margin-bottom: var(--space-3xs); }
+/* A step is an instruction the visitor has to follow, so it is reading
+   content: full ink at body size, held to the measure. Muted is for
+   `.pw-note`, which is an aside nobody has to act on. */
+.press-web .pw-step p { max-width: var(--measure); }
+/* 11. Released-artifact identity. "1.3.0" is not application status, so
+   `.ka-badge` reads wrong on paper: a status chip promises something that can
+   change while you are looking at it. This is a label on a published thing —
+   tabular figures, a hairline, raised paper, no fill and no accent, so it can
+   sit beside a heading without spending one of the section's two terracotta
+   moments. It is a label, not a control; the touch target contract does not
+   apply. `--pw-radius` (4px), not `--radius-pill`: a pill is the badge/tag
+   silhouette and would read as status again. */
+.press-web .pw-version { display: inline-flex; align-items: center; gap: var(--space-2xs); padding: var(--space-3xs) var(--space-2xs); border: var(--pw-line); border-radius: var(--pw-radius); font: 500 var(--pw-small)/var(--leading) var(--pw-body); font-variant-numeric: tabular-nums; color: var(--color-text); background: var(--color-surface); white-space: nowrap; }
+/* 12–14. Disclosures, final action and footer. */
+.press-web .pw-disclosure { border-top: var(--pw-line); }
+.press-web .pw-disclosure:last-child { border-bottom: var(--pw-line); }
+.press-web .pw-disclosure summary { display: flex; justify-content: space-between; align-items: baseline; gap: var(--space-m); list-style: none; padding: var(--space-s) 0; min-height: var(--pw-touch); font: 500 var(--text-base)/var(--leading) var(--pw-body); }
+.press-web .pw-disclosure summary::-webkit-details-marker { display: none; }
+.press-web .pw-disclosure summary::after { content: '+'; font: var(--text-h3)/1 var(--pw-body); }
+.press-web .pw-disclosure[open] summary::after { content: '−'; }
+.press-web .pw-disclosure > p { padding-bottom: var(--space-m); }
+.press-web .pw-closing { display: grid; grid-template-columns: 1.25fr 1fr; gap: var(--space-l); align-items: center; padding: var(--pw-section) var(--pw-gutter); border-top: var(--pw-line); }
+.press-web .pw-closing .pw-label { margin-bottom: var(--space-s); }
+.press-web .pw-closing-actions { display: grid; gap: var(--space-s); justify-items: start; }
+.press-web .pw-footer { padding: var(--space-l) var(--pw-gutter); border-top: var(--pw-line); }
+.press-web .pw-footer-top,.press-web .pw-footer-bottom { display: flex; justify-content: space-between; align-items: start; flex-wrap: wrap; gap: var(--space-m); }
+.press-web .pw-footer-links { display: flex; flex-wrap: wrap; gap: var(--space-s); }
+.press-web .pw-footer-links a { display: inline-flex; min-height: var(--pw-touch); align-items: center; color: var(--color-text); font-size: var(--pw-small); text-decoration: none; }
+/* Baseline, not start: the legal links are 44px targets with their label
+   centred, so start alignment set the notice beside them ~11px high. Baseline
+   lines the notice up with the first row of links and holds when they wrap. */
+.press-web .pw-footer-bottom { align-items: baseline; border-top: var(--pw-line); padding-top: var(--space-m); margin-top: var(--space-m); font-size: var(--pw-small); color: var(--color-text-muted); }
+@container press-website (max-width: 820px) {
+  .press-web .pw-nav[data-pw-ready] .pw-menu { display: inline-flex; align-items: center; }
+  .press-web .pw-nav[data-pw-ready] .pw-nav-links { display: none; flex-basis: 100%; }
+  .press-web .pw-nav[data-pw-ready][data-open] .pw-nav-links { display: flex; }
+  /* Four columns held down to 600, which at 768 is four 158px tracks: a
+     four-word fact sets as four lines beside one- and two-line neighbours.
+     Two columns from the same breakpoint the nav already collapses at. */
+  .press-web .pw-trust { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+/* Without container query support the rule above never matches, and the nav
+   stays expanded at every width. Repeat it against the viewport so the menu
+   still collapses. Scoped to `@supports not` so it cannot double-apply. */
+@supports not (container-type: inline-size) {
+  @media (max-width: 820px) {
+    .press-web .pw-nav[data-pw-ready] .pw-menu { display: inline-flex; align-items: center; }
+    .press-web .pw-nav[data-pw-ready] .pw-nav-links { display: none; flex-basis: 100%; }
+    .press-web .pw-nav[data-pw-ready][data-open] .pw-nav-links { display: flex; }
+  }
+}
+@container press-website (max-width: 600px) {
+  .press-web :is(.pw-hero-grid,.pw-section-head,.pw-writing,.pw-closing,.pw-release-grid) { grid-template-columns: minmax(0,1fr); gap: var(--space-m); }
+  .press-web .pw-section-head > *, .press-web .pw-section-head > .pw-label { grid-column: 1; grid-row: auto; }
+  /* Narrow step-down for the band rhythm. Set on the boundary so `.pw-band--sunken`
+     and any consumer reading these tokens step down with the components. */
+  .press-web { --pw-opening: var(--space-2xl); --pw-section: var(--space-xl); }
+  .press-web :is(.pw-pad,.pw-nav,.pw-scene,.pw-references,.pw-footer) { padding: var(--space-m); }
+  /* `.pw-hero` and `.pw-closing` take the narrow gutter but keep their block
+     rhythm from the tokens above. Folding them into the shorthand flattened a
+     hero's opening space to the same 24px as a nav's padding, which is why
+     every consumer re-stated it. */
+  .press-web :is(.pw-hero,.pw-closing) { padding-inline: var(--space-m); }
+  .press-web :is(.pw-hero,.pw-closing).pw-frame,
+  .press-web :is(.pw-hero,.pw-closing):has(> .pw-frame) { padding-inline: 0; }
+  .press-web .pw-hero-title { font-size: var(--text-h1); }
+  .press-web .pw-references { border-left: 0; border-top: var(--pw-line); }
+  .press-web .pw-trust { grid-template-columns: repeat(2,minmax(0,1fr)); padding: var(--space-m); }
+  .press-web .pw-trust li { text-align: left; }
+  .press-web .pw-feature { grid-template-columns: minmax(0,1fr); gap: var(--space-l); padding-top: var(--space-2xl); margin-top: var(--space-2xl); }
+  .press-web .pw-feature--reverse > figure { order: 0; }
+  .press-web .pw-feature figure { width: 100%; }
+  .press-web .pw-form-row { flex-direction: column; align-items: stretch; }
+  /* Reduce the gutter before the type, per DESIGN_GUIDE. A 64px folio indent
+     on a 278px column is a quarter of the reading width. */
+  .press-web .pw-steps { --pw-folio: var(--space-m); }
+  .press-web .pw-step { gap: var(--space-s); }
+}
+@media (max-width: 767px) {
+  .press-web .pw-feature--reverse > figure { order: 0; }
+  .press-web :is(.pw-hero-grid,.pw-section-head,.pw-writing,.pw-closing,.pw-release-grid) { grid-template-columns: minmax(0,1fr); }
+  .press-web .pw-section-head > *, .press-web .pw-section-head > .pw-label { grid-column: 1; grid-row: auto; }
+  .press-web .pw-feature { grid-template-columns: minmax(0,1fr); gap: var(--space-l); }
+  .press-web .pw-form-row { flex-wrap: wrap; }
+}
+@media (hover: hover) {
+  /* Same hover as .ka-button: an inset ring, so the foreground/background pair
+     a contrast check was run against survives the hover state. */
+  .press-web .pw-button:hover:not(:disabled) { box-shadow: inset 0 0 0 1px currentColor; }
+  .press-web .pw-button--ghost:hover:not(:disabled),.press-web .pw-menu:hover { background: var(--color-surface-sunken); color: var(--color-text); box-shadow: none; }
+  .press-web .pw-nav-links a:not(.pw-button):hover,.press-web .pw-footer-links a:hover { color: var(--color-text); text-decoration: underline; text-decoration-thickness: 2px; }
+  .press-web .pw-link:hover { color: var(--color-text); }
+  .press-web .pw-beat-choice:hover { text-decoration: underline; text-underline-offset: 4px; }
+}
+@media (prefers-reduced-motion: reduce) { .press-web *, .press-web *::before, .press-web *::after { transition: none !important; animation: none !important; scroll-behavior: auto !important; } }
+/* Heading classes decouple visual hierarchy from a consumer's semantic level. */
+.press-web .pw-section-title { font-size: var(--pw-title); }
+.press-web .pw-feature-title,.press-web .pw-scene-title { font-size: var(--pw-feature); }
+.press-web .pw-scene-title { margin-bottom: var(--space-m); }

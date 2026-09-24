@@ -1,9 +1,9 @@
 ---
 title: Sync & Reimport
-description: Keep source-backed Kindling projects in sync with their original Plottr, Markdown, yWriter, or Obsidian files.
+description: Keep source-backed kindling projects in sync with their original Plottr, Markdown, yWriter, Obsidian, or novelWriter source.
 ---
 
-Kindling can keep source-backed projects in sync with their original files while preserving the prose you've written in the app.
+kindling can keep source-backed projects in sync with their original files while preserving the prose you've written in the app.
 
 ## Sync vs. Reimport
 
@@ -11,9 +11,9 @@ Kindling can keep source-backed projects in sync with their original files while
 |--|---|---|
 | **How it works** | Compares your source file to the current project and lets you apply selected changes | Re-reads the source file and updates the outline structure in one pass |
 | **Control** | You choose which changes to apply | All outline changes are applied at once |
-| **Prose** | Preserved | Preserved |
+| **Prose** | Preserved unless you select a supported prose change | Preserved |
 
-Both options preserve existing prose written in Kindling.
+Outline changes preserve existing prose. novelWriter Sync also offers prose replacements that you review and select explicitly; they are unselected by default.
 
 ## Supported Sources
 
@@ -23,8 +23,9 @@ Sync and reimport are available for projects imported from:
 - Markdown (`.md`)
 - yWriter (`.yw7`)
 - Longform/Obsidian (Longform index file)
+- novelWriter (project folder)
 
-**Scrivener is not currently supported for sync/reimport.** If you've made changes to a `.scriv` bundle and want to bring them back into Kindling, use **Export → Scrivener → Update existing** — this merges your Kindling project back into the bundle with a match preview before any changes are written.
+**Scrivener is not currently supported for sync/reimport.** **Export → Scrivener → Update existing** sends kindling changes into the bundle, with a match preview before writing. To bring an edited Scrivener bundle into kindling, import it as a new project.
 
 ## Sync Preview Workflow
 
@@ -35,13 +36,15 @@ Use sync when your outline has changed in Plottr (or another tool) and you want 
 3. Review the list of additions and changes
 4. Select which changes to apply, then confirm
 
+<img src="/docs/sync-preview.png" alt="The Sync with outline dialog listing new items from the source, with per-item checkboxes before applying" width="628" height="788" loading="lazy" decoding="async" />
+
 ## Reimport Workflow
 
 Use reimport for a faster, all-at-once update:
 
 1. Open the project
 2. Choose **Reimport** from the project menu
-3. Kindling re-reads the source file and updates the outline
+3. kindling re-reads the source file and updates the outline
 4. Review the summary after completion
 
 ## What Sync Updates
@@ -52,15 +55,28 @@ Sync and reimport focus on outline structure:
 - Title and synopsis **updates**
 - Beat content **updates**
 
-Locked chapters or scenes are skipped during sync. Prose you've written inside Kindling is always preserved.
+Locked chapters or scenes are skipped during sync. Outline changes preserve your prose; selected novelWriter prose changes replace the corresponding local text.
 
 ## What Sync Does Not Change
 
-- Prose written in Kindling beats
+- Local prose, unless you explicitly accept a novelWriter prose replacement
 - Reference data (characters, locations, etc.) — reference enrichment is not re-run on sync
 - Locked scenes or chapters
 
 ---
+
+## novelWriter Prose Sync
+
+Open a project imported from novelWriter and choose **Sync**. Compare the full current and incoming prose, select the changes you want, then choose **Apply Sync**. Prose changes start unselected, and locked scenes and chapters are skipped.
+
+- With beat comments, Beat-mode prose can be reviewed per beat.
+- Without beat comments, or in Page mode, prose is reviewed as a whole-scene change.
+- Accepting a whole-scene change in Beat mode keeps the planning beats, puts the incoming text in the first beat, and clears prose from the remaining beats. It does not change the editor mode.
+- Locally created or split beats keep their own prose and are not assigned to incoming beat comments.
+
+Sync does not update reference notes, scene-reference links, or project metadata. Keep beat comments in their original order where possible and review matches carefully after inserting comments between existing ones.
+
+Sync reads source changes into kindling. Export to a new empty folder to take kindling changes back to novelWriter; exporting does not change an existing sync connection. See [novelWriter import and sync](/docs/importing-projects/#novelwriter-project-folder) for the complete workflow.
 
 ## Troubleshooting
 

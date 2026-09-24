@@ -1,0 +1,333 @@
+---
+/*
+ * The home page's writing demo: kindling's scene workspace as it looks today,
+ * holding the app's own sample project, and kept to what a visitor can take
+ * in at a glance — the outline, the scene column (title, synopsis, beats with
+ * their paper previews, a Beats/Page view switch), the linked references and
+ * the status strip. The editor toolbar, scene metadata, tags, suggestions,
+ * reference tabs and link/edit actions are left out.
+ *
+ * The project is src/data/sample-project.json, a verbatim copy of the app
+ * repository's qa/demo/seed.json (kindling 2a5c6a4) — the same sample the
+ * site's product screenshots are captured from, so the demo and the figures
+ * agree. It is a copy, not a link: re-copy it when the seed changes. Every
+ * word count below is computed from that text.
+ *
+ * Every piece is Press's application layer (0.13.0): `.ka-workspace` and its
+ * regions, `.ka-tree` (with radio rows), `.ka-scene-*`, `.ka-beat` with
+ * `.ka-beat-preview`, `.ka-manuscript`, `.ka-reference`, `.ka-segment`,
+ * `.ka-statusbar`. It sits inside the page's `.press-web` boundary, which
+ * only works because 0.13.0 stops the website's heading and paragraph
+ * defaults at a nested `.press-app`; if type regresses, fix it in ../press.
+ *
+ * No JavaScript is needed. Scenes are one native radio group in the tree;
+ * chapters, beats and references are native `<details>`; the view switch and
+ * the narrow region switcher are radio groups. src/scripts/writing-demo.ts
+ * layers on the tour and the motion — see its header — and nothing depends on
+ * it. The ids are load-bearing: analytics.js records `#sample-beat-N >
+ * summary` opens and `name="sample-scene"` changes, and scripts/check-launch.mjs
+ * drives both and the tour.
+ */
+import project from '../data/sample-project.json';
+
+type Ref = { key: string; name: string; description: string; attributes?: Record<string, string> };
+
+const plain = (html = '') => html.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+const wordsIn = (html = '') => (plain(html) ? plain(html).split(' ').length : 0);
+const count = (n: number) => `${n.toLocaleString('en')} ${n === 1 ? 'word' : 'words'}`;
+
+const references = new Map<string, Ref & { kind: 'character' | 'location' | 'item' }>();
+for (const r of project.characters as Ref[]) references.set(r.key, { ...r, kind: 'character' });
+for (const r of project.locations as Ref[]) references.set(r.key, { ...r, kind: 'location' });
+for (const r of project.referenceItems as Ref[]) references.set(r.key, { ...r, kind: 'item' });
+
+/* Beat ids number through the whole project, so On the Cliff keeps
+   sample-beat-1 to 3. */
+let beatNumber = 0;
+const chapters = project.chapters.map((chapter) => {
+  const scenes = chapter.scenes.map((scene) => {
+    const beats = scene.beats.map((beat: { content: string; prose?: string }, index: number) => ({
+      id: `sample-beat-${++beatNumber}`,
+      number: index + 1,
+      title: beat.content,
+      prose: beat.prose ?? '',
+      words: wordsIn(beat.prose),
+      preview: plain(beat.prose),
+    }));
+    const linked = [
+      ...(scene.characters ?? []), ...(scene.locations ?? []), ...((scene as { items?: string[] }).items ?? []),
+    ].map((key) => references.get(key)).filter((r): r is NonNullable<typeof r> => Boolean(r));
+    return { key: scene.key, title: scene.title, synopsis: scene.synopsis, beats, linked, words: beats.reduce((n, b) => n + b.words, 0) };
+  });
+  return { key: chapter.key, title: chapter.title, scenes, words: scenes.reduce((n, s) => n + s.words, 0) };
+});
+const projectWords = chapters.reduce((n, c) => n + c.words, 0);
+const firstScene = chapters[0].scenes[0].key;
+
+/* One rule per scene: whichever scene radio is checked, show the parts of the
+   workspace marked with its key — its column, its references, its counts.
+   Generated because CSS cannot match a radio's value to an attribute
+   generically. `display: contents` so each wrapper lays out as if absent. */
+const sceneCss = [
+  '#workspace [data-scene]{display:none}',
+  ...chapters.flatMap((c) => c.scenes).map((s) =>
+    `#workspace:has(input[name="sample-scene"][value="${s.key}"]:checked) [data-scene="${s.key}"]{display:contents}`),
+].join('\n');
+
+/* Lucide outline geometry, at the application's 1.75 stroke. */
+const icon = (paths: string, size = 20, extra = '') =>
+  `<svg class="ka-icon${extra}" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${paths}</svg>`;
+const chevronRight = icon('<path d="m9 18 6-6-6-6"/>', 20, ' ka-disclosure-icon');
+const chevronDown = icon('<path d="m6 9 6 6 6-6"/>', 16, ' ka-disclosure-icon');
+const pauseIcon = icon('<rect x="14" y="4" width="4" height="16" rx="1"/><rect x="6" y="4" width="4" height="16" rx="1"/>', 16);
+const listIcon = icon('<path d="M3 12h.01M3 18h.01M3 6h.01M8 12h13M8 18h13M8 6h13"/>', 16);
+const pageIcon = icon('<path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8M16 13H8M16 17H8"/>', 16);
+const kindIcon = {
+  character: icon('<circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 0 0-16 0"/>', 16),
+  location: icon('<path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/>', 16),
+  item: icon('<path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z"/><path d="M12 22V12M3.29 7 12 12l8.71-5"/>', 16),
+};
+---
+
+<figure class="pw-figure writing-demo" aria-labelledby="demo-caption">
+  <style is:inline set:html={sceneCss}></style>
+  <section class="press-app ka-workspace ka-workspace--embedded" id="workspace" aria-label="Sample writing workspace">
+    <div class="ka-workspace-panes">
+      <fieldset class="ka-segments">
+        <legend class="ka-sr">Workspace region</legend>
+        <div class="ka-segment-track">
+          <label class="ka-segment"><input type="radio" name="sample-workspace-region" value="outline" aria-controls="sample-outline" />Outline</label>
+          <label class="ka-segment"><input type="radio" name="sample-workspace-region" value="main" aria-controls="sample-scene" checked />Writing</label>
+          <label class="ka-segment"><input type="radio" name="sample-workspace-region" value="inspector" aria-controls="sample-references" />References</label>
+        </div>
+      </fieldset>
+    </div>
+
+    <div class="ka-workspace-grid">
+      <aside class="ka-workspace-outline" id="sample-outline" aria-label="Outline">
+        <header class="ka-workspace-bar"><h4>{project.project.name}</h4></header>
+        <div class="ka-workspace-body od-stack" tabindex="0">
+          <p class="ka-help">{projectWords.toLocaleString('en')} project words</p>
+          <nav class="ka-tree" aria-label="Project outline">
+            <ul class="ka-tree-list">
+              {chapters.map((chapter, index) => (
+                <li>
+                  <details open={index === 0}>
+                    <summary><Fragment set:html={chevronRight} /><span class="ka-tree-label">{chapter.title}</span><small>{count(chapter.words)}</small></summary>
+                    <ul class="ka-tree-list">
+                      {chapter.scenes.map((scene) => (
+                        <li>
+                          <label>
+                            <input type="radio" name="sample-scene" value={scene.key} checked={scene.key === firstScene} />
+                            <span class="ka-tree-label">{scene.title}</span><small>{count(scene.words)}</small>
+                          </label>
+                        </li>
+                      ))}
+                    </ul>
+                  </details>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        </div>
+      </aside>
+
+      <div class="ka-workspace-main" id="sample-scene">
+        <header class="ka-workspace-bar scene-bar">
+          <span class="ka-badge">Read-only sample</span>
+          <fieldset class="ka-segments">
+            <legend class="ka-sr">Scene view</legend>
+            <div class="ka-segment-track">
+              <label class="ka-segment"><input type="radio" name="sample-scene-view" value="beats" checked /><Fragment set:html={listIcon} />Beats</label>
+              <label class="ka-segment"><input type="radio" name="sample-scene-view" value="page" /><Fragment set:html={pageIcon} />Page</label>
+            </div>
+          </fieldset>
+        </header>
+        <div class="ka-workspace-body scene-body" tabindex="0" role="region" aria-label="Scene">
+          {chapters.map((chapter) => chapter.scenes.map((scene) => (
+            <div data-scene={scene.key}>
+              <div class="ka-scene-column">
+                <header class="ka-scene-header">
+                  <p>Chapter · {chapter.title}</p>
+                  <h3>{scene.title}</h3>
+                </header>
+
+                <section class="ka-scene-section">
+                  <header><h4>Synopsis</h4></header>
+                  <p class="ka-scene-synopsis">{scene.synopsis}</p>
+                </section>
+
+                <section class="ka-scene-section scene-beats">
+                  <header><h4>Beats</h4></header>
+                  <div class="od-stack beat-list">
+                    {scene.beats.map((beat) => (
+                      <details class="ka-beat" id={beat.id}>
+                        <summary>
+                          <Fragment set:html={chevronRight} />
+                          <span class="ka-beat-number">{beat.number}</span>
+                          <span class="ka-beat-title">{beat.title}</span>
+                          {beat.words > 0 && <span class="ka-beat-count">{count(beat.words)}</span>}
+                          {beat.preview && <span class="ka-beat-preview" aria-hidden="true"><span>{beat.preview}</span></span>}
+                        </summary>
+                        <div class="ka-beat-body">
+                          {beat.prose ? (
+                            <article class="ka-manuscript" aria-label={`Beat ${beat.number} draft`}>
+                              <div class="ka-manuscript-prose" set:html={beat.prose} />
+                            </article>
+                          ) : (
+                            <p class="ka-help">Not drafted yet.</p>
+                          )}
+                        </div>
+                      </details>
+                    ))}
+                  </div>
+                </section>
+
+                <!-- Page view: the scene as one continuous manuscript. -->
+                <section class="ka-scene-section scene-page" aria-label="Scene as a page">
+                  {scene.words > 0 ? (
+                    <article class="ka-manuscript">
+                      <div class="ka-manuscript-prose" set:html={scene.beats.map((b) => b.prose).join('')} />
+                    </article>
+                  ) : (
+                    <p class="ka-help">Nothing in this scene is drafted yet.</p>
+                  )}
+                </section>
+              </div>
+            </div>
+          )))}
+        </div>
+        <footer class="ka-statusbar">
+          {chapters.map((chapter) => chapter.scenes.map((scene) => (
+            <span data-scene={scene.key}>
+              <span>Scene: {count(scene.words)}</span>
+              <span class="status-wide">Chapter: {count(chapter.words)}</span>
+            </span>
+          )))}
+          <span class="status-wide">Project: {count(projectWords)}</span>
+          <span class="status-narrow">Read-only</span>
+        </footer>
+      </div>
+
+      <aside class="ka-workspace-inspector" id="sample-references" aria-label="References">
+        <header class="ka-workspace-bar"><h4>References</h4></header>
+        <div class="ka-workspace-body od-stack" tabindex="0">
+          <p class="ka-help">Linked to this scene</p>
+          {chapters.map((chapter) => chapter.scenes.map((scene) => (
+            <div data-scene={scene.key}>
+              <div class="od-stack reference-list">
+                {scene.linked.map((reference, index) => (
+                  <details class="ka-reference" open={index === 0}>
+                    <summary>
+                      <span class="ka-reference-avatar" aria-hidden="true"><Fragment set:html={kindIcon[reference.kind]} /></span>
+                      <span class="ka-reference-text">
+                        <span class="ka-reference-name">{reference.name}</span>
+                        <span class="ka-reference-description">{reference.description}</span>
+                      </span>
+                      <Fragment set:html={chevronDown} />
+                    </summary>
+                    <div class="ka-reference-body">
+                      <p>{reference.description}</p>
+                      {reference.attributes && Object.keys(reference.attributes).length > 0 && (
+                        <dl class="ka-facts">
+                          {Object.entries(reference.attributes).map(([term, value]) => <div><dt>{term}</dt><dd>{value}</dd></div>)}
+                        </dl>
+                      )}
+                    </div>
+                  </details>
+                ))}
+              </div>
+            </div>
+          )))}
+        </div>
+      </aside>
+    </div>
+  </section>
+  <figcaption class="demo-caption">
+    <span id="demo-caption">A sample scene from <em>The Letter</em>. Your outline stays with the words it becomes.</span>
+    <!-- The tour's control. Hidden until the script runs, since without it
+         there is no tour to pause. -->
+    <button type="button" class="ka-button ka-button--ghost demo-tour-toggle" aria-controls="workspace" hidden>
+      <span class="od-row"><Fragment set:html={pauseIcon} /><span data-tour-label>Pause tour</span></span>
+    </button>
+  </figcaption>
+</figure>
+
+<script>
+  import { initWritingDemo } from '../scripts/writing-demo';
+  const workspace = document.getElementById('workspace');
+  if (workspace) initWritingDemo(workspace, document.querySelector<HTMLButtonElement>('.demo-tour-toggle'));
+</script>
+
+<style>
+  /* Content arrangement only. The shell, regions, scene column, beats,
+     previews, manuscript, references, status strip and every control come
+     from Press's application layer. */
+  .writing-demo { margin: 0; min-width: 0; }
+
+  /* One screen, at most. Unbounded, the workspace ran past a screen on every
+     common laptop and phone, so it behaves as the application window does:
+     the regions scroll, the frame stays put. `100svh - 8rem` leaves room for
+     the sticky header and a margin; the floor keeps a landscape phone from
+     getting a sliver, the cap keeps a large display from getting a wall. This
+     is Press's documented knob for the height, not a restyle of the shell. */
+  .writing-demo { --ka-workspace-block: clamp(24rem, calc(100svh - 8rem), 40rem); }
+
+  /* The inspector is wider than Press's default because it holds reading
+     text: at the default it set a character's description four words a line.
+     The outline keeps Press's default, where titles truncate about as much as
+     the application's sidebar does. src/pages/index.astro aligns the hero's
+     aside with this inspector; change the two together. */
+  .writing-demo { --ka-workspace-inspector: clamp(15rem, 27cqi, 21rem); }
+
+  /* Press's documented knob for an `od-stack`'s rhythm, set to the
+     application's own: 12px between beats, 2px between references. */
+  .beat-list { --od-gap: var(--space-xs); }
+  .reference-list { --od-gap: 2px; }
+
+  /* The Beats/Page switch. Page shows the scene as one continuous
+     manuscript, as the application's Page view does. */
+  .scene-page { display: none; }
+  .ka-workspace:has(input[name="sample-scene-view"][value="page"]:checked) .scene-beats { display: none; }
+  .ka-workspace:has(input[name="sample-scene-view"][value="page"]:checked) .scene-page { display: block; }
+
+  .status-narrow { display: none; }
+
+  /* Motion for the state CSS itself drives — the selected tree row, the
+     segment fills, a beat number filling as its beat opens, a chevron
+     turning — held to the same long, eased timing as the tour in
+     src/scripts/writing-demo.ts. This is the demo's deliberate exception to
+     the application's 160ms `--ka-motion`, recorded in press/DESIGN.md
+     ("Motion"): it is meant to be watched. Press's reduced-motion rule
+     removes every transition inside `.press-app`. */
+  #workspace {
+    --ka-motion: 460ms;
+    --demo-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  #workspace :is(.ka-tree label, .ka-segment, .ka-beat-number, .ka-reference > summary) {
+    transition: background-color 460ms var(--demo-ease), color 460ms var(--demo-ease), box-shadow 460ms var(--demo-ease);
+  }
+  /* A closing disclosure keeps `open` until its height has drawn back, so
+     its chevron turns with the motion rather than after it. */
+  #workspace details.is-closing > summary > .ka-disclosure-icon { transform: none; }
+
+  .demo-caption {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2xs) var(--space-s);
+  }
+
+  /* A narrow workspace shows one region in a box bounded to the screen, so
+     every row of chrome is a row of draft the visitor cannot see. The scene
+     bar goes — the view switch with it, so a phone reads beats — and the
+     status strip keeps the scene's count and the read-only note on one row.
+     The width is Press's narrow-workspace threshold. */
+  @container ka-workspace (max-width: 56.25rem) {
+    header.scene-bar, .status-wide { display: none; }
+    /* Against the strip's far edge, where the application puts Writing
+       statistics. */
+    .status-narrow { display: inline; margin-inline-start: auto; }
+  }
+</style>
