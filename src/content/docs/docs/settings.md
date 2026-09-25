@@ -1,6 +1,6 @@
 ---
 title: Settings
-description: Customize keyboard shortcuts, appearance, author details, daily goals, and reference settings in kindling.
+description: "Customize kindling: keyboard shortcuts, author and project preferences, reference types, tags and custom fields, and where your project files are stored."
 ---
 
 Choose **Settings** at the bottom of the project sidebar, or open **File → Settings…**. The default shortcut is **Cmd+,** on macOS / **Ctrl+,** on Windows and Linux. Settings is also available from the start screen and command palette.

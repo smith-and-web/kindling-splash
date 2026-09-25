@@ -1,6 +1,6 @@
 ---
 title: kindling Documentation
-description: Documentation for kindling — free, open-source writing software that keeps your outline visible while you draft.
+description: "Documentation for kindling, the free, open-source writing app that keeps your outline visible while you draft: getting started, guides and contributing."
 ---
 
 **kindling** is a free, open-source story outlining and drafting tool for writers. Import your existing outlines from Plottr, Scrivener, Markdown, yWriter, Longform/Obsidian, or novelWriter, then export a manuscript, reading copy, web chapter, or project for another writing app.

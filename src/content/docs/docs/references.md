@@ -1,6 +1,6 @@
 ---
 title: References
-description: Track characters, locations, and other story elements in kindling's References panel.
+description: "Track characters, locations and other story elements in kindling's References panel, with notes, custom attributes and links to the scenes they appear in."
 ---
 
 References help you track people, places, and story elements across scenes. Each reference can include notes and custom attributes, and you can link them to specific scenes.

@@ -1,6 +1,6 @@
 ---
 title: Scene Workflow
-description: How to use beats, prose, synopsis, and scene metadata in kindling.
+description: "Turn your outline into prose in kindling: beats, synopsis and scene metadata, Rolling Outline planning states, and the Beat and Page views of a scene."
 ---
 
 Scenes are where you turn your outline into prose. Each scene combines beats, synopsis, and metadata to keep your draft structured.

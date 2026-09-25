@@ -1,6 +1,6 @@
 ---
 title: Exporting Projects
-description: Choose a standard export or customize a saved profile for Word, EPUB, HTML, plain text, and other writing apps.
+description: "Export from kindling to Word, EPUB, HTML, plain text or Markdown, or back to Scrivener, Obsidian Longform and novelWriter, by project, chapter or scene."
 ---
 
 Export your writing for a submission, a reading copy, or another writing app.

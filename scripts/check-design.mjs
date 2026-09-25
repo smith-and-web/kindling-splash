@@ -410,13 +410,18 @@ try {
           .filter((el) => el.getBoundingClientRect().right > document.documentElement.clientWidth + 1)
           .slice(0, 3).map((el) => el.tagName + '.' + (el.className.toString().split(' ')[0] || '')) : [];
         const broken = [...document.images].filter((i) => i.complete && i.naturalWidth === 0).map((i) => i.src);
-        return { overflow, culprits, broken };
+        /* Starlight hides the site title's overflow, so a name too long for the
+           header clips silently ("kindling Writer Do") instead of overflowing. */
+        const title = document.querySelector('.site-title > span');
+        const clippedTitle = title && title.scrollWidth > title.clientWidth + 1 ? title.innerText.trim() : null;
+        return { overflow, culprits, broken, clippedTitle };
       });
+      check(!layout.clippedTitle, `${path} at ${width}px: the docs site title clips ("${layout.clippedTitle}")`);
       check(layout.overflow <= 1, `${path} at ${width}px: ${layout.overflow}px of horizontal overflow (${layout.culprits.join(', ')})`);
       check(layout.broken.length === 0, `${path} at ${width}px: broken images — ${layout.broken.join(', ')}`);
     }
   }
-  pass(`no horizontal overflow or broken image on ${ROUTES.length} routes at ${WIDTHS.join(', ')}px`);
+  pass(`no horizontal overflow, broken image or clipped docs title on ${ROUTES.length} routes at ${WIDTHS.join(', ')}px`);
 
   /* 200% zoom is a 720px-wide layout on a 1440px screen. Emulate it the way a
      browser does — halve the CSS viewport at the same device pixel ratio. */

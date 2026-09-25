@@ -388,6 +388,8 @@ try {
     const parsed = await page.evaluate((html) => {
       const doc = new DOMParser().parseFromString(html, 'text/html');
       return {
+        title: doc.querySelector('title')?.textContent.trim(),
+        description: doc.querySelector('meta[name=description]')?.getAttribute('content'),
         canonical: doc.querySelector('link[rel=canonical]')?.getAttribute('href'),
         robots: doc.querySelector('meta[name=robots]')?.getAttribute('content'),
         published: doc.querySelector('meta[property="article:published_time"]')?.getAttribute('content'),
@@ -462,6 +464,21 @@ try {
     const loc = body.match(/<loc>([^<]+)<\/loc>/)[1];
     assert.ok(llms.includes(`](${loc})`), `llms.txt does not list ${loc}`);
   }
+  // Titles and descriptions: the marketing name is "kindling Writer", suffixed
+  // only where it fits (CLAUDE.md, Decisions on record). Indexable marketing
+  // pages hold titles to 60 characters and descriptions to 120-160; blog posts
+  // show their bare headline; docs titles end "| kindling Writer Docs".
+  for (const p of pages.filter((p) => p.pathname.endsWith('/') && !/noindex/.test(p.robots ?? ''))) {
+    assert.ok(p.title && !/kindling (Blog|Docs)\b/.test(p.title), `${p.pathname}: retired title suffix in "${p.title}"`);
+    if (p.pathname.startsWith('/docs/')) {
+      assert.ok(p.title.endsWith('| kindling Writer Docs'), `${p.pathname}: docs title "${p.title}"`);
+    } else if (!/^\/blog\/[^/]+\/$/.test(p.pathname)) {
+      assert.ok(p.title.length <= 60, `${p.pathname}: title is ${p.title.length} characters: "${p.title}"`);
+    }
+    const d = p.description ?? '';
+    assert.ok(d.length >= 120 && d.length <= 160, `${p.pathname}: description is ${d.length} characters`);
+  }
+
   // Structured data (src/data/schema.ts): valid JSON, typed nodes, absolute
   // URLs, the organisation on the home page, and an article plus a breadcrumb
   // ending at the page itself on every blog post and docs page.
@@ -509,7 +526,7 @@ try {
   const robots = await readFile('dist/robots.txt', 'utf8');
   assert.match(robots, /Sitemap: https:\/\/kindlingwriter\.com\/sitemap-index\.xml/);
   assert.equal((await fetch(local + '/sitemap-index.xml')).status, 200);
-  pass(`${pages.length} HTML files: internal targets, article metadata, completion noindex, sitemap lastmod, guide and related-post links, contextual inlinks, llms.txt coverage, structured data`);
+  pass(`${pages.length} HTML files: internal targets, article metadata, completion noindex, sitemap lastmod, guide and related-post links, contextual inlinks, llms.txt coverage, structured data, titles and descriptions`);
   assert.deepEqual([...state.errors, ...mobile.errors, ...shifting.errors, ...noJS.errors], []);
   pass('no browser JavaScript errors');
   console.log(`\n${checks} launch checks passed. No analytics collection, real downloads, or external form submissions.`);

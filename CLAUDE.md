@@ -492,6 +492,21 @@ What genuinely still constrains work here:
 
 ## Decisions on record
 
+**The marketing name is "kindling Writer"** (25 Sep 2026). Lowercase k, as
+the brand rule requires. It's the #1 search query ("kindling writer"), so titles
+carry it:
+
+- **Titles:** " — kindling Writer" is added to pages that don't already name the
+  brand, only when the title stays at 60 characters or less. Commercial pages
+  keep their keyword-first titles, and blog posts show their bare headline.
+- **Docs:** the docs are "kindling Writer Docs". On the narrowest phones the
+  header drops "Writer" (`src/components/docs/SiteTitle.astro`), because
+  Starlight clips the full name silently; page titles keep it at every width.
+- **Limits:** indexable marketing pages hold titles to 60 characters and
+  descriptions to 120–160. `test:launch` enforces both, and `test:design`
+  fails if the docs site title clips.
+
+
 **GA4 stays; the privacy policy documents it; there is no consent gate.**
 (4 Sep 2026.) The policy previously claimed "We don't run Google Analytics or
 any third-party tracking scripts" and "No cookies for tracking" while GA4 was

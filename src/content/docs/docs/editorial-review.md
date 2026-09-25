@@ -1,6 +1,6 @@
 ---
 title: Editorial Review
-description: Send your manuscript, exchange comments and suggestions, and work through feedback in kindling.
+description: "Send your manuscript to an editor as a file, exchange comments and suggestions in kindling, and accept or reject each one. No account or internet needed."
 ---
 
 Send your manuscript to an editor as a file and bring their feedback back into kindling. Both people use the app. No account or internet connection is needed for the review itself; you choose how to share the files.
