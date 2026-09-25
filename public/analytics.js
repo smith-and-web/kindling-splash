@@ -4,12 +4,30 @@
   if (window.kindlingAnalyticsLoaded) return;
   window.kindlingAnalyticsLoaded = true;
 
+  // GA4's built-in Content group dimension: every page belongs to one group,
+  // the same page roles the SEO audit reports on, so GA4 and Search Console
+  // can be compared by section. test:launch evaluates this function and fails
+  // if any indexable page falls into 'other'.
+  // content-group:start
+  function contentGroup(path) {
+    if (path === '/') return 'home';
+    if (path.indexOf('/download/') === 0 || path === '/welcome/') return 'download';
+    if (path.indexOf('/docs/') === 0) return 'docs';
+    if (path.indexOf('/blog/') === 0) return 'blog';
+    if (['/compare/', '/plottr-vs-scrivener/', '/free-scrivener-alternative/', '/story-outlining-software/'].indexOf(path) !== -1) return 'comparison';
+    if (['/features/', '/open-source/', '/faq/'].indexOf(path) !== -1) return 'product';
+    if (['/privacy/', '/terms/', '/code-signing-policy/'].indexOf(path) !== -1) return 'legal';
+    return 'other';
+  }
+  // content-group:end
+
   window.dataLayer = window.dataLayer || [];
   window.gtag = function () { window.dataLayer.push(arguments); };
   window.gtag('js', new Date());
   window.gtag('config', 'G-VJQ72G87FE', {
     allow_google_signals: false,
     allow_ad_personalization_signals: false,
+    content_group: contentGroup(window.location.pathname),
   });
   const tag = document.createElement('script');
   tag.async = true;

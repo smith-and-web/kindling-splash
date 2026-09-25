@@ -266,8 +266,31 @@ try {
   await page.locator('#platform-mac').check();
   await page.locator('a[data-platform="mac"]').click(); await page.waitForTimeout(250);
   assert.equal(state.binaries.length, 1); assert.equal(count('download_click'), 1);
-  assert.equal(count('download_initiated'), 0);
-  pass('storage-denied visitors retain the direct installer fallback');
+  // The anchor fetches the installer directly, so the download starts here:
+  // download_initiated (the one key event) counts it, exactly once.
+  assert.equal(count('download_initiated'), 1);
+  pass('storage-denied visitors retain the direct installer fallback, counted once');
+
+  /* A modified click also bypasses the thanks page; it too is one download. */
+  await go('/download/'); state.events.length = 0;
+  await page.locator('#platform-linux').check();
+  await page.locator('a[data-platform="linux"]').click({ modifiers: ['ControlOrMeta'] }); await page.waitForTimeout(250);
+  assert.equal(count('download_click'), 1);
+  assert.equal(count('download_initiated'), 1, 'a modified click is one download start');
+  assert.equal(state.events.find((e) => e[1] === 'download_initiated')[2].os_platform, 'linux');
+  pass('modified clicks count as one download start');
+
+  /* Every page reports a GA4 content group (public/analytics.js). The mapping
+     is evaluated directly: no indexable page may fall into 'other'. */
+  await go('/');
+  assert.equal(await page.evaluate(() => [...window.dataLayer].find((a) => a[0] === 'config')?.[2]?.content_group), 'home');
+  const analyticsSource = await readFile('public/analytics.js', 'utf8');
+  const groupSource = analyticsSource.split('// content-group:start')[1].split('// content-group:end')[0];
+  const contentGroup = new Function(`${groupSource}; return contentGroup;`)();
+  const sitemapPaths = [...(await readFile('dist/sitemap-0.xml', 'utf8')).matchAll(/<loc>([^<]+)<\/loc>/g)].map(([, u]) => new URL(u).pathname);
+  const ungrouped = sitemapPaths.filter((p) => contentGroup(p) === 'other');
+  assert.deepEqual(ungrouped, [], `pages without a content group: ${ungrouped.join(', ')}`);
+  pass(`every sitemap page reports a GA4 content group (${[...new Set(sitemapPaths.map(contentGroup))].sort().join(', ')})`);
 
   const mobile = await context({ ...devices['iPhone 13'] });
   await mobile.ctx.addInitScript(() => {
