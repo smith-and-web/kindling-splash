@@ -4,7 +4,7 @@ import MarketingLayout from '../../layouts/MarketingLayout.astro';
 
 <MarketingLayout
   title="Code Signing Policy — kindling Writer"
-  description="kindling's code signing policy. macOS builds are signed with Apple Developer ID and notarized. Windows signing provided by SignPath.io."
+  description="kindling's code signing policy. macOS builds are signed with an Apple Developer ID and notarized; Windows builds are not yet signed while SignPath is set up."
 >
   <section class="page-hero">
     <h1>Code Signing Policy</h1>
@@ -18,7 +18,7 @@ import MarketingLayout from '../../layouts/MarketingLayout.astro';
 
   <section class="content-section alt policy-content">
     <h2>Windows</h2>
-    <p>Windows code signing is provided by <a href="https://about.signpath.io" target="_blank" rel="noopener">SignPath.io</a>, with a certificate from <a href="https://signpath.org" target="_blank" rel="noopener">SignPath Foundation</a>. While this process is being finalized, Windows SmartScreen may show a warning for unrecognized apps. Click "More info" → "Run anyway" to proceed.</p>
+    <p>kindling's Windows builds are <strong>not yet code-signed</strong>. Signing through <a href="https://about.signpath.io" target="_blank" rel="noopener">SignPath.io</a>, with a certificate from <a href="https://signpath.org" target="_blank" rel="noopener">SignPath Foundation</a>, is being finalized. Until it is in place, Windows SmartScreen may show a warning for unrecognized apps. Click "More info" → "Run anyway" to proceed, as described in the <a href="/docs/installation/#bypassing-smartscreen">installation guide</a>.</p>
   </section>
 
   <section class="content-section policy-content">
@@ -36,8 +36,8 @@ import MarketingLayout from '../../layouts/MarketingLayout.astro';
 
   <section class="content-section alt policy-content">
     <h2>Privacy</h2>
-    <p>This program does not transfer any information to other networked systems unless specifically requested by the user or the person installing or operating it.</p>
-    <p>kindling does not collect, transmit, or store personal data. All project files remain on the user's computer. See our <a href="/privacy/">privacy policy</a> for details.</p>
+    <p>This program transfers information to other networked systems only to check for and download updates, and when the user chooses to submit feedback.</p>
+    <p>kindling has no analytics or telemetry and does not upload manuscripts. All project files remain on the user's computer. See our <a href="/privacy/">privacy policy</a> for what a feedback submission includes.</p>
   </section>
 </MarketingLayout>
 
