@@ -1,6 +1,6 @@
 ---
 title: Importing Projects
-description: Import story outlines into kindling from Plottr, Scrivener, Markdown, yWriter, or Longform/Obsidian.
+description: "Import story outlines into kindling from Plottr, Scrivener, Markdown, yWriter, Longform/Obsidian or novelWriter, and what each format brings across."
 ---
 
 kindling supports importing story outlines from multiple sources. This guide explains how to prepare your files for a successful import and how reference data is handled.

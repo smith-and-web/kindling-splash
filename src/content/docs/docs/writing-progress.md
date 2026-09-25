@@ -1,6 +1,6 @@
 ---
 title: Writing Goals & Statistics
-description: Track word counts, daily goals, writing sessions, and streaks in kindling.
+description: "Track your manuscript's word count, set a daily writing goal, and follow sessions and streaks in kindling, per project and without counting outline prompts."
 ---
 
 kindling tracks the length of your manuscript and the words you add as you write. Counts and goals belong to each project, so work on one book does not count toward another book's goal.

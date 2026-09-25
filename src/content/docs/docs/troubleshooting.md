@@ -1,6 +1,6 @@
 ---
 title: Troubleshooting
-description: Solutions to common problems with kindling — installation, import, sync, and more.
+description: "Fixes for common kindling problems: installing on macOS, Windows and Linux, importing and syncing, shortcuts, exporting, and editorial review."
 ---
 
 Can't find what's wrong? This page collects the most common issues across all areas of kindling. For more detail on any topic, follow the links to the relevant page.

@@ -1,6 +1,6 @@
 ---
 title: Export Workspace
-description: Customize manuscript exports with saved profiles, live previews, chapter selections, typography, and book details.
+description: "Prepare manuscript exports in kindling with saved profiles, live previews, chapter selection, typography and book details, for submissions, ebooks or the web."
 ---
 
 The export workspace lets you preview your manuscript and save settings for an

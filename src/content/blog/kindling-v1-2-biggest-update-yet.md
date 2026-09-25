@@ -1,6 +1,6 @@
 ---
 title: "kindling v1.2: Light Theme, Scrivener Workflow, Screenplays & More"
-description: "The biggest kindling update yet — light theme, full-page prose editing, typed custom fields, hierarchical tags, screenplay project type, bidirectional Scrivener import/export, smart reference detection, and story structure templates."
+description: "kindling v1.2: light theme, full-page prose editing, custom fields, hierarchical tags, screenplays, two-way Scrivener sync and story structure templates."
 publishedDate: "2026-04-08"
 modifiedDate: "2026-04-08"
 author: "kindling"

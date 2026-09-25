@@ -1,6 +1,6 @@
 ---
 title: "Best Plottr Alternatives for Fiction Writers in 2026"
-description: "Plottr is great for planning, but it stops at the outline. Here are the best Plottr alternatives — including free options — for fiction writers who want a tool that takes them from outline to first draft."
+description: "Plottr stops at the outline. The best Plottr alternatives for fiction writers in 2026, including free tools that take you from outline to first draft."
 publishedDate: "2026-04-20"
 modifiedDate: "2026-09-12"
 author: "kindling"

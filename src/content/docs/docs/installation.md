@@ -1,6 +1,6 @@
 ---
 title: Installation
-description: Download and install kindling on macOS, Windows, or Linux.
+description: "Download and install kindling on macOS, Windows or Linux, verify the download against its published checksum, and get past the Windows SmartScreen warning."
 ---
 
 Download and install kindling on your platform. All downloads are free.

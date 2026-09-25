@@ -1,6 +1,6 @@
 ---
 title: Getting Started with kindling
-description: Learn how to install and start using kindling, the free open-source writing app for fiction writers.
+description: "Get started with kindling, the free, open-source writing app for fiction writers: a quick start, the key concepts, getting around, themes and auto-updates."
 ---
 
 Welcome to kindling! This guide will help you get started.

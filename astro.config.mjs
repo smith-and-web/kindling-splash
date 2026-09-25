@@ -56,7 +56,7 @@ export default defineConfig({
 
   integrations: [
     starlight({
-      title: 'kindling Docs',
+      title: 'kindling Writer Docs',
       disable404Route: true,
       logo: {
         // The approved book-and-flame emblem at its original geometry. The
@@ -78,6 +78,8 @@ export default defineConfig({
         ThemeSelect: './src/components/docs/ThemeSelect.astro',
         // Starlight's head plus per-page TechArticle and breadcrumb JSON-LD.
         Head: './src/components/docs/Head.astro',
+        // "kindling Writer Docs", dropping "Writer" on the narrowest phones.
+        SiteTitle: './src/components/docs/SiteTitle.astro',
       },
       sidebar: [
         {

@@ -1,6 +1,6 @@
 ---
 title: Architecture
-description: An overview of the kindling codebase for contributors — how the pieces fit together and where to find things.
+description: "An overview of the kindling codebase for contributors: the Rust and Tauri backend, the Svelte 5 frontend, testing, and where to add a new feature."
 ---
 
 This document provides an overview of the kindling codebase for contributors.
