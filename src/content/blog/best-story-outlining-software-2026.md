@@ -2,7 +2,7 @@
 title: "The Best Story Outlining Software for Fiction Writers in 2026"
 description: "Scrivener, Plottr, Novelcrafter, Dabble, Story Architect, and kindling compared for fiction writers who outline. Pricing, strengths, and honest limitations."
 publishedDate: "2026-03-30"
-modifiedDate: "2026-09-12"
+modifiedDate: "2026-09-25"
 author: "kindling"
 tags: ["comparison"]
 ---
@@ -80,9 +80,9 @@ Full disclosure: this is our tool. But here's the honest case for it.
 
 kindling solves a specific problem that none of the tools above fully address: what happens *after* you finish your outline. You've built a detailed plan in Plottr or your notes app, you open a blank document to draft, and none of that planning context is there with you. Your character details are in one app, your scene beats in another, and you're writing blind.
 
-kindling imports outlines from Plottr, yWriter, Obsidian Longform, and Markdown, then presents them in a scaffolded writing view where scene beats appear as expandable prompts. Characters and locations referenced in a scene automatically surface in a side panel. You write directly into the structure you already built.
+kindling imports outlines from Plottr, Scrivener, yWriter, Obsidian Longform, novelWriter, and Markdown, then presents them in a scaffolded writing view where scene beats appear as expandable prompts. Characters and locations referenced in a scene automatically surface in a side panel. You write directly into the structure you already built.
 
-It's MIT-licensed, runs locally on your computer (under 100 MB installed), and stores everything in SQLite files on your machine. No accounts, no cloud, no subscriptions, no AI. It's currently in open beta, so it doesn't have the feature depth of Scrivener's Compile system or Novelcrafter's Codex. But for the specific workflow of outline-aware drafting, nothing else does what kindling does--and it costs nothing.
+It's MIT-licensed, runs locally on your computer (under 100 MB installed), and stores everything in SQLite files on your machine. No accounts, no cloud, no subscriptions, no AI. It's a younger, more focused tool, so it doesn't have the feature depth of Scrivener's Compile system or Novelcrafter's Codex. But for the specific workflow of outline-aware drafting, nothing else does what kindling does--and it costs nothing.
 
 Available on macOS, Windows, and Linux at [kindlingwriter.com](/).
 
@@ -100,7 +100,7 @@ There's no single right answer. The best tool is the one that disappears while y
 
 **If you write across multiple devices** and value simplicity: Dabble.
 
-**If budget matters most** and you want capable, no-cost tools: Story Architect or kindling--both have generous free tiers that aren't crippled trial versions.
+**If budget matters most** and you want capable, no-cost tools: Story Architect's free tier, or kindling, which is free outright. Neither is a crippled trial version.
 
 **If you already have an outline** and want to draft with your plan visible: [kindling](/).
 
