@@ -43,7 +43,7 @@ const KEY_PAGES: { path: string; title: string; note: string }[] = [
 
 const SECONDARY_PAGES: { path: string; title: string; note: string }[] = [
   { path: '/feedback/', title: 'Send feedback', note: 'Report a bug, request a feature or rate the app' },
-  { path: '/code-signing-policy/', title: 'Code signing policy', note: 'macOS builds are signed and notarized by Apple; Windows signing is provided by SignPath' },
+  { path: '/code-signing-policy/', title: 'Code signing policy', note: 'macOS builds are signed and notarized by Apple; Windows builds are not yet code-signed' },
   { path: '/terms/', title: 'Terms of service', note: 'Terms of service for the free, MIT-licensed software' },
 ];
 
