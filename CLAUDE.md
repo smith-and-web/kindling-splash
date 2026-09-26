@@ -528,7 +528,7 @@ The editorial restructure and the Press adoption shipped to `main` in
 kindling-splash#1 and deployed on 24 Sep 2026 alongside kindling v1.3.
 
 **The vendored snapshot is a commit snapshot of merged Press.**
-`src/vendor/press/MANIFEST.json` points at Press 0.15.0 @ `59ebd80` (press#9,
+`src/vendor/press/MANIFEST.json` points at Press 0.15.1 @ `061e42a` (press#10,
 on Press `main`) with a clean working tree. Keep it that way: re-sync only from
 a commit that is on Press `main`.
 
