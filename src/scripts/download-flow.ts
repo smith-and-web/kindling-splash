@@ -1,5 +1,5 @@
-import { APP_VERSION, DOWNLOADS, type Platform } from '../data/downloads';
-import { trackDownload, trackDownloadCTA } from './analytics';
+import { DOWNLOADS, type Platform } from '../data/downloads';
+import { trackDownload, trackDownloadCTA, trackDownloadStarted } from './analytics';
 
 const PENDING_KEY = 'kindling:pending-download';
 const MAX_AGE_MS = 5 * 60 * 1000;
@@ -12,10 +12,16 @@ export function isPlatform(value: unknown): value is Platform {
 export function requestDownload(event: MouseEvent, os: Platform, location: string): void {
   trackDownloadCTA(location);
   trackDownload(os, location);
-  if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+  // Modified clicks and denied storage fetch the installer straight from the
+  // anchor, skipping the thanks page, so the download starts here.
+  if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) {
+    trackDownloadStarted(os, location);
+    return;
+  }
   try {
     sessionStorage.setItem(PENDING_KEY, JSON.stringify({ os, location, createdAt: Date.now() }));
   } catch {
+    trackDownloadStarted(os, location);
     return; // Let the anchor request the binary normally.
   }
   event.preventDefault();
@@ -45,12 +51,6 @@ export function initiatePendingDownload(): boolean {
   document.body.appendChild(link);
   link.click();
   link.remove();
-  if (typeof gtag === 'function') {
-    gtag('event', 'download_initiated', {
-      os_platform: os,
-      cta_location: pending.location,
-      app_version: APP_VERSION,
-    });
-  }
+  trackDownloadStarted(os, pending.location);
   return true;
 }

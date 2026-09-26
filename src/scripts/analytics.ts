@@ -1,10 +1,20 @@
 import { APP_VERSION } from '../data/downloads';
 
 /**
- * GA4 event helpers for kindling marketing site.
+ * GA4 event helpers for the kindling marketing site.
  *
  * All functions guard on `typeof gtag === 'function'` so they are safe to call
- * even when the GA snippet has not loaded (e.g. ad-blockers, local dev).
+ * even when the GA snippet has not loaded (ad blockers, local dev, preview
+ * hosts: public/analytics.js only loads on kindlingwriter.com).
+ *
+ * The event model (analytics sweep, 25 Sep 2026):
+ * - `download_initiated` is the one key event: an installer download started.
+ *   It fires exactly once per download, on every path: the thanks page, and
+ *   the direct-installer fallbacks (modified clicks, storage denied).
+ * - `download_click` and `download_cta_click` are intent, not outcomes. They
+ *   are funnel steps, never key events, so a download is never counted twice.
+ * - Scroll and outbound clicks come from GA4 enhanced measurement, and page
+ *   groups from the `content_group` set in public/analytics.js.
  */
 
 declare global {
@@ -18,7 +28,7 @@ function gtagSafe(...args: unknown[]): void {
   }
 }
 
-/** User clicked a platform download button. */
+/** User clicked a platform download button. Intent; the outcome is `trackDownloadStarted`. */
 export function trackDownload(os: string, location: string, version = APP_VERSION): void {
   gtagSafe('event', 'download_click', {
     os_platform: os,
@@ -34,60 +44,11 @@ export function trackDownloadCTA(location: string): void {
   });
 }
 
-/** Post-download engagement (e.g. "join discord", "star on github"). */
-export function trackPostDownloadAction(action: string): void {
-  gtagSafe('event', 'post_download_action', {
-    action_type: action,
+/** An installer download started: the site's one key event. Call once per download. */
+export function trackDownloadStarted(os: string, location: string, version = APP_VERSION): void {
+  gtagSafe('event', 'download_initiated', {
+    os_platform: os,
+    cta_location: location,
+    app_version: version,
   });
-}
-
-/** A feature card / section scrolled into view. */
-export function trackFeatureView(featureName: string): void {
-  gtagSafe('event', 'feature_viewed', {
-    feature_name: featureName,
-  });
-}
-
-/** Outbound link click (external sites). */
-export function trackOutboundLink(url: string): void {
-  gtagSafe('event', 'click', {
-    event_category: 'outbound',
-    event_label: url,
-    transport_type: 'beacon',
-  });
-}
-
-/**
- * Track scroll-depth milestones: 25 %, 50 %, 75 %, 100 %.
- * Call once on page load; cleans up automatically on page hide.
- */
-export function initScrollDepthTracking(): void {
-  const milestones = [25, 50, 75, 100];
-  const fired = new Set<number>();
-
-  function check(): void {
-    const scrollTop = window.scrollY;
-    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-    if (docHeight <= 0) return;
-
-    const pct = Math.round((scrollTop / docHeight) * 100);
-
-    for (const milestone of milestones) {
-      if (pct >= milestone && !fired.has(milestone)) {
-        fired.add(milestone);
-        gtagSafe('event', 'scroll_depth', {
-          percent_scrolled: milestone,
-        });
-      }
-    }
-  }
-
-  window.addEventListener('scroll', check, { passive: true });
-
-  // Clean up when the user navigates away
-  window.addEventListener(
-    'pagehide',
-    () => window.removeEventListener('scroll', check),
-    { once: true },
-  );
 }
