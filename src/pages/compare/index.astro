@@ -61,7 +61,8 @@ const faqStructuredData = {
     }
   ]
 };
-// Sources checked 2026-09-10. Price links and feature references are visible below.
+// Sources checked 2026-09-10; Plottr, Scrivener and Obsidian rechecked 2026-09-26.
+// Price links and feature references are visible below.
 const comparisonTools = [
   { name: 'kindling', price: 'Free', url: '/download/' },
   { name: 'Scrivener', price: '$59.99 once / platform', url: 'https://www.literatureandlatte.com/crossgrading' },
@@ -71,30 +72,31 @@ const comparisonTools = [
   { name: 'Campfire', price: 'Free tier; $12/month offer', url: 'https://www.campfirewriting.com/pricing' },
   { name: 'Atticus', price: '$147 once', url: 'https://www.atticus.io/' },
   { name: 'Wavemaker', price: 'Free', url: 'https://wavemaker.co.uk/' },
+  { name: 'Obsidian', price: 'Free; Sync from $4/month', url: 'https://obsidian.md/pricing' },
 ];
 
 const comparisonRows: { feature: string; values: (boolean | string | null)[] }[] = [
-  { feature: 'Planning alongside drafting', values: ['Beat prompts with prose', 'Synopsis / split editor', 'Timeline and outline', 'Plot Grid + editor', 'Scene beats + Codex', 'Manuscript + modules', 'Writing + book layout', 'Planning tools + writer'] },
-  { feature: 'Full-page prose editing', values: [true, true, 'Scene cards', true, true, true, true, true] },
-  { feature: 'Light theme', values: [true, true, true, true, true, true, true, true] },
-  { feature: 'Custom fields', values: [true, 'Custom metadata', 'Custom attributes', null, 'Codex details', 'Custom panels', null, null] },
-  { feature: 'Tagging system', values: [true, 'Keywords', true, null, 'Codex tags', null, null, 'Card hashtags'] },
-  { feature: 'Reference auto-detection', values: [true, null, null, null, 'Codex detection', null, null, null] },
-  { feature: 'Screenplay support', values: [true, true, 'Planning templates', null, null, null, null, null] },
-  { feature: 'Story structure templates', values: [true, 'Project templates', 'Beat sheets', null, null, 'Custom templates', null, 'Snowflake tool'] },
-  { feature: 'Export to Scrivener', values: [true, 'Native format', 'Outline export', null, null, null, null, null] },
-  { feature: 'Export to DOCX', values: [true, true, 'Outline export', true, true, true, true, null] },
-  { feature: 'Export to EPUB', values: [true, true, null, null, null, true, true, null] },
-  { feature: 'Offline writing / planning', values: ['Local desktop app', 'Local desktop app', 'Desktop plan', 'Offline + cloud sync', null, 'Desktop app', 'Installed web app', 'Installed web app'] },
-  { feature: 'Open source', values: [true, false, false, false, false, false, false, true] },
-  { feature: 'AI assistance', values: ['None', null, 'None', null, 'Optional; paid AI plans', null, null, 'Optional API-key bot'] },
+  { feature: 'Planning alongside drafting', values: ['Beat prompts with prose', 'Synopsis / split editor', 'Timeline and outline', 'Plot Grid + editor', 'Scene beats + Codex', 'Manuscript + modules', 'Writing + book layout', 'Planning tools + writer', 'Linked notes + Canvas'] },
+  { feature: 'Full-page prose editing', values: [true, true, 'Scene cards', true, true, true, true, true, true] },
+  { feature: 'Light theme', values: [true, true, true, true, true, true, true, true, true] },
+  { feature: 'Custom fields', values: [true, 'Custom metadata', 'Custom attributes', null, 'Codex details', 'Custom panels', null, null, 'Properties'] },
+  { feature: 'Tagging system', values: [true, 'Keywords', true, null, 'Codex tags', null, null, 'Card hashtags', true] },
+  { feature: 'Reference auto-detection', values: [true, null, null, null, 'Codex detection', null, null, null, 'Unlinked mentions'] },
+  { feature: 'Screenplay support', values: [true, true, 'Planning templates', null, null, null, null, null, null] },
+  { feature: 'Story structure templates', values: [true, 'Project templates', 'Beat sheets', null, null, 'Custom templates', null, 'Snowflake tool', null] },
+  { feature: 'Export to Scrivener', values: [true, 'Native format', 'Outline export', null, null, null, null, null, null] },
+  { feature: 'Export to DOCX', values: [true, true, 'Outline export', true, true, true, true, null, 'Not built in'] },
+  { feature: 'Export to EPUB', values: [true, true, null, null, null, true, true, null, 'Not built in'] },
+  { feature: 'Offline writing / planning', values: ['Local desktop app', 'Local desktop app', 'Desktop plan', 'Offline + cloud sync', null, 'Desktop app', 'Installed web app', 'Installed web app', 'Local Markdown files'] },
+  { feature: 'Open source', values: [true, false, false, false, false, false, false, true, false] },
+  { feature: 'AI assistance', values: ['None', null, 'None', null, 'Optional; paid AI plans', null, null, 'Optional API-key bot', 'None built in'] },
 ];
 
 ---
 
 <MarketingLayout
   title="kindling Writer vs Scrivener, Plottr & More: Compared"
-  description="Compare kindling with Scrivener, Plottr, Dabble, Novelcrafter, Campfire, Atticus and Wavemaker: current pricing, drafting features and workflows."
+  description="Compare kindling with Scrivener, Plottr, Obsidian, Dabble, Novelcrafter, Campfire, Atticus and Wavemaker: pricing, drafting features and workflows."
   structuredData={structuredData}
 >
   <script type="application/ld+json" set:html={JSON.stringify(faqStructuredData)} />
@@ -123,10 +125,10 @@ const comparisonRows: { feature: string; values: (boolean | string | null)[] }[]
     <p class="pw-label">03 / At a glance</p>
     <h2>Feature comparison</h2>
     <p>kindling v{APP_VERSION} includes the drafting features below. Descriptive cells explain where another tool takes a different approach; a dash means the feature was not verified in the linked documentation.</p>
-    <p class="comparison-help" id="comparison-scroll-help">Scroll sideways to see all eight tools. You can also focus the table and use the arrow keys.</p>
+    <p class="comparison-help" id="comparison-scroll-help">Scroll sideways to see all nine tools. You can also focus the table and use the arrow keys.</p>
     <div class="comparison-table-wrap" tabindex="0" role="region" aria-label="Writing software feature comparison" aria-describedby="comparison-scroll-help">
       <table class="comparison-table">
-        <caption class="sr-only">kindling, Scrivener, Plottr, Dabble, Novelcrafter, Campfire, Atticus, and Wavemaker features and pricing</caption>
+        <caption class="sr-only">kindling, Scrivener, Plottr, Dabble, Novelcrafter, Campfire, Atticus, Wavemaker, and Obsidian features and pricing</caption>
         <thead>
           <tr>
             <th scope="col">Feature</th>
@@ -151,7 +153,7 @@ const comparisonRows: { feature: string; values: (boolean | string | null)[] }[]
         </tbody>
       </table>
     </div>
-    <p class="verified-note">Prices checked 10 September 2026. Prices are in USD before tax; annual billing and lifetime plans differ by product. Campfire’s $12/month is a displayed offer against a $19/month standard price. Follow the price links for current terms.</p>
+    <p class="verified-note">Prices checked 10 September 2026; Plottr, Scrivener and Obsidian rechecked 26 September 2026. Prices are in USD before tax; annual billing and lifetime plans differ by product. Campfire’s $12/month is a displayed offer against a $19/month standard price. Follow the price links for current terms.</p>
     <details class="pw-disclosure comparison-sources">
       <summary>Feature sources and comparison notes</summary>
       <p>kindling entries describe v{APP_VERSION}; see <a href="/features/">kindling features</a> and the <a href="/docs/">documentation</a>. A dash means unverified, not necessarily unavailable. Templates, fields, and references work differently in each app.</p>
@@ -163,6 +165,7 @@ const comparisonRows: { feature: string; values: (boolean | string | null)[] }[]
         <li>Campfire: <a href="https://www.campfirewriting.com/pricing">modules, templates, and exports</a>.</li>
         <li>Atticus: <a href="https://www.atticus.io/">writing, formatting, and offline use</a> and <a href="https://www.atticus.io/quick-start-guide/">import and export</a>.</li>
         <li>Wavemaker: <a href="https://github.com/wavemakercards/wavemaker-v4">v4 features, storage, and MIT licence</a>, <a href="https://wavemaker.co.uk/">Snowflake and card tools</a>, and <a href="https://wavemaker.co.uk/blog/getting-started-with-the-open-ai-bot/">optional AI assistant</a>.</li>
+        <li>Obsidian: <a href="https://obsidian.md/help/plugins">core plugins</a> (Canvas, Properties, Tags; no export or AI plugin among them), <a href="https://obsidian.md/help/plugins/backlinks">unlinked mentions</a>, <a href="https://obsidian.md/help/settings">light colour scheme</a>, and <a href="https://obsidian.md/pricing">pricing</a>. Screenplay, template and export cells describe Obsidian itself, not community plugins.</li>
       </ul>
     </details>
     <nav class="compare-jump" aria-label="Jump to a detailed comparison">
@@ -174,6 +177,7 @@ const comparisonRows: { feature: string; values: (boolean | string | null)[] }[]
       <a href="#vs-campfire">Campfire</a>
       <a href="#vs-atticus">Atticus</a>
       <a href="#vs-wavemaker">Wavemaker</a>
+      <a href="#vs-obsidian">Obsidian</a>
       <a href="#vs-ai">AI tools</a>
     </nav>
   </section>
@@ -193,13 +197,13 @@ const comparisonRows: { feature: string; values: (boolean | string | null)[] }[]
   <section class="content-section" id="vs-plottr">
     <p class="pw-label">05 / Plottr</p>
     <h2>kindling vs Plottr</h2>
-    <p>Compare the two established tools in <a href="/plottr-vs-scrivener/">Plottr vs Scrivener</a>, or explore <a href="/blog/best-plottr-alternatives-for-fiction-writers/">Plottr alternatives for fiction writers</a>.</p>
+    <p>Read our <a href="/blog/plottr-review/">Plottr review</a>, compare the two established tools in <a href="/plottr-vs-scrivener/">Plottr vs Scrivener</a>, or explore <a href="/blog/best-plottr-alternatives-for-fiction-writers/">Plottr alternatives for fiction writers</a>.</p>
     <p>Plottr (from $60/year or $150 lifetime) is outstanding for visual timeline planning and beat organization. Its drag-and-drop timeline, color-coded storylines, and character arc templates make it the best visual outlining tool for fiction writers. If you're a plotter who thinks in timelines and structure boards, Plottr is a great planning tool.</p>
     <p>Plottr's output is a finished outline — it doesn't have a prose drafting space. Once you've planned your novel, you still need to open a separate writing app to start drafting. That transition is where many writers stall. You've done all that planning work, but the new document doesn't know about it.</p>
     <p>kindling imports your Plottr (.pltr) file directly. It turns your timeline beats into expandable writing prompts. Your character and location cards surface automatically in the drafting view while you write each scene. It's the natural next step after Plottr — you plan in Plottr, then draft in kindling.</p>
     <p>With v1.2, the workflow extends further: draft in kindling, then export to Scrivener for revision, or directly to EPUB for review. kindling now supports Scrivener bidirectional import/export, making the Plottr → kindling → Scrivener pipeline seamless.</p>
     <p class="callout pull-quote">If you've built a beautiful Plottr outline but still open a blank document to draft, kindling is the missing step.</p>
-    <p class="pw-note">Plottr: <a href="https://plottr.com/pricing/">$60/year or $150 lifetime</a> for the desktop plan. Pro is $9.99/month, $99/year, or $599 lifetime; Pro + Community is $14.99/month, $129/year, or $649 lifetime. kindling: Free.</p>
+    <p class="pw-note">Plottr: <a href="/plottr-vs-scrivener/#pricing">$60/year or $150 lifetime</a> for the desktop plan. Pro is $9.99/month, $99/year, or $599 lifetime; Pro + Community is $14.99/month, $129/year, or $649 lifetime. kindling: Free.</p>
   </section>
 
   <section class="content-section alt" id="vs-dabble">
@@ -246,10 +250,20 @@ const comparisonRows: { feature: string; values: (boolean | string | null)[] }[]
     <p class="callout pull-quote">Two free, open-source tools, with different ways to plan and draft. Pick the workspace that helps you keep writing.</p>
   </section>
 
-  <section class="content-section" id="vs-ai">
-    <p class="pw-label">11 / AI writing tools</p>
+  <section class="content-section" id="vs-obsidian">
+    <p class="pw-label">11 / Obsidian</p>
+    <h2>kindling and Obsidian</h2>
+    <p><a href="https://obsidian.md/pricing">Obsidian is free for any use</a>, keeps your notes as Markdown files on your own device, and runs on Mac, Windows, Linux, iOS and Android. Sync between devices is an optional paid add-on. Many novelists already keep their research and worldbuilding there.</p>
+    <p>What Obsidian doesn’t have built in is a manuscript. Its core plugins cover notes, links, Canvas boards and templates, but not scene order, compile, or Word and EPUB export. The community <a href="https://github.com/kevboh/longform">Longform plugin</a> adds an ordered scene list, word-count goals and a compile that writes a Markdown note; it is maintained by one developer.</p>
+    <p>kindling works with that setup rather than replacing it. <a href="/docs/importing-projects/#longformobsidian-md">Import a Longform project</a> and its scenes arrive with their status, synopsis and prose, and your character and location notes become references. Draft each scene with its outline beside the prose, then <a href="/docs/exporting-projects/#longformobsidian">export back to Longform</a> to carry on in the vault, or to DOCX and EPUB when it is time for readers.</p>
+    <p class="callout pull-quote">Keep the vault for research. Bring the scenes to kindling when it’s time to draft.</p>
+  </section>
+
+  <section class="content-section alt" id="vs-ai">
+    <p class="pw-label">12 / AI writing tools</p>
     <h2>kindling vs AI writing tools</h2>
     <p>A growing category of tools — Sudowrite, Jasper, NovelAI, and others — use large language models to generate prose, suggest plot directions, or rewrite your sentences. These tools can be useful for brainstorming or overcoming blocks, but they raise questions about voice, originality, and ownership that many fiction writers care about deeply.</p>
+    <p>A newer group analyses a manuscript rather than writing it. <a href="https://sagascope.com/en/novel-writing-software">SagaScope</a>, for example, describes an AI assistant that builds a codex and timeline from your text, flags contradictions and scores style; on 26 September 2026 it was waitlist-only, with no published pricing. kindling does not use AI to analyse your writing: its reference detection looks for the names of your own characters, places and items in your prose.</p>
     <p>kindling is not an AI writing tool. It never suggests, autocompletes, or generates prose. There are no subscription fees or AI API costs, and your manuscript is not uploaded. kindling gives you <a href="/features/">structural scaffolding</a> — your own outline beats, your own character notes, your own world details — presented in your drafting space so you can write with full context.</p>
     <p class="callout pull-quote">Every word in your kindling draft is yours. That's not a limitation — it's the whole point.</p>
   </section>

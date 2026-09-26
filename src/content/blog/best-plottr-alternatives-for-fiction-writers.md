@@ -9,7 +9,7 @@ tags: ["comparison", "plottr"]
 
 Plottr is a beloved outlining tool. Visual timelines, beat sheets, templates for every story structure -- it earns its reputation. But once you've outlined your novel in Plottr, you still have to open a different app to actually write it. That's where a lot of writers get stuck.
 
-This post covers the best Plottr alternatives in 2026, ranked by what they do well and who they're for.
+This post covers the best Plottr alternatives in 2026, ranked by what they do well and who they're for. If you are still deciding on Plottr itself, start with our [Plottr review](/blog/plottr-review/).
 
 Plottr, Scrivener, Dabble, and Campfire prices checked 12 September 2026 in USD before tax. Follow the linked vendor pages for billing terms and current offers.
 

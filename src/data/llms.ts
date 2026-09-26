@@ -31,7 +31,7 @@ const KEY_PAGES: { path: string; title: string; note: string }[] = [
   { path: '/', title: 'Home', note: 'What kindling is, a working demo of a scene with its outline, and what is new in this release' },
   { path: '/features/', title: 'Features', note: 'Outline-aware drafting, rolling outlines, references, editorial review, writing goals, import and export' },
   { path: '/download/', title: 'Download', note: `Free installers for macOS, Windows and Linux, version ${APP_VERSION}, with checksums` },
-  { path: '/compare/', title: 'Compare', note: 'kindling compared with Scrivener, Plottr, Dabble, Novelcrafter, Campfire, Atticus and Wavemaker' },
+  { path: '/compare/', title: 'Compare', note: 'kindling compared with Scrivener, Plottr, Obsidian, Dabble, Novelcrafter, Campfire, Atticus and Wavemaker' },
   { path: '/plottr-vs-scrivener/', title: 'Plottr vs Scrivener', note: 'An honest comparison of the two, and where kindling fits between outlining and drafting' },
   { path: '/free-scrivener-alternative/', title: 'Free Scrivener alternative', note: 'kindling as a free Scrivener alternative, including on Linux, where Scrivener has no version; what Scrivener still does better' },
   { path: '/story-outlining-software/', title: 'Story outlining software', note: 'Outlining that carries into the draft: scene beats as drafting prompts, and planning at your own pace' },

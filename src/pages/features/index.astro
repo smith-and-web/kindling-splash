@@ -106,8 +106,11 @@ const faqStructuredData = {
         </a>
     </section>
 
-    <!-- ===== Primary features — editorial sequence ===== -->
-    <section class="features-seq-section pw-frame">
+    <!-- ===== Primary features — editorial sequence =====
+         Part of the opener, so it carries no visible head or running label;
+         the hidden h2 keeps the outline from skipping h1 to h3. -->
+    <section class="features-seq-section pw-frame" aria-labelledby="core-features">
+        <h2 class="sr-only" id="core-features">Core features</h2>
         <div class="pw-feature-grid">
             <article class="pw-feature fade-in-on-scroll">
                 <ProductFigure
@@ -733,10 +736,11 @@ const faqStructuredData = {
     }
     .spec-item dd a {
         color: var(--color-accent-text);
-        text-decoration: none;
+        text-decoration: underline;
+        text-underline-offset: 4px;
     }
     .spec-item dd a:hover {
-        text-decoration: underline;
+        text-decoration-thickness: 2px;
     }
 
     @media (max-width: 768px) {

@@ -1,10 +1,10 @@
 {
   "package": "@kindling/design-system",
-  "version": "0.15.0",
-  "commit": "59ebd809774f5420b4d4fe4a93231e3f4afa9ef7",
+  "version": "0.15.1",
+  "commit": "01a50e1d599ab44f370456be5dbc4ec57950249c",
   "snapshot": "commit",
-  "note": "Taken from ../press at 59ebd809774f5420b4d4fe4a93231e3f4afa9ef7 with a clean working tree.",
-  "syncedAt": "2026-09-24T21:14:45Z",
+  "note": "Taken from ../press at 01a50e1d599ab44f370456be5dbc4ec57950249c with a clean working tree.",
+  "syncedAt": "2026-09-26T14:38:12Z",
   "generator": "scripts/sync-design-system.sh -> scripts/check-design-system.mjs --write",
   "verify": "npm run check:design-system",
   "exclusions": {
@@ -19,14 +19,14 @@
     {
       "path": "src/vendor/press/design-system/application.css",
       "from": "../press/design-system/application.css",
-      "bytes": 33906,
-      "sha256": "2392a9caabed977512a341210dbb1e9d8f454fb864d61dd08d9246b14fc0ddef"
+      "bytes": 34223,
+      "sha256": "88dfe6254eb3a0fbe239b501acf3f5aafb87e09b29f21b48608130001a99a6d5"
     },
     {
       "path": "src/vendor/press/design-system/components.css",
       "from": "../press/design-system/components.css",
-      "bytes": 33525,
-      "sha256": "7cd5415d68b94204cb2b97cf2a17c327140e9a272388dbf2c346857f33bc4f47"
+      "bytes": 33828,
+      "sha256": "d824df9515efb5631b1b2866bc9dadea10339ec8ff5a03f96f0fe5097eaeb9cf"
     },
     {
       "path": "src/vendor/press/design-system/fonts-web.css",
@@ -307,8 +307,8 @@
     {
       "path": "press/docs/APPLICATION_COMPONENTS.md",
       "from": "../press/docs/APPLICATION_COMPONENTS.md",
-      "bytes": 41271,
-      "sha256": "0c5eb94c0c81eb09d79b7a02d992ee9caa66dd11bf3f864cf8ad502728a9f289"
+      "bytes": 41385,
+      "sha256": "db194dfd672357e28670ac127a29e9ea72e280c689a97ba1b1a75a08d8e068a9"
     },
     {
       "path": "press/docs/CONSOLIDATION.md",

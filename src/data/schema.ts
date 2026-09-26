@@ -61,7 +61,10 @@ export const softwareApplication = ({ description, featureList }: { description:
   name: 'kindling Writer',
   description,
   url: `${SITE}/`,
-  applicationCategory: 'DesktopApplication',
+  // One of Google's listed values; "DesktopApplication" is not. Writing
+  // software sits in the productivity bucket, which Google calls Business.
+  // The desktop part is carried by operatingSystem.
+  applicationCategory: 'BusinessApplication',
   operatingSystem: 'Windows, macOS, Linux',
   offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
   softwareVersion: APP_VERSION,

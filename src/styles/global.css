@@ -105,11 +105,12 @@ a {
 .cta-section a:not(.pw-button, .ka-button),
 .cta-section a:not(.pw-button, .ka-button):visited {
   color: var(--color-accent-text);
-  text-decoration: none;
+  text-decoration: underline;
+  text-underline-offset: 4px;
 }
 
 .cta-section a:not(.pw-button, .ka-button):hover {
-  text-decoration: underline;
+  text-decoration-thickness: 2px;
 }
 
 /* ===== Download action in an editorial hero =====
@@ -151,11 +152,12 @@ section.page-hero div.smart-download.compact .alt-platforms {
 .download-note a,
 .download-note a:visited {
   color: var(--color-accent-text);
-  text-decoration: none;
+  text-decoration: underline;
+  text-underline-offset: 4px;
 }
 
 .download-note a:hover {
-  text-decoration: underline;
+  text-decoration-thickness: 2px;
 }
 
 /* ===== Uninstall ===== */
@@ -216,9 +218,10 @@ section.page-hero div.smart-download.compact .alt-platforms {
 .download-legal-links a,
 .download-legal-links a:visited {
   color: var(--color-accent-text);
-  text-decoration: none;
+  text-decoration: underline;
+  text-underline-offset: 4px;
 }
 
 .download-legal-links a:hover {
-  text-decoration: underline;
+  text-decoration-thickness: 2px;
 }
