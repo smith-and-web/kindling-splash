@@ -115,9 +115,9 @@ try {
      chapter that starts open. */
   state.events.length = 0;
   const visibleSceneTitle = (p = page) => p.evaluate(() =>
-    [...document.querySelectorAll('.ka-scene-header h3')].find((h) => h.getClientRects().length)?.textContent.trim());
+    [...document.querySelectorAll('.ka-scene-header h2')].find((h) => h.getClientRects().length)?.textContent.trim());
   const showsScene = (title, p = page) => p.waitForFunction((want) =>
-    [...document.querySelectorAll('.ka-scene-header h3')].find((h) => h.getClientRects().length)?.textContent.trim() === want, title, { timeout: 3000 });
+    [...document.querySelectorAll('.ka-scene-header h2')].find((h) => h.getClientRects().length)?.textContent.trim() === want, title, { timeout: 3000 });
   assert.equal(await visibleSceneTitle(), 'On the Cliff');
   await page.locator('.ka-tree label:has(input[value="seventh-step"])').click();
   await showsScene('The Seventh Step');
