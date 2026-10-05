@@ -61,7 +61,7 @@ No. The app has none, and the standard plan lists "No AI" among its features. Th
 
 ## Plottr alternatives
 
-- **Draft in the same tool.** kindling imports `.pltr` files directly: Plottr's beats become chapters, scene cards become scenes, and characters and places come across with their custom attributes and the scenes they appear in. You then draft each scene with its outline beside the prose. It is free, open source and runs on Mac, Windows and Linux. See the [Plottr import details](/docs/importing-projects/#plottr-pltr).
+- **Draft in the same tool.** kindling imports `.pltr` files directly: Plottr's beats become chapters, scene cards become scenes, and characters and places come across with their custom attributes and the scenes they appear in. You then draft each scene with its outline beside the prose. It is free, open source and runs on Mac, Windows and Linux. See the [Plottr import details](/docs/importing-projects/#plottr-pltr), or [download kindling free](/download/) and open your `.pltr` file.
 - **Plan in Plottr, write in Scrivener.** The most common pairing; the [Plottr vs Scrivener comparison](/plottr-vs-scrivener/) covers how the two split the work.
 - **Something else entirely.** Our list of [the best Plottr alternatives](/blog/best-plottr-alternatives-for-fiction-writers/) covers Dabble, Campfire, Novelcrafter and Obsidian too.
 
