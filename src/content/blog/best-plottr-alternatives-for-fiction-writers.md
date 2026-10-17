@@ -1,6 +1,6 @@
 ---
-title: "Best Plottr Alternatives for Fiction Writers in 2026"
-description: "Plottr stops at the outline. The best Plottr alternatives for fiction writers in 2026, including free tools that take you from outline to first draft."
+title: "Best Plottr Alternatives 2026: Free Options That Also Draft"
+description: "Six Plottr alternatives for fiction writers compared on price, outline depth, Plottr import and drafting in the same tool. Free options included."
 publishedDate: "2026-04-20"
 modifiedDate: "2026-09-12"
 author: "kindling"
