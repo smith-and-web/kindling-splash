@@ -42,7 +42,7 @@ Some writers pin their outline to a split screen. Some use Scrivener's inspector
 
 If your outline lives in a tool like Plottr, consider exporting it to whatever you draft in. If you use a beat sheet, find a way to keep each scene's beats visible while you write into that scene. The fewer clicks between "what happens next" and "where I'm typing," the better.
 
-> This is exactly the problem we built [kindling](/features/) to solve. Your outline structure lives in the sidebar. Each scene's beats are visible right above your prose. You write *into* the outline rather than beside it. But even if you don't use kindling, the principle is the same: close the gap between plan and page.
+> This is exactly the problem we built [kindling](/features/) to solve. Your outline structure lives in the sidebar. Each scene's beats are visible right above your prose. You write *into* the outline rather than beside it, and it's [free to download](/download/). But even if you don't use kindling, the principle is the same: close the gap between plan and page.
 
 ## Step 3: Draft one scene at a time, not one chapter at a time
 

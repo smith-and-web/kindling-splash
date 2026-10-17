@@ -110,7 +110,7 @@ With the right plugins (Longform, Novel Word Count, Kanban), Obsidian becomes a 
 If you already have a novel outlined in Plottr, don't start over. Here's the fastest migration:
 
 1. Locate your saved Plottr `.pltr` project file.
-2. Open kindling and choose **Import &rarr; Plottr**.
+2. [Download kindling](/download/) (free), open it and choose **Import &rarr; Plottr**.
 3. Your scenes, beats, chapters, and characters come across as a navigable outline.
 4. Draft scene-by-scene with the outline pinned beside your prose.
 

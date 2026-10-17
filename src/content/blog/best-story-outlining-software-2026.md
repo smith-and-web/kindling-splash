@@ -84,7 +84,7 @@ kindling imports outlines from Plottr, Scrivener, yWriter, Obsidian Longform, no
 
 It's MIT-licensed, runs locally on your computer (under 100 MB installed), and stores everything in SQLite files on your machine. No accounts, no cloud, no subscriptions, no AI. It's a younger, more focused tool, so it doesn't have the feature depth of Scrivener's Compile system or Novelcrafter's Codex. But for the specific workflow of outline-aware drafting, nothing else does what kindling does--and it costs nothing.
 
-Available on macOS, Windows, and Linux at [kindlingwriter.com](/).
+[Download kindling free](/download/) for macOS, Windows, and Linux.
 
 **Best for:** Plotters and outliners who want their plan visible while they draft, without paying for features they don't need.
 
@@ -102,6 +102,6 @@ There's no single right answer. The best tool is the one that disappears while y
 
 **If budget matters most** and you want capable, no-cost tools: Story Architect's free tier, or kindling, which is free outright. Neither is a crippled trial version.
 
-**If you already have an outline** and want to draft with your plan visible: [kindling](/).
+**If you already have an outline** and want to draft with your plan visible: [kindling](/download/).
 
 Try a couple. Most offer free trials or free tiers. Use them on a real project for a week, not just a test document. If a tool makes the words come easier, you've found the right one.
