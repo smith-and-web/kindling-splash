@@ -1,5 +1,5 @@
 ---
-title: "The Best Story Outlining Software for Fiction Writers in 2026"
+title: "Best Story Outlining Software for Fiction Writers in 2026"
 description: "Scrivener, Plottr, Novelcrafter, Dabble, Story Architect, and kindling compared for fiction writers who outline. Pricing, strengths, and honest limitations."
 publishedDate: "2026-03-30"
 modifiedDate: "2026-09-25"
@@ -84,7 +84,7 @@ kindling imports outlines from Plottr, Scrivener, yWriter, Obsidian Longform, no
 
 It's MIT-licensed, runs locally on your computer (under 100 MB installed), and stores everything in SQLite files on your machine. No accounts, no cloud, no subscriptions, no AI. It's a younger, more focused tool, so it doesn't have the feature depth of Scrivener's Compile system or Novelcrafter's Codex. But for the specific workflow of outline-aware drafting, nothing else does what kindling does--and it costs nothing.
 
-[Download kindling free](/download/) for macOS, Windows, and Linux.
+[Download kindling free](/download/) for macOS, Windows, and Linux, or see [how it handles story outlining](/story-outlining-software/) first.
 
 **Best for:** Plotters and outliners who want their plan visible while they draft, without paying for features they don't need.
 
