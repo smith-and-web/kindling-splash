@@ -277,7 +277,7 @@ try {
         if (!parent || parent.closest('script, style, code, pre, kbd')) continue;
         if (!parent.getClientRects().length) continue;
         const text = node.nodeValue;
-        /* Kindling_1.3.0_universal.dmg and @KindlingWriter are identifiers. */
+        /* Kindling_1.3.1_universal.dmg and @KindlingWriter are identifiers. */
         if (/Kindling(?!_|Writer\b)/.test(text)) bad.push(text.trim().slice(0, 70));
         if (/kindling/i.test(text) && getComputedStyle(parent).textTransform === 'uppercase') {
           uppercased.push(parent.className || parent.tagName);

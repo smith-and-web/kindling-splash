@@ -219,7 +219,7 @@ try {
     await page.locator(`#platform-${os}`).check();
     assert.equal(await page.locator('a[data-platform]:visible').count(), 1, `${os} must expose one action`);
     assert.equal(await page.locator(`a[data-platform="${os}"]`).getAttribute('href'),
-      `https://github.com/smith-and-web/kindling/releases/latest/download/${{mac:'Kindling_1.3.0_universal.dmg',windows:'Kindling_1.3.0_x64-setup.exe',linux:'Kindling_1.3.0_amd64.AppImage'}[os]}`);
+      `https://github.com/smith-and-web/kindling/releases/latest/download/${{mac:'Kindling_1.3.1_universal.dmg',windows:'Kindling_1.3.1_x64-setup.exe',linux:'Kindling_1.3.1_amd64.AppImage'}[os]}`);
     await page.locator(`a[data-platform="${os}"]`).click(); await page.waitForLoadState('networkidle');
     assert.equal(count('download_click'), 1);
     assert.equal(count('download_cta_click'), 1);
