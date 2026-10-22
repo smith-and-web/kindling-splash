@@ -124,7 +124,7 @@ Community Edition free; Supporters Edition $69 one-time -- [GPL](https://bibisco
 
 [From $19/month or $699 lifetime Author access](https://www.dabblewriter.com/pricing/) -- Browser, desktop and mobile apps; offline-first with cloud sync
 
-Dabble is a modern, cloud-based writing tool with a clean interface and strong organizational features. Its Plot Grid lets you track story threads across scenes, which is useful for plotters managing multiple subplots or point-of-view characters.
+Dabble is a modern writing tool with cloud sync, a clean interface and strong organizational features. Its Plot Grid lets you track story threads across scenes, which is useful for plotters managing multiple subplots or point-of-view characters.
 
 The writing experience is polished, with word count goals and focus mode. Its [sync docs](https://www.dabblewriter.com/docs/apps-sync-offline/how-sync-works) describe it as offline-first: changes save to your device as you type and sync to its servers when you are online, so you can write from any device.
 
