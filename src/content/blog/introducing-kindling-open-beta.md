@@ -28,7 +28,7 @@ With kindling, you can:
 
 We believe writing tools should be accessible to everyone. kindling is completely free, with no premium tiers, no subscriptions, and no feature gates. The source code is available on GitHub, and we welcome contributions from the community.
 
-This also means your work is truly yours. kindling saves files locally--no lock-in, no account required. kindling always works offline; an internet connection is needed only for automatic updates and the optional feedback form, no risk of a company shutting down and taking your manuscript with it.
+This also means your work is truly yours. kindling saves files locally--no lock-in, no account required, and no risk of a company shutting down and taking your manuscript with it. It always works offline; an internet connection is needed only for automatic updates and the optional feedback form.
 
 ## What's in the Beta
 
