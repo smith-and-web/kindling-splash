@@ -23,11 +23,11 @@ The free Scrivener alternatives worth trying are [kindling](/) (free, MIT licenc
 | bibisco (Community Edition) | Free; Supporters Edition $69 one-time | GPL | Linux, macOS, Windows | Not verified | Not verified | Built around character and scene tracking, not outline-to-draft |
 | yWriter | Free | Not verified | Windows; Linux via Wine; paid Mac and mobile versions by another developer | No (reads earlier yWriter projects) | Not verified | Windows-first, dated interface |
 | Plottr | From $60/year | Proprietary | macOS, Windows desktop (Pro plans add a browser app) | Not verified | No (planning tool, no prose editor) | Separate drafting app needed |
-| Dabble | From $19/month | Proprietary | Browser, desktop and mobile apps; offline-first with cloud sync | Not verified | Not verified | Recurring cost |
+| Dabble | From $15/month billed annually ($19 month-to-month) | Proprietary | Browser, desktop and mobile apps; offline-first with cloud sync | Not verified | Not verified | Recurring cost |
 | Novelcrafter | From $4/month | Proprietary | Cloud-based | Not verified | Not verified | AI tokens billed separately |
 | The Novel Factory | From $7.50/month | Proprietary | Cloud and desktop | Not verified | Not verified | Rigid framework approach |
 
-Checked October 22, 2026 against each tool's own site (linked in its section below). "Not verified" means the tool's primary pages did not state it, so we have not claimed it. Plottr, Dabble, Novelcrafter and The Novel Factory prices are from 12 September 2026 and unchanged here.
+Checked October 22, 2026 against each tool's own site (linked in its section below). "Not verified" means the tool's primary pages did not state it, so we have not claimed it. Dabble prices were re-checked on October 22, 2026; Plottr, Novelcrafter and The Novel Factory prices are from 12 September 2026 and unchanged here.
 
 Scrivener is a remarkable piece of software. Its Binder, corkboard, and compilation engine have made it the default choice for serious novelists for over a decade. But Scrivener was designed as a general-purpose writing environment, and for writers who plot extensively before drafting, it has a specific weakness: **when you open a new scene, you get a blank page**.
 
@@ -62,7 +62,7 @@ kindling always works offline. An internet connection is needed only for automat
 
 **Honest limitations:** kindling has no research folder like Scrivener's, no mobile app, and a simpler compile than Scrivener's for precise print formatting. It doesn't have a visual timeline view. The Windows installer is not yet code-signed (see the [code signing policy](/code-signing-policy/)). It's a focused tool for the outline-to-draft phase, not a full lifecycle writing environment.
 
-If you are specifically considering kindling, the [free Scrivener alternative guide](/free-scrivener-alternative/) explains its focused workflow and trade-offs. Plottr, Dabble, and Scrivener prices were checked 12 September 2026 in USD before tax.
+If you are specifically considering kindling, the [free Scrivener alternative guide](/free-scrivener-alternative/) explains its focused workflow and trade-offs. Plottr and Scrivener prices were checked 12 September 2026 in USD before tax.
 
 ## Plottr
 
@@ -122,7 +122,7 @@ Community Edition free; Supporters Edition $69 one-time -- [GPL](https://bibisco
 
 ## Dabble Writer
 
-[From $19/month or $699 lifetime Author access](https://www.dabblewriter.com/pricing/) -- Browser, desktop and mobile apps; offline-first with cloud sync
+[From $15/month billed annually ($19 month-to-month), or $699 lifetime Author access](https://www.dabblewriter.com/pricing/) -- Browser, desktop and mobile apps; offline-first with cloud sync
 
 Dabble is a modern writing tool with cloud sync, a clean interface and strong organizational features. Its Plot Grid lets you track story threads across scenes, which is useful for plotters managing multiple subplots or point-of-view characters.
 
@@ -130,7 +130,7 @@ The writing experience is polished, with word count goals and focus mode. Its [s
 
 **Best for:** Writers who want a modern interface and cross-device access. Plotters who track multiple story threads and want a visual grid for managing them.
 
-**Honest limitations:** Dabble combines offline work with cloud sync, so its storage model differs from a local-only desktop app. Monthly plans range from $19 to $49. Compare the recurring cost with [Scrivener's $59.99 desktop licence](https://www.literatureandlatte.com/crossgrading/) and the lifetime Author option before choosing.
+**Honest limitations:** Dabble combines offline work with cloud sync, so its storage model differs from a local-only desktop app. Month-to-month plans range from $19 to $49 across its three plans; annual billing brings them to $15 to $39 a month, and there is a 14-day free trial. Compare the recurring cost with [Scrivener's $59.99 desktop licence](https://www.literatureandlatte.com/crossgrading/) and the lifetime Author option before choosing.
 
 ## Novelcrafter
 
