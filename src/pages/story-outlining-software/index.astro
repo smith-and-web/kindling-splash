@@ -1,15 +1,19 @@
 ---
 import ProductFigure from '../../components/ProductFigure.astro';
 import { graph, softwareApplication } from '../../data/schema';
+import { lastCommitDay } from '../../data/lastmod.mjs';
+import FactsTable from '../../components/FactsTable.astro';
 import MarketingLayout from '../../layouts/MarketingLayout.astro';
 import SmartDownloadButton from '../../components/SmartDownloadButton.svelte';
 import { APP_VERSION } from '../../data/downloads';
 import planningStates from '../../assets/planning-states.png';
 
 const structuredData = graph(softwareApplication({
+  dateModified: lastCommitDay('src/pages/story-outlining-software/index.astro'),
   description: "Free, open-source story outlining software that keeps your outline visible while you draft. Built for fiction writers who plan.",
 }));
 
+// Mirrors the visible FAQ at the foot of the page, question for question.
 const faqStructuredData = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
@@ -24,26 +28,26 @@ const faqStructuredData = {
     },
     {
       "@type": "Question",
-      "name": "Can I use kindling for pantsing or discovery writing?",
+      "name": "Can I use kindling if I'm a pantser?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Yes. kindling's Rolling Outline mode lets each scene have its own level of structure — from fully planned beats (Fixed) to a bare placeholder (Undefined). You can start with almost no outline and add structure as you discover your story."
+        "text": "Yes. kindling's Rolling Outline mode lets you start with almost no structure. Create blank chapters, mark scenes as \"Undefined,\" and fill in detail as you discover your story. You can also create a completely blank project with File → New Project and build your outline as you go."
       }
     },
     {
       "@type": "Question",
-      "name": "Is kindling free?",
+      "name": "Does kindling replace Plottr or Scrivener?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Yes. kindling is completely free and open source under the MIT license. No account, subscription, or payment required. Desktop app for macOS, Windows, and Linux."
+        "text": "Not necessarily. Many writers use kindling alongside their existing tools. Plan in Plottr, draft in kindling, revise in Scrivener. kindling imports from both and exports to Scrivener, so they work well together. See our detailed comparison at https://kindlingwriter.com/compare/."
       }
     },
     {
       "@type": "Question",
-      "name": "Can I import my outline from another tool?",
+      "name": "Is kindling really free?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Yes. kindling imports outlines from Plottr (.pltr), Scrivener 3 (.scriv), yWriter (.yw7), Obsidian Longform, and Markdown files. Your characters, locations, scene beats, and structure are preserved."
+        "text": "Yes. kindling is MIT-licensed open source software. No accounts, no subscriptions, no feature gates, no data collection. It's free forever."
       }
     }
   ]
@@ -60,9 +64,12 @@ const faqStructuredData = {
   <!-- ===== Hero ===== -->
   <section class="page-hero">
     <h1>Story outlining software that doesn't stop at the outline</h1>
+    <p class="page-hero-subtext direct-answer">kindling is a free, open-source (MIT) desktop writing app for fiction writers who outline: your scene beats sit beside the draft, so the outline becomes writing prompts instead of a separate document. It costs nothing, needs no account, and runs on macOS, Windows and Linux.</p>
     <p class="page-hero-subtext">Most outlining tools help you plan a story. Then they hand you a blank page and wish you luck. kindling keeps your outline visible while you write — so every scene starts with structure, not silence.</p>
     <SmartDownloadButton client:load location="story_outlining_hero" compact />
   </section>
+
+  <FactsTable source="src/pages/story-outlining-software/index.astro" frame="editorial" />
 
   <!-- ===== The Problem ===== -->
   <section class="content-section">
@@ -267,3 +274,11 @@ const faqStructuredData = {
     <SmartDownloadButton client:visible location="story_outlining_cta" />
   </section>
 </MarketingLayout>
+
+<style>
+  /* The direct answer sits above the page's existing standfirst; keep the two
+     close so they read as one opening. */
+  p.page-hero-subtext.direct-answer {
+    margin-bottom: var(--space-s);
+  }
+</style>

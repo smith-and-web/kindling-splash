@@ -22,6 +22,7 @@ export const SITE = 'https://kindlingwriter.com';
 const ORG_ID = `${SITE}/#organization`;
 const WEBSITE_ID = `${SITE}/#website`;
 const APP_ID = `${SITE}/#software`;
+const PERSON_ID = `${SITE}/#josh-smith`;
 
 type Node = Record<string, unknown>;
 
@@ -36,9 +37,37 @@ export const organizationRef: Node = {
   logo: { '@type': 'ImageObject', url: absolute('/icon-512.png'), width: 512, height: 512 },
 };
 
+/**
+ * The author. Josh Smith builds kindling and maintains the smith-and-web
+ * GitHub account, which is the only profile listed. The node exists for entity
+ * consistency (one named author on every post and as the organisation's
+ * founder), not as a rich-result lever; add nothing here the site does not
+ * already say.
+ */
+export const PERSON_BIO =
+  'Josh Smith is the developer of kindling. He builds the app in Rust and Tauri, writes its documentation and ' +
+  'publishes it as free, MIT-licensed software for macOS, Windows and Linux through the smith-and-web GitHub account.';
+
+/** A self-sufficient reference to the author, for BlogPosting.author and Organization.founder. */
+export const personRef: Node = {
+  '@type': 'Person',
+  '@id': PERSON_ID,
+  name: 'Josh Smith',
+  url: `${SITE}/open-source/`,
+  sameAs: ['https://github.com/smith-and-web'],
+};
+
+/** The full Person node. On the home page, beside the organisation it founded. */
+export const person = (): Node => ({
+  ...personRef,
+  worksFor: organizationRef,
+  description: PERSON_BIO,
+});
+
 /** The full organisation node. On the home page, where Google looks for it. */
 export const organization = (): Node => ({
   ...organizationRef,
+  founder: personRef,
   alternateName: 'Kindling Writer',
   description: 'kindling makes free, open-source (MIT) desktop writing software for fiction writers who outline.',
   sameAs: [
@@ -62,7 +91,16 @@ export const website = (): Node => ({
 });
 
 /** The app. A page supplies its own description (and optional feature list). */
-export const softwareApplication = ({ description, featureList }: { description: string; featureList?: string[] }): Node => ({
+export const softwareApplication = ({
+  description,
+  featureList,
+  dateModified,
+}: {
+  description: string;
+  featureList?: string[];
+  /** YYYY-MM-DD of the page's last commit; the same value its visible "Updated" line shows. */
+  dateModified?: string;
+}): Node => ({
   '@type': 'SoftwareApplication',
   '@id': APP_ID,
   name: 'kindling Writer',
@@ -75,6 +113,7 @@ export const softwareApplication = ({ description, featureList }: { description:
   operatingSystem: 'Windows, macOS, Linux',
   offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
   softwareVersion: APP_VERSION,
+  ...(dateModified ? { dateModified } : {}),
   license: 'https://opensource.org/licenses/MIT',
   downloadUrl: `${SITE}/download/`,
   screenshot: {

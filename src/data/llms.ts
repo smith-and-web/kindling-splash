@@ -46,24 +46,46 @@ const SECONDARY_PAGES: { path: string; title: string; note: string }[] = [
   { path: '/terms/', title: 'Terms of service', note: 'Terms of service for the free, MIT-licensed software' },
 ];
 
+/*
+ * The facts an assistant would quote, as rows. One source: `facts()` below
+ * renders them as the bullets in llms.txt, and `components/FactsTable.astro`
+ * renders the same rows as the visible "kindling at a glance" table, so the two
+ * cannot drift. `check-launch.mjs` compares the built table with these rows.
+ * Keep each value to a sentence the site states elsewhere.
+ */
+export type FactRow = { label: string; value: string; href?: string };
+
+export const OFFLINE_STATEMENT =
+  'kindling always works offline. Your projects are local files on your computer. ' +
+  'An internet connection is needed only for automatic updates and the optional feedback form.';
+
+export const FACT_ROWS: FactRow[] = [
+  { label: 'Price', value: 'Free. No premium tier, subscription or account.' },
+  { label: 'Licence', value: 'MIT, open source.' },
+  { label: 'Current version', value: APP_VERSION },
+  {
+    label: 'Platforms and downloads',
+    value: `${Object.values(DOWNLOADS)
+      .map((d) => `${d.label} ${d.format} ${d.size} (${d.sysReq})`)
+      .join('; ')}. Under 100 MB installed.`,
+  },
+  { label: 'Imports', value: 'Plottr (.pltr), Scrivener 3 (.scriv), yWriter (.yw7), Obsidian Longform, novelWriter, Markdown outlines.' },
+  { label: 'Exports', value: 'DOCX (Standard Manuscript Format), EPUB, HTML, plain text, Markdown, treatments, and back to Scrivener 3, Obsidian Longform and novelWriter. Custom exports use saved profiles.' },
+  { label: 'Offline', value: OFFLINE_STATEMENT },
+  { label: 'AI', value: 'kindling does not generate, suggest or autocomplete prose, and does not analyse your writing.' },
+  { label: 'Desktop-app privacy', value: 'The desktop app stores projects locally as SQLite files and contains no analytics, telemetry or usage tracking.' },
+  { label: 'What it does not do', value: "No research folder like Scrivener's, no mobile or iPad app, and a simpler compile than Scrivener's for precise print formatting." },
+  { label: 'Source', value: 'https://github.com/smith-and-web/kindling', href: 'https://github.com/smith-and-web/kindling' },
+];
+
 function facts(): string {
-  const sizes = Object.values(DOWNLOADS)
-    .map((d) => `${d.label} ${d.format} ${d.size} (${d.sysReq})`)
-    .join('; ');
   return [
-    `- **Current version:** ${APP_VERSION}`,
-    '- **Price:** free. No premium tier, subscription or account. MIT licensed.',
-    `- **Platforms and downloads:** ${sizes}. Under 100 MB installed.`,
-    '- **Imports:** Plottr (.pltr), Scrivener 3 (.scriv), yWriter (.yw7), Obsidian Longform, novelWriter, Markdown outlines.',
-    '- **Exports:** DOCX (Standard Manuscript Format), EPUB, HTML, plain text, Markdown, treatments, and back to Scrivener 3, Obsidian Longform and novelWriter. Custom exports use saved profiles.',
+    ...FACT_ROWS.map((row) => `- **${row.label}:** ${row.value}`),
     `- **New in ${APP_VERSION.replace(/^(\d+\.\d+).*$/, '$1')}:** editorial review (send a manuscript to an editor and work through their comments and suggestions), an export workspace with saved profiles, writing goals and statistics, customizable keyboard shortcuts, unified Settings, and the Press design.`,
     '- **Planning:** Rolling Outline gives each scene a planning state (Fixed, Flexible or Undefined), so it suits plotters, plantsers and discovery writers.',
     '- **Project types:** novels and screenplays.',
-    '- **Privacy:** the desktop app stores projects locally as SQLite files and contains no analytics, telemetry or usage tracking. kindling always works offline. An internet connection is needed only for automatic updates and the optional feedback form. The website (kindlingwriter.com) uses Google Analytics 4; that is separate from the app.',
-    '- **AI:** kindling does not generate, suggest or autocomplete prose, and does not use AI to analyse your writing.',
-    '- **What it does not do:** no research folder like Scrivener\'s, no mobile or iPad app, and a simpler compile than Scrivener\'s for precise print formatting.',
+    '- **Website privacy:** the website (kindlingwriter.com) uses Google Analytics 4; that is separate from the app.',
     '- **Built with:** Rust and Tauri 2, Svelte 5, SQLite.',
-    '- **Source:** https://github.com/smith-and-web/kindling',
     '- **Community:** Discord https://discord.gg/g7bkj4kY8w',
   ].join('\n');
 }

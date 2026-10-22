@@ -340,7 +340,7 @@ try {
      on the same offset, so a wide-only check proves nothing. `.pw-footer` was
      32px out at every laptop width while this check passed. */
   const EDGE_FAMILIES = [
-    ['editorial', '.page-hero, .content-section, .blog-listing, .article-content'],
+    ['editorial', '.page-hero, .content-section, .blog-listing, .article-content, .facts--editorial'],
     ['website frame', ':is(.pw-frame, .pw-hero, .pw-closing, .pw-footer):not(:has(> .pw-frame))'],
   ];
   for (const width of [1440, 1200]) {
@@ -503,6 +503,87 @@ try {
   check(focus.outlineStyle !== 'none' || focus.shadow !== 'none',
     `Focus is not visible on the first download control (outline ${focus.outlineStyle}, shadow ${focus.shadow})`);
   pass('keyboard focus is visible on a representative control');
+
+  /* ---- 8b. The facts table, the updated line and the author byline ------- */
+  /* "kindling at a glance" is one plain editorial table: Inter product copy,
+     Fraunces caption, hairlines only (no shadow, gradient or terracotta), a
+     fixed layout so it cannot shift, its value column held to the measure, and
+     it sits after the H1 inside the first third of the page. Never two tables
+     back to back. */
+  const FACT_PAGES = ['/', '/features/', '/download/', '/compare/', '/free-scrivener-alternative/', '/story-outlining-software/'];
+  for (const width of [1440, 375]) {
+    await page.setViewportSize({ width, height: 1000 });
+    for (const path of FACT_PAGES) {
+      await go(path);
+      const t = await page.evaluate(() => {
+        const measureAt = (el) => { const d = document.createElement('div'); d.style.cssText = 'max-width:var(--measure);width:9999px;position:absolute;visibility:hidden'; el.appendChild(d); const w = d.getBoundingClientRect().width; d.remove(); return w; };
+        const table = document.querySelector('table[data-facts-table]');
+        if (!table) return { missing: true };
+        const cs = getComputedStyle(table);
+        const caption = getComputedStyle(table.querySelector('caption'));
+        const cell = getComputedStyle(table.querySelector('td'));
+        const head = getComputedStyle(table.querySelector('th'));
+        const box = table.getBoundingClientRect();
+        const doc = document.documentElement.scrollHeight;
+        const h1 = document.querySelector('h1');
+        const section = table.closest('section');
+        const adjacent = [section?.previousElementSibling, section?.nextElementSibling]
+          .some((el) => el && (el.matches('table, .comparison-table-wrap') || el.querySelector(':scope > table, :scope > .comparison-table-wrap')));
+        const updated = document.querySelector('p.facts-updated');
+        const colours = [cell.color, head.color, caption.color, cs.borderTopColor];
+        return {
+          layout: cs.tableLayout, rows: table.rows.length, tables: document.querySelectorAll('table[data-facts-table]').length,
+          cellFont: cell.fontFamily.split(',')[0].replace(/["']/g, ''), captionFont: caption.fontFamily.split(',')[0].replace(/["']/g, ''),
+          shadow: cs.boxShadow, bgImage: cs.backgroundImage, radius: cs.borderTopLeftRadius,
+          hairline: getComputedStyle(table.querySelector('td')).borderTopStyle + ' ' + getComputedStyle(table.querySelector('td')).borderTopWidth,
+          width: box.width, valueWidth: table.querySelector('td').getBoundingClientRect().width, measure: measureAt(table.querySelector('td')),
+          top: box.top + scrollY, doc, afterH1: h1 ? !!(h1.compareDocumentPosition(table) & Node.DOCUMENT_POSITION_FOLLOWING) : false,
+          colours, adjacent,
+          updated: updated ? { text: updated.textContent.trim(), font: getComputedStyle(updated).fontFamily.split(',')[0].replace(/["']/g, ''), visible: updated.getClientRects().length > 0 } : null,
+          overflow: document.documentElement.scrollWidth - innerWidth,
+        };
+      });
+      check(!t.missing, `${path} at ${width}px: no facts table`);
+      if (t.missing) continue;
+      check(t.tables === 1, `${path}: ${t.tables} facts tables`);
+      check(t.layout === 'fixed', `${path}: facts table layout is ${t.layout}, not fixed`);
+      check(t.cellFont === 'Inter', `${path}: facts table copy is ${t.cellFont}, not Inter`);
+      check(t.captionFont === 'Fraunces', `${path}: facts caption is ${t.captionFont}, not Fraunces`);
+      check(t.shadow === 'none' && t.bgImage === 'none' && t.radius === '0px', `${path}: facts table has a shadow, gradient or radius`);
+      check(/^solid 1px$/.test(t.hairline), `${path}: facts rows are separated by "${t.hairline}", not a hairline`);
+      check(!t.colours.includes(ACCENT_TEXT), `${path}: facts table uses the accent colour`);
+      check(t.rows >= 11, `${path}: facts table has ${t.rows} rows`);
+      check(t.valueWidth <= t.measure + 1, `${path}: facts value column is ${Math.round(t.valueWidth)}px, past the ${Math.round(t.measure)}px measure`);
+      check(t.afterH1, `${path}: facts table comes before the H1`);
+      check(!t.adjacent, `${path}: facts table sits next to another table`);
+      check(t.overflow <= 1, `${path} at ${width}px: facts table overflows by ${t.overflow}px`);
+      if (width === 1440) check(t.top < t.doc / 3, `${path}: facts table starts at ${Math.round(t.top)}px of ${t.doc}px, past the first third`);
+      check(t.updated?.visible && /^Updated [A-Z][a-z]+ \d{1,2}, \d{4}$/.test(t.updated.text), `${path}: no visible "Updated <date>" line (${t.updated?.text})`);
+      check(t.updated?.font === 'Inter', `${path}: updated line is ${t.updated?.font}, not Inter`);
+    }
+  }
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  pass('six pages carry one plain facts table: Inter copy, fixed layout, hairlines, measure-wide values, first third, never beside another table, with an Updated line');
+
+  await go('/blog/');
+  const firstPost = await page.evaluate(() => document.querySelector('a[href^="/blog/"][href$="/"]:not([href="/blog/"])')?.getAttribute('href'));
+  const byline = await go(firstPost).then(() => page.evaluate(() => {
+    const el = document.querySelector('.post-byline');
+    return el ? { text: el.textContent.trim(), visible: el.getClientRects().length > 0, font: getComputedStyle(el).fontFamily.split(',')[0].replace(/["']/g, '') } : null;
+  }));
+  check(byline?.text === 'By Josh Smith' && byline.visible, `${firstPost}: byline reads "${byline?.text}"`);
+  check(byline?.font === 'Inter', `${firstPost}: byline is ${byline?.font}, not Inter`);
+  await go('/open-source/');
+  const author = await page.evaluate(() => {
+    const el = document.querySelector('#about-the-author p:not(.pw-label)');
+    if (!el) return null;
+    const d = document.createElement('div'); d.style.cssText = 'max-width:65ch;width:9999px;position:absolute;visibility:hidden'; el.appendChild(d); /* Press caps website prose at 65ch */
+    const measure = d.getBoundingClientRect().width; d.remove();
+    return { text: el.textContent.trim(), width: el.getBoundingClientRect().width, measure };
+  });
+  check(author?.text.startsWith('Josh Smith is the developer of kindling.'), '/open-source/: no author paragraph');
+  check(author && author.width <= author.measure + 1, `/open-source/: author paragraph runs ${Math.round(author?.width)}px, past the ${Math.round(author?.measure)}px measure`);
+  pass('blog posts show a "By Josh Smith" byline and /open-source/ carries the author paragraph within the measure');
 
   /* ---- 9. Brand and social assets resolve -------------------------------- */
   const assets = ['/favicon.svg', '/favicon-32.png', '/favicon-16.png', '/favicon.ico',

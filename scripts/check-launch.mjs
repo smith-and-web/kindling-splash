@@ -539,6 +539,98 @@ try {
     assert.ok(typesOn.get('/').includes(type), `home page JSON-LD has no ${type}`);
   }
 
+  // The author entity (src/data/schema.ts). Every post names Josh Smith as a
+  // Person with a sameAs profile, publisher stays the organisation, and the
+  // home page carries the Person node and the organisation's founder reference.
+  const personId = production + '/#josh-smith';
+  const graphOf = async (filename) => [...(await readFile(filename, 'utf8')).matchAll(/<script type="application\/ld\+json">(.*?)<\/script>/gs)]
+    .flatMap(([, json]) => { const doc = JSON.parse(json); return doc['@graph'] ?? [doc]; });
+  const pathOf = (filename) => '/' + path.relative(path.join(root, 'dist'), filename).split(path.sep).join('/').replace(/index\.html$/, '');
+  let postCount = 0;
+  for (const filename of files) {
+    const pathname = pathOf(filename);
+    if (!/^\/blog\/[^/]+\/$/.test(pathname)) continue;
+    postCount++;
+    const nodes = await graphOf(filename);
+    const post = nodes.find((n) => n['@type'] === 'BlogPosting');
+    assert.equal(post.author['@type'], 'Person', `${pathname}: BlogPosting author must be a Person`);
+    assert.equal(post.author['@id'], personId, `${pathname}: BlogPosting author @id`);
+    assert.equal(post.author.name, 'Josh Smith', `${pathname}: BlogPosting author name`);
+    assert.ok(post.author.sameAs?.length >= 1, `${pathname}: BlogPosting author has no sameAs`);
+    assert.equal(post.publisher['@type'], 'Organization', `${pathname}: BlogPosting publisher stays the organisation`);
+    assert.match(await readFile(filename, 'utf8'), /By <a[^>]*>Josh Smith<\/a>/, `${pathname}: no visible byline`);
+  }
+  assert.ok(postCount > 0, 'no blog posts found');
+  {
+    const home = await graphOf('dist/index.html');
+    const person = home.find((n) => n['@type'] === 'Person');
+    const org = home.find((n) => n['@type'] === 'Organization');
+    assert.ok(person, 'home page JSON-LD has no Person');
+    assert.equal(person['@id'], personId);
+    assert.equal(person.name, 'Josh Smith');
+    assert.deepEqual(person.sameAs, ['https://github.com/smith-and-web']);
+    assert.equal(person.worksFor['@id'], production + '/#organization');
+    assert.ok(person.description.startsWith('Josh Smith is the developer of kindling.'));
+    assert.equal(org.founder['@id'], personId, 'Organization.founder must reference the Person');
+    assert.match(await readFile('dist/open-source/index.html', 'utf8'), /About the author[\s\S]*Josh Smith is the developer of kindling\./, '/open-source/ has no author paragraph');
+  }
+  pass(`${postCount} blog posts name Josh Smith (Person, sameAs, byline); the home page carries the Person and the founder reference`);
+
+  // The facts table ("kindling at a glance"): present once on each of the six
+  // pages that answer "what is kindling", its rows equal the FACT_ROWS bullets
+  // in llms.txt (one source, src/data/llms.ts), with a visible updated date
+  // that matches the page's dateModified.
+  const decode = (t) => t.replace(/<[^>]+>/g, '').replace(/&#x([0-9a-f]+);/gi, (_, h) => String.fromCodePoint(parseInt(h, 16)))
+    .replace(/&#(\d+);/g, (_, d) => String.fromCodePoint(Number(d))).replace(/&quot;/g, '"').replace(/&lt;/g, '<').replace(/&gt;/g, '>')
+    .replace(/&rsquo;/g, '\u2019').replace(/&amp;/g, '&').replace(/\s+/g, ' ').trim();
+  const llmsBody = await readFile('dist/llms.txt', 'utf8');
+  const llmsFacts = [...llmsBody.matchAll(/^- \*\*([^*]+):\*\* (.+)$/gm)].map(([, label, value]) => [label, value]);
+  const factPages = ['/', '/features/', '/download/', '/compare/', '/free-scrivener-alternative/', '/story-outlining-software/'];
+  for (const pathname of factPages) {
+    const filename = path.join(root, 'dist', pathname, 'index.html');
+    const html = await readFile(filename, 'utf8');
+    const tables = html.match(/<table[^>]*data-facts-table[^>]*>.*?<\/table>/gs) ?? [];
+    assert.equal(tables.length, 1, `${pathname}: expected one facts table, found ${tables.length}`);
+    assert.match(tables[0], /<caption[^>]*>kindling at a glance<\/caption>/, `${pathname}: facts table caption`);
+    const rows = [...tables[0].matchAll(/<tr[^>]*>\s*<th[^>]*>(.*?)<\/th>\s*<td[^>]*>(.*?)<\/td>\s*<\/tr>/gs)].map(([, l, v]) => [decode(l), decode(v)]);
+    assert.ok(rows.length >= 11, `${pathname}: facts table has ${rows.length} rows`);
+    assert.deepEqual(rows, llmsFacts.slice(0, rows.length), `${pathname}: facts table rows differ from llms.txt`);
+    const labels = rows.map(([l]) => l);
+    for (const needed of ['Price', 'Licence', 'Current version', 'Platforms and downloads', 'Imports', 'Exports', 'Offline', 'AI', 'Desktop-app privacy', 'What it does not do', 'Source']) {
+      assert.ok(labels.includes(needed), `${pathname}: facts table has no "${needed}" row`);
+    }
+    assert.equal(rows.find(([l]) => l === 'Offline')[1],
+      'kindling always works offline. Your projects are local files on your computer. An internet connection is needed only for automatic updates and the optional feedback form.');
+    assert.equal(html.match(/<table\b/g).length, ['/compare/', '/free-scrivener-alternative/', '/story-outlining-software/'].includes(pathname) ? 2 : 1, `${pathname}: unexpected table count`);
+    const updated = html.match(/class="facts-updated[^"]*"[^>]*>Updated <time datetime="(\d{4}-\d{2}-\d{2})"[^>]*>([^<]+)<\/time>/);
+    assert.ok(updated, `${pathname}: no visible "Updated" line`);
+    const app = (await graphOf(filename)).find((n) => n['@type'] === 'SoftwareApplication');
+    assert.equal(app.dateModified, updated[1], `${pathname}: dateModified must equal the visible date`);
+    assert.equal(updated[2], new Date(`${updated[1]}T00:00:00Z`).toLocaleDateString('en-US', { timeZone: 'UTC', year: 'numeric', month: 'long', day: 'numeric' }));
+  }
+  pass('six pages carry one facts table whose rows equal llms.txt, with a visible Updated date matching dateModified');
+
+  // FAQ parity: every question in a page's FAQPage JSON-LD is visible text on
+  // that page, and the home page carries no FAQPage at all.
+  const FAQ_PARITY_PENDING = ['/plottr-vs-scrivener/'];
+  let faqPages = 0;
+  for (const filename of files) {
+    const pathname = pathOf(filename);
+    if (!pathname.endsWith('/')) continue;
+    const html = await readFile(filename, 'utf8');
+    const faq = (await graphOf(filename)).find((n) => n['@type'] === 'FAQPage');
+    if (pathname === '/') assert.equal(faq, undefined, 'the home page must not carry FAQPage markup');
+    if (!faq) continue;
+    // /plottr-vs-scrivener/ is held until its answer-first refresh (plan M7,
+    // which renders its FAQ). Remove it from this list in that change.
+    if (FAQ_PARITY_PENDING.includes(pathname)) continue;
+    faqPages++;
+    const visible = decode(html.replace(/<(script|style)\b.*?<\/\1>/gs, ' '));
+    for (const q of faq.mainEntity) assert.ok(visible.includes(decode(q.name)), `${pathname}: FAQPage question "${q.name}" is not visible on the page`);
+  }
+  assert.ok(faqPages > 0);
+  pass(`${faqPages} pages with FAQPage markup show every question as visible text`);
+
   // The blog feed lists every published post, each linking a built page, and
   // every marketing page advertises it.
   const feed = await readFile('dist/blog/rss.xml', 'utf8');

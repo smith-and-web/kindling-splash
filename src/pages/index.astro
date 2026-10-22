@@ -1,6 +1,8 @@
 ---
 import MarketingLayout from '../layouts/MarketingLayout.astro';
-import { graph, organization, softwareApplication, website } from '../data/schema';
+import { graph, organization, person, softwareApplication, website } from '../data/schema';
+import { lastCommitDay } from '../data/lastmod.mjs';
+import FactsTable from '../components/FactsTable.astro';
 import SmartDownloadButton from '../components/SmartDownloadButton.svelte';
 import { APP_VERSION } from '../data/downloads';
 import emblem from '../vendor/press/assets/svg/kindling-mark.svg?raw';
@@ -66,7 +68,8 @@ const emblemBox = emblem.match(/viewBox="0 0 ([\d.]+) ([\d.]+)"/);
 const emblemWidth = Number(emblemBox?.[1] ?? 740.5);
 const emblemHeight = Number(emblemBox?.[2] ?? 419.5);
 
-const structuredData = graph(organization(), website(), softwareApplication({
+const structuredData = graph(organization(), person(), website(), softwareApplication({
+  dateModified: lastCommitDay('src/pages/index.astro'),
   description: "Free open-source fiction writing software that keeps your outline visible while you draft. Import from Plottr, Scrivener, yWriter, or Obsidian.",
 }));
 ---
@@ -116,6 +119,13 @@ const structuredData = graph(organization(), website(), softwareApplication({
       </aside>
     </div>
   </section>
+
+  <!-- The facts an assistant would quote, as one plain table straight after the
+       hero. Server-rendered at a fixed layout, so it adds nothing to CLS; it
+       sits above the demo because a visitor landing here from an AI answer
+       looking for price, platforms and what kindling will not do should not
+       have to scroll past an interactive specimen to find them. -->
+  <FactsTable source="src/pages/index.astro" />
 
   <!-- The specimen, below the action rather than above it. It keeps its
        behaviour and loses its rank: a visitor is told what kindling is before
