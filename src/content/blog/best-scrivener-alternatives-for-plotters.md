@@ -22,8 +22,8 @@ The free Scrivener alternatives worth trying are [kindling](/) (free, MIT licenc
 | Manuskript | Free | GPL-3.0 | Linux, Windows (macOS listed on GitHub, no 0.17.0 macOS download) | Not verified | Not verified | Infrequent releases; 0.17.0 came 18 months after 0.16.1 |
 | bibisco (Community Edition) | Free; Supporters Edition $69 one-time | GPL | Linux, macOS, Windows | Not verified | Not verified | Built around character and scene tracking, not outline-to-draft |
 | yWriter | Free | Not verified | Windows; Linux via Wine; paid Mac and mobile versions by another developer | No (reads earlier yWriter projects) | Not verified | Windows-first, dated interface |
-| Plottr | From $60/year | Proprietary | macOS, Windows | Not verified | No (planning tool, no prose editor) | Separate drafting app needed |
-| Dabble | From $19/month | Proprietary | Cloud-based | Not verified | Not verified | Recurring cost |
+| Plottr | From $60/year | Proprietary | macOS, Windows desktop (Pro plans add a browser app) | Not verified | No (planning tool, no prose editor) | Separate drafting app needed |
+| Dabble | From $19/month | Proprietary | Browser, desktop and mobile apps; offline-first with cloud sync | Not verified | Not verified | Recurring cost |
 | Novelcrafter | From $4/month | Proprietary | Cloud-based | Not verified | Not verified | AI tokens billed separately |
 | The Novel Factory | From $7.50/month | Proprietary | Cloud and desktop | Not verified | Not verified | Rigid framework approach |
 
@@ -122,11 +122,11 @@ Community Edition free; Supporters Edition $69 one-time -- [GPL](https://bibisco
 
 ## Dabble Writer
 
-[From $19/month or $699 lifetime Author access](https://www.dabblewriter.com/pricing/) -- Cloud-based
+[From $19/month or $699 lifetime Author access](https://www.dabblewriter.com/pricing/) -- Browser, desktop and mobile apps; offline-first with cloud sync
 
 Dabble is a modern, cloud-based writing tool with a clean interface and strong organizational features. Its Plot Grid lets you track story threads across scenes, which is useful for plotters managing multiple subplots or point-of-view characters.
 
-The writing experience is polished, with word count goals and focus mode. And because it's cloud-based, you can write from any device with a browser.
+The writing experience is polished, with word count goals and focus mode. Its [sync docs](https://www.dabblewriter.com/docs/apps-sync-offline/how-sync-works) describe it as offline-first: changes save to your device as you type and sync to its servers when you are online, so you can write from any device.
 
 **Best for:** Writers who want a modern interface and cross-device access. Plotters who track multiple story threads and want a visual grid for managing them.
 
