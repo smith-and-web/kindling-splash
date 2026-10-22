@@ -1,6 +1,9 @@
 ---
 import ProductFigure from "../../components/ProductFigure.astro";
 import { graph, softwareApplication } from '../../data/schema';
+import { lastCommitDay } from '../../data/lastmod.mjs';
+import FaqSection from '../../components/FaqSection.astro';
+import FactsTable from '../../components/FactsTable.astro';
 import SectionLead from "../../components/SectionLead.astro";
 import MarketingLayout from "../../layouts/MarketingLayout.astro";
 import { APP_VERSION, DOWNLOADS } from "../../data/downloads";
@@ -11,6 +14,7 @@ import screenplay from "../../assets/screenplay.png";
 import importFormats from "../../assets/import-formats.png";
 
 const structuredData = graph(softwareApplication({
+  dateModified: lastCommitDay('src/pages/features/index.astro'),
   description: "Free, open-source fiction writing software that keeps your outline visible while you draft. Built for plotters, pantsers, and every kind of fiction writer.",
   featureList: [
         "Rolling Outline Mode — progressive structure for plotters and plantsers",
@@ -105,6 +109,9 @@ const faqStructuredData = {
             Download kindling — Free
         </a>
     </section>
+
+    <!-- The facts an assistant would quote, straight after the opener. -->
+    <FactsTable source="src/pages/features/index.astro" />
 
     <!-- ===== Primary features — editorial sequence =====
          Part of the opener, so it carries no visible head or running label;
@@ -576,6 +583,8 @@ const faqStructuredData = {
             </div>
         </dl>
     </section>
+
+    <FaqSection items={faqStructuredData.mainEntity} frame="composed" />
 
     <!-- ===== Bottom CTA ===== -->
     <section class="cta-section">

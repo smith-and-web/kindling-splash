@@ -1,0 +1,121 @@
+---
+/*
+ * "kindling at a glance": the facts an assistant (or a hurried reader) would
+ * quote, as one plain editorial table placed in the first screens of the six
+ * pages that answer "what is kindling". The rows come from `FACT_ROWS` in
+ * data/llms.ts, the same source as the bullets in llms.txt, so the two cannot
+ * drift.
+ *
+ * Server-rendered with a fixed column layout, so nothing about it depends on
+ * script or fonts arriving and it cannot shift the page. Press hairlines only:
+ * no card, no shadow, no accent. The value column is held to the reading
+ * measure.
+ *
+ * `source` is the page's own file. Its last commit date is the visible
+ * "Updated" line under the table and the `dateModified` the page passes to
+ * `softwareApplication()`, through the same helper the sitemap uses.
+ */
+import { FACT_ROWS } from '../data/llms';
+import { lastCommitDay } from '../data/lastmod.mjs';
+
+interface Props {
+  /** Repo-relative path of the page, e.g. `src/pages/compare/index.astro`. */
+  source: string;
+  /** `composed` pages (/, /features/, /download/) sit on `.pw-frame`; editorial pages on the 960px frame. */
+  frame?: 'composed' | 'editorial';
+}
+
+const { source, frame = 'composed' } = Astro.props;
+const day = lastCommitDay(source);
+const updated = day
+  ? new Date(`${day}T00:00:00Z`).toLocaleDateString('en-US', { timeZone: 'UTC', year: 'numeric', month: 'long', day: 'numeric' })
+  : undefined;
+---
+
+<section class:list={["facts", frame === "composed" ? "pw-frame" : "facts--editorial"]} aria-labelledby="facts-caption">
+  <table class="facts-table" data-facts-table>
+    <caption id="facts-caption">kindling at a glance</caption>
+    <tbody>
+      {FACT_ROWS.map((row) => (
+        <tr>
+          <th scope="row">{row.label}</th>
+          <td>{row.href ? <a href={row.href}>{row.value}</a> : row.value}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+  {updated && <p class="facts-updated" data-updated>Updated <time datetime={day}>{updated}</time></p>}
+</section>
+
+<style>
+  /* Element-qualified so these beat Press's table and caption defaults:
+     Astro's `:where()` scope adds no specificity. */
+  section.facts {
+    padding-block: var(--space-l);
+  }
+
+  /* The editorial frame: the same edge `.page-hero` and `.content-section`
+     start their content on. Never a hand-written width. */
+  section.facts--editorial {
+    max-width: var(--page-frame-editorial);
+    margin-inline: auto;
+    padding-inline: var(--space-m);
+  }
+
+  table.facts-table {
+    width: 100%;
+    /* The value column is the measure; the label column sits beside it. */
+    max-width: calc(var(--measure) + 12rem);
+    table-layout: fixed;
+    border-collapse: collapse;
+    font-family: var(--pw-body);
+    font-size: var(--text-ui);
+    line-height: var(--leading);
+    color: var(--color-text);
+  }
+
+  table.facts-table caption {
+    caption-side: top;
+    text-align: start;
+    padding-block-end: var(--space-xs);
+    font-family: var(--font-display);
+    font-size: var(--text-h3);
+    font-weight: 500;
+    color: var(--color-text);
+  }
+
+  table.facts-table :is(th, td) {
+    padding: var(--space-xs) var(--space-s) var(--space-xs) 0;
+    border-top: 1px solid var(--color-border);
+    text-align: start;
+    vertical-align: top;
+    overflow-wrap: anywhere;
+  }
+
+  table.facts-table tr:last-child :is(th, td) {
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  table.facts-table th {
+    width: 12rem;
+    font-weight: 500;
+    color: var(--color-text);
+  }
+
+  table.facts-table td {
+    font-weight: 400;
+  }
+
+  p.facts-updated {
+    margin-top: var(--space-s);
+    font-family: var(--pw-body);
+    font-size: var(--text-small);
+    color: var(--color-text-muted);
+  }
+
+  @media (max-width: 40rem) {
+    table.facts-table th {
+      width: 8rem;
+    }
+  }
+</style>

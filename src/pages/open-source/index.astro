@@ -1,5 +1,6 @@
 ---
 import MarketingLayout from '../../layouts/MarketingLayout.astro';
+import { PERSON_BIO } from '../../data/schema';
 ---
 
 <MarketingLayout
@@ -47,6 +48,12 @@ import MarketingLayout from '../../layouts/MarketingLayout.astro';
       <a href="https://discord.gg/g7bkj4kY8w" class="pw-button pw-button--secondary" target="_blank" rel="noopener">Discord Server</a>
     </div>
     <div class="callout">You don't need to be a developer to contribute. Bug reports, feature ideas, and spreading the word all help.</div>
+  </section>
+
+  <section class="content-section" id="about-the-author">
+    <p class="pw-label">06 / The maintainer</p>
+    <h2>About the author</h2>
+    <p>{PERSON_BIO}</p>
   </section>
 
   <section class="cta-section">

@@ -3,7 +3,7 @@ import starlight from '@astrojs/starlight';
 import svelte from '@astrojs/svelte';
 import sitemap from '@astrojs/sitemap';
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
-import { execFileSync } from 'node:child_process';
+import { lastCommitDate } from './src/data/lastmod.mjs';
 
 const analyticsScript = readFileSync(new URL('./public/analytics.js', import.meta.url), 'utf8');
 
@@ -29,14 +29,6 @@ const blogDates = new Map(
       return [name.replace(/\.md$/, ''), field('modifiedDate') ?? field('publishedDate')];
     }),
 );
-
-function lastCommitDate(file) {
-  try {
-    return execFileSync('git', ['log', '-1', '--format=%cI', '--', file], { encoding: 'utf8' }).trim() || undefined;
-  } catch {
-    return undefined;
-  }
-}
 
 function lastModified(pathname) {
   const route = pathname.replace(/^\/|\/$/g, '');

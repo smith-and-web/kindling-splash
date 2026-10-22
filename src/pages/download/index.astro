@@ -1,9 +1,13 @@
 ---
 import MarketingLayout from "../../layouts/MarketingLayout.astro";
 import { graph, softwareApplication } from '../../data/schema';
+import { lastCommitDay } from '../../data/lastmod.mjs';
+import FaqSection from '../../components/FaqSection.astro';
+import FactsTable from '../../components/FactsTable.astro';
 import { APP_VERSION, DOWNLOADS } from "../../data/downloads";
 
 const structuredData = graph(softwareApplication({
+  dateModified: lastCommitDay('src/pages/download/index.astro'),
   description: "Free open-source fiction writing software that keeps your outline visible while you draft. Import from Plottr, Scrivener, yWriter, or Obsidian.",
 }));
 
@@ -215,6 +219,10 @@ const GLYPHS: Record<string, string> = {
             <li>MIT licensed source</li>
         </ul>
     </section>
+
+    <!-- The same facts table as the home page, below the choice and the action
+         so the platform picker keeps the first screen. -->
+    <FactsTable source="src/pages/download/index.astro" />
 
     <!-- ===== 02 · What you're downloading ===== -->
     <section class="pw-frame page-section">
@@ -454,6 +462,7 @@ const GLYPHS: Record<string, string> = {
             </form>
         </div>
     </section>
+    <FaqSection items={faqStructuredData.mainEntity} frame="composed" label="05 / Questions" />
 </MarketingLayout>
 
 <style>
