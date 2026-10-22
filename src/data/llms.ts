@@ -22,7 +22,7 @@ export const SITE = 'https://kindlingwriter.com';
 const SUMMARY =
   'kindling is a free, open-source (MIT) desktop writing app for fiction writers who outline. ' +
   'It keeps your outline beside the draft: each scene opens with its beats, characters and notes close at hand, ' +
-  'so you draft from the plan instead of a blank page. It runs offline on macOS, Windows and Linux, ' +
+  'so you draft from the plan instead of a blank page. It always works offline on macOS, Windows and Linux, ' +
   'needs no account, and does not use AI to write or analyse your work.';
 
 /* The marketing pages, in the order a reader would want them. Docs and blog
@@ -42,7 +42,6 @@ const KEY_PAGES: { path: string; title: string; note: string }[] = [
 ];
 
 const SECONDARY_PAGES: { path: string; title: string; note: string }[] = [
-  { path: '/feedback/', title: 'Send feedback', note: 'Report a bug, request a feature or rate the app' },
   { path: '/code-signing-policy/', title: 'Code signing policy', note: 'macOS builds are signed and notarized by Apple; Windows builds are not yet code-signed' },
   { path: '/terms/', title: 'Terms of service', note: 'Terms of service for the free, MIT-licensed software' },
 ];
@@ -57,10 +56,10 @@ function facts(): string {
     `- **Platforms and downloads:** ${sizes}. Under 100 MB installed.`,
     '- **Imports:** Plottr (.pltr), Scrivener 3 (.scriv), yWriter (.yw7), Obsidian Longform, novelWriter, Markdown outlines.',
     '- **Exports:** DOCX (Standard Manuscript Format), EPUB, HTML, plain text, Markdown, treatments, and back to Scrivener 3, Obsidian Longform and novelWriter. Custom exports use saved profiles.',
-    `- **New in ${APP_VERSION.replace(/\.0$/, '')}:** editorial review (send a manuscript to an editor and work through their comments and suggestions), an export workspace with saved profiles, writing goals and statistics, customizable keyboard shortcuts, unified Settings, and the Press design.`,
+    `- **New in ${APP_VERSION.replace(/^(\d+\.\d+).*$/, '$1')}:** editorial review (send a manuscript to an editor and work through their comments and suggestions), an export workspace with saved profiles, writing goals and statistics, customizable keyboard shortcuts, unified Settings, and the Press design.`,
     '- **Planning:** Rolling Outline gives each scene a planning state (Fixed, Flexible or Undefined), so it suits plotters, plantsers and discovery writers.',
     '- **Project types:** novels and screenplays.',
-    '- **Privacy:** the desktop app stores projects locally as SQLite files and contains no analytics, telemetry or usage tracking. It uses the internet only for automatic updates and optional feedback. The website (kindlingwriter.com) uses Google Analytics 4; that is separate from the app.',
+    '- **Privacy:** the desktop app stores projects locally as SQLite files and contains no analytics, telemetry or usage tracking. kindling always works offline. An internet connection is needed only for automatic updates and the optional feedback form. The website (kindlingwriter.com) uses Google Analytics 4; that is separate from the app.',
     '- **AI:** kindling does not generate, suggest or autocomplete prose, and does not use AI to analyse your writing.',
     '- **What it does not do:** no research folder like Scrivener\'s, no mobile or iPad app, and a simpler compile than Scrivener\'s for precise print formatting.',
     '- **Built with:** Rust and Tauri 2, Svelte 5, SQLite.',

@@ -30,7 +30,7 @@ Scrivener has been the default recommendation in writing communities for over a 
 
 The one-time price of $59.99 generates enormous goodwill in a market increasingly dominated by subscriptions. Writers on Reddit consistently describe it as worth every penny.
 
-Where it falls short: The learning curve is real. Entire paid courses exist just to teach you how to use it. The interface hasn't had a meaningful design update in years, Windows releases lag behind Mac, and there's no cloud sync, no collaboration, and no mobile app beyond iOS. Development has been limited to maintenance patches--Scrivener 3 shipped in 2017 and there's been no announcement of a version 4.
+Where it falls short: The learning curve is real. Entire paid courses exist just to teach you how to use it. The interface hasn't had a meaningful design update in years, Windows releases lag behind Mac, and there's no built-in sync, no collaboration, and no mobile app beyond iOS. Development has been limited to maintenance patches--Scrivener 3 shipped in 2017 and there's been no announcement of a version 4.
 
 **Best for:** Writers who want a single environment for organizing, drafting, and compiling manuscripts--and don't mind investing time to learn the tool.
 
@@ -82,7 +82,7 @@ kindling solves a specific problem that none of the tools above fully address: w
 
 kindling imports outlines from Plottr, Scrivener, yWriter, Obsidian Longform, novelWriter, and Markdown, then presents them in a scaffolded writing view where scene beats appear as expandable prompts. Characters and locations referenced in a scene automatically surface in a side panel. You write directly into the structure you already built.
 
-It's MIT-licensed, runs locally on your computer (under 100 MB installed), and stores everything in SQLite files on your machine. No accounts, no cloud, no subscriptions, no AI. It's a younger, more focused tool, so it doesn't have the feature depth of Scrivener's Compile system or Novelcrafter's Codex. But for the specific workflow of outline-aware drafting, nothing else does what kindling does--and it costs nothing.
+It's MIT-licensed, runs locally on your computer (under 100 MB installed), and stores everything in SQLite files on your machine. No accounts, no subscriptions, no AI. kindling always works offline; an internet connection is needed only for automatic updates and the optional feedback form. It's a younger, more focused tool, so it doesn't have the feature depth of Scrivener's Compile system or Novelcrafter's Codex. But for the specific workflow of outline-aware drafting, nothing else does what kindling does--and it costs nothing.
 
 [Download kindling free](/download/) for macOS, Windows, and Linux, or see [how it handles story outlining](/story-outlining-software/) first.
 

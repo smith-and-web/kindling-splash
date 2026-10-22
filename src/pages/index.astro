@@ -106,11 +106,11 @@ const structuredData = graph(organization(), website(), softwareApplication({
           <div class="ka-panel-body hero-card-body">
             <p class="pw-prose">From first outline to finished draft. Free, and yours to keep.</p>
             <dl class="ka-facts">
-              <div><dt>Works</dt><dd>Fully offline</dd></div>
+              <div><dt>Works</dt><dd>Works offline. Updates need an internet connection.</dd></div>
               <div><dt>Your files</dt><dd>Stay yours</dd></div>
               <div><dt>Imports</dt><dd>Plottr, Scrivener and more</dd></div>
             </dl>
-            <a class="pw-link" href="/blog/kindling-v1-3-writing-and-review/">See what&rsquo;s new in {APP_VERSION.replace(/\.0$/, '')} &rarr;</a>
+            <a class="pw-link" href="/blog/kindling-v1-3-writing-and-review/">See what&rsquo;s new in {APP_VERSION.replace(/^(\d+\.\d+).*$/, '$1')} &rarr;</a>
           </div>
         </div>
       </aside>

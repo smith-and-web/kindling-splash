@@ -72,7 +72,7 @@ On top of that, a new **hierarchical tagging system** with up to three levels of
 
 A non-AI detection engine that scans your prose for character, location, and item names. When matches are found, suggestions appear in the References panel — link them with one click, or dismiss.
 
-No AI, no cloud, no magic. Just pattern matching against your own reference names. It reinforces our core philosophy: kindling helps you write — it doesn't write for you.
+No AI, no magic. Just pattern matching against your own reference names. It reinforces our core philosophy: kindling helps you write — it doesn't write for you.
 
 <img src="/docs/reference-suggestions.png" alt="Detected references surfacing in the panel with a confidence level and the matched text, ready to link in one click" width="600" height="300" loading="lazy" decoding="async" />
 
