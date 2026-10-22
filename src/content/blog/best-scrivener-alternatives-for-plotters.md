@@ -24,10 +24,10 @@ The free Scrivener alternatives worth trying are [kindling](/) (free, MIT licenc
 | yWriter | Free | Not verified | Windows; Linux via Wine; paid Mac and mobile versions by another developer | No (reads earlier yWriter projects) | Not verified | Windows-first, dated interface |
 | Plottr | From $60/year | Proprietary | macOS, Windows desktop (Pro plans add a browser app) | Not verified | No (planning tool, no prose editor) | Separate drafting app needed |
 | Dabble | From $15/month billed annually ($19 month-to-month) | Proprietary | Browser, desktop and mobile apps; offline-first with cloud sync | Not verified | Not verified | Recurring cost |
-| Novelcrafter | From $4/month | Proprietary | Cloud-based | Not verified | Not verified | AI tokens billed separately |
-| The Novel Factory | From $7.50/month | Proprietary | Cloud and desktop | Not verified | Not verified | Rigid framework approach |
+| Novelcrafter | From $4/month (no AI) to $20/month | Proprietary | Not verified | Not verified | Not verified | AI needs your own API key, billed by your provider |
+| The Novel Factory | From $8.25/month ($82.50/year); $649 lifetime | Proprietary | Not verified | Not verified | Not verified | Rigid framework approach |
 
-Checked October 22, 2026 against each tool's own site (linked in its section below). "Not verified" means the tool's primary pages did not state it, so we have not claimed it. Dabble prices were re-checked on October 22, 2026; Plottr, Novelcrafter and The Novel Factory prices are from 12 September 2026 and unchanged here.
+Checked October 22, 2026 against each tool's own site (linked in its section below). "Not verified" means the tool's primary pages did not state it, so we have not claimed it. Dabble, Plottr, Novelcrafter and The Novel Factory prices were re-checked on October 22, 2026 on their pricing pages; the Scrivener price is from the 12 September check.
 
 Scrivener is a remarkable piece of software. Its Binder, corkboard, and compilation engine have made it the default choice for serious novelists for over a decade. But Scrivener was designed as a general-purpose writing environment, and for writers who plot extensively before drafting, it has a specific weakness: **when you open a new scene, you get a blank page**.
 
@@ -62,7 +62,7 @@ kindling always works offline. An internet connection is needed only for automat
 
 **Honest limitations:** kindling has no research folder like Scrivener's, no mobile app, and a simpler compile than Scrivener's for precise print formatting. It doesn't have a visual timeline view. The Windows installer is not yet code-signed (see the [code signing policy](/code-signing-policy/)). It's a focused tool for the outline-to-draft phase, not a full lifecycle writing environment.
 
-If you are specifically considering kindling, the [free Scrivener alternative guide](/free-scrivener-alternative/) explains its focused workflow and trade-offs. Plottr and Scrivener prices were checked 12 September 2026 in USD before tax.
+If you are specifically considering kindling, the [free Scrivener alternative guide](/free-scrivener-alternative/) explains its focused workflow and trade-offs. Prices were checked in USD before tax: Plottr, Dabble, Novelcrafter and The Novel Factory on 22 October 2026, Scrivener on 12 September 2026.
 
 ## Plottr
 
@@ -134,7 +134,7 @@ The writing experience is polished, with word count goals and focus mode. Its [s
 
 ## Novelcrafter
 
-From $4/month -- Cloud-based
+[From $4/month, up to $20/month](https://www.novelcrafter.com/pricing)
 
 Novelcrafter is the AI-forward option on this list. It integrates with language models (via your own API key) for brainstorming, character development, and prose feedback. If you're curious about using AI as a creative collaborator while maintaining full control of your writing, Novelcrafter is worth investigating.
 
@@ -142,11 +142,11 @@ Beyond the AI features, Novelcrafter has a solid organizational structure with c
 
 **Best for:** Writers who want AI-assisted brainstorming and feedback alongside traditional writing tools. Plotters who want a codex system for worldbuilding.
 
-**Honest limitations:** AI costs are separate from the subscription--you pay for API tokens on top of the monthly fee. If you're not interested in AI, you're paying for a platform built around a feature you won't use. Cloud-only, like Dabble.
+**Honest limitations:** AI features need your own API key, so you pay your AI provider on top of the subscription; its $4 Scribe plan has no AI tools. If you're not interested in AI, you're paying for a platform built around a feature you won't use.
 
 ## The Novel Factory
 
-From $7.50/month or $198 lifetime -- Cloud + Desktop
+[From $8.25/month ($82.50/year, one novel), $22/month for unlimited novels, or $649 lifetime for version 3.0](https://www.novel-software.com/buy-novel-writing-software/) -- 30-day free trial
 
 The Novel Factory leans hard into structured plotting. It includes step-by-step roadmaps based on popular story structures (Hero's Journey, Save the Cat, romance beats) and guides you through building character profiles, outlines, and synopses before you ever start drafting.
 
