@@ -41,7 +41,14 @@ export const organization = (): Node => ({
   ...organizationRef,
   alternateName: 'Kindling Writer',
   description: 'kindling makes free, open-source (MIT) desktop writing software for fiction writers who outline.',
-  sameAs: ['https://github.com/smith-and-web/kindling'],
+  sameAs: [
+    'https://github.com/smith-and-web/kindling',
+    'https://github.com/smith-and-web',
+    'https://discord.gg/g7bkj4kY8w',
+    'https://bsky.app/profile/kindlingwriter.com',
+    'https://alternativeto.net/software/kindling/about/',
+    'https://sourceforge.net/projects/kindling/',
+  ],
 });
 
 export const website = (): Node => ({

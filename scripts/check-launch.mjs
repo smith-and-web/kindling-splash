@@ -548,6 +548,21 @@ try {
   assert.match(await readFile('dist/index.html', 'utf8'), /<link rel="alternate" type="application\/rss\+xml"[^>]*href="\/blog\/rss\.xml"/);
   const robots = await readFile('dist/robots.txt', 'utf8');
   assert.match(robots, /Sitemap: https:\/\/kindlingwriter\.com\/sitemap-index\.xml/);
+  for (const bot of ['OAI-SearchBot', 'Claude-SearchBot', 'Claude-User', 'PerplexityBot', 'GPTBot', 'ClaudeBot']) {
+    assert.match(robots, new RegExp(`^User-agent: ${bot}$`, 'm'), `robots.txt must name ${bot}`);
+  }
+  // kindling always works offline; only updates and the feedback form need a
+  // connection. The old absolutes contradict llms.txt and are banned.
+  const bannedOffline = /fully offline|completely offline|no internet connection|no cloud/i;
+  for (const filename of files) {
+    const hit = (await readFile(filename, 'utf8')).match(bannedOffline);
+    assert.equal(hit, null, `${path.relative(root, filename)} contains "${hit?.[0]}"`);
+  }
+  for (const name of ['dist/llms.txt', 'dist/llms-full.txt']) {
+    const hit = (await readFile(name, 'utf8')).match(bannedOffline);
+    assert.equal(hit, null, `${name} contains "${hit?.[0]}"`);
+  }
+  pass('robots.txt names the AI search bots; no absolute offline or no-cloud claims');
   assert.equal((await fetch(local + '/sitemap-index.xml')).status, 200);
   pass(`${pages.length} HTML files: internal targets, article metadata, completion noindex, sitemap lastmod, guide and related-post links, contextual inlinks, llms.txt coverage, structured data, titles and descriptions`);
   assert.deepEqual([...state.errors, ...mobile.errors, ...shifting.errors, ...noJS.errors], []);
