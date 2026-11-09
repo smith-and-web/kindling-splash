@@ -5,7 +5,7 @@ description: "Documentation for kindling, the free, open-source writing app that
 
 **kindling** is a free, open-source story outlining and drafting tool for writers. Import your existing outlines from Plottr, Scrivener, Markdown, yWriter, Longform/Obsidian, or novelWriter, then export a manuscript, reading copy, web chapter, or project for another writing app.
 
-These guides cover **kindling v1.3**. See [what’s new in this release](/blog/kindling-v1-3-writing-and-review/).
+These guides cover **kindling v1.4**, whose interface is available in seven languages. See [what’s new in this release](/blog/kindling-v1-4-seven-languages/).
 
 ## Getting Started
 
@@ -27,6 +27,7 @@ These guides cover **kindling v1.3**. See [what’s new in this release](/blog/k
 ## Contributing
 
 - [Architecture](/docs/contributing/architecture/) — Codebase overview for contributors
+- [Translating kindling](/docs/contributing/translating/) — Improve a translation or add a new language
 
 ## Quick Links
 

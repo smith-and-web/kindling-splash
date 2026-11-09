@@ -34,7 +34,25 @@ sudo dnf install fuse
 
 ### Linux: White window on startup
 
-Version 1.3 includes an attempted workaround for a WebKitGTK rendering problem: it disables the DMA-BUF renderer on startup unless you have already set `WEBKIT_DISABLE_DMABUF_RENDERER` yourself. This has **not been confirmed to resolve the reported white-window issue**. If it persists, add your Linux distribution and launch details to [issue #252](https://github.com/smith-and-web/kindling/issues/252).
+**Update to kindling 1.4 or later.** Versions up to 1.3.1 bundle an older `libwayland-client` in the AppImage. On a system with a current Mesa graphics driver (25 or newer) it shadows the system copy, WebKit cannot create a display, and the window stays blank. Run from a terminal, the AppImage prints:
+
+```text
+Could not create default EGL display: EGL_BAD_PARAMETER. Aborting...
+```
+
+Version 1.4 no longer bundles the library. An affected version can't show you the update prompt, so [download 1.4](/download/) directly.
+
+If you need to run an older AppImage, use your distribution's `.deb` or `.rpm` package from the [releases page](https://github.com/smith-and-web/kindling/releases) (they use the system library), or start the AppImage with the system library preloaded:
+
+```bash
+# Debian/Ubuntu
+LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libwayland-client.so.0 ./Kindling_*.AppImage
+
+# Fedora/openSUSE
+LD_PRELOAD=/usr/lib64/libwayland-client.so.0 ./Kindling_*.AppImage
+```
+
+This may also be the cause of the blank window reported in [issue #252](https://github.com/smith-and-web/kindling/issues/252), which we could not confirm on the affected hardware. If 1.4 still opens blank for you, add your distribution, graphics driver and launch details to that issue.
 
 ### Linux: No application icon
 
