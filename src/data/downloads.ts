@@ -1,4 +1,4 @@
-export const APP_VERSION = '1.3.1';
+export const APP_VERSION = '1.4.0';
 
 const BASE_URL = 'https://github.com/smith-and-web/kindling/releases/latest/download';
 
@@ -7,6 +7,8 @@ const BASE_URL = 'https://github.com/smith-and-web/kindling/releases/latest/down
  * 19 Oct 2026: .dmg 22.3 MB, -setup.exe 8.2 MB, .AppImage 90.2 MB. The site
  * said "~10 MB" for all three, 8.6x too small for Linux. Re-measure when a
  * release changes the bundle; `gh release view` lists the asset sizes.
+ * TODO(v1.4.0): re-measure once the v1.4.0 assets are published. The Linux
+ * AppImage drops its bundled libwayland-client, so its size will move.
  */
 
 export const DOWNLOADS = {

@@ -73,6 +73,8 @@ export const softwareApplication = ({ description, featureList }: { description:
   // The desktop part is carried by operatingSystem.
   applicationCategory: 'BusinessApplication',
   operatingSystem: 'Windows, macOS, Linux',
+  // The app's interface languages (kindling 1.4). The website itself is English.
+  inLanguage: ['en', 'zh-CN', 'es', 'pt-BR', 'ru', 'de', 'fr'],
   offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
   softwareVersion: APP_VERSION,
   license: 'https://opensource.org/licenses/MIT',

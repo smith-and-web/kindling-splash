@@ -1,13 +1,13 @@
 ---
 title: Settings
-description: "Customize kindling: keyboard shortcuts, author and project preferences, reference types, tags and custom fields, and where your project files are stored."
+description: "Customize kindling: interface language, keyboard shortcuts, author and project preferences, reference types, tags, custom fields, and where files are stored."
 ---
 
 Choose **Settings** at the bottom of the project sidebar, or open **File → Settings…**. The default shortcut is **Cmd+,** on macOS / **Ctrl+,** on Windows and Linux. Settings is also available from the start screen and command palette.
 
 The sidebar groups shared settings under **kindling → Preferences**, and project settings under **Projects → Manuscript / Reference Library**. Choose an area to see its controls:
 
-- **Appearance & Guidance**: Light, Dark, or System theme and contextual guidance tips. These preferences apply immediately across kindling.
+- **Appearance & Guidance**: Light, Dark, or System theme, the interface language, and contextual guidance tips. These preferences apply immediately across kindling.
 - **Keyboard Shortcuts**: Remap commands and prose formatting for all projects. Changes apply immediately.
 - **Author & Contact**: Author name, address, phone, and email used on exported manuscript title pages. Choose **Save author details** to apply changes.
 - **Project Details**: Pen name, genre, description, word target, and daily writing goal. A pen name overrides the shared author name for that project's byline. A daily goal of 0 turns off the goal.
@@ -20,6 +20,18 @@ The sidebar groups shared settings under **kindling → Preferences**, and proje
 Use the **Project** selector under **Projects** in the Settings sidebar. It stays available as you navigate; choosing a project from a shared settings area opens Project Details. Your open manuscript and selected scene stay in place. If you have no projects yet, create or import one first; shared preferences remain available.
 
 Choose **Save project changes** to save project details and reference types. Tags and custom fields save through their own add, edit, and delete controls. Drafts remain while you navigate settings areas. Before switching projects or closing Settings with unsaved changes, kindling asks whether to discard them or keep editing.
+
+## Language
+
+kindling's interface is available in seven languages: English, <span lang="zh-CN">简体中文</span> (Simplified Chinese), <span lang="es">Español</span>, <span lang="pt-BR">Português (Brasil)</span>, <span lang="ru">Русский</span>, <span lang="de">Deutsch</span>, and <span lang="fr">Français</span>.
+
+By default kindling follows your operating system's language. Any regional variety of a supported language reads that language's interface: Portuguese reads Brazilian Portuguese, and Traditional Chinese reads Simplified Chinese until a Traditional translation exists. Any other language reads English.
+
+To choose a language yourself, open **Settings → kindling → Preferences → Appearance & Guidance** and pick one under **Language**. The whole app switches immediately, native menus included, without a restart. Choose **System default** to follow your operating system again.
+
+The language setting changes kindling's interface only: menus, dialogs, tips, dates, numbers, and counts. Your manuscript, outline, and references are never translated. An EPUB's language metadata is set separately, in its export's **Book details**.
+
+Spotted an awkward phrase or a clipped label? See [Translating kindling](/docs/contributing/translating/) for how to report it or correct it yourself.
 
 ## Keyboard shortcuts
 
