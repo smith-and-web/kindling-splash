@@ -121,19 +121,19 @@ const structuredData = graph(organization(), person(), website(), softwareApplic
     </div>
   </section>
 
-  <!-- The facts an assistant would quote, as one plain table straight after the
-       hero. Server-rendered at a fixed layout, so it adds nothing to CLS; it
-       sits above the demo because a visitor landing here from an AI answer
-       looking for price, platforms and what kindling will not do should not
-       have to scroll past an interactive specimen to find them. -->
-  <FactsTable source="src/pages/index.astro" />
-
   <!-- The specimen, below the action rather than above it. It keeps its
        behaviour and loses its rank: a visitor is told what kindling is before
        being handed something to operate. -->
   <section class="pw-frame specimen" aria-label="A scene in kindling">
     <WritingDemo />
   </section>
+
+  <!-- The facts an assistant would quote, as one plain table. Server-rendered
+       at a fixed layout, so it adds nothing to CLS. It sits below the demo, not
+       above it: at 375px the table is about two screens tall, and above the
+       demo it pushed the specimen, the page's best conversion step, two
+       screens further down (decision 11 Nov 2026). -->
+  <FactsTable source="src/pages/index.astro" />
 
   <!-- The fact strip. Left-aligned per `.pw-trust--inline`; the writer count is
        sourced from GitHub release analytics filtered to binary assets and is
@@ -339,8 +339,11 @@ const structuredData = graph(organization(), person(), website(), softwareApplic
 
   /* The strip sits directly on top of the 02 band, not below the specimen with
      a gap after it. It is a set of claims about the product, so it reads as the
-     lead-in to the section that argues for them. */
-  .trust-band { margin-top: var(--space-3xl); }
+     lead-in to the section that argues for them. The folded facts line sits
+     on top of it in turn (FactsTable), so the strip takes no gap of its own:
+     the specimen's bottom padding is the break, and the facts line, strip and
+     02 band read as one run. */
+  .trust-band { margin-top: 0; }
 
   .features-section { padding-block: var(--space-3xl); }
 
@@ -366,7 +369,6 @@ const structuredData = graph(organization(), person(), website(), softwareApplic
 
   @container press-website (max-width: 600px) {
     .specimen { padding-bottom: var(--space-2xl); }
-    .trust-band { margin-top: var(--space-2xl); }
     .features-section { padding-block: var(--space-2xl); }
   }
 </style>

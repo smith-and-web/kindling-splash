@@ -576,7 +576,7 @@ try {
   }
   pass(`${postCount} blog posts name Josh Smith (Person, sameAs, byline); the home page carries the Person and the founder reference`);
 
-  // The facts table ("kindling at a glance"): present once on each of the six
+  // The facts disclosure ("kindling at a glance"): one closed <details> on each of the six
   // pages that answer "what is kindling", its rows equal the FACT_ROWS bullets
   // in llms.txt (one source, src/data/llms.ts), with a visible updated date
   // that matches the page's dateModified.
@@ -589,26 +589,29 @@ try {
   for (const pathname of factPages) {
     const filename = path.join(root, 'dist', pathname, 'index.html');
     const html = await readFile(filename, 'utf8');
-    const tables = html.match(/<table[^>]*data-facts-table[^>]*>.*?<\/table>/gs) ?? [];
-    assert.equal(tables.length, 1, `${pathname}: expected one facts table, found ${tables.length}`);
-    assert.match(tables[0], /<caption[^>]*>kindling at a glance<\/caption>/, `${pathname}: facts table caption`);
-    const rows = [...tables[0].matchAll(/<tr[^>]*>\s*<th[^>]*>(.*?)<\/th>\s*<td[^>]*>(.*?)<\/td>\s*<\/tr>/gs)].map(([, l, v]) => [decode(l), decode(v)]);
-    assert.ok(rows.length >= 11, `${pathname}: facts table has ${rows.length} rows`);
-    assert.deepEqual(rows, llmsFacts.slice(0, rows.length), `${pathname}: facts table rows differ from llms.txt`);
+    const lists = html.match(/<dl[^>]*data-facts-list[^>]*>.*?<\/dl>/gs) ?? [];
+    assert.equal(lists.length, 1, `${pathname}: expected one facts list, found ${lists.length}`);
+    const disclosure = html.match(/<details[^>]*data-facts[^>]*>.*?<\/details>/s)?.[0] ?? '';
+    assert.ok(!/<details[^>]*\bopen\b[^>]*data-facts|<details[^>]*data-facts[^>]*\bopen\b/.test(html), `${pathname}: facts disclosure renders open`);
+    assert.match(disclosure, /<summary[^>]*>.*?kindling at a glance.*?<\/summary>/s, `${pathname}: facts summary`);
+    assert.ok(disclosure.includes(lists[0]), `${pathname}: facts list sits outside the disclosure`);
+    const rows = [...lists[0].matchAll(/<dt[^>]*>(.*?)<\/dt>\s*<dd[^>]*>(.*?)<\/dd>/gs)].map(([, l, v]) => [decode(l), decode(v)]);
+    assert.ok(rows.length >= 11, `${pathname}: facts list has ${rows.length} rows`);
+    assert.deepEqual(rows, llmsFacts.slice(0, rows.length), `${pathname}: facts list differs from llms.txt`);
     const labels = rows.map(([l]) => l);
     for (const needed of ['Price', 'Licence', 'Current version', 'Platforms and downloads', 'Imports', 'Exports', 'Offline', 'AI', 'Desktop-app privacy', 'What it does not do', 'Source']) {
-      assert.ok(labels.includes(needed), `${pathname}: facts table has no "${needed}" row`);
+      assert.ok(labels.includes(needed), `${pathname}: facts list has no "${needed}" entry`);
     }
     assert.equal(rows.find(([l]) => l === 'Offline')[1],
       'kindling always works offline. Your projects are local files on your computer. An internet connection is needed only for automatic updates and the optional feedback form.');
-    assert.equal(html.match(/<table\b/g).length, ['/compare/', '/free-scrivener-alternative/', '/story-outlining-software/'].includes(pathname) ? 2 : 1, `${pathname}: unexpected table count`);
+    assert.equal((html.match(/<table\b/g) ?? []).length, ['/compare/', '/free-scrivener-alternative/', '/story-outlining-software/'].includes(pathname) ? 1 : 0, `${pathname}: unexpected table count`);
     const updated = html.match(/class="facts-updated[^"]*"[^>]*>Updated <time datetime="(\d{4}-\d{2}-\d{2})"[^>]*>([^<]+)<\/time>/);
     assert.ok(updated, `${pathname}: no visible "Updated" line`);
     const app = (await graphOf(filename)).find((n) => n['@type'] === 'SoftwareApplication');
     assert.equal(app.dateModified, updated[1], `${pathname}: dateModified must equal the visible date`);
     assert.equal(updated[2], new Date(`${updated[1]}T00:00:00Z`).toLocaleDateString('en-US', { timeZone: 'UTC', year: 'numeric', month: 'long', day: 'numeric' }));
   }
-  pass('six pages carry one facts table whose rows equal llms.txt, with a visible Updated date matching dateModified');
+  pass('six pages carry one closed facts disclosure whose entries equal llms.txt, with a visible Updated date matching dateModified');
 
   // FAQ parity: every question in a page's FAQPage JSON-LD is visible text on
   // that page, and the home page carries no FAQPage at all.

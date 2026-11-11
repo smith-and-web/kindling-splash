@@ -49,8 +49,8 @@ const SECONDARY_PAGES: { path: string; title: string; note: string }[] = [
 /*
  * The facts an assistant would quote, as rows. One source: `facts()` below
  * renders them as the bullets in llms.txt, and `components/FactsTable.astro`
- * renders the same rows as the visible "kindling at a glance" table, so the two
- * cannot drift. `check-launch.mjs` compares the built table with these rows.
+ * renders the same rows as the visible "kindling at a glance" list, so the two
+ * cannot drift. `check-launch.mjs` compares the built list with these rows.
  * Keep each value to a sentence the site states elsewhere.
  */
 export type FactRow = { label: string; value: string; href?: string };

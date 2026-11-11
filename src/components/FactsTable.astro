@@ -1,18 +1,23 @@
 ---
 /*
  * "kindling at a glance": the facts an assistant (or a hurried reader) would
- * quote, as one plain editorial table placed in the first screens of the six
- * pages that answer "what is kindling". The rows come from `FACT_ROWS` in
- * data/llms.ts, the same source as the bullets in llms.txt, so the two cannot
- * drift.
+ * quote, folded into one Press disclosure (`.pw-disclosure`, native
+ * `<details>`). Closed, it is a single line, "kindling at a glance · 11 facts
+ * about the app", so it never interrupts the page; open, it lists every fact,
+ * label then value, held to the reading measure.
  *
- * Server-rendered with a fixed column layout, so nothing about it depends on
- * script or fonts arriving and it cannot shift the page. Press hairlines only:
- * no card, no shadow, no accent. The value column is held to the reading
- * measure.
+ * Why folded (11 Nov 2026): an open table, then an open three-column spec
+ * sheet, both broke the site's flow, and the owner ruled that the site's look
+ * wins over assistant traffic. Direction 03 from the Open Design project
+ * `kindling-facts-block`. The facts stay server-rendered text in the HTML, so
+ * crawlers and assistants that read the HTML still get them, with no
+ * JavaScript; they are only off screen until opened.
+ *
+ * The rows come from `FACT_ROWS` in data/llms.ts, the same source as the
+ * bullets in llms.txt, so the two cannot drift.
  *
  * `source` is the page's own file. Its last commit date is the visible
- * "Updated" line under the table and the `dateModified` the page passes to
+ * "Updated" line and the `dateModified` the page passes to
  * `softwareApplication()`, through the same helper the sitemap uses.
  */
 import { FACT_ROWS } from '../data/llms';
@@ -32,26 +37,27 @@ const updated = day
   : undefined;
 ---
 
-<section class:list={["facts", frame === "composed" ? "pw-frame" : "facts--editorial"]} aria-labelledby="facts-caption">
-  <table class="facts-table" data-facts-table>
-    <caption id="facts-caption">kindling at a glance</caption>
-    <tbody>
+<section class:list={["facts", frame === "composed" ? "pw-frame" : "facts--editorial"]} aria-label="kindling at a glance">
+  <details class="pw-disclosure facts-disclosure" data-facts>
+    <summary><span class="facts-summary">kindling at a glance <small>{FACT_ROWS.length} facts about the app</small></span></summary>
+    <dl class="facts-list" data-facts-list>
       {FACT_ROWS.map((row) => (
-        <tr>
-          <th scope="row">{row.label}</th>
-          <td>{row.href ? <a href={row.href}>{row.value}</a> : row.value}</td>
-        </tr>
+        <div class="facts-item">
+          <dt>{row.label}</dt>
+          <dd>{row.href ? <a href={row.href}>{row.value}</a> : row.value}</dd>
+        </div>
       ))}
-    </tbody>
-  </table>
+    </dl>
+  </details>
   {updated && <p class="facts-updated" data-updated>Updated <time datetime={day}>{updated}</time></p>}
 </section>
 
 <style>
-  /* Element-qualified so these beat Press's table and caption defaults:
-     Astro's `:where()` scope adds no specificity. */
+  /* Element-qualified: Astro's `:where()` scope adds no specificity, and
+     these have to beat Press's disclosure and list defaults. The summary row,
+     its hairline and the +/− marker are Press's `.pw-disclosure`, untouched. */
   section.facts {
-    padding-block: var(--space-l);
+    padding-block: 0 var(--space-l);
   }
 
   /* The editorial frame: the same edge `.page-hero` and `.content-section`
@@ -62,60 +68,46 @@ const updated = day
     padding-inline: var(--space-m);
   }
 
-  table.facts-table {
-    width: 100%;
-    /* The value column is the measure; the label column sits beside it. */
-    max-width: calc(var(--measure) + 12rem);
-    table-layout: fixed;
-    border-collapse: collapse;
-    font-family: var(--pw-body);
-    font-size: var(--text-ui);
-    line-height: var(--leading);
-    color: var(--color-text);
-  }
-
-  table.facts-table caption {
-    caption-side: top;
-    text-align: start;
-    padding-block-end: var(--space-xs);
-    font-family: var(--font-display);
-    font-size: var(--text-h3);
-    font-weight: 500;
-    color: var(--color-text);
-  }
-
-  table.facts-table :is(th, td) {
-    padding: var(--space-xs) var(--space-s) var(--space-xs) 0;
-    border-top: 1px solid var(--color-border);
-    text-align: start;
-    vertical-align: top;
-    overflow-wrap: anywhere;
-  }
-
-  table.facts-table tr:last-child :is(th, td) {
-    border-bottom: 1px solid var(--color-border);
-  }
-
-  table.facts-table th {
-    width: 12rem;
-    font-weight: 500;
-    color: var(--color-text);
-  }
-
-  table.facts-table td {
-    font-weight: 400;
-  }
-
-  p.facts-updated {
-    margin-top: var(--space-s);
-    font-family: var(--pw-body);
-    font-size: var(--text-small);
+  span.facts-summary small {
+    display: block;
+    margin-top: var(--space-3xs);
+    font: 400 var(--text-small) / var(--leading) var(--pw-body);
     color: var(--color-text-muted);
   }
 
-  @media (max-width: 40rem) {
-    table.facts-table th {
-      width: 8rem;
-    }
+  dl.facts-list {
+    max-width: var(--measure);
+    margin: 0;
+    padding-bottom: var(--space-m);
+    font: var(--text-ui) / var(--leading) var(--pw-body);
+    color: var(--color-text);
+  }
+
+  div.facts-item + div.facts-item {
+    margin-top: var(--space-s);
+  }
+
+  /* Label and value run on as one sentence: "Price. Free. No premium…". */
+  div.facts-item :is(dt, dd) {
+    display: inline;
+    margin: 0;
+  }
+
+  div.facts-item dt {
+    font-weight: 600;
+  }
+
+  div.facts-item dt::after {
+    content: '. ';
+  }
+
+  div.facts-item dd {
+    overflow-wrap: break-word;
+  }
+
+  p.facts-updated {
+    margin-top: var(--space-2xs);
+    font: var(--text-eyebrow) / var(--leading) var(--pw-body);
+    color: var(--color-text-muted);
   }
 </style>
