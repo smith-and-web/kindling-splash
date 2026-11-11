@@ -2,7 +2,7 @@
 import MarketingLayout from '../../layouts/MarketingLayout.astro';
 import SmartDownloadButton from '../../components/SmartDownloadButton.svelte';
 import { getCollection, render } from 'astro:content';
-import { SITE, absoluteUrl, breadcrumb, graph, organizationRef } from '../../data/schema';
+import { SITE, absoluteUrl, breadcrumb, graph, organizationRef, personRef } from '../../data/schema';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog');
@@ -53,7 +53,7 @@ const structuredData = graph(
     // Article rich results want an image. Posts have no art of their own yet,
     // so they fall back to the site's 1200x630 social card.
     "image": absoluteUrl(post.data.ogImage ?? '/og-image.png'),
-    "author": organizationRef,
+    "author": personRef,
     "publisher": organizationRef,
     "mainEntityOfPage": { "@type": "WebPage", "@id": postUrl },
     "url": postUrl,
@@ -95,6 +95,7 @@ const structuredData = graph(
         <time datetime={post.data.publishedDate}>{formattedDate}</time>
       </div>
       <h1>{post.data.title}</h1>
+      <p class="post-byline">By <a href="/open-source/" rel="author">Josh Smith</a></p>
     </div>
 
     <div class="article-content">
@@ -193,6 +194,13 @@ const structuredData = graph(
     font-weight: 600;
     line-height: var(--leading-tight);
     letter-spacing: var(--tracking-tight);
+  }
+
+  .post-byline {
+    margin-top: var(--space-s);
+    font-family: var(--font-ui);
+    font-size: var(--text-small);
+    color: var(--color-text-muted);
   }
 
   /* Article body content */

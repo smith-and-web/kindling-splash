@@ -1,0 +1,62 @@
+---
+/*
+ * A visible FAQ rendered from the same object that feeds a page's FAQPage
+ * JSON-LD, so the markup can never describe questions the reader cannot see.
+ * `check-launch.mjs` asserts that every question in every FAQPage is visible
+ * text on its page.
+ */
+interface Props {
+  /** The page's `faqStructuredData.mainEntity`. */
+  items: { name: string; acceptedAnswer: { text: string } }[];
+  /** `composed` pages (/features/, /download/) sit on `.pw-frame`; editorial pages on `.content-section`. */
+  frame?: 'composed' | 'editorial';
+  /** The running label, e.g. "13 / Quick answers". Omit where the page carries none. */
+  label?: string;
+}
+
+const { items, frame = 'editorial', label } = Astro.props;
+---
+
+{frame === 'editorial' ? (
+  <section class="content-section" id="faq">
+    {label && <p class="pw-label">{label}</p>}
+    <h2>Frequently asked questions</h2>
+    {items.map((item) => (
+      <>
+        <h3>{item.name}</h3>
+        <p>{item.acceptedAnswer.text}</p>
+      </>
+    ))}
+  </section>
+) : (
+  <section class="pw-frame faq-block" id="faq" aria-labelledby="faq-title">
+    {label && <p class="pw-label">{label}</p>}
+    <h2 class="pw-heading" id="faq-title">Frequently asked questions</h2>
+    {items.map((item) => (
+      <>
+        <h3>{item.name}</h3>
+        <p>{item.acceptedAnswer.text}</p>
+      </>
+    ))}
+  </section>
+)}
+
+<style>
+  /* Composed pages only; editorial pages take `.content-section`'s own rules.
+     Element-qualified: Astro's `:where()` scope adds no specificity. */
+  section.faq-block {
+    padding-block: var(--space-3xl);
+  }
+
+  section.faq-block h3 {
+    margin: var(--space-m) 0 var(--space-2xs);
+    font-family: var(--font-display);
+    font-size: var(--text-h3);
+    font-weight: 500;
+  }
+
+  section.faq-block p:not(.pw-label) {
+    max-width: var(--measure);
+    line-height: var(--leading-relaxed);
+  }
+</style>

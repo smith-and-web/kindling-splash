@@ -1,0 +1,113 @@
+---
+/*
+ * "kindling at a glance": the facts an assistant (or a hurried reader) would
+ * quote, folded into one Press disclosure (`.pw-disclosure`, native
+ * `<details>`). Closed, it is a single line, "kindling at a glance · 11 facts
+ * about the app", so it never interrupts the page; open, it lists every fact,
+ * label then value, held to the reading measure.
+ *
+ * Why folded (11 Nov 2026): an open table, then an open three-column spec
+ * sheet, both broke the site's flow, and the owner ruled that the site's look
+ * wins over assistant traffic. Direction 03 from the Open Design project
+ * `kindling-facts-block`. The facts stay server-rendered text in the HTML, so
+ * crawlers and assistants that read the HTML still get them, with no
+ * JavaScript; they are only off screen until opened.
+ *
+ * The rows come from `FACT_ROWS` in data/llms.ts, the same source as the
+ * bullets in llms.txt, so the two cannot drift.
+ *
+ * `source` is the page's own file. Its last commit date is the visible
+ * "Updated" line and the `dateModified` the page passes to
+ * `softwareApplication()`, through the same helper the sitemap uses.
+ */
+import { FACT_ROWS } from '../data/llms';
+import { lastCommitDay } from '../data/lastmod.mjs';
+
+interface Props {
+  /** Repo-relative path of the page, e.g. `src/pages/compare/index.astro`. */
+  source: string;
+  /** `composed` pages (/, /features/, /download/) sit on `.pw-frame`; editorial pages on the 960px frame. */
+  frame?: 'composed' | 'editorial';
+}
+
+const { source, frame = 'composed' } = Astro.props;
+const day = lastCommitDay(source);
+const updated = day
+  ? new Date(`${day}T00:00:00Z`).toLocaleDateString('en-US', { timeZone: 'UTC', year: 'numeric', month: 'long', day: 'numeric' })
+  : undefined;
+---
+
+<section class:list={["facts", frame === "composed" ? "pw-frame" : "facts--editorial"]} aria-label="kindling at a glance">
+  <details class="pw-disclosure facts-disclosure" data-facts>
+    <summary><span class="facts-summary">kindling at a glance <small>{FACT_ROWS.length} facts about the app</small></span></summary>
+    <dl class="facts-list" data-facts-list>
+      {FACT_ROWS.map((row) => (
+        <div class="facts-item">
+          <dt>{row.label}</dt>
+          <dd>{row.href ? <a href={row.href}>{row.value}</a> : row.value}</dd>
+        </div>
+      ))}
+    </dl>
+  </details>
+  {updated && <p class="facts-updated" data-updated>Updated <time datetime={day}>{updated}</time></p>}
+</section>
+
+<style>
+  /* Element-qualified: Astro's `:where()` scope adds no specificity, and
+     these have to beat Press's disclosure and list defaults. The summary row,
+     its hairline and the +/− marker are Press's `.pw-disclosure`, untouched. */
+  section.facts {
+    padding-block: 0 var(--space-l);
+  }
+
+  /* The editorial frame: the same edge `.page-hero` and `.content-section`
+     start their content on. Never a hand-written width. */
+  section.facts--editorial {
+    max-width: var(--page-frame-editorial);
+    margin-inline: auto;
+    padding-inline: var(--space-m);
+  }
+
+  span.facts-summary small {
+    display: block;
+    margin-top: var(--space-3xs);
+    font: 400 var(--text-small) / var(--leading) var(--pw-body);
+    color: var(--color-text-muted);
+  }
+
+  dl.facts-list {
+    max-width: var(--measure);
+    margin: 0;
+    padding-bottom: var(--space-m);
+    font: var(--text-ui) / var(--leading) var(--pw-body);
+    color: var(--color-text);
+  }
+
+  div.facts-item + div.facts-item {
+    margin-top: var(--space-s);
+  }
+
+  /* Label and value run on as one sentence: "Price. Free. No premium…". */
+  div.facts-item :is(dt, dd) {
+    display: inline;
+    margin: 0;
+  }
+
+  div.facts-item dt {
+    font-weight: 600;
+  }
+
+  div.facts-item dt::after {
+    content: '. ';
+  }
+
+  div.facts-item dd {
+    overflow-wrap: break-word;
+  }
+
+  p.facts-updated {
+    margin-top: var(--space-2xs);
+    font: var(--text-eyebrow) / var(--leading) var(--pw-body);
+    color: var(--color-text-muted);
+  }
+</style>

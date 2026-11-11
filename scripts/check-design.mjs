@@ -340,7 +340,7 @@ try {
      on the same offset, so a wide-only check proves nothing. `.pw-footer` was
      32px out at every laptop width while this check passed. */
   const EDGE_FAMILIES = [
-    ['editorial', '.page-hero, .content-section, .blog-listing, .article-content'],
+    ['editorial', '.page-hero, .content-section, .blog-listing, .article-content, .facts--editorial'],
     ['website frame', ':is(.pw-frame, .pw-hero, .pw-closing, .pw-footer):not(:has(> .pw-frame))'],
   ];
   for (const width of [1440, 1200]) {
@@ -503,6 +503,94 @@ try {
   check(focus.outlineStyle !== 'none' || focus.shadow !== 'none',
     `Focus is not visible on the first download control (outline ${focus.outlineStyle}, shadow ${focus.shadow})`);
   pass('keyboard focus is visible on a representative control');
+
+  /* ---- 8b. The facts disclosure, the updated line and the author byline -- */
+  /* "kindling at a glance" is one Press `.pw-disclosure`, closed by default:
+     a single summary line, Inter, with Press's hairline and no shadow,
+     gradient or terracotta. Opened, every fact sits within the measure. It
+     comes after the H1 inside the first third and never beside a table. The
+     facts were open on the page until 11 Nov 2026; the owner ruled the site's
+     look wins, so the closed line is the contract. */
+  const FACT_PAGES = ['/', '/features/', '/download/', '/compare/', '/free-scrivener-alternative/', '/story-outlining-software/'];
+  for (const width of [1440, 375]) {
+    await page.setViewportSize({ width, height: 1000 });
+    for (const path of FACT_PAGES) {
+      await go(path);
+      const t = await page.evaluate(() => {
+        const measureAt = (el) => { const d = document.createElement('div'); d.style.cssText = 'max-width:var(--measure);width:9999px;position:absolute;visibility:hidden'; el.appendChild(d); const w = d.getBoundingClientRect().width; d.remove(); return w; };
+        const details = document.querySelector('details[data-facts]');
+        if (!details) return { missing: true };
+        const section = details.closest('section');
+        const summary = details.querySelector('summary');
+        const closed = { open: details.open, height: Math.round(section.getBoundingClientRect().height), summaryFont: getComputedStyle(summary).fontFamily.split(',')[0].replace(/["']/g, '') };
+        const box = details.getBoundingClientRect();
+        const top = box.top + scrollY;
+        details.open = true;
+        const list = details.querySelector('dl[data-facts-list]');
+        const items = [...list.querySelectorAll(':scope > div')];
+        const value = getComputedStyle(items[0].querySelector('dd'));
+        const cs = getComputedStyle(details);
+        const doc = document.documentElement.scrollHeight;
+        const h1 = document.querySelector('h1');
+        const adjacent = [section?.previousElementSibling, section?.nextElementSibling]
+          .some((el) => el && (el.matches('table, .comparison-table-wrap') || el.querySelector(':scope > table, :scope > .comparison-table-wrap')));
+        const updated = section.querySelector('p.facts-updated');
+        const result = {
+          ...closed, disclosures: document.querySelectorAll('details[data-facts]').length, items: items.length,
+          valueFont: value.fontFamily.split(',')[0].replace(/["']/g, ''),
+          decorated: [section, details, list].some((el) => { const c = getComputedStyle(el); return c.boxShadow !== 'none' || c.backgroundImage !== 'none'; }),
+          hairline: cs.borderTopStyle + ' ' + cs.borderTopWidth,
+          colours: [value.color, getComputedStyle(summary).color, cs.borderTopColor],
+          widest: list.getBoundingClientRect().width, measure: measureAt(list),
+          top, doc, afterH1: h1 ? !!(h1.compareDocumentPosition(details) & Node.DOCUMENT_POSITION_FOLLOWING) : false,
+          adjacent,
+          updated: updated ? { text: updated.textContent.trim(), font: getComputedStyle(updated).fontFamily.split(',')[0].replace(/["']/g, ''), visible: updated.getClientRects().length > 0 } : null,
+          overflow: document.documentElement.scrollWidth - innerWidth,
+        };
+        details.open = false;
+        return result;
+      });
+      check(!t.missing, `${path} at ${width}px: no facts disclosure`);
+      if (t.missing) continue;
+      check(t.disclosures === 1, `${path}: ${t.disclosures} facts disclosures`);
+      check(!t.open, `${path}: facts disclosure renders open`);
+      check(t.height <= 160, `${path} at ${width}px: closed facts block is ${t.height}px tall`);
+      check(t.items >= 11, `${path}: facts list has ${t.items} entries`);
+      check(t.summaryFont === 'Inter' && t.valueFont === 'Inter', `${path}: facts copy is ${t.summaryFont}/${t.valueFont}, not Inter`);
+      check(!t.decorated, `${path}: facts block has a shadow or gradient`);
+      check(/^solid 1px$/.test(t.hairline), `${path}: facts disclosure is ruled by "${t.hairline}", not a hairline`);
+      check(!t.colours.includes(ACCENT_TEXT), `${path}: facts block uses the accent colour`);
+      check(t.widest <= t.measure + 1, `${path} at ${width}px: open facts run ${Math.round(t.widest)}px, past the ${Math.round(t.measure)}px measure`);
+      check(t.afterH1, `${path}: facts disclosure comes before the H1`);
+      check(!t.adjacent, `${path}: facts block sits next to a table`);
+      check(t.overflow <= 1, `${path} at ${width}px: open facts overflow by ${t.overflow}px`);
+      if (width === 1440) check(t.top < t.doc / 3, `${path}: facts disclosure starts at ${Math.round(t.top)}px of ${t.doc}px, past the first third`);
+      check(t.updated?.visible && /^Updated [A-Z][a-z]+ \d{1,2}, \d{4}$/.test(t.updated.text), `${path}: no visible "Updated <date>" line (${t.updated?.text})`);
+      check(t.updated?.font === 'Inter', `${path}: updated line is ${t.updated?.font}, not Inter`);
+    }
+  }
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  pass('six pages carry one closed facts disclosure: one Inter line under a hairline, facts within the measure when open, first third, never beside a table, with an Updated line');
+
+  await go('/blog/');
+  const firstPost = await page.evaluate(() => document.querySelector('a[href^="/blog/"][href$="/"]:not([href="/blog/"])')?.getAttribute('href'));
+  const byline = await go(firstPost).then(() => page.evaluate(() => {
+    const el = document.querySelector('.post-byline');
+    return el ? { text: el.textContent.trim(), visible: el.getClientRects().length > 0, font: getComputedStyle(el).fontFamily.split(',')[0].replace(/["']/g, '') } : null;
+  }));
+  check(byline?.text === 'By Josh Smith' && byline.visible, `${firstPost}: byline reads "${byline?.text}"`);
+  check(byline?.font === 'Inter', `${firstPost}: byline is ${byline?.font}, not Inter`);
+  await go('/open-source/');
+  const author = await page.evaluate(() => {
+    const el = document.querySelector('#about-the-author p:not(.pw-label)');
+    if (!el) return null;
+    const d = document.createElement('div'); d.style.cssText = 'max-width:65ch;width:9999px;position:absolute;visibility:hidden'; el.appendChild(d); /* Press caps website prose at 65ch */
+    const measure = d.getBoundingClientRect().width; d.remove();
+    return { text: el.textContent.trim(), width: el.getBoundingClientRect().width, measure };
+  });
+  check(author?.text.startsWith('Josh Smith is the developer of kindling.'), '/open-source/: no author paragraph');
+  check(author && author.width <= author.measure + 1, `/open-source/: author paragraph runs ${Math.round(author?.width)}px, past the ${Math.round(author?.measure)}px measure`);
+  pass('blog posts show a "By Josh Smith" byline and /open-source/ carries the author paragraph within the measure');
 
   /* ---- 9. Brand and social assets resolve -------------------------------- */
   const assets = ['/favicon.svg', '/favicon-32.png', '/favicon-16.png', '/favicon.ico',

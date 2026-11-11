@@ -1,10 +1,13 @@
 ---
 import MarketingLayout from '../../layouts/MarketingLayout.astro';
 import { graph, softwareApplication } from '../../data/schema';
+import { lastCommitDay } from '../../data/lastmod.mjs';
+import FactsTable from '../../components/FactsTable.astro';
 import SmartDownloadButton from '../../components/SmartDownloadButton.svelte';
 import { APP_VERSION } from '../../data/downloads';
 
 const structuredData = graph(softwareApplication({
+  dateModified: lastCommitDay('src/pages/free-scrivener-alternative/index.astro'),
   description: "kindling Writer is a free, open-source Scrivener alternative for fiction writers. Outline and draft in one desktop app. Imports Scrivener projects. No subscription, no account, works offline.",
 }));
 
@@ -77,6 +80,10 @@ const faqStructuredData = {
     <p class="page-hero-subtext">Scrivener offers a broad set of manuscript, research, and compilation tools. If your priority is outlining and drafting, you may prefer a more focused workspace. kindling Writer is the free, open-source alternative built around the one thing most novelists actually need: an outline that stays visible while you draft.</p>
     <SmartDownloadButton client:load location="free_scrivener_alternative_hero" compact />
   </section>
+
+  <!-- The facts table sits above "What you get", so the Scrivener
+       comparison table further down is never adjacent to a second table. -->
+  <FactsTable source="src/pages/free-scrivener-alternative/index.astro" frame="editorial" />
 
   <!-- ===== What you get for free ===== -->
   <section class="content-section">

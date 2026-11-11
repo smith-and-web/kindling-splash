@@ -1,9 +1,13 @@
 ---
 import MarketingLayout from '../../layouts/MarketingLayout.astro';
 import { graph, softwareApplication } from '../../data/schema';
+import { lastCommitDay } from '../../data/lastmod.mjs';
+import FaqSection from '../../components/FaqSection.astro';
+import FactsTable from '../../components/FactsTable.astro';
 import { APP_VERSION } from '../../data/downloads';
 
 const structuredData = graph(softwareApplication({
+  dateModified: lastCommitDay('src/pages/compare/index.astro'),
   description: "Free open-source fiction writing software that keeps your outline visible while you draft. Import from Plottr, Scrivener, yWriter, or Obsidian.",
 }));
 
@@ -103,9 +107,12 @@ const comparisonRows: { feature: string; values: (boolean | string | null)[] }[]
 
   <section class="page-hero">
     <h1>How kindling compares to Scrivener, Plottr, and other writing tools</h1>
+    <p class="page-hero-subtext direct-answer">kindling is a free, open-source (MIT) desktop writing app for fiction writers who outline, and this page compares it with Scrivener, Plottr, Obsidian, Dabble, Novelcrafter, Campfire, Atticus and Wavemaker. It costs nothing, needs no account, and runs on macOS, Windows and Linux.</p>
     <p class="page-hero-subtext">kindling isn't trying to replace your favorite writing tools. It keeps your outline close while you draft, then helps you work through editorial feedback. Choose the tools that fit each stage of your book.</p>
     <div class="callout" style="margin-top: 24px; margin-bottom: 0;">Scrivener is where your manuscript lives. Plottr is where your story takes shape. kindling is where your scenes are born.</div>
   </section>
+
+  <FactsTable source="src/pages/compare/index.astro" frame="editorial" />
 
   <section class="content-section alt">
     <p class="pw-label">02 / Who it’s for</p>
@@ -268,6 +275,10 @@ const comparisonRows: { feature: string; values: (boolean | string | null)[] }[]
     <p class="callout pull-quote">Every word in your kindling draft is yours. That's not a limitation — it's the whole point.</p>
   </section>
 
+  <!-- Rendered from the same data as the FAQPage JSON-LD above, so the markup
+       always matches what a reader can see. -->
+  <FaqSection items={faqStructuredData.mainEntity} label="13 / Quick answers" />
+
   <section class="cta-section">
     <h2>Try it free — no strings attached</h2>
     <p>MIT licensed. <a href="/open-source/">Open source</a>. Your words, your data, forever.</p>
@@ -278,6 +289,12 @@ const comparisonRows: { feature: string; values: (boolean | string | null)[] }[]
 </MarketingLayout>
 
 <style>
+  /* The direct answer sits above the page's existing standfirst; keep the two
+     close so they read as one opening. */
+  p.page-hero-subtext.direct-answer {
+    margin-bottom: var(--space-s);
+  }
+
   /* Spotlight the kindling column — the whole point of the page. Without this
      it is styled identically to every competitor and the answer is invisible.
      Column 2 (kindling) gets a terracotta tint and a heavier, accented header. */
