@@ -615,7 +615,6 @@ try {
 
   // FAQ parity: every question in a page's FAQPage JSON-LD is visible text on
   // that page, and the home page carries no FAQPage at all.
-  const FAQ_PARITY_PENDING = ['/plottr-vs-scrivener/'];
   let faqPages = 0;
   for (const filename of files) {
     const pathname = pathOf(filename);
@@ -624,9 +623,6 @@ try {
     const faq = (await graphOf(filename)).find((n) => n['@type'] === 'FAQPage');
     if (pathname === '/') assert.equal(faq, undefined, 'the home page must not carry FAQPage markup');
     if (!faq) continue;
-    // /plottr-vs-scrivener/ is held until its answer-first refresh (plan M7,
-    // which renders its FAQ). Remove it from this list in that change.
-    if (FAQ_PARITY_PENDING.includes(pathname)) continue;
     faqPages++;
     const visible = decode(html.replace(/<(script|style)\b.*?<\/\1>/gs, ' '));
     for (const q of faq.mainEntity) assert.ok(visible.includes(decode(q.name)), `${pathname}: FAQPage question "${q.name}" is not visible on the page`);
