@@ -158,8 +158,10 @@ const structuredData = graph(
     text-decoration: underline;
   }
 
+  /* Wraps: three tags and a date run past a 375px screen on one line. */
   .post-meta {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     gap: 12px;
     margin-bottom: 16px;
@@ -167,6 +169,7 @@ const structuredData = graph(
 
   .post-tags {
     display: flex;
+    flex-wrap: wrap;
     gap: 8px;
   }
 
