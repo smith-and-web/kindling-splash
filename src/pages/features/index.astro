@@ -37,6 +37,7 @@ const structuredData = graph(softwareApplication({
         "Daily writing goals, session totals, streaks, and manuscript statistics",
         "Previous scene context and project-wide find and replace",
         "Copy references, custom fields, and tags between projects",
+        "Interface in seven languages: English, Simplified Chinese, Spanish, Brazilian Portuguese, Russian, German, and French",
         "Free and open source under MIT license",
     ],
 }));
@@ -267,10 +268,59 @@ const faqStructuredData = {
         </div>
     </section>
 
-    <!-- v1.3 — the release story, with direct paths into the guides. -->
-    <section class="features-seq-section pw-frame" id="new-in-v1-3">
+    <!-- v1.4 — the release story, with direct paths into the guides. -->
+    <section class="features-seq-section pw-frame" id="new-in-v1-4">
         <SectionLead
             label="02 / This release"
+            title="New in v1.4"
+            standfirst="kindling’s interface is now available in seven languages: English, Simplified Chinese, Spanish, Brazilian Portuguese, Russian, German, and French."
+        />
+        <div class="pw-release-grid">
+            <article class="pw-release-item">
+                <h3>kindling in your language</h3>
+                <p>
+                    Menus, dialogs, guidance tips, dates, numbers, and word
+                    counts follow your computer’s language. Counts of words,
+                    scenes, and beats take the right grammatical form in each
+                    language. Your manuscript, outline, and references are never
+                    translated.
+                </p>
+                <a
+                    class="pw-link"
+                    href="/blog/kindling-v1-4-seven-languages/"
+                >
+                    Read the v1.4 release story &rarr;
+                </a>
+            </article>
+            <article class="pw-release-item">
+                <h3>Switch without restarting</h3>
+                <p>
+                    Choose a language in Settings → Appearance &amp; Guidance and
+                    the whole app changes immediately, native menus included.
+                    Choose System default to follow your operating system again.
+                </p>
+                <a class="pw-link" href="/docs/settings/#language">
+                    Change the language &rarr;
+                </a>
+            </article>
+            <article class="pw-release-item">
+                <h3>Help shape the translations</h3>
+                <p>
+                    Native speakers are warmly welcome. Report an awkward phrase
+                    or a clipped label from the app, or edit the plain-text
+                    catalogs and open a pull request.
+                </p>
+                <a class="pw-link" href="/docs/contributing/translating/">
+                    Help translate kindling &rarr;
+                </a>
+            </article>
+        </div>
+    </section>
+
+    <!-- v1.3 — the previous release story, kept for its paths into the guides. -->
+    <section class="features-seq-section pw-frame" id="new-in-v1-3">
+        <SectionLead
+            label="03 / Previous release"
             title="New in v1.3"
             standfirst="A new editorial design, and tools for your next draft, writing session, and round of feedback."
         />
@@ -433,7 +483,7 @@ const faqStructuredData = {
     <!-- More drafting tools — hairline-separated pairs. -->
     <section class="features-seq-section pw-frame">
         <SectionLead
-            label="03 / Drafting tools"
+            label="04 / Drafting tools"
             title="More ways to shape your draft"
         />
         <div class="pw-feature-grid">
@@ -520,7 +570,7 @@ const faqStructuredData = {
     <!-- ===== Everything else — hairline definition list (no emoji) ===== -->
     <section class="features-seq-section pw-frame">
         <SectionLead
-            label="04 / Specifications"
+            label="05 / Specifications"
             title="And everything else you'd expect"
         />
         <dl class="spec-list">
@@ -572,6 +622,14 @@ const faqStructuredData = {
                 <dd>
                     New versions download silently. A banner appears when ready
                     — click to restart.
+                </dd>
+            </div>
+            <div class="spec-item">
+                <dt>Seven languages</dt>
+                <dd>
+                    English, Simplified Chinese, Spanish, Brazilian Portuguese,
+                    Russian, German, and French. Switch from Settings →
+                    Appearance &amp; Guidance.
                 </dd>
             </div>
             <div class="spec-item">

@@ -24,6 +24,14 @@ const structuredData = {
     },
     {
       "@type": "Question",
+      "name": "Is kindling available in other languages?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. kindling's interface is available in English, Simplified Chinese, Spanish, Brazilian Portuguese, Russian, German, and French, including the menus, dates, numbers, and word counts. It follows your operating system's language by default, and you can choose another in Settings → Appearance & Guidance without restarting. Your manuscript, outline, and references are never translated. The translations are new, and most have not yet been reviewed by a native speaker, so corrections are welcome. The website and documentation are in English."
+      }
+    },
+    {
+      "@type": "Question",
       "name": "How is kindling different from Scrivener?",
       "acceptedAnswer": {
         "@type": "Answer",
@@ -128,59 +136,64 @@ const structuredData = {
   </section>
 
   <section class="content-section">
+    <h2>Is kindling available in other languages?</h2>
+    <p>Yes. kindling's interface is available in English, Simplified Chinese, Spanish, Brazilian Portuguese, Russian, German, and French, including the menus, dates, numbers, and word counts. It follows your operating system's language by default, and you can choose another in <strong>Settings → Appearance &amp; Guidance</strong> without restarting; see <a href="/docs/settings/#language">Language</a>. Your manuscript, outline, and references are never translated. The translations are new, and most have not yet been reviewed by a native speaker, so <a href="/docs/contributing/translating/">corrections are welcome</a>. The website and documentation are in English.</p>
+  </section>
+
+  <section class="content-section alt">
     <h2>How is kindling different from Scrivener?</h2>
     <p>Scrivener excels at manuscript management, compilation, and long-term project organization. When you open a new scene in Scrivener, you get a blank page. kindling pre-populates your drafting space with your synopsis beats and character context, so you never face a blank page.</p>
     <p>kindling now supports bidirectional Scrivener import and export — import your .scriv binder, draft scenes with your beats visible, and export back to a new or existing Scrivener project. Plan in Plottr, draft in kindling, revise in Scrivener. Scrivener costs $59.99 per desktop platform; kindling is free.</p>
     <p><a href="/compare/">See the full comparison &rarr;</a></p>
   </section>
 
-  <section class="content-section alt">
+  <section class="content-section">
     <h2>Can kindling import from Plottr?</h2>
     <p>Yes. kindling imports <strong>Plottr (.pltr)</strong> files directly and turns your beats into expandable writing prompts. It also imports from <strong>Scrivener 3 (.scriv)</strong>, <strong>yWriter (.yw7)</strong>, <strong>Obsidian Longform</strong>, <strong>novelWriter</strong>, and <strong>Markdown outlines</strong>. Your character and location cards surface automatically while you write.</p>
   </section>
 
-  <section class="content-section">
+  <section class="content-section alt">
     <h2>Can kindling import from Scrivener?</h2>
     <p>Yes. kindling imports <strong>Scrivener 3 (.scriv)</strong> projects directly — binder hierarchy becomes chapters and scenes, RTF content is converted preserving formatting, and synopses and document metadata are extracted.</p>
     <p>You can also <strong>export back to Scrivener</strong> — either creating a new .scriv bundle or updating an existing one with a match preview dialog that shows exactly how your kindling scenes map to Scrivener documents.</p>
   </section>
 
-  <section class="content-section alt">
+  <section class="content-section">
     <h2>What file formats does kindling support?</h2>
     <p><strong>Import:</strong> Scrivener 3 (.scriv), Plottr (.pltr), yWriter (.yw7), Obsidian Longform, novelWriter, and Markdown outlines.</p>
     <p><strong>Export:</strong> Scrivener 3 (.scriv), DOCX, EPUB, HTML, plain text, Markdown, treatments, Obsidian Longform, and novelWriter.</p>
     <p>kindling supports a full round-trip Scrivener workflow — import your binder, draft in kindling, and export back to a new or existing Scrivener project with a match preview dialog.</p>
   </section>
 
-  <section class="content-section">
+  <section class="content-section alt">
     <h2>Does kindling support screenwriting?</h2>
     <p>Yes. v1.2 introduced a <strong>Screenplay</strong> project type with slugline input (INT./EXT. with time-of-day parsing), a page count estimator based on industry-standard 250 words per page, and treatment generation (export 1-page or 5-page treatments as DOCX).</p>
     <p>Screenplay projects include <strong>Save the Cat</strong>, <strong>Hero's Journey</strong>, and <strong>Three-Act Structure</strong> beat sheet templates. Beats, references, and export all work the same as novel projects.</p>
   </section>
 
-  <section class="content-section alt">
+  <section class="content-section">
     <h2>Does kindling use AI to write?</h2>
     <p>No. kindling provides structure and context, not generated text. Your writing is 100% yours — kindling never suggests, autocompletes, or generates prose. There are no subscription fees or AI API costs, and your manuscript is not uploaded.</p>
     <p><strong>kindling is built for writers who want to write, not outsource their creativity.</strong></p>
   </section>
 
-  <section class="content-section">
+  <section class="content-section alt">
     <h2>Is kindling offline and local-first?</h2>
     <p>Yes. Writing and editorial review work offline, without an account. Projects are stored in a local SQLite database, with no desktop analytics or telemetry. You choose how to share review files. Automatic updates and optional feedback submissions use the internet.</p>
   </section>
 
-  <section class="content-section alt">
+  <section class="content-section">
     <h2>Does kindling send my writing to the cloud?</h2>
     <p>No. kindling does not require an account or automatically upload your manuscripts. Your projects share a local SQLite database. You choose how to back it up and transfer exported projects or editorial packages. Automatic updates and optional feedback submissions use the internet; see the <a href="/privacy/">privacy policy</a>.</p>
   </section>
 
-  <section class="content-section">
+  <section class="content-section alt">
     <h2>Is kindling open source?</h2>
     <p>Yes. kindling is fully open source under the <a href="https://opensource.org/licenses/MIT">MIT license</a>. The complete source code is available on <a href="https://github.com/smith-and-web/kindling" target="_blank" rel="noopener">GitHub</a>. Anyone can inspect, modify, and redistribute the code. If the project ever stopped being maintained, the community could carry it forward.</p>
     <p><a href="/open-source/">Learn more about our open-source philosophy &rarr;</a></p>
   </section>
 
-  <section class="content-section alt">
+  <section class="content-section">
     <h2>What is kindling built with?</h2>
     <p><strong>Rust</strong> and <strong>Tauri 2.x</strong> for the backend, providing fast performance in a small native app: a {DOWNLOADS.windows.size} installer on Windows, {DOWNLOADS.mac.size} on macOS, and under 100 MB installed. The user interface is built with <strong>Svelte 5</strong>. Project data is stored in <strong>SQLite</strong> databases. It launches in under a second and uses a fraction of the memory of Electron-based writing tools.</p>
   </section>

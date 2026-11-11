@@ -108,6 +108,7 @@ export default defineConfig({
           collapsed: true,
           items: [
             { label: 'Architecture', slug: 'docs/contributing/architecture' },
+            { label: 'Translating kindling', slug: 'docs/contributing/translating' },
           ],
         },
       ],

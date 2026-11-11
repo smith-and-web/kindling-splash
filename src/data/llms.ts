@@ -81,7 +81,8 @@ export const FACT_ROWS: FactRow[] = [
 function facts(): string {
   return [
     ...FACT_ROWS.map((row) => `- **${row.label}:** ${row.value}`),
-    `- **New in ${APP_VERSION.replace(/^(\d+\.\d+).*$/, '$1')}:** editorial review (send a manuscript to an editor and work through their comments and suggestions), an export workspace with saved profiles, writing goals and statistics, customizable keyboard shortcuts, unified Settings, and the Press design.`,
+    `- **New in ${APP_VERSION.replace(/^(\d+\.\d+).*$/, '$1')}:** the interface in seven languages, with a Language setting that switches the whole app, menus included, without a restart. Version 1.3 added editorial review (send a manuscript to an editor and work through their comments and suggestions), an export workspace with saved profiles, writing goals and statistics, customizable keyboard shortcuts, unified Settings, and the Press design.`,
+    '- **Interface languages:** English, Simplified Chinese, Spanish, Brazilian Portuguese, Russian, German and French. kindling follows the operating system language by default; any other language reads English. Manuscripts are never translated.',
     '- **Planning:** Rolling Outline gives each scene a planning state (Fixed, Flexible or Undefined), so it suits plotters, plantsers and discovery writers.',
     '- **Project types:** novels and screenplays.',
     '- **Website privacy:** the website (kindlingwriter.com) uses Google Analytics 4; that is separate from the app.',
