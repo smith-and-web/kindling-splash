@@ -2,22 +2,43 @@
 import MarketingLayout from '../../layouts/MarketingLayout.astro';
 import { graph, softwareApplication } from '../../data/schema';
 import SmartDownloadButton from '../../components/SmartDownloadButton.svelte';
+import FaqSection from '../../components/FaqSection.astro';
 import { APP_VERSION } from '../../data/downloads';
 
 const structuredData = graph(softwareApplication({
   description: "Free, open-source fiction writing software that bridges Plottr's outlining and Scrivener's manuscript management. Import from both, draft with your outline visible.",
 }));
 
+// One source for the FAQPage markup and the visible FAQ (FaqSection), so the
+// markup never describes a question the reader cannot see. This page owns the
+// free-modifier Plottr queries ("plottr free alternative", "is plottr free"):
+// operator decision 2026-10-05, recorded in the mktops content calendar.
 const faqStructuredData = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
   "mainEntity": [
     {
       "@type": "Question",
+      "name": "Is Plottr free?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. Plottr has a 30-day free trial and no free plan. The cheapest plan is $60 a year or $150 lifetime for the Mac and Windows apps; Pro plans with the browser app and cloud sync cost more. If you want a free alternative that also drafts, kindling imports Plottr .pltr files and is free and open source."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is Scrivener free?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. Scrivener costs $59.99 once per desktop platform, macOS or Windows, and a second platform is $37.95. Its free trial lasts 30 days of actual use. Scrivener for iPhone and iPad is $23.99 and has no trial. There is no Linux version."
+      }
+    },
+    {
+      "@type": "Question",
       "name": "Can I use Plottr and Scrivener together?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Yes, many writers plan in Plottr and draft in Scrivener. The typical workflow is to export your Plottr outline, then start a new Scrivener project and use the outline as reference. The downside is that your outline doesn't live inside your drafting space — you switch between two separate apps."
+        "text": "Yes, and many writers do: they plan in Plottr, export the outline, and draft in Scrivener. The cost is that the outline no longer lives where you write. You check it in another window while each new Scrivener document starts blank."
       }
     },
     {
@@ -25,7 +46,7 @@ const faqStructuredData = {
       "name": "Does kindling replace Plottr or Scrivener?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Not necessarily. kindling bridges the gap between them. You can plan in Plottr, draft in kindling (with your outline visible), and export to Scrivener for revision and compilation. kindling imports from both Plottr and Scrivener and exports to Scrivener."
+        "text": "It can replace either, but it does not have to. kindling covers the step between them: drafting with your outline visible. You can plan in Plottr, draft in kindling, and export to Scrivener for revision and compiling. kindling has no visual timeline like Plottr's and no research folder like Scrivener's."
       }
     },
     {
@@ -33,7 +54,7 @@ const faqStructuredData = {
       "name": "Can kindling import my Plottr file?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Yes. kindling imports Plottr .pltr files directly, preserving your timeline beats, characters, locations, and scene cards. Your outline becomes expandable writing prompts in kindling's drafting view."
+        "text": "Yes. kindling imports Plottr .pltr files directly. Timeline beats become prompts you write into, and characters and locations appear in the References panel while you draft."
       }
     },
     {
@@ -41,7 +62,7 @@ const faqStructuredData = {
       "name": "Can kindling import and export Scrivener projects?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Yes. kindling can import Scrivener 3 .scriv bundles (preserving binder hierarchy, synopses, and prose) and export back to Scrivener — either as a new bundle or by updating an existing one with a match preview dialog."
+        "text": "Yes. kindling imports Scrivener 3 .scriv bundles, keeping the binder hierarchy, synopses and prose. It exports to a new .scriv bundle, or updates an existing one after showing you which scenes match."
       }
     },
     {
@@ -49,7 +70,7 @@ const faqStructuredData = {
       "name": "Is kindling free?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Yes. kindling is completely free and open source under the MIT license. No subscriptions, no feature gates. Desktop app for macOS, Windows, and Linux."
+        "text": "Yes. kindling is free and open source under the MIT licence, with no account, subscription or paid tier. It is a desktop app for macOS, Windows and Linux."
       }
     }
   ]
@@ -64,15 +85,127 @@ const faqStructuredData = {
   <script type="application/ld+json" set:html={JSON.stringify(faqStructuredData)} />
 
   <!-- ===== Hero ===== -->
+  <!-- The answer comes first: a reader who stops after the hero knows which
+       tool fits, what each costs and that neither is free. -->
   <section class="page-hero">
     <h1>Plottr vs Scrivener: which is right for your novel?</h1>
-    <p class="page-hero-subtext">Plottr is the better outlining tool. Scrivener is the better manuscript manager. Many writers use both &mdash; and kindling bridges the gap between them.</p>
+    <p class="page-hero-subtext direct-answer">Choose Plottr if you plan visually before you write: it is the better outlining tool, but it has no prose editor. Choose Scrivener if you need to draft, revise and format a long manuscript: it is the better writing tool, with only basic outlining. Neither is free. Plottr costs $60 a year or $150 lifetime, and Scrivener $59.99 once per desktop platform. For a free option, kindling keeps your outline beside the draft.</p>
+  </section>
+
+  <!-- ===== Verdict ===== -->
+  <section class="content-section" id="verdict">
+    <p class="pw-label">02 / The verdict</p>
+    <h2>Which one fits how you draft</h2>
+
+    <h3>Choose Plottr if</h3>
+    <ul>
+      <li>You think in timelines, storylines and beat sheets before you write a word.</li>
+      <li>You plan a series and want plot threads tracked across books.</li>
+      <li>You are happy to draft in another app once the outline is done.</li>
+    </ul>
+
+    <h3>Choose Scrivener if</h3>
+    <ul>
+      <li>Your outline is light and you work it out in the draft.</li>
+      <li>You keep research, PDFs and images beside the manuscript.</li>
+      <li>You need precise compiled output for submission, print or ebook.</li>
+    </ul>
+
+    <h3>Choose neither, or add kindling, if</h3>
+    <ul>
+      <li>You want to write each scene with its beats in view, not in another window.</li>
+      <li>You want something free, or you write on Linux, where neither runs.</li>
+    </ul>
+    <p>kindling imports Plottr and Scrivener files and exports back to Scrivener, so it can sit between them or replace either. <a href="#where-kindling-fits">See where it fits.</a></p>
+  </section>
+
+  <!-- ===== Pricing ===== -->
+  <section class="content-section alt" id="pricing">
+    <p class="pw-label">03 / Pricing</p>
+    <h2>Plottr and Scrivener pricing in 2026</h2>
+    <p>Prices checked 11 November 2026 on <a href="https://plottr.com/pricing/">Plottr’s pricing page</a> and <a href="https://www.literatureandlatte.com/store/scrivener">the Literature &amp; Latte store</a>, in USD before tax. Plottr shows a higher list price struck through beside most plans, and has for months; the figures here are the prices it charges.</p>
+    <p class="table-scroll-hint">Scroll sideways to see every column.</p>
+    <div class="comparison-table-wrap">
+      <table class="comparison-table">
+        <caption class="sr-only">Plottr, Scrivener and kindling prices by plan, checked 11 November 2026</caption>
+        <thead>
+          <tr>
+            <th scope="col">Plan</th>
+            <th scope="col">Monthly</th>
+            <th scope="col">Yearly</th>
+            <th scope="col">One-time</th>
+            <th scope="col">What it covers</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">Plottr</th>
+            <td>—</td>
+            <td>$60</td>
+            <td>$150 lifetime</td>
+            <td>Mac and Windows apps, files on your computer, unlimited household devices</td>
+          </tr>
+          <tr>
+            <th scope="row">Plottr Pro</th>
+            <td>$9.99</td>
+            <td>$99</td>
+            <td>$599 lifetime</td>
+            <td>Adds the browser app (tablets included), cloud sync and backups, real-time collaboration</td>
+          </tr>
+          <tr>
+            <th scope="row">Plottr Pro + Community</th>
+            <td>$14.99</td>
+            <td>$129</td>
+            <td>$649 lifetime</td>
+            <td>Pro, plus a private community and Plottr’s course library</td>
+          </tr>
+          <tr>
+            <th scope="row">Scrivener for macOS or Windows</th>
+            <td>—</td>
+            <td>—</td>
+            <td>$59.99</td>
+            <td>One desktop platform; education price $50.99 (checked 26 September)</td>
+          </tr>
+          <tr>
+            <th scope="row">Scrivener for macOS and Windows</th>
+            <td>—</td>
+            <td>—</td>
+            <td>$95.98</td>
+            <td>Both desktop platforms; owners of one licence can add the other for $37.95</td>
+          </tr>
+          <tr>
+            <th scope="row">Scrivener for iOS</th>
+            <td>—</td>
+            <td>—</td>
+            <td>$23.99</td>
+            <td>iPhone and iPad, from the App Store; syncs with the desktop through Dropbox</td>
+          </tr>
+          <tr>
+            <th scope="row">kindling</th>
+            <td>—</td>
+            <td>—</td>
+            <td>Free</td>
+            <td>Mac, Windows and Linux; MIT open source, no account</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>For a writer who wants both tools on one computer, the cheapest lasting setup is the $150 Plottr lifetime plan plus one $59.99 Scrivener licence: $209.99 once. kindling adds nothing to that, and can stand in for either if the cost is the problem. The <a href="/blog/plottr-review/">Plottr review</a> covers which Plottr plan is worth it.</p>
+
+    <h3>What the price buys</h3>
+    <ul>
+      <li><strong>Trials.</strong> Plottr has a 30-day free trial and no free plan. Scrivener’s trial lasts <a href="https://www.literatureandlatte.com/scrivener/faqs">30 days of actual use</a>, so opening it every other day stretches it to about two months. Scrivener for iOS has no trial.</li>
+      <li><strong>When a Plottr plan ends.</strong> The standard Plottr app keeps working after a yearly plan lapses; it stops receiving updates. A lapsed Pro plan also loses access to your projects until you renew, because Pro keeps them in the cloud.</li>
+      <li><strong>Scrivener upgrades.</strong> A licence covers one platform, and minor updates are free. Major versions, such as the move from Scrivener 1 to 3, have been paid upgrades.</li>
+      <li><strong>Refunds.</strong> Plottr does not offer refunds. Instead it offers up to five hours of outlining coaching if the app doesn’t help you finish an outline.</li>
+    </ul>
   </section>
 
   <!-- ===== Comparison Table ===== -->
-  <section class="content-section">
-    <p class="pw-label">02 / At a glance</p>
-    <h2>Feature comparison at a glance</h2>
+  <section class="content-section" id="features">
+    <p class="pw-label">04 / Features</p>
+    <h2>Plottr vs Scrivener feature by feature</h2>
     <p class="table-scroll-hint">Scroll sideways to see every column.</p>
     <div class="comparison-table-wrap">
       <table class="comparison-table">
@@ -155,95 +288,12 @@ const faqStructuredData = {
         </tbody>
       </table>
     </div>
-    <p>Import sources checked 12 September 2026; prices and platforms checked 26 September 2026. Every plan and licence is in the <a href="#pricing">pricing table</a> below.</p>
-  </section>
-
-  <!-- ===== Pricing ===== -->
-  <section class="content-section alt" id="pricing">
-    <p class="pw-label">03 / Pricing</p>
-    <h2>Plottr and Scrivener pricing in 2026</h2>
-    <p>Prices checked 26 September 2026 on <a href="https://plottr.com/pricing/">Plottr’s pricing page</a> and <a href="https://www.literatureandlatte.com/store/scrivener">the Literature &amp; Latte store</a>, in USD before tax. Plottr shows a higher list price struck through beside most plans, and has for months; the figures here are the prices it charges.</p>
-    <p class="table-scroll-hint">Scroll sideways to see every column.</p>
-    <div class="comparison-table-wrap">
-      <table class="comparison-table">
-        <caption class="sr-only">Plottr, Scrivener and kindling prices by plan, checked 26 September 2026</caption>
-        <thead>
-          <tr>
-            <th scope="col">Plan</th>
-            <th scope="col">Monthly</th>
-            <th scope="col">Yearly</th>
-            <th scope="col">One-time</th>
-            <th scope="col">What it covers</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th scope="row">Plottr</th>
-            <td>—</td>
-            <td>$60</td>
-            <td>$150 lifetime</td>
-            <td>Mac and Windows apps, files on your computer, unlimited household devices</td>
-          </tr>
-          <tr>
-            <th scope="row">Plottr Pro</th>
-            <td>$9.99</td>
-            <td>$99</td>
-            <td>$599 lifetime</td>
-            <td>Adds the browser app (tablets included), cloud sync and backups, real-time collaboration</td>
-          </tr>
-          <tr>
-            <th scope="row">Plottr Pro + Community</th>
-            <td>$14.99</td>
-            <td>$129</td>
-            <td>$649 lifetime</td>
-            <td>Pro, plus a private community and Plottr’s course library</td>
-          </tr>
-          <tr>
-            <th scope="row">Scrivener for macOS or Windows</th>
-            <td>—</td>
-            <td>—</td>
-            <td>$59.99</td>
-            <td>One desktop platform; education price $50.99</td>
-          </tr>
-          <tr>
-            <th scope="row">Scrivener for macOS and Windows</th>
-            <td>—</td>
-            <td>—</td>
-            <td>$95.98</td>
-            <td>Both desktop platforms</td>
-          </tr>
-          <tr>
-            <th scope="row">Scrivener for iOS</th>
-            <td>—</td>
-            <td>—</td>
-            <td>$23.99</td>
-            <td>iPhone and iPad, from the App Store; syncs with the desktop through Dropbox</td>
-          </tr>
-          <tr>
-            <th scope="row">kindling</th>
-            <td>—</td>
-            <td>—</td>
-            <td>Free</td>
-            <td>Mac, Windows and Linux; MIT open source, no account</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <p>For a writer who wants both tools on one computer, the cheapest lasting setup is the $150 Plottr lifetime plan plus one $59.99 Scrivener licence: $209.99 once. kindling adds nothing to that, and can stand in for either if the cost is the problem. The <a href="/blog/plottr-review/">Plottr review</a> covers which Plottr plan is worth it.</p>
-
-    <h3>What the price buys</h3>
-    <ul>
-      <li><strong>Trials.</strong> Plottr has a 30-day free trial and no free plan. Scrivener’s trial lasts <a href="https://www.literatureandlatte.com/scrivener/faqs">30 days of actual use</a>, so opening it every other day stretches it to about two months. Scrivener for iOS has no trial.</li>
-      <li><strong>When a Plottr plan ends.</strong> The standard Plottr app keeps working after a yearly plan lapses; it stops receiving updates. A lapsed Pro plan also loses access to your projects until you renew, because Pro keeps them in the cloud.</li>
-      <li><strong>Scrivener upgrades.</strong> A licence covers one platform, and minor updates are free. Major versions, such as the move from Scrivener 1 to 3, have been paid upgrades.</li>
-      <li><strong>Refunds.</strong> Plottr does not offer refunds. Instead it offers up to five hours of outlining coaching if the app doesn’t help you finish an outline.</li>
-    </ul>
+    <p>Import sources checked 12 September 2026; prices and platforms checked 11 November 2026. Every plan and licence is in the <a href="#pricing">pricing table</a> below.</p>
   </section>
 
   <!-- ===== Plottr Deep Dive ===== -->
-  <section class="content-section">
-    <p class="pw-label">04 / Plottr</p>
+  <section class="content-section alt">
+    <p class="pw-label">05 / Plottr</p>
     <h2>Plottr: the best visual outlining tool</h2>
     <p>Plottr ($60/year or $150 lifetime for the desktop plan) is designed for fiction writers who think visually. Its drag-and-drop timeline lets you lay out scenes across multiple storylines, color-code plot threads, and see the shape of your entire novel on a single screen.</p>
 
@@ -264,8 +314,8 @@ const faqStructuredData = {
   </section>
 
   <!-- ===== Scrivener Deep Dive ===== -->
-  <section class="content-section alt">
-    <p class="pw-label">05 / Scrivener</p>
+  <section class="content-section">
+    <p class="pw-label">06 / Scrivener</p>
     <h2>Scrivener: the gold standard for manuscript management</h2>
     <p>Scrivener (<a href="https://www.literatureandlatte.com/crossgrading">$59.99 per desktop platform</a>, separate Mac and Windows licenses) has been the go-to writing app for serious novelists since 2007. Its binder system, compilation engine, and research folder make it the most powerful tool for managing and formatting a long manuscript.</p>
 
@@ -286,43 +336,29 @@ const faqStructuredData = {
     <p class="pw-note">Scrivener: <a href="https://www.literatureandlatte.com/crossgrading">$59.99 per desktop platform</a>. Mac, Windows, and iOS.</p>
   </section>
 
-  <!-- ===== Why Both ===== -->
-  <section class="content-section">
-    <p class="pw-label">06 / Using both</p>
-    <h2>Why many writers use both</h2>
-    <p>If you want a different setup, compare <a href="/blog/best-plottr-alternatives-for-fiction-writers/">other Plottr alternatives</a> or see <a href="/free-scrivener-alternative/">kindling as a free Scrivener alternative</a>.</p>
-    <p>The most common fiction-writing workflow in 2026 looks something like this:</p>
-    <ol>
-      <li><strong>Outline in Plottr</strong> — Build your timeline, character arcs, and beat sheet</li>
-      <li><strong>Export and open Scrivener</strong> — Create a new project and start filling in scenes</li>
-      <li><strong>Draft, revise, compile in Scrivener</strong> — Finish the manuscript and export to submission format</li>
-    </ol>
-    <p>This works. But step 2 is where things get painful. You've spent weeks building a detailed outline in Plottr — and now you're looking at empty documents in Scrivener's binder. Your outline becomes a reference you check in another window, not a tool that actively helps you write.</p>
-    <p><strong>The gap between "outline done" and "first draft started" is where momentum dies.</strong></p>
+  <!-- ===== Obsidian ===== -->
+  <section class="content-section alt" id="obsidian">
+    <p class="pw-label">07 / Obsidian</p>
+    <h2>Obsidian vs Plottr: notes or a timeline</h2>
+    <p>Obsidian is a free Markdown notes app. It suits writers who build a story bible as linked notes: characters, places and scene ideas joined by links, with Canvas as a freeform board. With the community Longform plugin it can also hold a manuscript as ordered scene files. What it lacks out of the box is Plottr's structure: no timeline lanes, no beat-sheet templates, no series view.</p>
+    <p>Obsidian is free for personal and commercial use. Sync is $4 a month and Publish $8 a month, both billed annually and both optional. kindling imports Obsidian Longform projects and exports back to them, so notes can stay in Obsidian while the scenes are drafted against their outline.</p>
+    <p class="pw-note">Obsidian prices checked 11 November 2026 on <a href="https://obsidian.md/pricing">obsidian.md/pricing</a>.</p>
   </section>
 
-  <!-- ===== kindling as Free Alternative ===== -->
-  <section class="content-section alt">
-    <p class="pw-label">07 / kindling</p>
-    <h2>kindling Writer: the free alternative that does both</h2>
-    <p>If you're choosing between Plottr and Scrivener, here's the third option most writers don't hear about: <strong>kindling Writer</strong> combines Plottr-style outlining with Scrivener-style drafting in one free, open-source desktop app. You outline your novel by beat and scene, then draft with that outline pinned beside your prose — no app-switching, no subscription, no account.</p>
-    <p>kindling imports directly from both Plottr <code>.pltr</code> files and Scrivener projects, so nothing you've built in either tool is wasted. It's the shortest path from "I have an outline" to "I have a first draft."</p>
+  <!-- ===== Where kindling fits ===== -->
+  <section class="content-section" id="where-kindling-fits">
+    <p class="pw-label">08 / Where kindling fits</p>
+    <h2>The step between Plottr and Scrivener</h2>
+    <p>The usual workflow is to outline in Plottr, export, then start a Scrivener project and fill in its scenes. It works, but the export is where momentum goes: weeks of outlining become a reference in another window, and every new document opens blank.</p>
+    <p><strong>kindling Writer</strong> is a free, open-source desktop app for that step. It is not a timeline tool and not a compile engine. It is where you draft with the outline pinned beside the prose.</p>
+    <ol>
+      <li><strong>Outline in Plottr.</strong> Build the timeline, beats and character arcs.</li>
+      <li><strong>Import into kindling.</strong> The .pltr file becomes an outline of beats you write into; characters and locations appear in the References panel as you work each scene.</li>
+      <li><strong>Draft in kindling.</strong> Each scene opens with its beats in view.</li>
+      <li><strong>Export to Scrivener.</strong> Send the draft to a .scriv bundle for revision and compiling.</li>
+    </ol>
+    <p>If you would rather keep fewer tools, compare <a href="/blog/best-plottr-alternatives-for-fiction-writers/">other Plottr alternatives</a> or see <a href="/free-scrivener-alternative/">kindling as a free Scrivener alternative</a>.</p>
     <p><a class="pw-link" href="/download/">Download kindling free &rarr;</a></p>
-  </section>
-
-  <!-- ===== Where kindling Fits ===== -->
-  <section class="content-section">
-    <p class="pw-label">08 / Where it fits</p>
-    <h2>Where kindling fits alongside Plottr and Scrivener</h2>
-    <p>kindling sits between Plottr and Scrivener. It's the bridge layer for the outline-to-draft transition — the step most writers handle with copy-paste and willpower.</p>
-    <ol>
-      <li><strong>Outline in Plottr</strong> — Build your timeline, beats, and character arcs</li>
-      <li><strong>Import into kindling</strong> — Your Plottr file becomes an interactive outline with expandable writing prompts. Characters and locations surface in the References panel as you work each scene.</li>
-      <li><strong>Draft in kindling</strong> — Write into your beats. Your outline is always visible. No blank pages.</li>
-      <li><strong>Export to Scrivener</strong> — When your first draft is done, export to a .scriv bundle for revision, restructuring, and compilation.</li>
-    </ol>
-    <p>You're not replacing either tool. You're adding the missing middle step. Plan in Plottr, draft in kindling, polish in Scrivener.</p>
-    <p>And kindling is free — so this doesn't add to your software budget.</p>
   </section>
 
   <!-- ===== Full Comparison ===== -->
@@ -383,26 +419,7 @@ const faqStructuredData = {
     </div>
   </section>
 
-  <!-- ===== FAQ ===== -->
-  <section class="content-section">
-    <p class="pw-label">10 / Questions</p>
-    <h2>Frequently asked questions</h2>
-
-    <h3>Can I use all three tools together?</h3>
-    <p>Yes. Plan in Plottr, import into kindling for drafting, export to Scrivener for revision and compilation. kindling imports from both Plottr (.pltr) and Scrivener (.scriv) and exports to Scrivener, so the round-trip is smooth.</p>
-
-    <h3>Does kindling replace Scrivener?</h3>
-    <p>No. Scrivener's compilation engine, research folder, and revision tools are still the best in the industry. kindling is for the earlier stage — going from outline to first draft. Once your draft is done, Scrivener takes over.</p>
-
-    <h3>Can kindling import my Plottr file?</h3>
-    <p>Yes. kindling imports Plottr .pltr files directly. Your timeline beats become expandable writing prompts, and your characters and locations appear in the References panel while you draft. <a href="/docs/importing-projects/">See the import guide.</a></p>
-
-    <h3>Can kindling import and export Scrivener projects?</h3>
-    <p>Yes. Import Scrivener 3 .scriv bundles (binder hierarchy, synopses, and prose). Export as a new .scriv bundle or update an existing one with a match preview dialog. <a href="/docs/exporting-projects/">See the export guide.</a></p>
-
-    <h3>Is kindling really free?</h3>
-    <p>Yes. MIT-licensed open source. No accounts, no subscriptions, no feature gates. Desktop app for macOS, Windows, and Linux. <a href="/open-source/">More about the open source model.</a></p>
-  </section>
+  <FaqSection items={faqStructuredData.mainEntity} label="10 / Questions" />
 
   <!-- ===== Bottom CTA ===== -->
   <section class="cta-section">
